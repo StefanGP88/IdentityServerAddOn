@@ -82,6 +82,21 @@ namespace IdentityServer
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => endpoints.MapRazorPages());
+            EnsureMigrations(app);
+        }
+
+        private void EnsureMigrations(IApplicationBuilder app)
+        {
+            using var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
+
+            var identityContext = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
+            identityContext.Database.Migrate();
+
+            var IdsCfgContext = serviceScope.ServiceProvider.GetRequiredService<IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext>();
+            IdsCfgContext.Database.Migrate();
+
+            var IdsPgContext = serviceScope.ServiceProvider.GetRequiredService<IdentityServer4.EntityFramework.DbContexts.PersistedGrantDbContext>();
+            IdsPgContext.Database.Migrate();
         }
     }
 }
