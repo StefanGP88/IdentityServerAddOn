@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IdentityServer.Data.Migrations.ConfigurationDbContext
 {
     [DbContext(typeof(IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext))]
-    [Migration("20201003155314_Initial")]
+    [Migration("20201003162606_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -30,7 +30,7 @@ namespace IdentityServer
                     options.UseSqlServer(connectionString, sql => sql.MigrationsAssembly(migrationAssembly)));
 
             services
-                .AddIdentity<AppUser, AppRoles>(options =>
+                .AddIdentity<IdentityUser, IdentityRole>(options =>
                 {
                     options.Password.RequireDigit = false;
                     options.Password.RequireNonAlphanumeric = false;
@@ -40,7 +40,7 @@ namespace IdentityServer
 
             services
                 .AddIdentityServer()
-                .AddAspNetIdentity<AppUser>()
+                .AddAspNetIdentity<IdentityUser>()
                 .AddConfigurationStore(options =>
                 {
                     options.ConfigureDbContext = builder =>
