@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using NormalLibrary.Dtos;
+using Ids.SimpleAdmin.Backend.Dtos;
 
-namespace NormalLibrary.Mappers
+namespace Ids.SimpleAdmin.Backend.Mappers
 {
     public static class RoleMappers
     {

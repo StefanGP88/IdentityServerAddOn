@@ -1,10 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using NormalLibrary.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Ids.SimpleAdmin.Backend.Interfaces;
 
-namespace NormalLibrary
+namespace Ids.SimpleAdmin.Backend
 {
     public static class DenpendencyInjection
     {

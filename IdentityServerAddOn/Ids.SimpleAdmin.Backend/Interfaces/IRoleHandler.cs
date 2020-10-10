@@ -1,9 +1,9 @@
-﻿using NormalLibrary.Dtos;
+﻿using Ids.SimpleAdmin.Backend.Dtos;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NormalLibrary.Interfaces
+namespace Ids.SimpleAdmin.Backend.Interfaces
 {
     public interface IRoleHandler
     {

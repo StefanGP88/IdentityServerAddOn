@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace NormalLibrary.Dtos
+namespace Ids.SimpleAdmin.Backend.Dtos
 {
     public class UpdateRoleRequestDto
     {

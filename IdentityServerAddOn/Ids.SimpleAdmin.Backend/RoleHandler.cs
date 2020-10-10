@@ -1,17 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Internal;
-using NormalLibrary.Dtos;
-using NormalLibrary.Interfaces;
-using NormalLibrary.Mappers;
+using Ids.SimpleAdmin.Backend.Dtos;
+using Ids.SimpleAdmin.Backend.Interfaces;
+using Ids.SimpleAdmin.Backend.Mappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NormalLibrary
+namespace Ids.SimpleAdmin.Backend
 {
     public class RoleHandler : IRoleHandler
     {

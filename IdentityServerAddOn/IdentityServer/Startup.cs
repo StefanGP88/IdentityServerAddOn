@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using IdentityServer.Data;
+using Ids.SimpleAdmin.Backend;
 
 namespace IdentityServer
 {
@@ -55,6 +56,8 @@ namespace IdentityServer
                 });
 
             services.AddRazorPages();
+
+            services.AddIdentityServerAddOn();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
