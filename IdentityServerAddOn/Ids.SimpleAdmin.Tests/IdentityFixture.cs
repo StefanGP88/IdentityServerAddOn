@@ -1,22 +1,52 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using IdentityServer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Reflection;
 
 namespace Ids.SimpleAdmin.Tests
 {
-    public class IdentityFixture: IDisposable
+    public class IdentityFixture : IDisposable
     {
-        private bool disposedValue;
-
-        private DbContext dbContext { get; set; }
-
+        private DbContext DbContext { get; set; }
         private IServiceCollection Services { get; set; }
-
         private ServiceProvider ServiceProvider { get; set; }
-
-
+        public void Setup(Action<IServiceCollection> services, Action<ServiceProvider> serviceProvider)
+        {
+            SetServiceProvider(services, serviceProvider);
+            CreateTestDb();
+        }
+        public string GetConnectionString(string dbName)
+        {
+            dbName = dbName.Replace("Fixture", "").Replace("fixture", "");
+            return $"Data Source=.;Initial Catalog={dbName};Integrated Security = true;MultipleActiveResultSets=True;";
+        }
+        public string GetMigrationAssembly()
+        {
+            return typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+        }
+        private void SetServiceCollections(Action<IServiceCollection> services)
+        {
+            Services = new ServiceCollection();
+            services?.Invoke(Services);
+        }
+        private void SetServiceProvider(Action<IServiceCollection> services, Action<ServiceProvider> serviceProvider)
+        {
+            SetServiceCollections(services);
+            ServiceProvider = Services.BuildServiceProvider();
+            serviceProvider?.Invoke(ServiceProvider);
+        }
+        private void CreateTestDb()
+        {
+            DbContext = ServiceProvider.GetRequiredService<DbContext>();
+            DbContext.Database.EnsureDeleted();
+            DbContext.Database.Migrate();
+        }
 
         #region dispose
+
+        private bool disposedValue;
+
         protected virtual void Dispose(bool disposing)
         {
             if (!disposedValue)

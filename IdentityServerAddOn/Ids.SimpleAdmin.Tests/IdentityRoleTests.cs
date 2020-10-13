@@ -5,10 +5,16 @@ namespace Ids.SimpleAdmin.Tests
 {
     public class IdentityRoleTests : IClassFixture<IdentityFixture>, IDisposable
     {
-
-
-
-
+        private readonly IdentityFixture _fixture;
+        public IdentityRoleTests(IdentityFixture identityFixture)
+        {
+            _fixture = identityFixture;
+        }
+        [Fact]
+        public void HelloTestWorld()
+        {
+            Assert.True(true);
+        }
         #region dispose
 
         private bool disposedValue;

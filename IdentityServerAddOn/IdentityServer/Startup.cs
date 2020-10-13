@@ -8,6 +8,7 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using IdentityServer.Data;
 using Ids.SimpleAdmin.Backend;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace IdentityServer
 {
@@ -26,9 +27,7 @@ namespace IdentityServer
             var connectionString = Configuration.GetConnectionString("Default");
             var migrationAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
-            services
-                .AddDbContext<AppDbContext>(options =>
-                    options.UseSqlServer(connectionString, sql => sql.MigrationsAssembly(migrationAssembly)));
+            services.AddIdentityContext(connectionString, migrationAssembly);
 
             services
                 .AddIdentity<IdentityUser, IdentityRole>(options =>
@@ -39,21 +38,27 @@ namespace IdentityServer
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
+            //services
+            //    .AddIdentityServer()
+            //    .AddAspNetIdentity<IdentityUser>()
+            //    .AddConfigurationStore(options =>
+            //    {
+            //        options.ConfigureDbContext = builder =>
+            //            builder.UseSqlServer(connectionString, sql => sql.MigrationsAssembly(migrationAssembly));
+            //    })
+            //    .AddOperationalStore(options =>
+            //    {
+            //        options.ConfigureDbContext = builder =>
+            //            builder.UseSqlServer(connectionString, sql => sql.MigrationsAssembly(migrationAssembly));
+            //        options.EnableTokenCleanup = true;
+            //        options.TokenCleanupInterval = 30;
+            //    });
+
             services
                 .AddIdentityServer()
                 .AddAspNetIdentity<IdentityUser>()
-                .AddConfigurationStore(options =>
-                {
-                    options.ConfigureDbContext = builder =>
-                        builder.UseSqlServer(connectionString, sql => sql.MigrationsAssembly(migrationAssembly));
-                })
-                .AddOperationalStore(options =>
-                {
-                    options.ConfigureDbContext = builder =>
-                        builder.UseSqlServer(connectionString, sql => sql.MigrationsAssembly(migrationAssembly));
-                    options.EnableTokenCleanup = true;
-                    options.TokenCleanupInterval = 30;
-                });
+                .AddConfigurationStore(connectionString, migrationAssembly)
+                .AddOperationalStore(connectionString, migrationAssembly);
 
             services.AddRazorPages();
 

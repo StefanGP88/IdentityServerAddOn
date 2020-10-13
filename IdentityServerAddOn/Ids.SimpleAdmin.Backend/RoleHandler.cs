@@ -55,7 +55,6 @@ namespace Ids.SimpleAdmin.Backend
             if (oldRole.ConcurrencyStamp != dto.ConcurrencyStamp)
                 throw new Exception("ConcurrencyStamp has been changed");
 
-
             var roleUpdate = ConstructIdentityRole(dto.RoleName, dto.Id);
             var result = await _roleManager.UpdateAsync(roleUpdate).ConfigureAwait(false);
 
