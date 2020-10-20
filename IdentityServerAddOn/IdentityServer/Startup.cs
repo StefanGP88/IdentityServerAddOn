@@ -62,6 +62,7 @@ namespace IdentityServer
 
             services.AddRazorPages();
 
+            services.AddMvc().AddApplicationPart(new Assembly())
             services.AddIdentityServerAddOn();
         }
 

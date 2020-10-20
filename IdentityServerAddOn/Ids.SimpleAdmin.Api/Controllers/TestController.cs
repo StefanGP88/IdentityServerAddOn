@@ -7,6 +7,7 @@ namespace Ids.SimpleAdmin.Api.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        [HttpGet]
         public async Task<IActionResult> HelloWorld()
         {
             return Ok("Hello World");
