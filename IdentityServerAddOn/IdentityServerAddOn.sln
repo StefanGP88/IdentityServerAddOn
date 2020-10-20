@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServer", "IdentityS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RazorTestLibrary", "RazorTestLibrary\RazorTestLibrary.csproj", "{BB3444FC-F628-4057-BCAF-28A6FED27BB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ids.SimpleAdmin.Tests", "Ids.SimpleAdmin.Tests\Ids.SimpleAdmin.Tests.csproj", "{280D011A-8C38-4B12-AE2F-E82431865E58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ids.SimpleAdmin.Tests", "Ids.SimpleAdmin.Tests\Ids.SimpleAdmin.Tests.csproj", "{280D011A-8C38-4B12-AE2F-E82431865E58}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ids.SimpleAdmin.Backend", "Ids.SimpleAdmin.Backend\Ids.SimpleAdmin.Backend.csproj", "{49B2B640-3FF5-40D0-8AAC-9FF038A57ED6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ids.SimpleAdmin.Api", "Ids.SimpleAdmin.Api\Ids.SimpleAdmin.Api.csproj", "{1066D98B-82E7-48BB-9588-E41EEDDF2DEA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{49B2B640-3FF5-40D0-8AAC-9FF038A57ED6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49B2B640-3FF5-40D0-8AAC-9FF038A57ED6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49B2B640-3FF5-40D0-8AAC-9FF038A57ED6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1066D98B-82E7-48BB-9588-E41EEDDF2DEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1066D98B-82E7-48BB-9588-E41EEDDF2DEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1066D98B-82E7-48BB-9588-E41EEDDF2DEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1066D98B-82E7-48BB-9588-E41EEDDF2DEA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
