@@ -18,7 +18,7 @@ namespace Ids.SimpleAdmin.Tests
         }
         public string GetConnectionString(string dbName)
         {
-            dbName = dbName.Replace("Fixture", "").Replace("fixture", "");
+            dbName = dbName.Replace("Fixture", "Test", StringComparison.OrdinalIgnoreCase);
             return $"Data Source=.;Initial Catalog={dbName};Integrated Security = true;MultipleActiveResultSets=True;";
         }
         public string GetMigrationAssembly()
