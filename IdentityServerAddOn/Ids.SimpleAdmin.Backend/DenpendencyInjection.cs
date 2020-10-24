@@ -8,6 +8,7 @@ namespace Ids.SimpleAdmin.Backend
         public static void AddIdentityServerAddOn(this IServiceCollection services)
         {
             services.AddScoped<IRoleHandler, RoleHandler>();
+            services.AddScoped<IUserHandler, UserHandler>();
         }
     }
 }
