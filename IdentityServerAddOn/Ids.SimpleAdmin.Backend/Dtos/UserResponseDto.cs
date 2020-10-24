@@ -1,0 +1,17 @@
+﻿using System;
+
+namespace Ids.SimpleAdmin.Backend.Dtos
+{
+    public class UserResponseDto
+    {
+        public string Userid { get; set; }
+        public string Username { get; set; }
+        public string Email { get; set; }
+        public string Phonenumber { get; set; }
+        public bool Use2Fa { get; set; }
+        public bool EmailConfirmed { get; set; }
+        public bool PhoneNumberConfirmed { get; set; }
+        public bool LockoutEnabled { get; set; }
+        public DateTime LockoutEnd  { get; set; }
+    }
+}

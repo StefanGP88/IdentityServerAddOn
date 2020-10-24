@@ -1,5 +1,4 @@
 ﻿using Ids.SimpleAdmin.Backend.Dtos;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,7 +8,7 @@ namespace Ids.SimpleAdmin.Backend.Interfaces
     {
         Task<RoleResponseDto> CreateRole(string roleName);
 
-        Task<ICollection<RoleResponseDto>> ReadAllRoles(CancellationToken cancel);
+        Task<ListDto<RoleResponseDto>> ReadAllRoles(int page, int pageSize, CancellationToken cancel);
 
         Task<RoleResponseDto> ReadRole(string id);
 

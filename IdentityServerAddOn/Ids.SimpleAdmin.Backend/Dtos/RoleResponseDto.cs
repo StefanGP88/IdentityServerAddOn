@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace Ids.SimpleAdmin.Backend.Dtos
+﻿namespace Ids.SimpleAdmin.Backend.Dtos
 {
     public class RoleResponseDto
     {
@@ -8,6 +6,5 @@ namespace Ids.SimpleAdmin.Backend.Dtos
         public string NormalizedName{ get; set; }
         public string Id { get; set; }
         public string ConcurrencyStamp { get; set; }
-
     }
 }

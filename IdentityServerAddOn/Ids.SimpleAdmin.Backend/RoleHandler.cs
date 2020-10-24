@@ -32,12 +32,22 @@ namespace Ids.SimpleAdmin.Backend
             return role.MapToDto();
         }
 
-        public async Task<ICollection<RoleResponseDto>> ReadAllRoles(CancellationToken cancel)
+        public async Task<ListDto<RoleResponseDto>> ReadAllRoles(int page, int pageSize, CancellationToken cancel)
         {
-            return await _roleManager.Roles
-                .Select(x => x.MapToDto())
-                .ToListAsync(cancel)
-                .ConfigureAwait(false);
+            return new ListDto<RoleResponseDto>
+            {
+                Items = await _roleManager.Roles
+                        .Skip(page * pageSize)
+                        .Take(pageSize)
+                        .Select(x => x.MapToDto())
+                        .ToListAsync(cancel)
+                        .ConfigureAwait(false),
+                Page = page,
+                PageSize = pageSize,
+                Total = await _roleManager.Roles
+                        .CountAsync(cancel)
+                        .ConfigureAwait(false)
+            };
         }
 
         public async Task<RoleResponseDto> ReadRole(string id)

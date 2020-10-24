@@ -27,5 +27,40 @@ namespace Ids.SimpleAdmin.Backend.Mappers
                 SecurityStamp = Guid.NewGuid().ToString()
             };
         }
+        public static UserResponseDto MapToDto(this IdentityUser user)
+        {
+            if (user == null) return null;
+            return new UserResponseDto
+            {
+                Email = user.Email,
+                EmailConfirmed = user.EmailConfirmed,
+                LockoutEnabled = user.LockoutEnabled,
+                LockoutEnd = user.LockoutEnd.GetValueOrDefault().UtcDateTime,
+                Phonenumber = user.PhoneNumber,
+                PhoneNumberConfirmed = user.PhoneNumberConfirmed,
+                Use2Fa = user.TwoFactorEnabled,
+                Userid = user.Id,
+                Username = user.UserName
+            };
+        }
+        public static IdentityUser UpdateModel(this IdentityUser user, UserManager<IdentityUser> userManager, UpdateUserRequestDto dto)
+        {
+            if (user == null) return null;
+            user.Email = dto.Email;
+            user.NormalizedEmail = userManager.NormalizeEmail(dto.Email);
+            user.UserName = dto.Username;
+            user.UserName = userManager.NormalizeName(dto.Username);
+            user.PhoneNumber = dto.Phonenumber;
+            user.TwoFactorEnabled = dto.Use2Fa;
+            user.EmailConfirmed = dto.ConfirmEmail;
+            user.PhoneNumberConfirmed = dto.ConfirmPhoneNumber;
+            user.LockoutEnabled = dto.EnableLockout;
+            if (dto.EndLockout && user.LockoutEnd > DateTime.UtcNow)
+            {
+                user.LockoutEnd = DateTime.UtcNow;
+            }
+
+            return user;
+        }
     }
 }

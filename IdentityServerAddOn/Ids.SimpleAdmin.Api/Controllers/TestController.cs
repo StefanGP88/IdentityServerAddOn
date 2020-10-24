@@ -11,6 +11,6 @@ namespace Ids.SimpleAdmin.Api.Controllers
         public async Task<IActionResult> HelloWorld()
         {
             return Ok("Hello World");
-        } 
+        }
     }
 }
