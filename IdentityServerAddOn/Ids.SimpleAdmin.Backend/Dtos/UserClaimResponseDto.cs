@@ -1,12 +1,12 @@
 ﻿namespace Ids.SimpleAdmin.Backend.Dtos
 {
-    public class RoleClaimResponseDto
+    public class UserClaimResponseDto
     {
-        public ClaimRoleResponseDto Role { get; set; }
+        public ClaimUserResponseDto User { get; set; }
         public string Type { get; set; }
         public string Value { get; set; }
     }
-    public class ClaimRoleResponseDto
+    public class ClaimUserResponseDto
     {
         public string Id { get; set; }
         public string Name { get; set; }

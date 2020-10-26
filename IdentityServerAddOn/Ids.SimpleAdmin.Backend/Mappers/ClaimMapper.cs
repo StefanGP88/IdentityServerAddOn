@@ -23,14 +23,42 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             };
         }
 
-        public static RoleClaimRoleDto MapToClaimDto(this IdentityRole role)
+        public static ClaimRoleResponseDto MapToClaimDto(this IdentityRole role)
         {
             if (role == null) return null;
-            return new RoleClaimRoleDto
+            return new ClaimRoleResponseDto
             {
                 Id = role.Id,
                 Name = role.Name,
                 NormalizedName = role.NormalizedName
+            };
+        }
+
+        public static Claim MapToModel(this CreateUserClaimRequestDto dto)
+        {
+            if (dto == null) return null;
+            return new Claim(dto.Type, dto.Value);
+        }
+
+        public static UserClaimResponseDto MapToDto(this Claim claim, IdentityUser user)
+        {
+            if (claim == null) return null;
+            return new UserClaimResponseDto
+            {
+                Type = claim.Type,
+                Value = claim.Value,
+                User = user.MapUserClaimResponseDto()
+            };
+        }
+
+        public static ClaimUserResponseDto MapUserClaimResponseDto(this IdentityUser user)
+        {
+            if (user == null) return null;
+            return new ClaimUserResponseDto
+            {
+                Id = user.Id,
+                Name = user.UserName,
+                NormalizedName = user.NormalizedUserName
             };
         }
     }

@@ -11,7 +11,10 @@ namespace Ids.SimpleAdmin.Backend
             sc.AddScoped<IRoleHandler, RoleHandler>();
             sc.AddScoped<IUserHandler, UserHandler>();
             sc.AddScoped<IUserRoleHandler, UserRoleHandler>();
+
+            //TODO: can these claim handlers user same interface ?
             sc.AddScoped<IRoleClaimHandler, RoleClaimHandler>();
+            sc.AddScoped<IUserClaimHandler, UserClaimHandler>();
         }
     }
 }

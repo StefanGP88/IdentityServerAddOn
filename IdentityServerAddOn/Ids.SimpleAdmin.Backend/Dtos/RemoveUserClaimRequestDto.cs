@@ -1,8 +1,8 @@
 ﻿namespace Ids.SimpleAdmin.Backend.Dtos
 {
-    public class RemoveRoleClaimRequestDto
+    public class RemoveUserClaimRequestDto
     {
-        public string RoleId { get; set; }
+        public string UserId { get; set; }
         public string Type { get; set; }
     }
 }

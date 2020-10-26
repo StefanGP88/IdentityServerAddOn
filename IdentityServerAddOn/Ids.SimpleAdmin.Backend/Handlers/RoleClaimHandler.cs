@@ -13,6 +13,13 @@ namespace Ids.SimpleAdmin.Backend.Handlers
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IRoleClaimStore<IdentityRole> _roleClaimStore;
+
+        public RoleClaimHandler(RoleManager<IdentityRole> roleManager, IRoleClaimStore<IdentityRole> roleClaimStore)
+        {
+            _roleManager = roleManager;
+            _roleClaimStore = roleClaimStore;
+        }
+
         public async Task<RoleClaimResponseDto> CreateRoleClaim(CreateRoleClaimRequestDto dto)
         {
             if (!_roleManager.SupportsRoleClaims) throw new Exception("Role claims not supported");
@@ -31,7 +38,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             if (role == null) throw new Exception("Role not found");
 
             var roleClaims = await _roleClaimStore.GetClaimsAsync(role, cancel).ConfigureAwait(false);
-            var claim = roleClaims.FirstOrDefault(cancel => cancel.Type == dto.ClaimType);
+            var claim = roleClaims.FirstOrDefault(cancel => cancel.Type == dto.Type);
             if (claim == null) throw new Exception("Claim not found");
 
             var result = await _roleManager.RemoveClaimAsync(role, claim).ConfigureAwait(false);
