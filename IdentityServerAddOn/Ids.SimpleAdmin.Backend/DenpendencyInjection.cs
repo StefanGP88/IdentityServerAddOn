@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Ids.SimpleAdmin.Backend.Interfaces;
+using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
+using Ids.SimpleAdmin.Backend.Handlers;
 
 namespace Ids.SimpleAdmin.Backend
 {
@@ -10,6 +11,7 @@ namespace Ids.SimpleAdmin.Backend
             sc.AddScoped<IRoleHandler, RoleHandler>();
             sc.AddScoped<IUserHandler, UserHandler>();
             sc.AddScoped<IUserRoleHandler, UserRoleHandler>();
+            sc.AddScoped<IRoleClaimHandler, RoleClaimHandler>();
         }
     }
 }

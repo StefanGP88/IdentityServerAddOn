@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ids.SimpleAdmin.Backend.Interfaces
+namespace Ids.SimpleAdmin.Backend.Handlers.Interfaces
 {
     public interface IUserRoleHandler
     {

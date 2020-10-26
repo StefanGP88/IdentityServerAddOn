@@ -1,5 +1,5 @@
 ﻿using Ids.SimpleAdmin.Backend.Dtos;
-using Ids.SimpleAdmin.Backend.Interfaces;
+using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
 using Ids.SimpleAdmin.Backend.Mappers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ids.SimpleAdmin.Backend
+namespace Ids.SimpleAdmin.Backend.Handlers
 {
     public class UserRoleHandler : IUserRoleHandler
     {
