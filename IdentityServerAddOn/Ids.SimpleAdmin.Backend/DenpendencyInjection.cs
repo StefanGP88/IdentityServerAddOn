@@ -5,10 +5,11 @@ namespace Ids.SimpleAdmin.Backend
 {
     public static class DenpendencyInjection
     {
-        public static void AddIdentityServerAddOn(this IServiceCollection services)
+        public static void AddIdentityServerAddOn(this IServiceCollection sc)
         {
-            services.AddScoped<IRoleHandler, RoleHandler>();
-            services.AddScoped<IUserHandler, UserHandler>();
+            sc.AddScoped<IRoleHandler, RoleHandler>();
+            sc.AddScoped<IUserHandler, UserHandler>();
+            sc.AddScoped<IUserRoleHandler, UserRoleHandler>();
         }
     }
 }
