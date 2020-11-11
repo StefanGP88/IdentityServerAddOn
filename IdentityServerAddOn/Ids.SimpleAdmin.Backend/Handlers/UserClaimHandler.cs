@@ -12,11 +12,11 @@ namespace Ids.SimpleAdmin.Backend.Handlers
     public class UserClaimHandler : IUserClaimHandler
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IUserClaimStore<IdentityUser> _userClaimStore;
-        public UserClaimHandler(UserManager<IdentityUser> userManager, IUserClaimStore<IdentityUser> userClaimStore)
+        //private readonly IUserClaimStore<IdentityUser> _userClaimStore;
+        public UserClaimHandler(UserManager<IdentityUser> userManager/*, IUserClaimStore<IdentityUser> userClaimStore*/)
         {
             _userManager = userManager;
-            _userClaimStore = userClaimStore;
+           // _userClaimStore = userClaimStore;
         }
         public async Task<UserClaimResponseDto> CreateRoleClaim(CreateUserClaimRequestDto dto)
         {
@@ -49,7 +49,8 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             var user = await _userManager.FindByIdAsync(dto.UserId).ConfigureAwait(false);
             if (user == null) throw new Exception("User not found");
 
-            var userClaims = await _userClaimStore.GetClaimsAsync(user, cancel).ConfigureAwait(false);
+            //var userClaims = await _userClaimStore.GetClaimsAsync(user, cancel).ConfigureAwait(false);
+            var userClaims = await _userManager.GetClaimsAsync(user).ConfigureAwait(false);
             var claim = userClaims.FirstOrDefault(cancel => cancel.Type == dto.Type);
             if (claim == null) throw new Exception("Claim not found");
 

@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ids.SimpleAdmin.Backend\Ids.SimpleAdmin.Backend.csproj" />
+    <ProjectReference Include="..\RazorTestLibrary\RazorTestLibrary.csproj" />
   </ItemGroup>
 
 </Project>

@@ -12,12 +12,13 @@ namespace Ids.SimpleAdmin.Backend.Handlers
     public class RoleClaimHandler : IRoleClaimHandler
     {
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IRoleClaimStore<IdentityRole> _roleClaimStore;
+        //private readonly IRoleClaimStore<IdentityRole> _roleClaimStore;
 
-        public RoleClaimHandler(RoleManager<IdentityRole> roleManager, IRoleClaimStore<IdentityRole> roleClaimStore)
+        public RoleClaimHandler(RoleManager<IdentityRole> roleManager/*, IRoleClaimStore<IdentityRole> roleClaimStore*/)
         {
             _roleManager = roleManager;
-            _roleClaimStore = roleClaimStore;
+            //_roleClaimStore = roleClaimStore;
+            //_roleManager.cla
         }
 
         public async Task<RoleClaimResponseDto> CreateRoleClaim(CreateRoleClaimRequestDto dto)
@@ -37,7 +38,8 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             var role = await _roleManager.FindByIdAsync(dto.RoleId).ConfigureAwait(false);
             if (role == null) throw new Exception("Role not found");
 
-            var roleClaims = await _roleClaimStore.GetClaimsAsync(role, cancel).ConfigureAwait(false);
+            //var roleClaims = await _roleClaimStore.GetClaimsAsync(role, cancel).ConfigureAwait(false);
+            var roleClaims = await _roleManager.GetClaimsAsync(role).ConfigureAwait(false);
             var claim = roleClaims.FirstOrDefault(cancel => cancel.Type == dto.Type);
             if (claim == null) throw new Exception("Claim not found");
 

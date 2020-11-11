@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ids.SimpleAdmin.Backend", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ids.SimpleAdmin.Api", "Ids.SimpleAdmin.Api\Ids.SimpleAdmin.Api.csproj", "{1066D98B-82E7-48BB-9588-E41EEDDF2DEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "Utilities\Utilities.csproj", "{B3F490C1-E69C-4E6E-9973-1E28129B1EEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utilities", "Utilities\Utilities.csproj", "{B3F490C1-E69C-4E6E-9973-1E28129B1EEF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

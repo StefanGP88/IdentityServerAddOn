@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using IdentityServer.Data;
 using Ids.SimpleAdmin.Backend;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using RazorTestLibrary;
+using System;
 
 namespace IdentityServer
 {
@@ -38,6 +40,8 @@ namespace IdentityServer
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
+
+
             //services
             //    .AddIdentityServer()
             //    .AddAspNetIdentity<IdentityUser>()
@@ -60,7 +64,7 @@ namespace IdentityServer
                 .AddConfigurationStore(connectionString, migrationAssembly)
                 .AddOperationalStore(connectionString, migrationAssembly);
 
-            services.AddRazorPages();
+            services.AddRazorPages().AddRazorPagesForSimpleAdmin();
 
             services.AddIdentityServerAddOn();
         }

@@ -9,5 +9,13 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\SimpleAdmin\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ids.SimpleAdmin.Backend\Ids.SimpleAdmin.Backend.csproj" />
+  </ItemGroup>
+
 
 </Project>
