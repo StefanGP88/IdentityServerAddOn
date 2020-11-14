@@ -3,73 +3,54 @@
 @{
 }
 
-<table class="table table-striped ">
-    <thead class="thead-dark">
-        <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Role</th>
-            <th scope="col">Normalized Role</th>
-            <th scope="col">Delete</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Roles.Items)
-        {
-            <tr>
-                <th scope="row">@item.Id</th>
-                <td >@item.RoleName</td>
-                <td>@item.NormalizedName</td>
-                <td><button type="button" class="btn btn-danger">Delete</button></td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<br />
-<br />
-<br />
-<br />
-
 <div class="container">
-    <div class="row">
-        <div class="col-1">
-            1 of 3
-        </div>
-        <div class="col-5">
-            2 of 3 (wider)
-        </div>
-        <div class="col-5">
-            2 of 3 (wider)
-        </div>
-        <div class="col-1">
-            3 of 3
-        </div>
-    </div>
-    @foreach (var item in Model.Roles.Items)
-    {
-        <div class="row">
-            <div class="col-1">
-                
+    <table class="table">
+        <caption>
+            <div class="row">
+                <div class="col-6">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#"> List of roles</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-6">
+                    <nav class="float-right">
+                        <ul class="pagination">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item active">
+                                <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
             </div>
-            <div class="col-5">
-                @item.RoleName
-            </div>
-            <div class="col-5">
-                @item.NormalizedName
-            </div>
-            <div class="col-1">
-                
-            </div>
-        </div>
-    }
+        </caption>
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Role</th>
+                <th scope="col">Normalized</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Roles.Items)
+            {
+                <tr>
+                    <th scope="row"><button type="button" class="btn btn-info">Edit</button></th>
+                    <td>@item.RoleName</td>
+                    <td>@item.NormalizedName</td>
+                    <td><button type="button" class="btn btn-danger float-right">Delete</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
-
-
-
-@foreach (var item in Model.Roles.Items)
-{
-    <div>
-        <label asp-for="@item.RoleName"></label>
-        <input asp-for="@item.RoleName" value="@item.RoleName" />
-    </div>
-}
