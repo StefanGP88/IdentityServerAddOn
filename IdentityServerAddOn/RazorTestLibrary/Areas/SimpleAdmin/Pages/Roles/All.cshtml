@@ -5,6 +5,25 @@
 
 <div class="container">
     <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Role</th>
+                <th scope="col">Normalized</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Roles.Items)
+            {
+                <tr>
+                    <th scope="row"><button type="button" class="btn btn-info" data-toggle="modal" data-target="#editModal" data-rolename="@item.RoleName" data-roleid="@item.Id">Edit</button></th>
+                    <td>@item.RoleName</td>
+                    <td>@item.NormalizedName</td>
+                    <td><button type="button" class="btn btn-danger float-right">Delete</button></td>
+                </tr>
+            }
+        </tbody>
         <caption>
             <div class="row">
                 <div class="col-6">
@@ -33,24 +52,40 @@
                 </div>
             </div>
         </caption>
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col"></th>
-                <th scope="col">Role</th>
-                <th scope="col">Normalized</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Roles.Items)
-            {
-                <tr>
-                    <th scope="row"><button type="button" class="btn btn-info">Edit</button></th>
-                    <td>@item.RoleName</td>
-                    <td>@item.NormalizedName</td>
-                    <td><button type="button" class="btn btn-danger float-right">Delete</button></td>
-                </tr>
-            }
-        </tbody>
     </table>
 </div>
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Recipient:</label>
+                        <input type="text" class="form-control" id="roleName">
+                    </div>
+                    <input type="hidden" id="roleId" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Send message</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script type="text/javascript">
+        $('#editModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            modal.find('.modal-body #roleName').val(button.data('rolename'));
+            modal.find('.modal-body #roleId').val(button.data('roleid'));
+        });
+    </script>
+}
