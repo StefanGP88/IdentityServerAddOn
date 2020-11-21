@@ -1,6 +1,7 @@
 ﻿@page
 @model RazorTestLibrary.Areas.SimpleAdmin.Pages.Roles.AllModel
 @{
+    Layout = "_NestedLayout";
 }
 
 <div class="container">
@@ -69,52 +70,41 @@
         </caption>
     </table>
 </div>
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="EditForm" method="put">
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">RoleName edit</label>
-                        <input type="text" class="form-control" id="roleName">
-                    </div>
-                    <input type="hidden" id="roleId" />
-                </form>
-                <form id="AddForm" method="post">
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">Rolename add</label>
-                        <input type="text" class="form-control" id="roleName">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-info">Send message</button>
-            </div>
-        </div>
-    </div>
-</div>
-@section Scripts{
-    <script type="text/javascript">
-        $('#editModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            var modal = $(this);
 
-            if (button.data('form') == 'edit') {
-                modal.find('.modal-body #EditForm').show();
-                modal.find('.modal-body #AddForm').hide();
-                modal.find('.modal-body #roleName').val(button.data('rolename'));
-                modal.find('.modal-body #roleId').val(button.data('roleid'));
-            } else if (button.data('form') == 'add') {
-                modal.find('.modal-body #EditForm').hide();
-                modal.find('.modal-body #AddForm').show();
-            }
-        });
-    </script>
+@section AddModalBody{
+    <form id="AddForm" method="post">
+        <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Rolename add</label>
+            <input type="text" class="form-control" id="roleName">
+        </div>
+    </form>
+}
+
+@section EditModalBody{
+    <form id="EditForm" method="put">
+        <div class="form-group">
+            <label for="recipient-name" class="col-form-label">RoleName edit</label>
+            <input type="text" class="form-control" id="roleName">
+        </div>
+        <input type="hidden" id="roleId" />
+    </form>
+}
+
+@section Scripts{
+    @*<script type="text/javascript">
+            $('#editModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var modal = $(this);
+
+                if (button.data('form') == 'edit') {
+                    modal.find('.modal-body #EditForm').show();
+                    modal.find('.modal-body #AddForm').hide();
+                    modal.find('.modal-body #roleName').val(button.data('rolename'));
+                    modal.find('.modal-body #roleId').val(button.data('roleid'));
+                } else if (button.data('form') == 'add') {
+                    modal.find('.modal-body #EditForm').hide();
+                    modal.find('.modal-body #AddForm').show();
+                }
+            });
+        </script>*@
 }

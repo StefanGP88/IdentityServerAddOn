@@ -15,7 +15,14 @@ namespace RazorTestLibrary
             builder.Services.AddSimpleAdminDependencyInjection();
 
             var assembly = Assembly.GetExecutingAssembly().GetName().Name;
-            return builder.AddApplicationPart(Assembly.Load(assembly));
+            builder.AddApplicationPart(Assembly.Load(assembly));
+            //builder.AddRazorOptions(x =>
+            //{
+            //    x.AreaPageViewLocationFormats.Add("/PartialViews/{0}.cshtml");
+            //    x.ViewLocationFormats.Add("/PartialViews/{0}.cshtml");
+            //});
+
+            return builder;
         }
     }
 }
