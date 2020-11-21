@@ -17,10 +17,25 @@
             @foreach (var item in Model.Roles.Items)
             {
                 <tr>
-                    <th scope="row"><button type="button" class="btn btn-info" data-toggle="modal" data-target="#editModal" data-rolename="@item.RoleName" data-roleid="@item.Id" data-form="edit">Edit</button></th>
+                    <th scope="row">
+                        <button type="button" class="btn btn-info"
+                                data-toggle="modal" data-target="#editModal"
+                                data-rolename="@item.RoleName" data-roleid="@item.Id" data-roleConcurrency="@item.ConcurrencyStamp"
+                                data-form="edit">
+                            Edit
+                        </button>
+                    </th>
                     <td>@item.RoleName</td>
                     <td>@item.NormalizedName</td>
-                    <td><button type="button" class="btn btn-danger float-right">Delete</button></td>
+                    <td>
+                        <form id="DeleteForm" method="delete">
+                            <input type="hidden" id="dto.Id" value="@item.Id" />
+                            <input type="hidden" id="dto.ConcurrencyStamp" value="@item.ConcurrencyStamp" />
+                            <input type="hidden" id="page" value="@Model.Roles.Page" />
+                            <input type="hidden" id="pageSize" value="@Model.Roles.PageSize" />
+                            <button type="button" class="btn btn-danger float-right">Delete</button>
+                        </form>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -29,7 +44,7 @@
                 <div class="col-6">
                     <ul class="nav">
                         <li class="nav-item">
-                            <button type="button" class="btn btn-info"  data-toggle="modal" data-target="#editModal" data-form="add">Add role</button>
+                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editModal" data-form="add">Add role</button>
                         </li>
                     </ul>
                 </div>
@@ -64,14 +79,14 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="EditForm">
+                <form id="EditForm" method="put">
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">RoleName edit</label>
                         <input type="text" class="form-control" id="roleName">
                     </div>
                     <input type="hidden" id="roleId" />
                 </form>
-                <form id="AddForm">
+                <form id="AddForm" method="post">
                     <div class="form-group">
                         <label for="recipient-name" class="col-form-label">Rolename add</label>
                         <input type="text" class="form-control" id="roleName">
