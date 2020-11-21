@@ -13,15 +13,8 @@ namespace RazorTestLibrary
         public static IMvcBuilder AddRazorPagesForSimpleAdmin(this IMvcBuilder builder)
         {
             builder.Services.AddSimpleAdminDependencyInjection();
-
             var assembly = Assembly.GetExecutingAssembly().GetName().Name;
             builder.AddApplicationPart(Assembly.Load(assembly));
-            //builder.AddRazorOptions(x =>
-            //{
-            //    x.AreaPageViewLocationFormats.Add("/PartialViews/{0}.cshtml");
-            //    x.ViewLocationFormats.Add("/PartialViews/{0}.cshtml");
-            //});
-
             return builder;
         }
     }
