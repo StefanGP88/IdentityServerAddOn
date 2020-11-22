@@ -18,13 +18,13 @@ namespace RazorTestLibrary.Areas.SimpleAdmin.Pages.Roles
         [BindProperty]
         public ListDto<RoleResponseDto> Roles { get; set; }
 
-        public async Task<IActionResult> OnGet(int page = 0, int pageSize = 25, CancellationToken cancel = default)
+        public async Task<IActionResult> OnGetAsync(int page = 0, int pageSize = 25, CancellationToken cancel = default)
         {
             Roles = await _handler.ReadAllRoles(page, pageSize, cancel).ConfigureAwait(false);
             return Page();
         }
 
-        public async Task<IActionResult> OnPost(string roleName, int page = 0, int pageSize = 25, CancellationToken cancel = default)
+        public async Task<IActionResult> OnPostAsync(string roleName, int page = 0, int pageSize = 25, CancellationToken cancel = default)
         {
             var continueWithTask = await Task.Factory
                 .StartNew(() => _handler.CreateRole(roleName), TaskCreationOptions.AttachedToParent)
@@ -34,7 +34,7 @@ namespace RazorTestLibrary.Areas.SimpleAdmin.Pages.Roles
             return Page();
         }
 
-        public async Task<IActionResult> OnPut(UpdateRoleRequestDto dto, int page = 0, int pageSize = 25, CancellationToken cancel = default)
+        public async Task<IActionResult> OnPutAsync(UpdateRoleRequestDto dto, int page = 0, int pageSize = 25, CancellationToken cancel = default)
         {
             var continueWithTask = await Task.Factory
                 .StartNew(() => _handler.UpdateRole(dto), TaskCreationOptions.AttachedToParent)
@@ -44,7 +44,7 @@ namespace RazorTestLibrary.Areas.SimpleAdmin.Pages.Roles
             return Page();
         }
 
-        public async Task<IActionResult> OnDelete(DeleteRoleRequestDto dto, int page = 0, int pageSize = 25, CancellationToken cancel = default)
+        public async Task<IActionResult> OnDeleteAsync(DeleteRoleRequestDto dto, int page = 0, int pageSize = 25, CancellationToken cancel = default)
         {
             var continueWithTask = await Task.Factory
                 .StartNew(() => _handler.DeleteRole(dto), TaskCreationOptions.AttachedToParent)

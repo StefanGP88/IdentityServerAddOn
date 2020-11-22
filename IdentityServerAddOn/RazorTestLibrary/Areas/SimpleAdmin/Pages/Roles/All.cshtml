@@ -97,7 +97,7 @@
 
 @section DeleteModalBody{
     <div class="alert alert-danger" role="alert">
-        Are you sure you want to delete role : <span id="deleteRoleName"></span> ?
+        Are you sure you want to delete the <span id="deleteRoleName"></span> role?
     </div>
     <form id="DeleteForm" method="delete">
         @Html.AntiForgeryToken()
@@ -122,7 +122,7 @@
         $('#deleteModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var modal = $(this);
-            modal.find('.modal-body #deleteRoleName').val(button.data('rolename'));
+            modal.find('.modal-body #deleteRoleName').text(button.data('rolename'));
             modal.find('.modal-body #deleteId').val(button.data('roleid'));
             modal.find('.modal-body #deleteConcurrencyStamp').val(button.data('roleconcurrency'));
         });
