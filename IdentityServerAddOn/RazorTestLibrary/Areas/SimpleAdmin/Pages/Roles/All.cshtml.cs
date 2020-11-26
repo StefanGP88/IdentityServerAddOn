@@ -15,7 +15,6 @@ namespace RazorTestLibrary.Areas.SimpleAdmin.Pages.Roles
             _handler = handler;
         }
 
-        [BindProperty]
         public ListDto<RoleResponseDto> Roles { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int page = 0, int pageSize = 25, CancellationToken cancel = default)
@@ -23,34 +22,24 @@ namespace RazorTestLibrary.Areas.SimpleAdmin.Pages.Roles
             Roles = await _handler.ReadAllRoles(page, pageSize, cancel).ConfigureAwait(false);
             return Page();
         }
-
-        public async Task<IActionResult> OnPostAsync(string roleName, int page = 0, int pageSize = 25, CancellationToken cancel = default)
+        public IActionResult OnPostAdd([FromForm] string roleName, int page = 0, int pageSize = 25, CancellationToken cancel = default)
         {
-            var continueWithTask = await Task.Factory
-                .StartNew(() => _handler.CreateRole(roleName), TaskCreationOptions.AttachedToParent)
-                .ContinueWith(_ => _handler.ReadAllRoles(page, pageSize, cancel)).ConfigureAwait(false);
-
-            Roles = await continueWithTask.ConfigureAwait(false);
+            _ = _handler.CreateRole(roleName).GetAwaiter().GetResult();
+            Roles = _handler.ReadAllRoles(page, pageSize, cancel).GetAwaiter().GetResult();
             return Page();
         }
 
-        public async Task<IActionResult> OnPutAsync(UpdateRoleRequestDto dto, int page = 0, int pageSize = 25, CancellationToken cancel = default)
+        public IActionResult OnPostEdit(UpdateRoleRequestDto dto, int page = 0, int pageSize = 25, CancellationToken cancel = default)
         {
-            var continueWithTask = await Task.Factory
-                .StartNew(() => _handler.UpdateRole(dto), TaskCreationOptions.AttachedToParent)
-                .ContinueWith(_ => _handler.ReadAllRoles(page, pageSize, cancel)).ConfigureAwait(false);
-
-            Roles = await continueWithTask.ConfigureAwait(false);
+            _ = _handler.UpdateRole(dto).GetAwaiter().GetResult();
+            Roles = _handler.ReadAllRoles(page, pageSize, cancel).GetAwaiter().GetResult();
             return Page();
         }
 
-        public async Task<IActionResult> OnDeleteAsync(DeleteRoleRequestDto dto, int page = 0, int pageSize = 25, CancellationToken cancel = default)
+        public IActionResult OnPostDelete(DeleteRoleRequestDto dto, int page = 0, int pageSize = 25, CancellationToken cancel = default)
         {
-            var continueWithTask = await Task.Factory
-                .StartNew(() => _handler.DeleteRole(dto), TaskCreationOptions.AttachedToParent)
-                .ContinueWith(_ => _handler.ReadAllRoles(page, pageSize, cancel)).ConfigureAwait(false);
-
-            Roles = await continueWithTask.ConfigureAwait(false);
+            _handler.DeleteRole(dto).GetAwaiter().GetResult();
+            Roles = _handler.ReadAllRoles(page, pageSize, cancel).GetAwaiter().GetResult();
             return Page();
         }
     }

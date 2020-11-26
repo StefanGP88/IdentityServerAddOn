@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Ids.SimpleAdmin.Backend.Dtos;
+﻿using Ids.SimpleAdmin.Backend.Dtos;
 using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
 using Ids.SimpleAdmin.Backend.Mappers;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading;
@@ -64,12 +64,12 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             if (oldRole.ConcurrencyStamp != dto.ConcurrencyStamp)
                 throw new Exception("ConcurrencyStamp has been changed");
 
-            var roleUpdate = ConstructIdentityRole(dto.RoleName, dto.Id);
-            var result = await _roleManager.UpdateAsync(roleUpdate).ConfigureAwait(false);
+            oldRole = UpdateIdentityRole(oldRole, dto.RoleName);
+            var result = await _roleManager.UpdateAsync(oldRole).ConfigureAwait(false);
 
             CheckResult(result);
 
-            return roleUpdate.MapToDto();
+            return oldRole.MapToDto();
         }
 
         public async Task DeleteRole(DeleteRoleRequestDto dto)
@@ -98,6 +98,14 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 Id = id,
                 ConcurrencyStamp = Guid.NewGuid().ToString()
             };
+        }
+        private IdentityRole UpdateIdentityRole(IdentityRole role, string update)
+        {
+            if (role == null) return null;
+            role.Name = update;
+            role.NormalizedName = _roleManager.KeyNormalizer.NormalizeName(update);
+            role.ConcurrencyStamp = Guid.NewGuid().ToString();
+            return role;
         }
 
         private void CheckResult(IdentityResult result)

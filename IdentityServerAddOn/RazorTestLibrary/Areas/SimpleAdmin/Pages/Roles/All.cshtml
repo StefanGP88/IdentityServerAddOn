@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{handler?}"
 @model RazorTestLibrary.Areas.SimpleAdmin.Pages.Roles.AllModel
 @{
     Layout = "_NestedLayout";
@@ -15,22 +15,22 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.Roles.Items)
+            @foreach (var item in Model?.Roles?.Items)
             {
                 <tr>
                     <th scope="row">
                         <button type="button" class="btn btn-info"
                                 data-toggle="modal" data-target="#editModal"
-                                data-rolename="@item.RoleName" data-roleid="@item.Id" data-roleConcurrency="@item.ConcurrencyStamp">
+                                data-rolename="@item?.RoleName" data-roleid="@item?.Id" data-roleConcurrency="@item?.ConcurrencyStamp">
                             Edit
                         </button>
                     </th>
-                    <td>@item.RoleName</td>
-                    <td>@item.NormalizedName</td>
+                    <td>@item?.RoleName</td>
+                    <td>@item?.NormalizedName</td>
                     <td>
                         <button type="button" class="btn btn-danger float-right"
                                 data-toggle="modal" data-target="#deleteModal"
-                                data-rolename="@item.RoleName" data-roleid="@item.Id" data-roleconcurrency="@item.ConcurrencyStamp">
+                                data-rolename="@item?.RoleName" data-roleid="@item?.Id" data-roleconcurrency="@item?.ConcurrencyStamp">
                             Delete
                         </button>
                     </td>
@@ -68,8 +68,10 @@
     </table>
 </div>
 
+
+
 @section AddModalBody{
-    <form id="AddForm" method="post">
+    <form id="AddForm" method="post" asp-page-handler="Add">
         @*Is there no tag helper for adding a anti forgery token? *@
         @Html.AntiForgeryToken()
         <div class="form-group">
@@ -82,7 +84,7 @@
 }
 
 @section EditModalBody{
-    <form id="EditForm" method="put">
+    <form id="EditForm" method="post" asp-page-handler="Edit">
         @Html.AntiForgeryToken()
         <div class="form-group">
             <label for="recipient-name" class="col-form-label">RoleName edit</label>
@@ -99,7 +101,7 @@
     <div class="alert alert-danger" role="alert">
         Are you sure you want to delete the <span id="deleteRoleName"></span> role?
     </div>
-    <form id="DeleteForm" method="delete">
+    <form id="DeleteForm" method="post" asp-page-handler="Delete">
         @Html.AntiForgeryToken()
         <input type="hidden" id="deleteId" name="dto.Id" />
         <input type="hidden" id="deleteConcurrencyStamp" name="dto.ConcurrencyStamp" />
