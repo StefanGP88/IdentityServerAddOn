@@ -1,29 +1,25 @@
 ﻿@model PagenationInfo
+@{
+    var active = "page-item active";
+    var notActive = "page-item";
+}
 <nav class="float-right">
     <ul class="pagination">
-        <li class="page-item disabled">
-            @*<a class="page-link" asp-route-page="0" asp-route-pageSize="@Model.Roles.PageSize" tabindex="-1">First</a>*@
-            <a class="page-link" asp-route-page="0" asp-route-pageSize="@Model.PageSize">First</a>
+
+        <li class="@(Model.IsFirstPage ? active : notActive)">
+            <a class="page-link" asp-page="@ViewContext.RouteData.Values["Page"]" asp-route-pageNumber="0" asp-route-pageSize="@Model.PageSize" tabindex="-1">First</a>
         </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item active">
-            <a class="page-link" asp-page="@ViewContext.RouteData.Values["Page"]" asp-route-pageNumber="@Model.Page" asp-route-pageSize="@Model.PageSize">@Model.Page <span class="sr-only">(current)</span></a>
-            @*<a class="page-link" href="#"></a>*@
-        </li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-            <a class="page-link" href="#">Next</a>
+        @for (int i = Model.Page - 2; i <= Model.Page + 2; i++)
+        {
+            if (i > 0 && i < Model.LastPage)
+            {
+                <li class="@(Model.Page == i ? active:notActive)">
+                    <a class="page-link" asp-page="@ViewContext.RouteData.Values["Page"]" asp-route-pageNumber="@i" asp-route-pageSize="@Model.PageSize" tabindex="-1">@(i+1)</a>
+                </li>
+            }
+        }
+        <li class="@(Model.IsLastPage ? active : notActive)">
+            <a class="page-link" asp-page="@ViewContext.RouteData.Values["Page"]" asp-route-pageNumber="@Model.LastPage" asp-route-pageSize="@Model.PageSize" tabindex="-1">Last</a>
         </li>
     </ul>
 </nav>
-
-
-
-@ViewContext.RouteData.Values["Area"]
-@ViewContext.RouteData.Values["Page"]
-
-@Model.Page
-@Model.PageSize
-@Model.TotalPages
-@Model.IsFirstPage
-@Model.IsLastPage

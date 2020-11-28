@@ -15,7 +15,7 @@ namespace RazorTestLibrary
                 Page = dto.Page,
                 PageSize = dto.PageSize,
                 TotalItems = dto.TotalItems,
-                TotalPages = dto.TotalPages
+                LastPage = dto.LastPage
             };
         }
     }
