@@ -36,6 +36,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             return new ListDto<RoleResponseDto>
             {
                 Items = await _roleManager.Roles
+                        .OrderBy(x=>x.Name)
                         .Skip(page * pageSize)
                         .Take(pageSize)
                         .Select(x => x.MapToDto())

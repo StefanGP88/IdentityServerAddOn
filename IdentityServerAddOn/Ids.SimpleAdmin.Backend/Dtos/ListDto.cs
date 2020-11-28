@@ -20,7 +20,7 @@ namespace Ids.SimpleAdmin.Backend.Dtos
             if (TotalItems % PageSize > 0)
                 return page;
 
-            return page--;
+            return --page;
         }
     }
 }
