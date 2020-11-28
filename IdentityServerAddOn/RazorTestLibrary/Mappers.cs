@@ -8,15 +8,22 @@ namespace RazorTestLibrary
         {
             return new PagenationInfo
             {
-                IsFirstPage = dto.IsFirstPage,
-                IsLastPage = dto.IsLastPage,
-                IsSecondLastPage = dto.IsSecondLastPage,
-                IsSecondPage = dto.IsSecondPage,
+                IsFirstPage = dto.Page == 0,
+                IsLastPage = dto.Page == dto.GetLastPage(),
                 Page = dto.Page,
                 PageSize = dto.PageSize,
                 TotalItems = dto.TotalItems,
-                LastPage = dto.LastPage
+                LastPage = dto.GetLastPage()
             };
+        }
+
+        private static int GetLastPage<T>(this ListDto<T> listDto)
+        {
+            var page = listDto.TotalItems / listDto.PageSize;
+            if (listDto.TotalItems % listDto.PageSize > 0)
+                return page;
+
+            return --page;
         }
     }
 }

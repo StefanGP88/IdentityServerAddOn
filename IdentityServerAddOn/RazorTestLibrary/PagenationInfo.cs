@@ -8,7 +8,5 @@
         public int LastPage { get; set; }
         public bool IsFirstPage { get; set; }
         public bool IsLastPage { get; set; }
-        public bool IsSecondPage { get; set; }
-        public bool IsSecondLastPage { get; set; }
     }
 }
