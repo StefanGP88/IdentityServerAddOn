@@ -43,7 +43,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                         .ConfigureAwait(false),
                 Page = page,
                 PageSize = pageSize,
-                Total = await _roleManager.Roles
+                TotalItems = await _roleManager.Roles
                         .CountAsync(cancel)
                         .ConfigureAwait(false)
             };

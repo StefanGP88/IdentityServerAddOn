@@ -57,7 +57,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 Items = roleClaims.Select(x => x.MapToDto(role)).ToList(),
                 Page = page,
                 PageSize = pageSize,
-                Total = roleClaims.Count
+                TotalItems = roleClaims.Count
             };
         }
     }

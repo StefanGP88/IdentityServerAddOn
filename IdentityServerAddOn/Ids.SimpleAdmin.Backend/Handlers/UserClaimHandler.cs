@@ -39,7 +39,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             {
                 Page = page,
                 PageSize = pageSize,
-                Total = userClaims.Count,
+                TotalItems = userClaims.Count,
                 Items = userClaims.Select(x => x.MapToDto(user)).ToList()
             };
         }

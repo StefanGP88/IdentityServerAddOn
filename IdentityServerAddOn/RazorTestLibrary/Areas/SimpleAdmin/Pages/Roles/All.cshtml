@@ -15,7 +15,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model?.Roles?.Items)
+            @foreach (var item in Model?.List?.Items)
             {
                 <tr>
                     <th scope="row">
@@ -47,21 +47,7 @@
                     </ul>
                 </div>
                 <div class="col-6">
-                    <nav class="float-right">
-                        <ul class="pagination">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1">Previous</a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item active">
-                                <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
+                    <partial name="_Pagenation" model="Model.List.ToPagenationInfo()" />
                 </div>
             </div>
         </caption>
@@ -78,8 +64,8 @@
             <label for="recipient-name" class="col-form-label">Rolename add</label>
             <input type="text" class="form-control" id="addRoleName" name="roleName">
         </div>
-        <input type="hidden" id="page" name="page" value="@Model.Roles.Page" />
-        <input type="hidden" id="pageSize" name="pageSize" value="@Model.Roles.PageSize" />
+        <input type="hidden" id="page" name="page" value="@Model.List.Page" />
+        <input type="hidden" id="pageSize" name="pageSize" value="@Model.List.PageSize" />
     </form>
 }
 
@@ -92,8 +78,8 @@
         </div>
         <input type="hidden" id="editId" name="dto.Id" />
         <input type="hidden" id="editConcurrencyStamp" name="dto.ConcurrencyStamp" />
-        <input type="hidden" id="page" name="page" value="@Model.Roles.Page" />
-        <input type="hidden" id="pageSize" name="pageSize" value="@Model.Roles.PageSize" />
+        <input type="hidden" id="page" name="page" value="@Model.List.Page" />
+        <input type="hidden" id="pageSize" name="pageSize" value="@Model.List.PageSize" />
     </form>
 }
 
@@ -105,8 +91,8 @@
         @Html.AntiForgeryToken()
         <input type="hidden" id="deleteId" name="dto.Id" />
         <input type="hidden" id="deleteConcurrencyStamp" name="dto.ConcurrencyStamp" />
-        <input type="hidden" id="page" name="page" value="@Model.Roles.Page" />
-        <input type="hidden" id="pageSize" name="pageSize" value="@Model.Roles.PageSize" />
+        <input type="hidden" id="page" name="page" value="@Model.List.Page" />
+        <input type="hidden" id="pageSize" name="pageSize" value="@Model.List.PageSize" />
     </form>
 }
 

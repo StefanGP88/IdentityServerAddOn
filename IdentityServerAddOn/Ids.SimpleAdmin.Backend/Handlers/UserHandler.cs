@@ -75,7 +75,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             {
                 Page = page,
                 PageSize = pagesize,
-                Total = await _userManager
+                TotalItems = await _userManager
                         .Users.CountAsync(cancel)
                         .ConfigureAwait(false),
                 Items = await _userManager

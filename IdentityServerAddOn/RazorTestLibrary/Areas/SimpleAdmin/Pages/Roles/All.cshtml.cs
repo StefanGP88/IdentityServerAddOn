@@ -15,31 +15,31 @@ namespace RazorTestLibrary.Areas.SimpleAdmin.Pages.Roles
             _handler = handler;
         }
 
-        public ListDto<RoleResponseDto> Roles { get; set; }
+        public ListDto<RoleResponseDto> List { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int page = 0, int pageSize = 25, CancellationToken cancel = default)
+        public async Task<IActionResult> OnGetAsync(int pageNumber = 1, int pageSize = 3, CancellationToken cancel = default)
         {
-            Roles = await _handler.ReadAllRoles(page, pageSize, cancel).ConfigureAwait(false);
+            List = await _handler.ReadAllRoles(pageNumber, pageSize, cancel).ConfigureAwait(false);
             return Page();
         }
-        public IActionResult OnPostAdd([FromForm] string roleName, int page = 0, int pageSize = 25, CancellationToken cancel = default)
+        public IActionResult OnPostAdd([FromForm] string roleName, int pageNumber = 0, int pageSize = 25, CancellationToken cancel = default)
         {
             _ = _handler.CreateRole(roleName).GetAwaiter().GetResult();
-            Roles = _handler.ReadAllRoles(page, pageSize, cancel).GetAwaiter().GetResult();
+            List = _handler.ReadAllRoles(pageNumber, pageSize, cancel).GetAwaiter().GetResult();
             return Page();
         }
 
-        public IActionResult OnPostEdit(UpdateRoleRequestDto dto, int page = 0, int pageSize = 25, CancellationToken cancel = default)
+        public IActionResult OnPostEdit(UpdateRoleRequestDto dto, int pageNumber = 0, int pageSize = 25, CancellationToken cancel = default)
         {
             _ = _handler.UpdateRole(dto).GetAwaiter().GetResult();
-            Roles = _handler.ReadAllRoles(page, pageSize, cancel).GetAwaiter().GetResult();
+            List = _handler.ReadAllRoles(pageNumber, pageSize, cancel).GetAwaiter().GetResult();
             return Page();
         }
 
-        public IActionResult OnPostDelete(DeleteRoleRequestDto dto, int page = 0, int pageSize = 25, CancellationToken cancel = default)
+        public IActionResult OnPostDelete(DeleteRoleRequestDto dto, int pageNumber = 0, int pageSize = 25, CancellationToken cancel = default)
         {
             _handler.DeleteRole(dto).GetAwaiter().GetResult();
-            Roles = _handler.ReadAllRoles(page, pageSize, cancel).GetAwaiter().GetResult();
+            List = _handler.ReadAllRoles(pageNumber, pageSize, cancel).GetAwaiter().GetResult();
             return Page();
         }
     }

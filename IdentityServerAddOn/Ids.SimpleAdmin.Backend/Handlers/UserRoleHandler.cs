@@ -61,7 +61,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                     .ConfigureAwait(false),
                 Page = page,
                 PageSize = pageSize,
-                Total = await _roleManager.Roles
+                TotalItems = await _roleManager.Roles
                     .Where(x => roleNames.Contains(x.Name))
                     .CountAsync(cancel)
                     .ConfigureAwait(false)
