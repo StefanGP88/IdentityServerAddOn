@@ -4,7 +4,19 @@
     var notActive = "page-item";
 }
 <nav class="float-right">
-    <ul class="pagination">
+    <ul class="pagination float-right">
+        <li class="page-item">
+            <div class="dropdown">
+                <a href="#" class="page-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dropdown button
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </div>
+        </li>
         @if (Model.LastPage >= 1)
         {
             <li class="@(Model.IsFirstPage ? active : notActive)">

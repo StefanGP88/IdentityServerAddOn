@@ -18,13 +18,13 @@
             @foreach (var item in Model?.List?.Items)
             {
                 <tr>
-                    <th scope="row">
+                    <td scope="row">
                         <button type="button" class="btn btn-info"
                                 data-toggle="modal" data-target="#editModal"
                                 data-rolename="@item?.RoleName" data-roleid="@item?.Id" data-roleConcurrency="@item?.ConcurrencyStamp">
                             Edit
                         </button>
-                    </th>
+                    </td>
                     <td>@item?.RoleName</td>
                     <td>@item?.NormalizedName</td>
                     <td>
@@ -40,18 +40,24 @@
         <caption>
             <div class="row">
                 <div class="col-6">
-                    <ul class="nav">
-                        <li class="nav-item">
-                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addModal">Add role</button>
-                        </li>
-                    </ul>
+                    <nav>
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a href="#" class="page-link" data-toggle="modal" data-target="#addModal">Add</a>
+
+                            </li>
+                        </ul>
+                    </nav>
+
                 </div>
                 <div class="col-6">
                     <partial name="_Pagenation" model="Model.List.ToPagenationInfo()" />
                 </div>
+
             </div>
         </caption>
     </table>
+
 </div>
 
 
