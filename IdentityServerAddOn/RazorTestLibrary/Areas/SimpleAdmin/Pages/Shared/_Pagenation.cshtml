@@ -2,18 +2,27 @@
 @{
     var active = "page-item active";
     var notActive = "page-item";
+
+    var pagesize = "dropdown-item";
+    var currentPagesize = "dropdown-item active";
+
+    //TODO: move this to somewhere else
+    //var pageSizes = new List<int> { 10, 25, 50, 100 };
+    var pageSizes = new List<int> { 1, 2, 3, 4 };
 }
 <nav class="float-right">
     <ul class="pagination float-right">
         <li class="page-item">
             <div class="dropdown">
                 <a href="#" class="page-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dropdown button
+                    @Model.PageSize
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    <h6 class="dropdown-header">Select page size</h6>
+                    @foreach (var item in pageSizes)
+                    {
+                        <a class="@(Model.PageSize == item ? currentPagesize : pagesize)" asp-page="@ViewContext.RouteData.Values["Page"]" asp-route-pageNumber="@Model.PageConverter(item)" asp-route-pageSize="@item">@item</a>
+                    }
                 </div>
             </div>
         </li>

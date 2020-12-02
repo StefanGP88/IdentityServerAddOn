@@ -25,5 +25,11 @@ namespace RazorTestLibrary
 
             return --page;
         }
+
+        public static int PageConverter(this PagenationInfo info, int newPageSize)
+        {
+            var currentItemIndex = info.Page * info.PageSize;
+            return currentItemIndex / newPageSize;
+        }
     }
 }

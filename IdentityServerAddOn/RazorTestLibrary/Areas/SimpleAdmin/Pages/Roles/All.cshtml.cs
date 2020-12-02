@@ -19,6 +19,7 @@ namespace RazorTestLibrary.Areas.SimpleAdmin.Pages.Roles
 
         public async Task<IActionResult> OnGetAsync(int pageNumber = 0, int pageSize = 10, CancellationToken cancel = default)
         {
+            System.Console.WriteLine(pageSize);
             List = await _handler.ReadAllRoles(pageNumber, pageSize, cancel).ConfigureAwait(false);
             return Page();
         }
