@@ -89,10 +89,11 @@ namespace IdentityServer
             app.UseIdentityServer();
 
             app.UseRouting();
+      
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+      app.UseSimpleAdmin();
             app.UseEndpoints(endpoints => endpoints.MapRazorPages());
             EnsureMigrations(app);
         }
