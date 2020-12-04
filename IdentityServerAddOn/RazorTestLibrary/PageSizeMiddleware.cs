@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace RazorTestLibrary
@@ -50,6 +49,7 @@ namespace RazorTestLibrary
                 return defaultPageSize;
             }
         }
+
         private void SetPageSizeCookie(HttpContext context, string size)
         {
             var pageSizeCookie = context.Request.Path.ToString();

@@ -1,6 +1,35 @@
 ﻿@{
     Layout = "_Layout";
 }
+<div class="container">
+    <table class="table table-striped border border-dark">
+        <thead class="thead-dark">
+            @RenderSection("TableHead", required: true)
+        </thead>
+        <tbody>
+            @RenderSection("TableBody", required: true)
+        </tbody>
+        <caption>
+            <div class="row">
+                <div class="col-6">
+                    <nav>
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a href="#" class="page-link" data-toggle="modal" data-target="#addModal">Add</a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                </div>
+                <div class="col-6">
+                    @RenderSection("Pagenation", required: true)
+                </div>
+
+            </div>
+        </caption>
+    </table>
+</div>
+
 @RenderBody()
 <!-- #region addModal -->
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">

@@ -4,63 +4,43 @@
     Layout = "_NestedLayout";
 }
 
-<div class="container">
-    <table class="table table-striped border border-dark">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col"></th>
-                <th scope="col">Role</th>
-                <th scope="col">Normalized</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model?.List?.Items)
-            {
-                <tr>
-                    <td scope="row">
-                        <button type="button" class="btn btn-info"
-                                data-toggle="modal" data-target="#editModal"
-                                data-rolename="@item?.RoleName" data-roleid="@item?.Id" data-roleConcurrency="@item?.ConcurrencyStamp">
-                            Edit
-                        </button>
-                    </td>
-                    <td>@item?.RoleName</td>
-                    <td>@item?.NormalizedName</td>
-                    <td>
-                        <button type="button" class="btn btn-danger float-right"
-                                data-toggle="modal" data-target="#deleteModal"
-                                data-rolename="@item?.RoleName" data-roleid="@item?.Id" data-roleconcurrency="@item?.ConcurrencyStamp">
-                            Delete
-                        </button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-        <caption>
-            <div class="row">
-                <div class="col-6">
-                    <nav>
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a href="#" class="page-link" data-toggle="modal" data-target="#addModal">Add</a>
 
-                            </li>
-                        </ul>
-                    </nav>
+@section TableHead {
+    <tr>
+        <th scope="col"></th>
+        <th scope="col">Role</th>
+        <th scope="col">Normalized</th>
+        <th scope="col"></th>
+    </tr>
+}
 
-                </div>
-                <div class="col-6">
-                    <partial name="_Pagenation" model="Model.List.ToPagenationInfo()" />
-                </div>
+@section TableBody{
+    @foreach (var item in Model?.List?.Items)
+    {
+        <tr>
+            <td scope="row">
+                <button type="button" class="btn btn-info"
+                        data-toggle="modal" data-target="#editModal"
+                        data-rolename="@item?.RoleName" data-roleid="@item?.Id" data-roleConcurrency="@item?.ConcurrencyStamp">
+                    Edit
+                </button>
+            </td>
+            <td>@item?.RoleName</td>
+            <td>@item?.NormalizedName</td>
+            <td>
+                <button type="button" class="btn btn-danger float-right"
+                        data-toggle="modal" data-target="#deleteModal"
+                        data-rolename="@item?.RoleName" data-roleid="@item?.Id" data-roleconcurrency="@item?.ConcurrencyStamp">
+                    Delete
+                </button>
+            </td>
+        </tr>
+    }
+}
 
-            </div>
-        </caption>
-    </table>
-
-</div>
-
-
+@section Pagenation{
+    <partial name="_Pagenation" model="Model.List.ToPagenationInfo()" />
+}
 
 @section AddModalBody{
     <form id="AddForm" method="post" asp-page-handler="Add" asp-route-pageNumber="@Model.List.Page" asp-route-pageSize="@Model.List.PageSize">
@@ -105,8 +85,7 @@
             modal.find('.modal-body #editId').val(button.data('roleid'));
             modal.find('.modal-body #editConcurrencyStamp').val(button.data('roleconcurrency'));
         });
-    </script>
-    <script type="text/javascript">
+
         $('#deleteModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var modal = $(this);
