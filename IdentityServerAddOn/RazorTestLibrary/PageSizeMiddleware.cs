@@ -10,30 +10,28 @@ namespace RazorTestLibrary
 {
     public class PageSizeMiddleware : IMiddleware
     {
-        private string defaultPageSize = "7";
+        private readonly string defaultPageSize = "10";
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
             var area = context.Request.RouteValues["area"]?.ToString();
-            if (string.Equals(area, "simpleadmin", StringComparison.OrdinalIgnoreCase))
+            var page = context.Request.RouteValues["page"]?.ToString();
+            var queryParams = QueryHelpers.ParseNullableQuery(context.Request.QueryString.Value);
+
+            if (Equals(area, "simpleadmin") && !Equals(page, "/index"))
             {
-                var page = context.Request.RouteValues["page"]?.ToString();
-                if (!string.Equals(page, "/index", StringComparison.OrdinalIgnoreCase))
+                if (queryParams == null)
                 {
-                    var queryParams = QueryHelpers.ParseNullableQuery(context.Request.QueryString.Value);
-                    if (queryParams == null)
-                    {
-                        queryParams = new Dictionary<string, StringValues>();
-                    }
-                    if (!queryParams.ContainsKey("pagesize"))
-                    {
-                        queryParams.Add("pagesize", GetPageSizeCookie(context));
-                    }
-                    else
-                    {
-                        SetPageSizeCookie(context, queryParams["pagesize"]);
-                    }
-                    context.Request.QueryString = QueryString.Create(queryParams);
+                    queryParams = new Dictionary<string, StringValues>();
                 }
+                if (!queryParams.ContainsKey("pagesize"))
+                {
+                    queryParams.Add("pagesize", GetPageSizeCookie(context));
+                }
+                else
+                {
+                    SetPageSizeCookie(context, queryParams["pagesize"]);
+                }
+                context.Request.QueryString = QueryString.Create(queryParams);
             }
             await next.Invoke(context).ConfigureAwait(false);
         }
@@ -57,5 +55,12 @@ namespace RazorTestLibrary
             var pageSizeCookie = context.Request.Path.ToString();
             context.Response.Cookies.Append(pageSizeCookie, size);
         }
+
+#nullable enable
+        private bool Equals(string? a, string? b)
+        {
+            return string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
+        }
+#nullable disable
     }
 }
