@@ -13,5 +13,6 @@ namespace Ids.SimpleAdmin.Backend.Dtos
         public bool PhoneNumberConfirmed { get; set; }
         public bool LockoutEnabled { get; set; }
         public DateTime LockoutEnd  { get; set; }
+        public string ConcurrencyStamp { get; set; }
     }
 }

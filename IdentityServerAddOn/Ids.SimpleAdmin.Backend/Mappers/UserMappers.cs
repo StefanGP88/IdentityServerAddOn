@@ -40,7 +40,8 @@ namespace Ids.SimpleAdmin.Backend.Mappers
                 PhoneNumberConfirmed = user.PhoneNumberConfirmed,
                 Use2Fa = user.TwoFactorEnabled,
                 Userid = user.Id,
-                Username = user.UserName
+                Username = user.UserName,
+                ConcurrencyStamp = user.ConcurrencyStamp
             };
         }
         public static IdentityUser UpdateModel(this IdentityUser user, UserManager<IdentityUser> userManager, UpdateUserRequestDto dto)
@@ -55,6 +56,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             user.EmailConfirmed = dto.ConfirmEmail;
             user.PhoneNumberConfirmed = dto.ConfirmPhoneNumber;
             user.LockoutEnabled = dto.EnableLockout;
+            user.ConcurrencyStamp = dto.ConcurrencyStamp;
             if (dto.EndLockout && user.LockoutEnd > DateTime.UtcNow)
             {
                 user.LockoutEnd = DateTime.UtcNow;

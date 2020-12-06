@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Ids.SimpleAdmin.Backend.Dtos
+﻿namespace Ids.SimpleAdmin.Backend.Dtos
 {
     public class CreateUserRequestDto
     {

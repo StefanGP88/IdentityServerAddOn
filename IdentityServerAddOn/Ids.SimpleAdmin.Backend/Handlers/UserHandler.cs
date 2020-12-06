@@ -28,7 +28,6 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
             var user = dto.MapToModel(_userManager);
             var result = await _userManager.CreateAsync(user, dto.Password).ConfigureAwait(false);
-
             if (!result.Succeeded)
             {
                 throw new Exception("Not created");
@@ -86,27 +85,27 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                         .ToListAsync(cancel)
                         .ConfigureAwait(false)
             };
-    }
+        }
 
-    private async Task IsEmailAvailable(string email)
-    {
-        var user = await _userManager.FindByEmailAsync(email).ConfigureAwait(false);
-        if (user != null) throw new Exception("Email not available");
-    }
-
-    private async Task IsUsernameAvailable(string username)
-    {
-        var user = await _userManager.FindByNameAsync(username).ConfigureAwait(false);
-        if (user != null) throw new Exception("Username not available");
-    }
-
-    private async Task IsValidPassword(string pw)
-    {
-        foreach (var item in _userManager.PasswordValidators)
+        private async Task IsEmailAvailable(string email)
         {
-            var result = await item.ValidateAsync(_userManager, null, pw).ConfigureAwait(false);
-            if (!result.Succeeded) throw new Exception(result.Errors.First().Description);
+            var user = await _userManager.FindByEmailAsync(email).ConfigureAwait(false);
+            if (user != null) throw new Exception("Email not available");
+        }
+
+        private async Task IsUsernameAvailable(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username).ConfigureAwait(false);
+            if (user != null) throw new Exception("Username not available");
+        }
+
+        private async Task IsValidPassword(string pw)
+        {
+            foreach (var item in _userManager.PasswordValidators)
+            {
+                var result = await item.ValidateAsync(_userManager, null, pw).ConfigureAwait(false);
+                if (!result.Succeeded) throw new Exception(result.Errors.First().Description);
+            }
         }
     }
-}
 }

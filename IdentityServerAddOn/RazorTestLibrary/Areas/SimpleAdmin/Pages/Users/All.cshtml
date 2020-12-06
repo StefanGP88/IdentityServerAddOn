@@ -1,0 +1,148 @@
+﻿@page "{handler?}"
+@model RazorTestLibrary.Areas.SimpleAdmin.Pages.Users.AllModel
+@{
+    Layout = "_NestedLayout";
+}
+
+
+
+@section TableHead {
+    <tr>
+        <th scope="col"></th>
+        <th scope="col">Username</th>
+        <th scope="col">Email</th>
+        <th scope="col">Phone</th>
+        <th scope="col"></th>
+    </tr>
+}
+
+@section TableBody{
+    @foreach (var item in Model?.List?.Items)
+    {
+        <tr>
+            <td scope="row">
+                <button type="button" class="btn btn-info"
+                        data-toggle="modal" data-target="#editModal"
+                        data-userid="@item?.Userid"
+                        data-username="@item?.Username"
+                        data-email="@item?.Email"
+                        data-phonenumber="@item?.Phonenumber"
+                        data-use2fa="@item?.Use2Fa"
+                        data-emailconfirmed="@item?.EmailConfirmed"
+                        data-phonenumberconfirmed="@item?.PhoneNumberConfirmed"
+                        data-lockoutenabled="@item?.LockoutEnabled"
+                        data-lockoutend="@item?.LockoutEnd"
+                        data-concurrencystamp="@item?.ConcurrencyStamp"
+                        data-roleConcurrency="@item?.ConcurrencyStamp">
+                    Edit
+                </button>
+            </td>
+            <td>@item?.Username</td>
+            <td>@item?.Email</td>
+            <td>@item?.Phonenumber</td>
+            <td>
+                <button type="button" class="btn btn-danger float-right"
+                        data-toggle="modal" data-target="#deleteModal"
+                        data-userid="@item?.Userid"
+                        data-username="@item?.Username"
+                        data-email="@item?.Email"
+                        data-phonenumber="@item?.Phonenumber"
+                        data-use2fa="@item?.Use2Fa"
+                        data-emailconfirmed="@item?.EmailConfirmed"
+                        data-phonenumberconfirmed="@item?.PhoneNumberConfirmed"
+                        data-lockoutenabled="@item?.LockoutEnabled"
+                        data-lockoutend="@item?.LockoutEnd"
+                        data-concurrencystamp="@item?.ConcurrencyStamp"
+                        data-roleConcurrency="@item?.ConcurrencyStamp">
+                    Delete
+                </button>
+            </td>
+        </tr>
+    }
+}
+
+@section Pagenation{
+    <partial name="_Pagenation" model="Model.List.ToPagenationInfo()" />
+}
+
+@section AddModalBody{
+    <form id="AddForm" method="post" asp-page-handler="Add" asp-route-pageNumber="@Model.List.Page" asp-route-pageSize="@Model.List.PageSize">
+        @*Is there no tag helper for adding a anti forgery token? *@
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Username</label>
+            <input type="text" class="form-control" id="addUsername" name="dto.Username">
+        </div>
+        <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Password</label>
+            <input type="password" class="form-control" id="addPassword" name="dto.Password" />
+        </div>
+        <div class="form-group">
+            <label for="reciepent-name" class="col-form-label">E-mail</label>
+            <input type="email" class="form-control" id="addEmail" name="dto.Email" />
+        </div>
+        <div class="form-group">
+            <label for="reciepient-name" class="col-form-label">Phone number</label>
+            <input type="tel" class="form-control" id="addPhoneNumber" name="dto.PhoneNumber" />
+        </div>
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="addUse2fa" name="dto.Use2Fa" value="True" />
+            <label for="reciepent-name" class="form-check-label">Use two factor authentication</label>
+        </div>
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="addConfirmEmail" name="dto.ConfirmEmail" value="True" />
+            <label for="reciepent-name" class="form-check-label">Confirm e-mail</label>
+        </div>
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="addConfirmPhoneNumber" name="dto.ConfirmPhoneNumber" value="True" />
+            <label for="reciepent-name" class="form-check-label">Confirm phone number</label>
+        </div>
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="addEnableLockout" name="dto.EnableLockout" value="True" />
+            <label for="reciepent-name" class="form-check-label">Enable lockout</label>
+        </div>
+    </form>
+}
+
+@section EditModalBody{
+    <form id="EditForm" method="post" asp-page-handler="Edit" asp-route-pageNumber="@Model.List.Page" asp-route-pageSize="@Model.List.PageSize">
+        @Html.AntiForgeryToken()
+        <div class="form-group">
+            <label for="recipient-name" class="col-form-label">RoleName</label>
+            <input type="text" class="form-control" id="editRoleName" name="dto.RoleName">
+        </div>
+        <input type="hidden" id="editId" name="dto.Id" />
+        <input type="hidden" id="editConcurrencyStamp" name="dto.ConcurrencyStamp" />
+    </form>
+}
+
+@section DeleteModalBody{
+    <div class="alert alert-danger" role="alert">
+        Are you sure you want to delete the <span id="deleteRoleName"></span> role?
+    </div>
+    <form id="DeleteForm" method="post" asp-page-handler="Delete" asp-route-pageNumber="@Model.List.Page" asp-route-pageSize="@Model.List.PageSize">
+        @Html.AntiForgeryToken()
+        <input type="hidden" id="deleteId" name="dto.Id" />
+        <input type="hidden" id="deleteConcurrencyStamp" name="dto.ConcurrencyStamp" />
+    </form>
+}
+
+@section Scripts{
+    <script type="text/javascript">
+        $('#editModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            modal.find('.modal-body #editRoleName').val(button.data('rolename'));
+            modal.find('.modal-body #editId').val(button.data('roleid'));
+            modal.find('.modal-body #editConcurrencyStamp').val(button.data('roleconcurrency'));
+        });
+
+        $('#deleteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            modal.find('.modal-body #deleteRoleName').text(button.data('rolename'));
+            modal.find('.modal-body #deleteId').val(button.data('roleid'));
+            modal.find('.modal-body #deleteConcurrencyStamp').val(button.data('roleconcurrency'));
+        });
+    </script>
+}

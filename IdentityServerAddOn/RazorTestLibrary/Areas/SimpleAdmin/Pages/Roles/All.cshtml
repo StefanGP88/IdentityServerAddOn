@@ -47,7 +47,7 @@
         @*Is there no tag helper for adding a anti forgery token? *@
         @Html.AntiForgeryToken()
         <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Rolename add</label>
+            <label for="recipient-name" class="col-form-label">Rolename</label>
             <input type="text" class="form-control" id="addRoleName" name="roleName">
         </div>
     </form>
@@ -57,7 +57,7 @@
     <form id="EditForm" method="post" asp-page-handler="Edit" asp-route-pageNumber="@Model.List.Page" asp-route-pageSize="@Model.List.PageSize">
         @Html.AntiForgeryToken()
         <div class="form-group">
-            <label for="recipient-name" class="col-form-label">RoleName edit</label>
+            <label for="recipient-name" class="col-form-label">RoleName</label>
             <input type="text" class="form-control" id="editRoleName" name="dto.RoleName">
         </div>
         <input type="hidden" id="editId" name="dto.Id" />

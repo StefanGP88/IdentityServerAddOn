@@ -11,5 +11,6 @@
         public bool ConfirmPhoneNumber { get; set; }
         public bool EnableLockout { get; set; }
         public bool EndLockout { get; set; }
+        public string ConcurrencyStamp { get; set; }
     }
 }
