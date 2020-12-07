@@ -30,10 +30,9 @@ namespace Ids.SimpleAdmin.Backend.Mappers
                 SecurityStamp = Guid.NewGuid().ToString()
             };
         }
-        public static UserResponseDto MapToDto(this IdentityUser user)
+        public static async Task<UserResponseDto> MapToDtoAsync(this IdentityUser user, UserManager<IdentityUser> userManager)
         {
             if (user == null) return null;
-
 
             return new UserResponseDto
             {
@@ -46,7 +45,8 @@ namespace Ids.SimpleAdmin.Backend.Mappers
                 Use2Fa = user.TwoFactorEnabled,
                 Userid = user.Id,
                 Username = user.UserName,
-                ConcurrencyStamp = user.ConcurrencyStamp
+                ConcurrencyStamp = user.ConcurrencyStamp,
+                Roles = (List<string>)await userManager.GetRolesAsync(user).ConfigureAwait(false)
             };
         }
         public static IdentityUser UpdateModel(this IdentityUser user, UserManager<IdentityUser> userManager, UpdateUserRequestDto dto)

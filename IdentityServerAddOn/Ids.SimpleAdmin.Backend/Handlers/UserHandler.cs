@@ -71,26 +71,26 @@ namespace Ids.SimpleAdmin.Backend.Handlers
         {
             var user = await _userManager.FindByIdAsync(userId).ConfigureAwait(false);
             if (user == null) throw new Exception("User not found");
-            return user.MapToDto();
+            return await user.MapToDtoAsync(_userManager).ConfigureAwait(false);
         }
 
         public async Task<ListDto<UserResponseDto>> ReadAllUsers(int page, int pagesize, CancellationToken cancel)
         {
+            var userQuery = _userManager.Users
+                        .OrderBy(x => x.UserName)
+                        .Skip(page * pagesize)
+                        .Take(pagesize)
+                        .Select(x => x.MapToDtoAsync(_userManager))
+                        .ToList();
+
+            var userResult = await Task.WhenAll(userQuery).ConfigureAwait(false);
+
             return new ListDto<UserResponseDto>
             {
                 Page = page,
                 PageSize = pagesize,
-                TotalItems = await _userManager
-                        .Users.CountAsync(cancel)
-                        .ConfigureAwait(false),
-                Items = await _userManager
-                        .Users
-                        .OrderBy(x => x.UserName)
-                        .Skip(page * pagesize)
-                        .Take(pagesize)
-                        .Select(x => x.MapToDto())
-                        .ToListAsync(cancel)
-                        .ConfigureAwait(false)
+                TotalItems = userResult.Length,
+                Items = userResult.ToList()
             };
         }
 
