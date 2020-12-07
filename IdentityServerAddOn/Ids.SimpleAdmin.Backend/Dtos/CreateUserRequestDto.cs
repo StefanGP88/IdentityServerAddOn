@@ -1,4 +1,6 @@
-﻿namespace Ids.SimpleAdmin.Backend.Dtos
+﻿using System.Collections.Generic;
+
+namespace Ids.SimpleAdmin.Backend.Dtos
 {
     public class CreateUserRequestDto
     {
@@ -10,5 +12,7 @@
         public bool ConfirmEmail { get; set; }
         public bool ConfirmPhoneNumber { get; set; }
         public bool EnableLockout { get; set; }
+
+        public List<string> Roles { get; set; }
     }
 }

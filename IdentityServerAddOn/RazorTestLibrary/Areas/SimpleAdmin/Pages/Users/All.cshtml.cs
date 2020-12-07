@@ -7,34 +7,42 @@ namespace RazorTestLibrary.Areas.SimpleAdmin.Pages.Users
 {
     public class AllModel : BasePageModel<UserResponseDto>
     {
-        private readonly IUserHandler _handler;
-        public AllModel(IUserHandler handler)
+        private readonly IUserHandler _userHandler;
+        private readonly IRoleHandler _roleHandler;
+        public ListDto<RoleResponseDto> UserRoleList { get; set; }
+
+        public AllModel(IUserHandler userHandler, IRoleHandler roleHandler)
         {
-            _handler = handler;
+            _userHandler = userHandler;
+            _roleHandler = roleHandler;
         }
         public IActionResult OnGet(CancellationToken cancel = default)
         {
-            List = _handler.ReadAllUsers(PageNumber, PageSize, cancel).GetAwaiter().GetResult();
+            List = _userHandler.ReadAllUsers(PageNumber, PageSize, cancel).GetAwaiter().GetResult();
+            UserRoleList = _roleHandler.ReadAllRoles(cancel).GetAwaiter().GetResult();
             return Page();
         }
         public IActionResult OnPostAdd([FromForm] CreateUserRequestDto dto, CancellationToken cancel = default)
         {
-            _handler.CreateUser(dto).GetAwaiter().GetResult();
-            List = _handler.ReadAllUsers(PageNumber, PageSize, cancel).GetAwaiter().GetResult();
+            _userHandler.CreateUser(dto).GetAwaiter().GetResult();
+            List = _userHandler.ReadAllUsers(PageNumber, PageSize, cancel).GetAwaiter().GetResult();
+            UserRoleList = _roleHandler.ReadAllRoles(cancel).GetAwaiter().GetResult();
             return Page();
         }
 
         public IActionResult OnPostEdit([FromForm] UpdateUserRequestDto dto, CancellationToken cancel = default)
         {
-            _handler.UpdateUser(dto).GetAwaiter().GetResult();
-            List = _handler.ReadAllUsers(PageNumber, PageSize, cancel).GetAwaiter().GetResult();
+            _userHandler.UpdateUser(dto).GetAwaiter().GetResult();
+            List = _userHandler.ReadAllUsers(PageNumber, PageSize, cancel).GetAwaiter().GetResult();
+            UserRoleList = _roleHandler.ReadAllRoles(cancel).GetAwaiter().GetResult();
             return Page();
         }
 
         public IActionResult OnPostDelete(string userId,  CancellationToken cancel = default)
         {
-            _handler.DeleteUser(userId).GetAwaiter().GetResult();
-            List = _handler.ReadAllUsers(PageNumber, PageSize, cancel).GetAwaiter().GetResult();
+            _userHandler.DeleteUser(userId).GetAwaiter().GetResult();
+            List = _userHandler.ReadAllUsers(PageNumber, PageSize, cancel).GetAwaiter().GetResult();
+            UserRoleList = _roleHandler.ReadAllRoles(cancel).GetAwaiter().GetResult();
             return Page();
         }
     }

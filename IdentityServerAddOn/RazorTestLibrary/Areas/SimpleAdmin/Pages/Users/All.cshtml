@@ -101,6 +101,15 @@
             <input type="checkbox" class="form-check-input" id="addEnableLockout" name="dto.EnableLockout" value="True" />
             <label for="reciepent-name" class="form-check-label">Enable lockout</label>
         </div>
+        <div class="form-group">
+            <label for="exampleFormControlSelect2">Roles</label>
+            <select multiple class="form-control" id="exampleFormControlSelect2" name="dto.Roles">
+                @foreach (var item in Model.UserRoleList.Items)
+                {
+                <option value="@item.RoleName">@item.RoleName</option>
+                }
+            </select>
+        </div>
     </form>
 }
 

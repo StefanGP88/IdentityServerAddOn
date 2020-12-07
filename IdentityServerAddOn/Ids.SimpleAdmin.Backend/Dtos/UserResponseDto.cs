@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Ids.SimpleAdmin.Backend.Dtos
 {
@@ -14,5 +15,6 @@ namespace Ids.SimpleAdmin.Backend.Dtos
         public bool LockoutEnabled { get; set; }
         public DateTime LockoutEnd  { get; set; }
         public string ConcurrencyStamp { get; set; }
+        public List<string> Roles { get; set; }
     }
 }

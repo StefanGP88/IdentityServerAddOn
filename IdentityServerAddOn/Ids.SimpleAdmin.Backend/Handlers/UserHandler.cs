@@ -4,6 +4,7 @@ using Ids.SimpleAdmin.Backend.Mappers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,6 +32,11 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             if (!result.Succeeded)
             {
                 throw new Exception("Not created");
+            }
+            var roleResult = await _userManager.AddToRolesAsync(user, dto.Roles).ConfigureAwait(false);
+            if (!roleResult.Succeeded)
+            {
+                throw new Exception("Roles was not added to user");
             }
         }
 
@@ -79,6 +85,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                         .ConfigureAwait(false),
                 Items = await _userManager
                         .Users
+                        .OrderBy(x => x.UserName)
                         .Skip(page * pagesize)
                         .Take(pagesize)
                         .Select(x => x.MapToDto())

@@ -27,11 +27,10 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             var result = await _roleManager.CreateAsync(role).ConfigureAwait(false);
 
             CheckResult(result);
-
             return role.MapToDto();
         }
 
-        public async Task<ListDto<RoleResponseDto>> ReadAllRoles(int page, int pageSize, CancellationToken cancel)
+        public async Task<ListDto<RoleResponseDto>> ReadRoles(int page, int pageSize, CancellationToken cancel)
         {
             return new ListDto<RoleResponseDto>
             {
@@ -47,6 +46,24 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 TotalItems = await _roleManager.Roles
                         .CountAsync(cancel)
                         .ConfigureAwait(false)
+            };
+        }
+
+        public async Task<ListDto<RoleResponseDto>> ReadAllRoles(CancellationToken cancel)
+        {
+            var roleCount = await _roleManager.Roles
+                        .CountAsync(cancel)
+                        .ConfigureAwait(false);
+            return new ListDto<RoleResponseDto>
+            {
+                Items = await _roleManager.Roles
+                        .OrderBy(x => x.Name)
+                        .Select(x => x.MapToDto())
+                        .ToListAsync(cancel)
+                        .ConfigureAwait(false),
+                Page = 0,
+                PageSize = roleCount,
+                TotalItems = roleCount
             };
         }
 

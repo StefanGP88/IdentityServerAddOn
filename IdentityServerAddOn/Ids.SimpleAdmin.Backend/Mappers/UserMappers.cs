@@ -1,6 +1,9 @@
 ﻿using Ids.SimpleAdmin.Backend.Dtos;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Ids.SimpleAdmin.Backend.Mappers
 {
@@ -30,6 +33,8 @@ namespace Ids.SimpleAdmin.Backend.Mappers
         public static UserResponseDto MapToDto(this IdentityUser user)
         {
             if (user == null) return null;
+
+
             return new UserResponseDto
             {
                 Email = user.Email,
