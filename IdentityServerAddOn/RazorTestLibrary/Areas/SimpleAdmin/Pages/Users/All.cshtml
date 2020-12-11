@@ -252,15 +252,25 @@
             $('#addLockoutEndTime').val('@DateTime.MinValue.ToString("T", System.Globalization.CultureInfo.InvariantCulture)');
             $('#addLockoutEnd').val(date + " " + time);
         });
-        $('#addLockoutEndDate').on('change', function (event) {
+        $('#addLockoutEndDate').on('change', function () {
             var date = $('#addLockoutEndDate').val();
             var time = $('#addLockoutEndTime').val();
             $('#addLockoutEnd').val(date + " " + time);
         });
-        $('#addLockoutEndTime').on('change', function (event) {
+        $('#addLockoutEndTime').on('change', function () {
             var date = $('#addLockoutEndDate').val();
             var time = $('#addLockoutEndTime').val();
             $('#addLockoutEnd').val(date + " " + time);
+        });
+        $('#editLockoutEndDate').on('change', function () {
+            var date = $('#editLockoutEndDate').val();
+            var time = $('#editLockoutEndTime').val();
+            $('#editLockoutEnd').val(date + " " + time);
+        });
+        $('#editLockoutEndTime').on('change', function () {
+            var date = $('#editLockoutEndDate').val();
+            var time = $('#editLockoutEndTime').val();
+            $('#editLockoutEnd').val(date + " " + time);
         });
 
         $('#editModal').on('show.bs.modal', function (event) {
@@ -280,15 +290,14 @@
             var rolelist = button.data('rolelist');
             @foreach (var item in Model.UserRoleList.Items)@*not exactly pretty but will do for now*@
             {
-                <text>modal.find('.modal-body @("#editRole"+item.RoleName)').prop('checked', rolelist.includes('@item.RoleName'));
-            </text>
+                <text>modal.find('.modal-body @("#editRole"+item.RoleName)').prop('checked', rolelist.includes('@item.RoleName'));</text>
             }
         });
 
         $('#deleteModal').on('show.bs.modal', function (event) {
-                    var button = $(event.relatedTarget);
-                var modal = $(this);
-                modal.find('.modal-body #deleteRoleName').text(button.data('rolename'));
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            modal.find('.modal-body #deleteRoleName').text(button.data('rolename'));
             modal.find('.modal-body #deleteId').val(button.data('roleid'));
             modal.find('.modal-body #deleteConcurrencyStamp').val(button.data('roleconcurrency'));
         });
