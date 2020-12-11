@@ -280,13 +280,7 @@
             var rolelist = button.data('rolelist');
             @foreach (var item in Model.UserRoleList.Items)@*not exactly pretty but will do for now*@
             {
-                <text>
-            if (rolelist.includes('@item.RoleName'))
-            {
-                modal.find('.modal-body @("#editRole"+item.RoleName)').prop('checked', true);
-            } else {
-                modal.find('.modal-body @("#editRole"+item.RoleName)').prop('checked', false);
-            }
+                <text>modal.find('.modal-body @("#editRole"+item.RoleName)').prop('checked', rolelist.includes('@item.RoleName'));
             </text>
             }
         });
