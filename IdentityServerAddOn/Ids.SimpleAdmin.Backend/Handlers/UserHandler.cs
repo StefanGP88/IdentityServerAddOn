@@ -33,11 +33,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             {
                 throw new Exception("Not created");
             }
-            var roleResult = await _userManager.AddToRolesAsync(user, dto.Roles).ConfigureAwait(false);
-            if (!roleResult.Succeeded)
-            {
-                throw new Exception("Roles was not added to user");
-            }
+            await UpdateUserRole(user, dto.Roles).ConfigureAwait(false);
         }
 
         public async Task UpdateUser(UpdateUserRequestDto dto)
@@ -58,6 +54,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             {
                 throw new Exception("Not updated");
             }
+            await UpdateUserRole(user, dto.Roles).ConfigureAwait(false);       
         }
 
         public async Task DeleteUser(string userId)
@@ -92,6 +89,24 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 TotalItems = userResult.Length,
                 Items = userResult.ToList()
             };
+        }
+
+        private async Task UpdateUserRole(IdentityUser user, List<string> roles)
+        {
+            var currentRoles = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
+            var toRemove = currentRoles.Where(x => !roles.Contains(x)).ToList();
+            var toAdd = roles.Where(x => !currentRoles.Contains(x)).ToList();
+
+            var roleRemoveResult = await _userManager.RemoveFromRolesAsync(user, toRemove).ConfigureAwait(false);
+            if (!roleRemoveResult.Succeeded)
+            {
+                throw new Exception("Roles was not removed from user");
+            }
+            var roleAddResult = await _userManager.AddToRolesAsync(user, toAdd).ConfigureAwait(false);
+            if (!roleAddResult.Succeeded)
+            {
+                throw new Exception("Roles was not added to user");
+            }
         }
 
         private async Task IsEmailAvailable(string email)

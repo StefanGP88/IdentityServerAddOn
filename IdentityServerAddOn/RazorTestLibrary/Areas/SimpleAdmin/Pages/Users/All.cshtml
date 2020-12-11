@@ -31,7 +31,8 @@
                         data-emailconfirmed="@item?.EmailConfirmed"
                         data-phonenumberconfirmed="@item?.PhoneNumberConfirmed"
                         data-lockoutenabled="@item?.LockoutEnabled"
-                        data-lockoutend="@item?.LockoutEnd"
+                        data-lockoutenddate="@item?.LockoutEnd.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)"
+                        data-lockoutendtime="@item?.LockoutEnd.ToString("T", System.Globalization.CultureInfo.InvariantCulture)"
                         data-concurrencystamp="@item?.ConcurrencyStamp"
                         data-rolelist="@(item.Roles.Any() ? "['" + string.Join("', '", item.Roles) + "']" : "[]")">
                     Edit
@@ -51,7 +52,8 @@
                         data-emailconfirmed="@item?.EmailConfirmed"
                         data-phonenumberconfirmed="@item?.PhoneNumberConfirmed"
                         data-lockoutenabled="@item?.LockoutEnabled"
-                        data-lockoutend="@item?.LockoutEnd"
+                        data-lockoutenddate="@item?.LockoutEnd.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)"
+                        data-lockoutendtime="@item?.LockoutEnd.ToString("T", System.Globalization.CultureInfo.InvariantCulture)"
                         data-concurrencystamp="@item?.ConcurrencyStamp"
                         data-rolelist="@(item.Roles.Any() ? "['" + string.Join("', '", item.Roles) + "']" : "[]")">
                     Delete
@@ -87,7 +89,7 @@
         </div>
         <fieldset class="form-group">
             <legend class="col-form-label">User options</legend>
-            <div class="card" style="height: 140px; overflow-y:scroll">
+            <div class="card" style="max-height: 140px; overflow-y: scroll">
                 <div class="card-body">
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="addUse2fa" name="dto.Use2Fa" value="True" />
@@ -101,22 +103,43 @@
                         <input type="checkbox" class="form-check-input" id="addConfirmPhoneNumber" name="dto.ConfirmPhoneNumber" value="True" />
                         <label for="reciepent-name" class="form-check-label">Confirm phone number</label>
                     </div>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="form-group">
+            <legend class="col-form-label">Lockout options</legend>
+            <div class="card" style="max-height: 140px; overflow-y: scroll">
+                <div class="card-body">
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="addEnableLockout" name="dto.EnableLockout" value="True" />
                         <label for="reciepent-name" class="form-check-label">Enable lockout</label>
+                    </div>
+                    <label for="recipient-name" class="col-form-label">Lockout end</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="date" class="form-control" id="addLockoutEndDate">
+                            </div>
+                        </div>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <input type="time" class="form-control" id="addLockoutEndTime">
+                            </div>
+                        </div>
+                        <input type="hidden" id="addLockoutEnd" name="dto.LockoutEnd" value="@DateTime.MinValue.ToString("s", System.Globalization.CultureInfo.InvariantCulture)" />
                     </div>
                 </div>
             </div>
         </fieldset>
         <fieldset class="form-group">
-            <legend class="col-form-label">User options</legend>
+            <legend class="col-form-label">Roles</legend>
             <div class="form-group">
-                <div class="card" style="height: 140px; overflow-y:scroll">
+                <div class="card" style="max-height: 140px; overflow-y: scroll">
                     <div class="card-body">
                         @foreach (var item in Model.UserRoleList.Items)
                         {
                             <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="addEnableLockout" name="dto.Roles[@Model.UserRoleList.Items.IndexOf(item)]" value="@item.RoleName" />
+                                <input type="checkbox" class="form-check-input" id="@("addRole"+item.RoleName)" name="dto.Roles[@Model.UserRoleList.Items.IndexOf(item)]" value="@item.RoleName" />
                                 <label for="reciepent-name" class="form-check-label">@item.RoleName</label>
                             </div>
                         }
@@ -131,9 +154,81 @@
     <form id="EditForm" method="post" asp-page-handler="Edit" asp-route-pageNumber="@Model.List.Page" asp-route-pageSize="@Model.List.PageSize">
         @Html.AntiForgeryToken()
         <div class="form-group">
-            <label for="recipient-name" class="col-form-label">RoleName</label>
-            <input type="text" class="form-control" id="editRoleName" name="dto.RoleName">
+            <label for="recipient-name" class="col-form-label">Username</label>
+            <input type="text" class="form-control" id="editUsername" name="dto.Username">
         </div>
+        <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Password</label>
+            <input type="password" class="form-control" id="editPassword" name="dto.Password" />
+        </div>
+        <div class="form-group">
+            <label for="reciepent-name" class="col-form-label">E-mail</label>
+            <input type="email" class="form-control" id="editEmail" name="dto.Email" />
+        </div>
+        <div class="form-group">
+            <label for="reciepient-name" class="col-form-label">Phone number</label>
+            <input type="tel" class="form-control" id="editPhoneNumber" name="dto.PhoneNumber" />
+        </div>
+        <fieldset class="form-group">
+            <legend class="col-form-label">User options</legend>
+            <div class="card" style="max-height: 140px; overflow-y: scroll">
+                <div class="card-body">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="editUse2fa" name="dto.Use2Fa" value="True" />
+                        <label for="reciepent-name" class="form-check-label">Use two factor authentication</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="editConfirmEmail" name="dto.ConfirmEmail" value="True" />
+                        <label for="reciepent-name" class="form-check-label">Confirm e-mail</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="editConfirmPhoneNumber" name="dto.ConfirmPhoneNumber" value="True" />
+                        <label for="reciepent-name" class="form-check-label">Confirm phone number</label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="form-group">
+            <legend class="col-form-label">Lockout options</legend>
+            <div class="card" style="max-height: 140px; overflow-y: scroll">
+                <div class="card-body">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="editEnableLockout" name="dto.EnableLockout" value="True" />
+                        <label for="reciepent-name" class="form-check-label">Enable lockout</label>
+                    </div>
+                    <label for="recipient-name" class="col-form-label">Lockout end</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input type="date" class="form-control" id="editLockoutEndDate">
+                            </div>
+                        </div>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <input type="time" class="form-control" id="editLockoutEndTime">
+                            </div>
+                        </div>
+                        <input type="hidden" id="editLockoutEnd" name="dto.LockoutEnd" value="@DateTime.MinValue.ToString("s", System.Globalization.CultureInfo.InvariantCulture)" />
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="form-group">
+            <legend class="col-form-label">Roles</legend>
+            <div class="form-group">
+                <div class="card" style="max-height: 140px; overflow-y: scroll">
+                    <div class="card-body">
+                        @foreach (var item in Model.UserRoleList.Items)
+                        {
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="@("editRole"+item.RoleName)" name="dto.Roles[@Model.UserRoleList.Items.IndexOf(item)]" value="@item.RoleName" />
+                                <label for="reciepent-name" class="form-check-label">@item.RoleName</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </fieldset>
         <input type="hidden" id="editId" name="dto.Id" />
         <input type="hidden" id="editConcurrencyStamp" name="dto.ConcurrencyStamp" />
     </form>
@@ -152,18 +247,54 @@
 
 @section Scripts{
     <script type="text/javascript">
+        $(document).ready(function () {
+            $('#addLockoutEndDate').val('@DateTime.MinValue.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)');
+            $('#addLockoutEndTime').val('@DateTime.MinValue.ToString("T", System.Globalization.CultureInfo.InvariantCulture)');
+            $('#addLockoutEnd').val(date + " " + time);
+        });
+        $('#addLockoutEndDate').on('change', function (event) {
+            var date = $('#addLockoutEndDate').val();
+            var time = $('#addLockoutEndTime').val();
+            $('#addLockoutEnd').val(date + " " + time);
+        });
+        $('#addLockoutEndTime').on('change', function (event) {
+            var date = $('#addLockoutEndDate').val();
+            var time = $('#addLockoutEndTime').val();
+            $('#addLockoutEnd').val(date + " " + time);
+        });
+
         $('#editModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var modal = $(this);
-            modal.find('.modal-body #editRoleName').val(button.data('rolename'));
-            modal.find('.modal-body #editId').val(button.data('roleid'));
-            modal.find('.modal-body #editConcurrencyStamp').val(button.data('roleconcurrency'));
+            modal.find('.modal-body #editId').val(button.data('userid'));
+            modal.find('.modal-body #editUsername').val(button.data('username'));
+            modal.find('.modal-body #editEmail').val(button.data('email'));
+            modal.find('.modal-body #editPhoneNumber').val(button.data('phonenumber'));
+            modal.find('.modal-body #editUse2fa').val(button.data('use2fa'));
+            modal.find('.modal-body #editConfirmEmail').val(button.data('emailconfirmed'));
+            modal.find('.modal-body #editConfirmPhoneNumber').val(button.data('phonenumberconfirmed'));
+            modal.find('.modal-body #editEnableLockout').val(button.data('lockoutenabled'));
+            modal.find('.modal-body #editLockoutEndDate').val(button.data('lockoutenddate'));
+            modal.find('.modal-body #editLockoutEndTime').val(button.data('lockoutendtime'));
+            modal.find('.modal-body #editConcurrencyStamp').val(button.data('concurrencystamp'));
+            var rolelist = button.data('rolelist');
+            @foreach (var item in Model.UserRoleList.Items)@*not exactly pretty but will do for now*@
+            {
+                <text>
+            if (rolelist.includes('@item.RoleName'))
+            {
+                modal.find('.modal-body @("#editRole"+item.RoleName)').prop('checked', true);
+            } else {
+                modal.find('.modal-body @("#editRole"+item.RoleName)').prop('checked', false);
+            }
+            </text>
+            }
         });
 
         $('#deleteModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget);
-            var modal = $(this);
-            modal.find('.modal-body #deleteRoleName').text(button.data('rolename'));
+                    var button = $(event.relatedTarget);
+                var modal = $(this);
+                modal.find('.modal-body #deleteRoleName').text(button.data('rolename'));
             modal.find('.modal-body #deleteId').val(button.data('roleid'));
             modal.find('.modal-body #deleteConcurrencyStamp').val(button.data('roleconcurrency'));
         });

@@ -26,7 +26,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
                 NormalizedEmail = userManager.NormalizeEmail(dto.Email),
                 NormalizedUserName = userManager.NormalizeName(dto.Username),
                 LockoutEnabled = dto.EnableLockout,
-                LockoutEnd = null,
+                LockoutEnd = dto.EndLockout,
                 SecurityStamp = Guid.NewGuid().ToString()
             };
         }
@@ -62,11 +62,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             user.PhoneNumberConfirmed = dto.ConfirmPhoneNumber;
             user.LockoutEnabled = dto.EnableLockout;
             user.ConcurrencyStamp = dto.ConcurrencyStamp;
-            if (dto.EndLockout && user.LockoutEnd > DateTime.UtcNow)
-            {
-                user.LockoutEnd = DateTime.UtcNow;
-            }
-
+            user.LockoutEnd = dto.EndLockout;
             return user;
         }
     }
