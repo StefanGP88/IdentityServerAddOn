@@ -69,84 +69,185 @@
 
 @section AddModalBody{
     <form id="AddForm" method="post" asp-page-handler="Add" asp-route-pageNumber="@Model.List.Page" asp-route-pageSize="@Model.List.PageSize">
-        @*Is there no tag helper for adding a anti forgery token? *@
         @Html.AntiForgeryToken()
-        <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Username</label>
-            <input type="text" class="form-control" id="addUsername" name="dto.Username">
-        </div>
-        <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Password</label>
-            <input type="password" class="form-control" id="addPassword" name="dto.Password" />
-        </div>
-        <div class="form-group">
-            <label for="reciepent-name" class="col-form-label">E-mail</label>
-            <input type="email" class="form-control" id="addEmail" name="dto.Email" />
-        </div>
-        <div class="form-group">
-            <label for="reciepient-name" class="col-form-label">Phone number</label>
-            <input type="tel" class="form-control" id="addPhoneNumber" name="dto.PhoneNumber" />
-        </div>
-        <fieldset class="form-group">
-            <legend class="col-form-label">User options</legend>
-            <div class="card" style="max-height: 140px; overflow-y: scroll">
-                <div class="card-body">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="addUse2fa" name="dto.Use2Fa" value="True" />
-                        <label for="reciepent-name" class="form-check-label">Use two factor authentication</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="addConfirmEmail" name="dto.ConfirmEmail" value="True" />
-                        <label for="reciepent-name" class="form-check-label">Confirm e-mail</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="addConfirmPhoneNumber" name="dto.ConfirmPhoneNumber" value="True" />
-                        <label for="reciepent-name" class="form-check-label">Confirm phone number</label>
-                    </div>
-                </div>
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-basesettings-tab" data-toggle="tab" href="#nav-basesettings" role="tab" aria-controls="nav-basesettings" aria-selected="true">Base Settings</a>
+                <a class="nav-item nav-link" id="nav-roles-tab" data-toggle="tab" href="#nav-roles" role="tab" aria-controls="nav-roles" aria-selected="false">Roles</a>
+                <a class="nav-item nav-link" id="nav-claims-tab" data-toggle="tab" href="#nav-claims" role="tab" aria-controls="nav-claims" aria-selected="false">User claims</a>
             </div>
-        </fieldset>
-        <fieldset class="form-group">
-            <legend class="col-form-label">Lockout options</legend>
-            <div class="card" style="max-height: 140px; overflow-y: scroll">
-                <div class="card-body">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="addEnableLockout" name="dto.EnableLockout" value="True" />
-                        <label for="reciepent-name" class="form-check-label">Enable lockout</label>
-                    </div>
-                    <label for="recipient-name" class="col-form-label">Lockout end</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <input type="date" class="form-control" id="addLockoutEndDate">
-                            </div>
-                        </div>
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <input type="time" class="form-control" id="addLockoutEndTime">
-                            </div>
-                        </div>
-                        <input type="hidden" id="addLockoutEnd" name="dto.LockoutEnd" value="@DateTime.MinValue.ToString("s", System.Globalization.CultureInfo.InvariantCulture)" />
-                    </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-basesettings" role="tabpanel" aria-labelledby="nav-basesettings-tab">
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Username</label>
+                    <input type="text" class="form-control" id="addUsername" name="dto.Username">
                 </div>
-            </div>
-        </fieldset>
-        <fieldset class="form-group">
-            <legend class="col-form-label">Roles</legend>
-            <div class="form-group">
-                <div class="card" style="max-height: 140px; overflow-y: scroll">
-                    <div class="card-body">
-                        @foreach (var item in Model.UserRoleList.Items)
-                        {
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Password</label>
+                    <input type="password" class="form-control" id="addPassword" name="dto.Password" />
+                </div>
+                <div class="form-group">
+                    <label for="reciepent-name" class="col-form-label">E-mail</label>
+                    <input type="email" class="form-control" id="addEmail" name="dto.Email" />
+                </div>
+                <div class="form-group">
+                    <label for="reciepient-name" class="col-form-label">Phone number</label>
+                    <input type="tel" class="form-control" id="addPhoneNumber" name="dto.PhoneNumber" />
+                </div>
+                <fieldset class="form-group">
+                    <legend class="col-form-label">User options</legend>
+                    <div class="card" style="max-height: 140px; overflow-y: scroll">
+                        <div class="card-body">
                             <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="@("addRole"+item.RoleName)" name="dto.Roles[@Model.UserRoleList.Items.IndexOf(item)]" value="@item.RoleName" />
-                                <label for="reciepent-name" class="form-check-label">@item.RoleName</label>
+                                <input type="checkbox" class="form-check-input" id="addUse2fa" name="dto.Use2Fa" value="True" />
+                                <label for="reciepent-name" class="form-check-label">Use two factor authentication</label>
                             </div>
-                        }
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="addConfirmEmail" name="dto.ConfirmEmail" value="True" />
+                                <label for="reciepent-name" class="form-check-label">Confirm e-mail</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="addConfirmPhoneNumber" name="dto.ConfirmPhoneNumber" value="True" />
+                                <label for="reciepent-name" class="form-check-label">Confirm phone number</label>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="form-group">
+                    <legend class="col-form-label">Lockout options</legend>
+                    <div class="card" style="max-height: 140px; overflow-y: scroll">
+                        <div class="card-body">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="addEnableLockout" name="dto.EnableLockout" value="True" />
+                                <label for="reciepent-name" class="form-check-label">Enable lockout</label>
+                            </div>
+                            <label for="recipient-name" class="col-form-label">Lockout end</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="date" class="form-control" id="addLockoutEndDate">
+                                    </div>
+                                </div>
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <input type="time" class="form-control" id="addLockoutEndTime">
+                                    </div>
+                                </div>
+                                <input type="hidden" id="addLockoutEnd" name="dto.LockoutEnd" value="@DateTime.MinValue.ToString("s", System.Globalization.CultureInfo.InvariantCulture)" />
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="tab-pane fade" id="nav-roles" role="tabpanel" aria-labelledby="nav-roles-tab">
+                <fieldset class="form-group">
+                    <legend class="col-form-label">Roles</legend>
+                    <div class="card" style="max-height: 150px; overflow-y: scroll">
+                        <div class="card-body">
+                            @foreach (var item in Model.UserRoleList.Items)
+                            {
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="@("addRole"+item.RoleName)" name="dto.Roles[@Model.UserRoleList.Items.IndexOf(item)]" value="@item.RoleName" />
+                                    <label for="reciepent-name" class="form-check-label">@item.RoleName</label>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="tab-pane fade" id="nav-claims" role="tabpanel" aria-labelledby="nav-claims-tab">
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Password</label>
+                    <div style="max-height: 140px; overflow-y: scroll">
+                        <div class="input-group input-group-sm ">
+                            <input type="text" aria-label="First name" class="form-control">
+                            <input type="text" aria-label="Last name" class="form-control">
+                            <div class="input-group-append">
+                                <button class="btn btn-danger" type="button" id="button-addon2">Delete</button>
+                            </div>
+                        </div>
+                        <div class="input-group input-group-sm ">
+                            <input type="text" aria-label="First name" class="form-control">
+                            <input type="text" aria-label="Last name" class="form-control">
+                            <div class="input-group-append">
+                                <button class="btn btn-danger" type="button" id="button-addon2">Delete</button>
+                            </div>
+                        </div>
+                        <div class="input-group input-group-sm ">
+                            <input type="text" aria-label="First name" class="form-control">
+                            <input type="text" aria-label="Last name" class="form-control">
+                            <div class="input-group-append">
+                                <button class="btn btn-danger" type="button" id="button-addon2">Delete</button>
+                            </div>
+                        </div>
+                        <div class="input-group input-group-sm ">
+                            <input type="text" aria-label="First name" class="form-control">
+                            <input type="text" aria-label="Last name" class="form-control">
+                            <div class="input-group-append">
+                                <button class="btn btn-danger" type="button" id="button-addon2">Delete</button>
+                            </div>
+                        </div>
+                        <div class="input-group input-group-sm ">
+                            <input type="text" aria-label="First name" class="form-control">
+                            <input type="text" aria-label="Last name" class="form-control">
+                            <div class="input-group-append">
+                                <button class="btn btn-danger" type="button" id="button-addon2">Delete</button>
+                            </div>
+                        </div>
+                        <div class="input-group input-group-sm ">
+                            <input type="text" aria-label="First name" class="form-control">
+                            <input type="text" aria-label="Last name" class="form-control">
+                            <div class="input-group-append">
+                                <button class="btn btn-danger" type="button" id="button-addon2">Delete</button>
+                            </div>
+                        </div>
+                        <div class="input-group input-group-sm ">
+                            <input type="text" aria-label="First name" class="form-control">
+                            <input type="text" aria-label="Last name" class="form-control">
+                            <div class="input-group-append">
+                                <button class="btn btn-danger" type="button" id="button-addon2">Delete</button>
+                            </div>
+                        </div>
+                        <div class="input-group input-group-sm ">
+                            <input type="text" aria-label="First name" class="form-control">
+                            <input type="text" aria-label="Last name" class="form-control">
+                            <div class="input-group-append">
+                                <button class="btn btn-danger" type="button" id="button-addon2">Delete</button>
+                            </div>
+                        </div>
+                        <div class="input-group input-group-sm ">
+                            <input type="text" aria-label="First name" class="form-control">
+                            <input type="text" aria-label="Last name" class="form-control">
+                            <div class="input-group-append">
+                                <button class="btn btn-danger" type="button" id="button-addon2">Delete</button>
+                            </div>
+                        </div>
+                        <div class="input-group input-group-sm ">
+                            <input type="text" aria-label="First name" class="form-control">
+                            <input type="text" aria-label="Last name" class="form-control">
+                            <div class="input-group-append">
+                                <button class="btn btn-danger" type="button" id="button-addon2">Delete</button>
+                            </div>
+                        </div>
+                        <div class="input-group input-group-sm ">
+                            <input type="text" aria-label="First name" class="form-control">
+                            <input type="text" aria-label="Last name" class="form-control">
+                            <div class="input-group-append">
+                                <button class="btn btn-danger" type="button" id="button-addon2">Delete</button>
+                            </div>
+                        </div>
+                        <div class="input-group input-group-sm ">
+                            <input type="text" aria-label="First name" class="form-control">
+                            <input type="text" aria-label="Last name" class="form-control">
+                            <div class="input-group-append">
+                                <button class="btn btn-danger" type="button" id="button-addon2">Delete</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </fieldset>
+        </div>
     </form>
 }
 

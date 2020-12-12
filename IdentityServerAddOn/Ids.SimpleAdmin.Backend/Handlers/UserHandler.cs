@@ -54,7 +54,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             {
                 throw new Exception("Not updated");
             }
-            await UpdateUserRole(user, dto.Roles).ConfigureAwait(false);       
+            await UpdateUserRole(user, dto.Roles).ConfigureAwait(false);
         }
 
         public async Task DeleteUser(string userId)
@@ -107,6 +107,12 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             {
                 throw new Exception("Roles was not added to user");
             }
+        }
+
+        private async Task UpdateUserClaims(IdentityUser user, Dictionary<string, string> claims)
+        {
+            //TODO : Implement
+#warning Not Implemented
         }
 
         private async Task IsEmailAvailable(string email)
