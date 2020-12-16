@@ -15,5 +15,6 @@ namespace Ids.SimpleAdmin.Backend.Dtos
         public bool EnableLockout { get; set; }
         public DateTime EndLockout { get; set; }
         public List<string> Roles { get; set; }
+        public Dictionary<string, string> Claims { get; set; }
     }
 }

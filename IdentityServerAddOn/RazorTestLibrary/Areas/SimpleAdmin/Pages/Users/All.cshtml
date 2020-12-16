@@ -297,7 +297,7 @@
             }
             else
             {
-                $('#addClaimTableBody').append('<tr><td><button class="btn btn-danger btn-sm addClaimRemove"></button></td><td>' + claim + '</td><td>' + claimType + '</td></tr>');
+                $('#addClaimTableBody').append('<tr><td><button class="btn btn-danger btn-sm addClaimRemove"></button><input type="hidden" name="dto.Claims[' + claim + ']" value="' + claimType +'" /></td><td>' + claim + '</td><td>' + claimType + '</td></tr>');
             }
         });
         $('#addLockoutEndDate').on('change', function () {
