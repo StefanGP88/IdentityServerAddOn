@@ -143,9 +143,8 @@
             </div>
             <div class="tab-pane fade" id="nav-claims" role="tabpanel" aria-labelledby="nav-claims-tab">
                 <br />
-                @*<table class="table table-sm">*@
-                <table class="table">
-                    <tbody>
+                <table class="table table-sm">
+                    <tbody id="addClaimTableBody">
                         <tr>
                             <td scope="col">
                             </td>
@@ -158,299 +157,22 @@
                         </tr>
                         <tr>
                             <td scope="col">
-                                <button class="btn btn-info btn-sm">Add</button>
+                                <button id="addClaimBtn" class="btn btn-primary btn-sm addsign"></button>
                             </td>
                             <td scope="col">
-                                <input type="text" />
+                                <input type="text" id="addClaim" />
                             </td>
                             <td scope="col">
-                                <input type="text" />
+                                <input type="text" id="addClaimType" />
                             </td>
                         </tr>
                         <tr>
-                            <td><button class="btn btn-danger btn-sm">&times;</button></td>
+                            <td><button class="btn btn-danger btn-sm addClaimRemove"></button></td>
                             <td>Larry</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&divide;</button></td>
-                            <td>Larry</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#247;</button></td>
-                            <td>247</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&minus;</button></td>
-                            <td>minus</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#935;</button></td>
-                            <td>935</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#43;</button></td>
-                            <td>43</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#120013;</button></td>
-                            <td>120013</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#10135;</button></td>
-                            <td>10135</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#10133;</button></td>
-                            <td>10133</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#10134;</button></td>
-                            <td>10134</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#9745;</button></td>
-                            <td>9745</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#9866;</button></td>
-                            <td>9866</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#8730;</button></td>
-                            <td>8730</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#128190;</button></td>
-                            <td>128190</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#9989;</button></td>
-                            <td>9989</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#10003;</button></td>
-                            <td>10003</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#10004;</button></td>
-                            <td>10004</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#9998;</button></td>
-                            <td>9998</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#9997;</button></td>
-                            <td>9997</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#x2712;</button></td>
-                            <td>x2712</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#x2711;</button></td>
-                            <td>x2711</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><a href="#" class="btn btn-danger btn-sm  m-0 p-1 pl-2 pr-2">&#128427;</a></td>
-                            <td>128427</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#128190;</button></td>
-                            <td>128190</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#128221;</button></td>
-                            <td>128221</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#128203;</button></td>
-                            <td>128203</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#128393;</button></td>
-                            <td>128393</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#128394;</button></td>
-                            <td>128394</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#128395;</button></td>
-                            <td>128395</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#128396;</button></td>
-                            <td>128396</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#128397;</button></td>
-                            <td>128397</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#128398;</button></td>
-                            <td>128398</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#128426;</button></td>
-                            <td>128426</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#128504;</button></td>
-                            <td>128504</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#x2328;</button></td>
-                            <td>x2328</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#128428;</button></td>
-                            <td>128428</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#128426;</button></td>
-                            <td>128426</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#9587;</button></td>
-                            <td>9587</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#128369;</button></td>
-                            <td>128369</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#9112;</button></td>
-                            <td>9112</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#128196;</button></td>
-                            <td>128196</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#8722;</button></td>
-                            <td>8722</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#10005;</button></td>
-                            <td>10005</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#128935;</button></td>
-                            <td>128935</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#128941;</button></td>
-                            <td>128941</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#128942;</button></td>
-                            <td>128942</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#8999;</button></td>
-                            <td>8999</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#8779;</button></td>
-                            <td>8779</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#9760;</button></td>
-                            <td>9760</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#128427;</button></td>
-                            <td>128427</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#128934;</button></td>
-                            <td>128934</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#45;</button></td>
-                            <td>45</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#127;</button></td>
-                            <td>127</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#8803;</button></td>
-                            <td>8803</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#128441;</button></td>
-                            <td>128441</td>
-                            <td>Larry</td>
-                        </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm">&#127383;</button></td>
-                            <td>127383</td>
-                            <td>Larry</td>
-                        </tr>
-
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm"></button></td>
-                            <td></td>
                             <td>Larry</td>
                         </tr>
                     </tbody>
                 </table>
-                @*</div>*@
             </div>
         </div>
     </form>
@@ -552,12 +274,31 @@
 }
 
 @section Scripts{
-    <script type="text/javascript"> 
+    <script type="text/javascript">
+
         $(document).ready(function () {
             $('#addLockoutEndDate').val('@DateTime.MinValue.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)');
             $('#addLockoutEndTime').val('@DateTime.MinValue.ToString("T", System.Globalization.CultureInfo.InvariantCulture)');
             $('#addLockoutEnd').val(date + " " + time);
-          
+
+        });
+        $('.addClaimRemove').on('click', function (e) {
+            e.preventDefault();
+            $(this).parents().eq(1).remove();
+        });
+        $('#addClaimBtn').on('click', function (e) {
+            e.preventDefault();
+            var claim = $('#addClaim').val();
+            var claimType = $('#addClaimType').val();
+            console.log(claim);
+            if (claim.length < 1 || claimType.length < 1)
+            {
+                alert('claim and claim type must have a value');
+            }
+            else
+            {
+                $('#addClaimTableBody').append('<tr><td><button class="btn btn-danger btn-sm addClaimRemove"></button></td><td>' + claim + '</td><td>' + claimType + '</td></tr>');
+            }
         });
         $('#addLockoutEndDate').on('change', function () {
             var date = $('#addLockoutEndDate').val();
