@@ -35,7 +35,6 @@
                         data-lockoutendtime="@item?.LockoutEnd.ToString("T", System.Globalization.CultureInfo.InvariantCulture)"
                         data-concurrencystamp="@item?.ConcurrencyStamp"
                         data-rolelist="@(item.Roles.Any() ? "['" + string.Join("', '", item.Roles) + "']" : "[]")">
-                    Edit
                 </button>
             </td>
             <td>@item?.Username</td>
@@ -56,7 +55,6 @@
                         data-lockoutendtime="@item?.LockoutEnd.ToString("T", System.Globalization.CultureInfo.InvariantCulture)"
                         data-concurrencystamp="@item?.ConcurrencyStamp"
                         data-rolelist="@(item.Roles.Any() ? "['" + string.Join("', '", item.Roles) + "']" : "[]")">
-                    Delete
                 </button>
             </td>
         </tr>
@@ -95,157 +93,364 @@
                     <label for="reciepient-name" class="col-form-label">Phone number</label>
                     <input type="tel" class="form-control" id="addPhoneNumber" name="dto.PhoneNumber" />
                 </div>
+                <br />
                 <fieldset class="form-group">
-                    <legend class="col-form-label">User options</legend>
-                    <div class="card" style="max-height: 140px; overflow-y: scroll">
-                        <div class="card-body">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="addUse2fa" name="dto.Use2Fa" value="True" />
-                                <label for="reciepent-name" class="form-check-label">Use two factor authentication</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="addConfirmEmail" name="dto.ConfirmEmail" value="True" />
-                                <label for="reciepent-name" class="form-check-label">Confirm e-mail</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="addConfirmPhoneNumber" name="dto.ConfirmPhoneNumber" value="True" />
-                                <label for="reciepent-name" class="form-check-label">Confirm phone number</label>
-                            </div>
-                        </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="addUse2fa" name="dto.Use2Fa" value="True" />
+                        <label for="reciepent-name" class="form-check-label">Use two factor authentication</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="addConfirmEmail" name="dto.ConfirmEmail" value="True" />
+                        <label for="reciepent-name" class="form-check-label">Confirm e-mail</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="addConfirmPhoneNumber" name="dto.ConfirmPhoneNumber" value="True" />
+                        <label for="reciepent-name" class="form-check-label">Confirm phone number</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="addEnableLockout" name="dto.EnableLockout" value="True" />
+                        <label for="reciepent-name" class="form-check-label">Enable lockout</label>
                     </div>
                 </fieldset>
                 <fieldset class="form-group">
-                    <legend class="col-form-label">Lockout options</legend>
-                    <div class="card" style="max-height: 140px; overflow-y: scroll">
-                        <div class="card-body">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="addEnableLockout" name="dto.EnableLockout" value="True" />
-                                <label for="reciepent-name" class="form-check-label">Enable lockout</label>
-                            </div>
-                            <label for="recipient-name" class="col-form-label">Lockout end</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <input type="date" class="form-control" id="addLockoutEndDate">
-                                    </div>
-                                </div>
-                                <div class="input-group-append">
-                                    <div class="input-group-text">
-                                        <input type="time" class="form-control" id="addLockoutEndTime">
-                                    </div>
-                                </div>
-                                <input type="hidden" id="addLockoutEnd" name="dto.LockoutEnd" value="@DateTime.MinValue.ToString("s", System.Globalization.CultureInfo.InvariantCulture)" />
-                            </div>
+                    <label for="reciepent-name" class="col-form-label">Lockout end</label>
+                    <div class="row">
+                        <div class="col">
+                            <input type="date" class="form-control" id="addLockoutEndDate">
+                        </div>
+                        <div class="col">
+                            <input type="time" class="form-control" id="addLockoutEndTime">
                         </div>
                     </div>
+                    <input type="hidden" id="addLockoutEnd" name="dto.LockoutEnd" value="@DateTime.MinValue.ToString("s", System.Globalization.CultureInfo.InvariantCulture)" />
                 </fieldset>
             </div>
             <div class="tab-pane fade" id="nav-roles" role="tabpanel" aria-labelledby="nav-roles-tab">
-                <fieldset class="form-group">
-                    <legend class="col-form-label">Roles</legend>
-                    <div class="card" style="max-height: 150px; overflow-y: scroll">
-                        <div class="card-body">
-                            @foreach (var item in Model.UserRoleList.Items)
-                            {
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="@("addRole"+item.RoleName)" name="dto.Roles[@Model.UserRoleList.Items.IndexOf(item)]" value="@item.RoleName" />
-                                    <label for="reciepent-name" class="form-check-label">@item.RoleName</label>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                </fieldset>
+                <br />
+                <table class="table table-sm">
+                    <tbody>
+                        @foreach (var item in Model.UserRoleList.Items)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="checkbox" id="@("addRole"+item.RoleName)" name="dto.Roles[@Model.UserRoleList.Items.IndexOf(item)]" value="@item.RoleName" />
+                                </td>
+                                <td>@item.RoleName</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
             <div class="tab-pane fade" id="nav-claims" role="tabpanel" aria-labelledby="nav-claims-tab">
-                <div class="form-group">
-                    <label for="recipient-name" class="col-form-label">Password</label>
-                    <div style="max-height: 140px; overflow-y: scroll">
-                        <div class="input-group input-group-sm ">
-                            <input type="text" aria-label="First name" class="form-control">
-                            <input type="text" aria-label="Last name" class="form-control">
-                            <div class="input-group-append">
-                                <button class="btn btn-danger" type="button" id="button-addon2">Delete</button>
-                            </div>
-                        </div>
-                        <div class="input-group input-group-sm ">
-                            <input type="text" aria-label="First name" class="form-control">
-                            <input type="text" aria-label="Last name" class="form-control">
-                            <div class="input-group-append">
-                                <button class="btn btn-danger" type="button" id="button-addon2">Delete</button>
-                            </div>
-                        </div>
-                        <div class="input-group input-group-sm ">
-                            <input type="text" aria-label="First name" class="form-control">
-                            <input type="text" aria-label="Last name" class="form-control">
-                            <div class="input-group-append">
-                                <button class="btn btn-danger" type="button" id="button-addon2">Delete</button>
-                            </div>
-                        </div>
-                        <div class="input-group input-group-sm ">
-                            <input type="text" aria-label="First name" class="form-control">
-                            <input type="text" aria-label="Last name" class="form-control">
-                            <div class="input-group-append">
-                                <button class="btn btn-danger" type="button" id="button-addon2">Delete</button>
-                            </div>
-                        </div>
-                        <div class="input-group input-group-sm ">
-                            <input type="text" aria-label="First name" class="form-control">
-                            <input type="text" aria-label="Last name" class="form-control">
-                            <div class="input-group-append">
-                                <button class="btn btn-danger" type="button" id="button-addon2">Delete</button>
-                            </div>
-                        </div>
-                        <div class="input-group input-group-sm ">
-                            <input type="text" aria-label="First name" class="form-control">
-                            <input type="text" aria-label="Last name" class="form-control">
-                            <div class="input-group-append">
-                                <button class="btn btn-danger" type="button" id="button-addon2">Delete</button>
-                            </div>
-                        </div>
-                        <div class="input-group input-group-sm ">
-                            <input type="text" aria-label="First name" class="form-control">
-                            <input type="text" aria-label="Last name" class="form-control">
-                            <div class="input-group-append">
-                                <button class="btn btn-danger" type="button" id="button-addon2">Delete</button>
-                            </div>
-                        </div>
-                        <div class="input-group input-group-sm ">
-                            <input type="text" aria-label="First name" class="form-control">
-                            <input type="text" aria-label="Last name" class="form-control">
-                            <div class="input-group-append">
-                                <button class="btn btn-danger" type="button" id="button-addon2">Delete</button>
-                            </div>
-                        </div>
-                        <div class="input-group input-group-sm ">
-                            <input type="text" aria-label="First name" class="form-control">
-                            <input type="text" aria-label="Last name" class="form-control">
-                            <div class="input-group-append">
-                                <button class="btn btn-danger" type="button" id="button-addon2">Delete</button>
-                            </div>
-                        </div>
-                        <div class="input-group input-group-sm ">
-                            <input type="text" aria-label="First name" class="form-control">
-                            <input type="text" aria-label="Last name" class="form-control">
-                            <div class="input-group-append">
-                                <button class="btn btn-danger" type="button" id="button-addon2">Delete</button>
-                            </div>
-                        </div>
-                        <div class="input-group input-group-sm ">
-                            <input type="text" aria-label="First name" class="form-control">
-                            <input type="text" aria-label="Last name" class="form-control">
-                            <div class="input-group-append">
-                                <button class="btn btn-danger" type="button" id="button-addon2">Delete</button>
-                            </div>
-                        </div>
-                        <div class="input-group input-group-sm ">
-                            <input type="text" aria-label="First name" class="form-control">
-                            <input type="text" aria-label="Last name" class="form-control">
-                            <div class="input-group-append">
-                                <button class="btn btn-danger" type="button" id="button-addon2">Delete</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <br />
+                @*<table class="table table-sm">*@
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td scope="col">
+                            </td>
+                            <td scope="col">
+                                Claim
+                            </td>
+                            <td scope="col">
+                                Claim type
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="col">
+                                <button class="btn btn-info btn-sm">Add</button>
+                            </td>
+                            <td scope="col">
+                                <input type="text" />
+                            </td>
+                            <td scope="col">
+                                <input type="text" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&times;</button></td>
+                            <td>Larry</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&divide;</button></td>
+                            <td>Larry</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#247;</button></td>
+                            <td>247</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&minus;</button></td>
+                            <td>minus</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#935;</button></td>
+                            <td>935</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#43;</button></td>
+                            <td>43</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#120013;</button></td>
+                            <td>120013</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#10135;</button></td>
+                            <td>10135</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#10133;</button></td>
+                            <td>10133</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#10134;</button></td>
+                            <td>10134</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#9745;</button></td>
+                            <td>9745</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#9866;</button></td>
+                            <td>9866</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#8730;</button></td>
+                            <td>8730</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#128190;</button></td>
+                            <td>128190</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#9989;</button></td>
+                            <td>9989</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#10003;</button></td>
+                            <td>10003</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#10004;</button></td>
+                            <td>10004</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#9998;</button></td>
+                            <td>9998</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#9997;</button></td>
+                            <td>9997</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#x2712;</button></td>
+                            <td>x2712</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#x2711;</button></td>
+                            <td>x2711</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><a href="#" class="btn btn-danger btn-sm  m-0 p-1 pl-2 pr-2">&#128427;</a></td>
+                            <td>128427</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#128190;</button></td>
+                            <td>128190</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#128221;</button></td>
+                            <td>128221</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#128203;</button></td>
+                            <td>128203</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#128393;</button></td>
+                            <td>128393</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#128394;</button></td>
+                            <td>128394</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#128395;</button></td>
+                            <td>128395</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#128396;</button></td>
+                            <td>128396</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#128397;</button></td>
+                            <td>128397</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#128398;</button></td>
+                            <td>128398</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#128426;</button></td>
+                            <td>128426</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#128504;</button></td>
+                            <td>128504</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#x2328;</button></td>
+                            <td>x2328</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#128428;</button></td>
+                            <td>128428</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#128426;</button></td>
+                            <td>128426</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#9587;</button></td>
+                            <td>9587</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#128369;</button></td>
+                            <td>128369</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#9112;</button></td>
+                            <td>9112</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#128196;</button></td>
+                            <td>128196</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#8722;</button></td>
+                            <td>8722</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#10005;</button></td>
+                            <td>10005</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#128935;</button></td>
+                            <td>128935</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#128941;</button></td>
+                            <td>128941</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#128942;</button></td>
+                            <td>128942</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#8999;</button></td>
+                            <td>8999</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#8779;</button></td>
+                            <td>8779</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#9760;</button></td>
+                            <td>9760</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#128427;</button></td>
+                            <td>128427</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#128934;</button></td>
+                            <td>128934</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#45;</button></td>
+                            <td>45</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#127;</button></td>
+                            <td>127</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#8803;</button></td>
+                            <td>8803</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#128441;</button></td>
+                            <td>128441</td>
+                            <td>Larry</td>
+                        </tr>
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm">&#127383;</button></td>
+                            <td>127383</td>
+                            <td>Larry</td>
+                        </tr>
+
+                        <tr>
+                            <td><button class="btn btn-danger btn-sm"></button></td>
+                            <td></td>
+                            <td>Larry</td>
+                        </tr>
+                    </tbody>
+                </table>
+                @*</div>*@
             </div>
         </div>
     </form>
@@ -347,11 +552,12 @@
 }
 
 @section Scripts{
-    <script type="text/javascript">
+    <script type="text/javascript"> 
         $(document).ready(function () {
             $('#addLockoutEndDate').val('@DateTime.MinValue.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)');
             $('#addLockoutEndTime').val('@DateTime.MinValue.ToString("T", System.Globalization.CultureInfo.InvariantCulture)');
             $('#addLockoutEnd').val(date + " " + time);
+          
         });
         $('#addLockoutEndDate').on('change', function () {
             var date = $('#addLockoutEndDate').val();

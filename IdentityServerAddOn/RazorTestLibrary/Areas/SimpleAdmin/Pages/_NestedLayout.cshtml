@@ -1,6 +1,32 @@
 ﻿@{
     Layout = "_Layout";
 }
+<style>
+        button.btn-danger:after {
+            content: ' \274C';
+        }
+
+        button.btn-info:after {
+            content: ' \270E';
+        }
+
+        /*   input.btn-info:[target] {
+            content: ' \270E';
+        }
+    */
+        button.btn-secondary:after {
+            content: ' \2796';
+        }
+
+        a.addsign:after {
+            content: ' \2795';
+        }
+
+        /*    a.addsign:after {
+            content: ' \271A';
+        }*/
+</style>
+
 <div class="container">
     <table class="table table-striped border border-dark">
         <thead class="thead-dark">
@@ -14,8 +40,8 @@
                 <div class="col-6">
                     <nav>
                         <ul class="pagination">
-                            <li class="page-item">
-                                <a href="#" class="page-link" data-toggle="modal" data-target="#addModal">Add</a>
+                            <li class="page-item active">
+                                <a href="#" class="page-link addsign" data-toggle="modal" data-target="#addModal"></a>
                             </li>
                         </ul>
                     </nav>
@@ -45,8 +71,8 @@
                 @RenderSection("AddModalBody", required: true)
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <input type="submit" class="btn btn-info" form="AddForm" value="Save" />
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"></button>
+                <input type="submit" class="btn btn-info" form="AddForm" value="&#10004;" />
             </div>
         </div>
     </div>
@@ -66,8 +92,8 @@
                 @RenderSection("EditModalBody", required: true)
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <input type="submit" class="btn btn-info" form="EditForm" value="Save" />
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"></button>
+                <input type="submit" class="btn btn-info" form="EditForm" value="&#10004;" />
             </div>
         </div>
     </div>
@@ -87,9 +113,8 @@
                 @RenderSection("DeleteModalBody", required: true)
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <input type="submit" class="btn btn-info" form="DeleteForm" value="
-                       delete" />
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"></button>
+                <input type="submit" class="btn btn-info" form="DeleteForm" value="&#10004;" />
             </div>
         </div>
     </div>
@@ -98,5 +123,13 @@
 
 <!-- #endregion-->
 @section scripts {
+
+    <script type="text/javascript">
+        $('button.btn-danger').prop('title', 'Delete');
+        $('button.btn-info').prop('title', 'Edit');
+        $('input.btn-info').prop('title', 'Save');
+        $('button.btn-secondary').prop('title', 'Close');
+        $('a.addsign').prop('title', 'Add');
+    </script>
     @RenderSection("scripts", required: false)
 }
