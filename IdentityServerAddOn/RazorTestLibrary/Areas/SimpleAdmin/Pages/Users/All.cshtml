@@ -34,7 +34,8 @@
                         data-lockoutenddate="@item?.LockoutEnd.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)"
                         data-lockoutendtime="@item?.LockoutEnd.ToString("T", System.Globalization.CultureInfo.InvariantCulture)"
                         data-concurrencystamp="@item?.ConcurrencyStamp"
-                        data-rolelist="@(item.Roles.Any() ? "['" + string.Join("', '", item.Roles) + "']" : "[]")">
+                        data-rolelist="@(item.Roles.Any() ? "['" + string.Join("', '", item.Roles) + "']" : "[]")"
+                        data-claimlist="@(item.Claims.Any() ? "[['"+string.Join("'], ['", item.Claims.Select(x=> x.Value + ","+x.Type).ToList()) + "']]":"[]")">
                 </button>
             </td>
             <td>@item?.Username</td>
@@ -54,7 +55,8 @@
                         data-lockoutenddate="@item?.LockoutEnd.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)"
                         data-lockoutendtime="@item?.LockoutEnd.ToString("T", System.Globalization.CultureInfo.InvariantCulture)"
                         data-concurrencystamp="@item?.ConcurrencyStamp"
-                        data-rolelist="@(item.Roles.Any() ? "['" + string.Join("', '", item.Roles) + "']" : "[]")">
+                        data-rolelist="@(item.Roles.Any() ? "['" + string.Join("', '", item.Roles) + "']" : "[]")"
+                        data-claimlist="@(item.Claims.Any() ? "[['"+string.Join("'], ['", item.Claims.Select(x=> x.Value + ","+x.Type).ToList()) + "']]":"[]")">
                 </button>
             </td>
         </tr>

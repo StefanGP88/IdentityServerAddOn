@@ -1,15 +1,16 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
 using Ids.SimpleAdmin.Backend.Handlers;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Ids.SimpleAdmin.Backend
 {
     public static class DenpendencyInjection
     {
-        public static void AddIdentityServerAddOn(this IServiceCollection sc)
+        public static void AddIdentityServerAddOn<TContext>(this IServiceCollection sc) where TContext : IdentityDbContext
         {
             sc.AddScoped<IRoleHandler, RoleHandler>();
-            sc.AddScoped<IUserHandler, UserHandler>();
+            sc.AddScoped<IUserHandler, UserHandler<TContext>>();
             sc.AddScoped<IUserRoleHandler, UserRoleHandler>();
 
             //TODO: can these claim handlers user same interface ?

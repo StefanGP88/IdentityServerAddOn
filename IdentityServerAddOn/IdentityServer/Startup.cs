@@ -8,9 +8,7 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using IdentityServer.Data;
 using Ids.SimpleAdmin.Backend;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using RazorTestLibrary;
-using System;
 
 namespace IdentityServer
 {
@@ -64,9 +62,9 @@ namespace IdentityServer
                 .AddConfigurationStore(connectionString, migrationAssembly)
                 .AddOperationalStore(connectionString, migrationAssembly);
 
-            services.AddRazorPages().AddRazorPagesForSimpleAdmin();
+            services.AddRazorPages().AddRazorPagesForSimpleAdmin<AppDbContext>();
 
-            services.AddIdentityServerAddOn();
+            services.AddIdentityServerAddOn<AppDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -89,11 +87,11 @@ namespace IdentityServer
             app.UseIdentityServer();
 
             app.UseRouting();
-      
+
 
             app.UseAuthentication();
             app.UseAuthorization();
-      app.UseSimpleAdmin();
+            app.UseSimpleAdmin();
             app.UseEndpoints(endpoints => endpoints.MapRazorPages());
             EnsureMigrations(app);
         }

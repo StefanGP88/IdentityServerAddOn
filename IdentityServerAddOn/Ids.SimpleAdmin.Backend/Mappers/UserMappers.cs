@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Ids.SimpleAdmin.Backend.Mappers
@@ -30,7 +31,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
                 SecurityStamp = Guid.NewGuid().ToString()
             };
         }
-        public static async Task<UserResponseDto> MapToDtoAsync(this IdentityUser user, UserManager<IdentityUser> userManager)
+        public static UserResponseDto MapToDto(this IdentityUser user)
         {
             if (user == null) return null;
 
@@ -46,7 +47,6 @@ namespace Ids.SimpleAdmin.Backend.Mappers
                 Userid = user.Id,
                 Username = user.UserName,
                 ConcurrencyStamp = user.ConcurrencyStamp,
-                Roles = (List<string>)await userManager.GetRolesAsync(user).ConfigureAwait(false)
             };
         }
         public static IdentityUser UpdateModel(this IdentityUser user, UserManager<IdentityUser> userManager, UpdateUserRequestDto dto)

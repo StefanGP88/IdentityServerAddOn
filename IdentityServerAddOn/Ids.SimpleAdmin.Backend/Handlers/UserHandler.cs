@@ -2,22 +2,25 @@
 using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
 using Ids.SimpleAdmin.Backend.Mappers;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ids.SimpleAdmin.Backend.Handlers
 {
-    public class UserHandler : IUserHandler
+    public class UserHandler<TContext> : IUserHandler where TContext : IdentityDbContext
     {
         private readonly UserManager<IdentityUser> _userManager;
-
-        public UserHandler(UserManager<IdentityUser> userManager)
+        private readonly TContext _dbContext;
+        public UserHandler(UserManager<IdentityUser> userManager, TContext context)
         {
             _userManager = userManager;
+            _dbContext = context;
         }
 
         //TODO: Add asign role to user functionality
@@ -34,6 +37,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 throw new Exception("Not created");
             }
             await UpdateUserRole(user, dto.Roles).ConfigureAwait(false);
+            await UpdateUserClaims(user, dto.Claims).ConfigureAwait(false);
         }
 
         public async Task UpdateUser(UpdateUserRequestDto dto)
@@ -55,6 +59,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 throw new Exception("Not updated");
             }
             await UpdateUserRole(user, dto.Roles).ConfigureAwait(false);
+            await UpdateUserClaims(user, dto.Claims).ConfigureAwait(false);
         }
 
         public async Task DeleteUser(string userId)
@@ -68,19 +73,34 @@ namespace Ids.SimpleAdmin.Backend.Handlers
         {
             var user = await _userManager.FindByIdAsync(userId).ConfigureAwait(false);
             if (user == null) throw new Exception("User not found");
-            return await user.MapToDtoAsync(_userManager).ConfigureAwait(false);
+            return user.MapToDto();
         }
 
         public async Task<ListDto<UserResponseDto>> ReadAllUsers(int page, int pagesize, CancellationToken cancel)
         {
-            var userQuery = _userManager.Users
+            var idUsers = await _userManager.Users
                         .OrderBy(x => x.UserName)
                         .Skip(page * pagesize)
                         .Take(pagesize)
-                        .Select(x => x.MapToDtoAsync(_userManager))
-                        .ToList();
+                        .ToListAsync(cancel)
+                        .ConfigureAwait(false);
 
-            var userResult = await Task.WhenAll(userQuery).ConfigureAwait(false);
+            var userRoles = await Task.WhenAll(idUsers.ConvertAll(x => _userManager.GetRolesAsync(x))).ConfigureAwait(false);
+
+            var userIds = idUsers.Select(c => c.Id).ToList();
+
+            var idClaims = await _dbContext.UserClaims.Where(y => userIds.Contains(y.UserId)).ToListAsync(cancel).ConfigureAwait(false);
+
+
+            var userResponseDtos = idUsers.ConvertAll(async x =>
+            {
+                var result = x.MapToDto();
+                result.Roles = (List<string>)await _userManager.GetRolesAsync(x).ConfigureAwait(false);
+                result.Claims = idClaims.Where(y => y.UserId == x.Id).Select(y => y.ToClaim()).ToList();
+                return result;
+            });
+
+            var userResult = await Task.WhenAll(userResponseDtos).ConfigureAwait(false);
 
             return new ListDto<UserResponseDto>
             {
@@ -111,8 +131,47 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
         private async Task UpdateUserClaims(IdentityUser user, Dictionary<string, string> claims)
         {
-            //TODO : Implement
-#warning Not Implemented
+            var existingClaims = await _userManager.GetClaimsAsync(user).ConfigureAwait(false);
+
+            var toAdd = new List<Claim>();
+            var toRemove = existingClaims;
+            var toUpdate = new List<Claim>();
+
+            _ = claims.Select(x =>
+             {
+                 var exist = toRemove.FirstOrDefault(y => y.Value == x.Key);
+                 if (exist != null)
+                 {
+                     toUpdate.Add(exist);
+                     toRemove.Remove(exist);
+                 }
+                 else
+                 {
+                     toAdd.Add(new Claim(x.Key, x.Value));
+                 }
+                 return x;
+             }).ToList();
+
+            _ = toUpdate.ConvertAll(x =>
+            {
+                var claimType = claims[x.Value];
+                if (claimType != x.Type)
+                {
+                    toRemove.Add(x);
+                    toAdd.Add(new Claim(x.Value, claimType));
+                }
+                return x;
+            });
+            var removeClaimResult = await _userManager.RemoveClaimsAsync(user, toRemove).ConfigureAwait(false);
+            if (!removeClaimResult.Succeeded)
+            {
+                throw new Exception("Could not remove claims");
+            }
+            var addClaimResult = await _userManager.AddClaimsAsync(user, toAdd).ConfigureAwait(false);
+            if (!addClaimResult.Succeeded)
+            {
+                throw new Exception("Could not add claims");
+            }
         }
 
         private async Task IsEmailAvailable(string email)
