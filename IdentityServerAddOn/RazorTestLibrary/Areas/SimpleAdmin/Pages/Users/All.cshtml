@@ -169,7 +169,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><button class="btn btn-danger btn-sm addClaimRemove"></button></td>
+                            <td><button class="btn btn-danger btn-sm addClaimRemove" onclick="dontsubmit(this, event);"></button></td>
                             <td>Larry</td>
                             <td>Larry</td>
                         </tr>
@@ -284,10 +284,12 @@
             $('#addLockoutEnd').val(date + " " + time);
 
         });
-        $('.addClaimRemove').on('click', function (e) {
-            e.preventDefault();
-            $(this).parents().eq(1).remove();
-        });
+
+        function dontsubmit( element, event) {
+            event.preventDefault();
+            $(element).parents().eq(1).remove();
+        }
+
         $('#addClaimBtn').on('click', function (e) {
             e.preventDefault();
             var claim = $('#addClaim').val();
@@ -299,7 +301,7 @@
             }
             else
             {
-                $('#addClaimTableBody').append('<tr><td><button class="btn btn-danger btn-sm addClaimRemove"></button><input type="hidden" name="dto.Claims[' + claim + ']" value="' + claimType +'" /></td><td>' + claim + '</td><td>' + claimType + '</td></tr>');
+                $('#addClaimTableBody').append('<tr><td><button class="btn btn-danger btn-sm addClaimRemove" onclick="dontsubmit(this, event);"></button><input type="hidden" name="dto.Claims[' + claim + ']" value="' + claimType +'" /></td><td>' + claim + '</td><td>' + claimType + '</td></tr>');
             }
         });
         $('#addLockoutEndDate').on('change', function () {

@@ -38,8 +38,6 @@ namespace IdentityServer
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
-
-
             //services
             //    .AddIdentityServer()
             //    .AddAspNetIdentity<IdentityUser>()
@@ -87,7 +85,6 @@ namespace IdentityServer
             app.UseIdentityServer();
 
             app.UseRouting();
-
 
             app.UseAuthentication();
             app.UseAuthorization();

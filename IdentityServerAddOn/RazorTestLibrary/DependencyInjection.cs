@@ -18,8 +18,7 @@ namespace RazorTestLibrary
             builder.Services.AddSimpleAdminDependencyInjection<TContext>();
             var assembly = Assembly.GetExecutingAssembly().GetName().Name;
             builder.AddApplicationPart(Assembly.Load(assembly));
-            
-            
+
             return builder;
         }
 
