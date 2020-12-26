@@ -124,7 +124,7 @@
                             <input type="time" class="form-control" id="addLockoutEndTime">
                         </div>
                     </div>
-                    <input type="hidden" id="addLockoutEnd" name="dto.LockoutEnd" value="@DateTime.MinValue.ToString("s", System.Globalization.CultureInfo.InvariantCulture)" />
+                    <input type="hidden" id="addLockoutEnd" name="dto.EndLockout" value="@(new DateTime(1970,1,1).ToString("s", System.Globalization.CultureInfo.InvariantCulture))" />
                 </fieldset>
             </div>
             <div class="tab-pane fade" id="nav-roles" role="tabpanel" aria-labelledby="nav-roles-tab">
@@ -287,12 +287,12 @@
 
 @section DeleteModalBody{
     <div class="alert alert-danger" role="alert">
-        Are you sure you want to delete the <span id="deleteRoleName"></span> role?
+        Are you sure you want to delete  <span id="deleteUserName"></span> ?
     </div>
     <form id="DeleteForm" method="post" asp-page-handler="Delete" asp-route-pageNumber="@Model.List.Page" asp-route-pageSize="@Model.List.PageSize">
         @Html.AntiForgeryToken()
-        <input type="hidden" id="deleteId" name="dto.Id" />
-        <input type="hidden" id="deleteConcurrencyStamp" name="dto.ConcurrencyStamp" />
+        <input type="hidden" id="deleteId" name="userId" />
+        @*<input type="hidden" id="deleteConcurrencyStamp" name="dto.ConcurrencyStamp" />*@
     </form>
 }
 
@@ -300,8 +300,8 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            $('#addLockoutEndDate').val('@DateTime.MinValue.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)');
-            $('#addLockoutEndTime').val('@DateTime.MinValue.ToString("T", System.Globalization.CultureInfo.InvariantCulture)');
+            $('#addLockoutEndDate').val('@(new DateTime(1970,1,1).ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture))');
+            $('#addLockoutEndTime').val('@(new DateTime(1970, 1, 1).ToString("T", System.Globalization.CultureInfo.InvariantCulture))');
             $('#addLockoutEnd').val(date + " " + time);
 
         });
@@ -370,8 +370,8 @@
         $('#deleteModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var modal = $(this);
-            modal.find('.modal-body #deleteRoleName').text(button.data('rolename'));
-            modal.find('.modal-body #deleteId').val(button.data('roleid'));
+            modal.find('.modal-body #deleteUserName').text(button.data('username'));
+            modal.find('.modal-body #deleteId').val(button.data('userid'));
             modal.find('.modal-body #deleteConcurrencyStamp').val(button.data('roleconcurrency'));
         });
     </script>
