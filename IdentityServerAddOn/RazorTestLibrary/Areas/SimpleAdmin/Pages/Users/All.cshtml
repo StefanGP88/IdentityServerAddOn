@@ -168,11 +168,6 @@
                                 <input type="text" id="addClaimType" />
                             </td>
                         </tr>
-                        <tr>
-                            <td><button class="btn btn-danger btn-sm addClaimRemove" onclick="dontsubmit(this, event);"></button></td>
-                            <td>Larry</td>
-                            <td>Larry</td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -183,26 +178,33 @@
 @section EditModalBody{
     <form id="EditForm" method="post" asp-page-handler="Edit" asp-route-pageNumber="@Model.List.Page" asp-route-pageSize="@Model.List.PageSize">
         @Html.AntiForgeryToken()
-        <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Username</label>
-            <input type="text" class="form-control" id="editUsername" name="dto.Username">
-        </div>
-        <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Password</label>
-            <input type="password" class="form-control" id="editPassword" name="dto.Password" />
-        </div>
-        <div class="form-group">
-            <label for="reciepent-name" class="col-form-label">E-mail</label>
-            <input type="email" class="form-control" id="editEmail" name="dto.Email" />
-        </div>
-        <div class="form-group">
-            <label for="reciepient-name" class="col-form-label">Phone number</label>
-            <input type="tel" class="form-control" id="editPhoneNumber" name="dto.PhoneNumber" />
-        </div>
-        <fieldset class="form-group">
-            <legend class="col-form-label">User options</legend>
-            <div class="card" style="max-height: 140px; overflow-y: scroll">
-                <div class="card-body">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-basesettingsedit-tab" data-toggle="tab" href="#nav-basesettingsedit" role="tab" aria-controls="nav-basesettingsedit" aria-selected="true">Base Settings</a>
+                <a class="nav-item nav-link" id="nav-rolesedit-tab" data-toggle="tab" href="#nav-rolesedit" role="tab" aria-controls="nav-rolesedit" aria-selected="false">Roles</a>
+                <a class="nav-item nav-link" id="nav-claimsedit-tab" data-toggle="tab" href="#nav-claimsedit" role="tab" aria-controls="nav-claimsedit" aria-selected="false">User claims</a>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-basesettingsedit" role="tabpanel" aria-labelledby="nav-basesettingsedit-tab">
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Username</label>
+                    <input type="text" class="form-control" id="editUsername" name="dto.Username">
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Password</label>
+                    <input type="password" class="form-control" id="editPassword" name="dto.Password" />
+                </div>
+                <div class="form-group">
+                    <label for="reciepent-name" class="col-form-label">E-mail</label>
+                    <input type="email" class="form-control" id="editEmail" name="dto.Email" />
+                </div>
+                <div class="form-group">
+                    <label for="reciepient-name" class="col-form-label">Phone number</label>
+                    <input type="tel" class="form-control" id="editPhoneNumber" name="dto.PhoneNumber" />
+                </div>
+                <br />
+                <fieldset class="form-group">
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="editUse2fa" name="dto.Use2Fa" value="True" />
                         <label for="reciepent-name" class="form-check-label">Use two factor authentication</label>
@@ -215,50 +217,69 @@
                         <input type="checkbox" class="form-check-input" id="editConfirmPhoneNumber" name="dto.ConfirmPhoneNumber" value="True" />
                         <label for="reciepent-name" class="form-check-label">Confirm phone number</label>
                     </div>
-                </div>
-            </div>
-        </fieldset>
-        <fieldset class="form-group">
-            <legend class="col-form-label">Lockout options</legend>
-            <div class="card" style="max-height: 140px; overflow-y: scroll">
-                <div class="card-body">
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="editEnableLockout" name="dto.EnableLockout" value="True" />
                         <label for="reciepent-name" class="form-check-label">Enable lockout</label>
                     </div>
-                    <label for="recipient-name" class="col-form-label">Lockout end</label>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <div class="input-group-text">
-                                <input type="date" class="form-control" id="editLockoutEndDate">
-                            </div>
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="reciepent-name" class="col-form-label">Lockout end</label>
+                    <div class="row">
+                        <div class="col">
+                            <input type="date" class="form-control" id="editLockoutEndDate">
                         </div>
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <input type="time" class="form-control" id="editLockoutEndTime">
-                            </div>
+                        <div class="col">
+                            <input type="time" class="form-control" id="editLockoutEndTime">
                         </div>
-                        <input type="hidden" id="editLockoutEnd" name="dto.LockoutEnd" value="@DateTime.MinValue.ToString("s", System.Globalization.CultureInfo.InvariantCulture)" />
                     </div>
-                </div>
+                    <input type="hidden" id="editLockoutEnd" name="dto.LockoutEnd" value="@DateTime.MinValue.ToString("s", System.Globalization.CultureInfo.InvariantCulture)" />
+                </fieldset>
             </div>
-        </fieldset>
-        <fieldset class="form-group">
-            <legend class="col-form-label">Roles</legend>
-            <div class="form-group">
-                <div class="card" style="max-height: 140px; overflow-y: scroll">
-                    <div class="card-body">
+            <div class="tab-pane fade" id="nav-rolesedit" role="tabpanel" aria-labelledby="nav-rolesedit-tab">
+                <br />
+                <table class="table table-sm">
+                    <tbody>
                         @foreach (var item in Model.UserRoleList.Items)
                         {
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="@("editRole"+item.RoleName)" name="dto.Roles[@Model.UserRoleList.Items.IndexOf(item)]" value="@item.RoleName" />
-                                <label for="reciepent-name" class="form-check-label">@item.RoleName</label>
-                            </div>
+                            <tr>
+                                <td>
+                                    <input type="checkbox" id="@("editRole"+item.RoleName)" name="dto.Roles[@Model.UserRoleList.Items.IndexOf(item)]" value="@item.RoleName" />
+                                </td>
+                                <td>@item.RoleName</td>
+                            </tr>
                         }
-                    </div>
-                </div>
+                    </tbody>
+                </table>
             </div>
-        </fieldset>
+            <div class="tab-pane fade" id="nav-claimsedit" role="tabpanel" aria-labelledby="nav-claimsedit-tab">
+                <br />
+                <table class="table table-sm">
+                    <tbody id="editClaimTableBody">
+                        <tr>
+                            <td scope="col">
+                            </td>
+                            <td scope="col">
+                                Claim
+                            </td>
+                            <td scope="col">
+                                Claim type
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="col">
+                                <button id="editClaimBtn" class="btn btn-primary btn-sm addsign"></button>
+                            </td>
+                            <td scope="col">
+                                <input type="text" id="editClaim" />
+                            </td>
+                            <td scope="col">
+                                <input type="text" id="editClaimType" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <input type="hidden" id="editId" name="dto.Id" />
         <input type="hidden" id="editConcurrencyStamp" name="dto.ConcurrencyStamp" />
     </form>
@@ -285,7 +306,7 @@
 
         });
 
-        function dontsubmit( element, event) {
+        function RemoveClaim( element, event) {
             event.preventDefault();
             $(element).parents().eq(1).remove();
         }
@@ -301,7 +322,7 @@
             }
             else
             {
-                $('#addClaimTableBody').append('<tr><td><button class="btn btn-danger btn-sm addClaimRemove" onclick="dontsubmit(this, event);"></button><input type="hidden" name="dto.Claims[' + claim + ']" value="' + claimType +'" /></td><td>' + claim + '</td><td>' + claimType + '</td></tr>');
+                $('#addClaimTableBody').append('<tr><td><button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button><input type="hidden" name="dto.Claims[' + claim + ']" value="' + claimType +'" /></td><td>' + claim + '</td><td>' + claimType + '</td></tr>');
             }
         });
         $('#addLockoutEndDate').on('change', function () {

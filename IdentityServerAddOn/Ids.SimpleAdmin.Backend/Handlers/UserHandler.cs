@@ -85,9 +85,10 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                         .ToListAsync(cancel)
                         .ConfigureAwait(false);
 
-            var userRoles = await Task.WhenAll(idUsers.ConvertAll(x => _userManager.GetRolesAsync(x))).ConfigureAwait(false);
-
             var userIds = idUsers.ConvertAll(c => c.Id);
+
+            //var userRoles = await Task.WhenAll(idUsers.ConvertAll(x => _userManager.GetRolesAsync(x))).ConfigureAwait(false);
+      
 
             var idClaims = await _dbContext.UserClaims.Where(y => userIds.Contains(y.UserId)).ToListAsync(cancel).ConfigureAwait(false);
 
