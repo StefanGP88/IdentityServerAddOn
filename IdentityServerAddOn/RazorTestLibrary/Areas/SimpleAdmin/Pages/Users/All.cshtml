@@ -34,8 +34,10 @@
                         data-lockoutenddate="@item?.LockoutEnd.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)"
                         data-lockoutendtime="@item?.LockoutEnd.ToString("T", System.Globalization.CultureInfo.InvariantCulture)"
                         data-concurrencystamp="@item?.ConcurrencyStamp"
-                        data-rolelist="@(item.Roles.Any() ? "['" + string.Join("', '", item.Roles) + "']" : "[]")"
-                        data-claimlist="@(item.Claims.Any() ? "[['"+string.Join("'], ['", item.Claims.Select(x=> x.Value + ","+x.Type).ToList()) + "']]":"[]")">
+                        data-rolelist="@(item.Roles.Any() ? "[\"" + string.Join("\", \"", item.Roles) + "\"]" : "[]")"
+                        @*data-claimlist="@(item.Claims.Any() ? "{"+string.Join(", ", item.Claims.Select(x=> "'"+ x.Value + "':'"+x.Type+"'").ToList()) + "}":"{}")">*@
+                    data-claimlist="@(item.Claims.Any() ? "["+string.Join(", ", item.Claims.Select(x=> "{\""+ x.Value + "\": \""+x.Type+"\"}").ToList()) + "]":"[]")">
+
                 </button>
             </td>
             <td>@item?.Username</td>
@@ -56,7 +58,7 @@
                         data-lockoutendtime="@item?.LockoutEnd.ToString("T", System.Globalization.CultureInfo.InvariantCulture)"
                         data-concurrencystamp="@item?.ConcurrencyStamp"
                         data-rolelist="@(item.Roles.Any() ? "['" + string.Join("', '", item.Roles) + "']" : "[]")"
-                        data-claimlist="@(item.Claims.Any() ? "[['"+string.Join("'], ['", item.Claims.Select(x=> x.Value + ","+x.Type).ToList()) + "']]":"[]")">
+                        data-claimlist="@(item.Claims.Any() ? "[{'"+string.Join("'}, {'", item.Claims.Select(x=> x.Value + ","+x.Type).ToList()) + "'}]":"[]")">
                 </button>
             </td>
         </tr>
@@ -232,7 +234,7 @@
                             <input type="time" class="form-control" id="editLockoutEndTime">
                         </div>
                     </div>
-                    <input type="hidden" id="editLockoutEnd" name="dto.LockoutEnd" value="@DateTime.MinValue.ToString("s", System.Globalization.CultureInfo.InvariantCulture)" />
+                    <input type="hidden" id="editLockoutEnd" name="dto.EndLockout" value="@DateTime.MinValue.ToString("s", System.Globalization.CultureInfo.InvariantCulture)" />
                 </fieldset>
             </div>
             <div class="tab-pane fade" id="nav-rolesedit" role="tabpanel" aria-labelledby="nav-rolesedit-tab">
@@ -280,7 +282,7 @@
                 </table>
             </div>
         </div>
-        <input type="hidden" id="editId" name="dto.Id" />
+        <input type="hidden" id="editId" name="dto.UserId" />
         <input type="hidden" id="editConcurrencyStamp" name="dto.ConcurrencyStamp" />
     </form>
 }
@@ -298,12 +300,10 @@
 
 @section Scripts{
     <script type="text/javascript">
-
         $(document).ready(function () {
-            $('#addLockoutEndDate').val('@(new DateTime(1970,1,1).ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture))');
+            $('#addLockoutEndDate').val('@(new DateTime(1970, 1, 1).ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture))');
             $('#addLockoutEndTime').val('@(new DateTime(1970, 1, 1).ToString("T", System.Globalization.CultureInfo.InvariantCulture))');
-            $('#addLockoutEnd').val(date + " " + time);
-
+            $('#addLockoutEnd').val($('#addLockoutEndDate').val() + ' ' + $('#addLockoutEndTime').val());
         });
 
         function RemoveClaim( element, event) {
@@ -311,10 +311,10 @@
             $(element).parents().eq(1).remove();
         }
 
-        $('#addClaimBtn').on('click', function (e) {
+        $('#editClaimBtn').on('click', function (e) {
             e.preventDefault();
-            var claim = $('#addClaim').val();
-            var claimType = $('#addClaimType').val();
+            var claim = $('#editClaim').val();
+            var claimType = $('#editClaimType').val();
             console.log(claim);
             if (claim.length < 1 || claimType.length < 1)
             {
@@ -322,28 +322,46 @@
             }
             else
             {
-                $('#addClaimTableBody').append('<tr><td><button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button><input type="hidden" name="dto.Claims[' + claim + ']" value="' + claimType +'" /></td><td>' + claim + '</td><td>' + claimType + '</td></tr>');
+                $('#editClaimTableBody').append('<tr><td><button class="btn btn-danger btn-sm editClaimRemove" onclick="RemoveClaim(this, event);"></button><input type="hidden" name="dto.Claims[' + claim + ']" value="' + claimType + '" /></td><td>' + claim + '</td><td>' + claimType + '</td></tr>');
+                $('#editClaim').val('');
+                $('#editClaimType').val('');
             }
         });
+
+        $('#addClaimBtn').on('click', function (e) {
+            e.preventDefault();
+            var claim = $('#addClaim').val();
+            var claimType = $('#addClaimType').val();
+            console.log(claim);
+            if (claim.length < 1 || claimType.length < 1) {
+                alert('claim and claim type must have a value');
+            }
+            else {
+                $('#addClaimTableBody').append('<tr><td><button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button><input type="hidden" name="dto.Claims[' + claim + ']" value="' + claimType + '" /></td><td>' + claim + '</td><td>' + claimType + '</td></tr>');
+                $('#addClaim').val('');
+                $('#addClaimType').val('');
+            }
+        });
+
         $('#addLockoutEndDate').on('change', function () {
             var date = $('#addLockoutEndDate').val();
             var time = $('#addLockoutEndTime').val();
-            $('#addLockoutEnd').val(date + " " + time);
+            $('#addLockoutEnd').val(date + ' ' + time);
         });
         $('#addLockoutEndTime').on('change', function () {
             var date = $('#addLockoutEndDate').val();
             var time = $('#addLockoutEndTime').val();
-            $('#addLockoutEnd').val(date + " " + time);
+            $('#addLockoutEnd').val(date + ' ' + time);
         });
         $('#editLockoutEndDate').on('change', function () {
             var date = $('#editLockoutEndDate').val();
             var time = $('#editLockoutEndTime').val();
-            $('#editLockoutEnd').val(date + " " + time);
+            $('#editLockoutEnd').val(date + ' ' + time);
         });
         $('#editLockoutEndTime').on('change', function () {
             var date = $('#editLockoutEndDate').val();
             var time = $('#editLockoutEndTime').val();
-            $('#editLockoutEnd').val(date + " " + time);
+            $('#editLockoutEnd').val(date + ' ' + time);
         });
 
         $('#editModal').on('show.bs.modal', function (event) {
@@ -353,17 +371,32 @@
             modal.find('.modal-body #editUsername').val(button.data('username'));
             modal.find('.modal-body #editEmail').val(button.data('email'));
             modal.find('.modal-body #editPhoneNumber').val(button.data('phonenumber'));
-            modal.find('.modal-body #editUse2fa').val(button.data('use2fa'));
-            modal.find('.modal-body #editConfirmEmail').val(button.data('emailconfirmed'));
-            modal.find('.modal-body #editConfirmPhoneNumber').val(button.data('phonenumberconfirmed'));
-            modal.find('.modal-body #editEnableLockout').val(button.data('lockoutenabled'));
             modal.find('.modal-body #editLockoutEndDate').val(button.data('lockoutenddate'));
             modal.find('.modal-body #editLockoutEndTime').val(button.data('lockoutendtime'));
+            $('#editLockoutEnd').val(button.data('lockoutenddate') + ' ' + button.data('lockoutendtime'));
             modal.find('.modal-body #editConcurrencyStamp').val(button.data('concurrencystamp'));
+            modal.find('.modal-body #editUse2fa').prop('checked', button.data('use2fa') === 'True');
+            modal.find('.modal-body #editConfirmEmail').prop('checked', button.data('emailconfirmed') === 'True');
+            modal.find('.modal-body #editConfirmPhoneNumber').prop('checked', button.data('phonenumberconfirmed') === 'True');
+            modal.find('.modal-body #editEnableLockout').prop('checked', button.data('lockoutenabled') === 'True');
+        
             var rolelist = button.data('rolelist');
             @foreach (var item in Model.UserRoleList.Items)@*not exactly pretty but will do for now*@
             {
                 <text>modal.find('.modal-body @("#editRole"+item.RoleName)').prop('checked', rolelist.includes('@item.RoleName'));</text>
+            }
+
+            var claimRows = $('#editClaimTableBody .editClaimRemove');
+            for (var key in claimRows) {
+                $('#editClaimTableBody .editClaimRemove').parents().eq(1).remove();
+            }
+
+            var claimlist = button.data('claimlist');
+            for (var key in claimlist) {
+                for (var kkey in claimlist[key])
+                {
+                    $('#editClaimTableBody').append('<tr><td><button class="btn btn-danger btn-sm editClaimRemove" onclick="RemoveClaim(this, event);"></button><input type="hidden" name="dto.Claims[' + kkey + ']" value="' + claimlist[key][kkey] + '" /></td><td>' + kkey + '</td><td>' + claimlist[key][kkey] + '</td></tr>');
+                }
             }
         });
 

@@ -11,7 +11,7 @@ namespace Ids.SimpleAdmin.Tests
             var migrationAssembly = GetMigrationAssembly();
             Setup(services =>
             {
-                services.AddIdentityServerAddOn();
+                //services.AddIdentityServerAddOn();
                 services.AddIdentityContext(connectionsString, migrationAssembly);
             }, null);
         }

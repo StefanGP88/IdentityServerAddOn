@@ -62,7 +62,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             user.PhoneNumberConfirmed = dto.ConfirmPhoneNumber;
             user.LockoutEnabled = dto.EnableLockout;
             user.ConcurrencyStamp = dto.ConcurrencyStamp;
-            user.LockoutEnd = dto.EndLockout;
+            user.LockoutEnd = DateTime.SpecifyKind(dto.EndLockout, DateTimeKind.Utc);
             return user;
         }
     }
