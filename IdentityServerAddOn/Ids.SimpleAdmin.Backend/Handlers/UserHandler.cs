@@ -36,7 +36,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             {
                 throw new Exception("Not created");
             }
-            await UpdateUserRole(user, dto.Roles).ConfigureAwait(false);
+            await UpdateUserRole(user, dto.Roles.Select(x=>x.Value).ToList()).ConfigureAwait(false);
             await UpdateUserClaims(user, dto.Claims).ConfigureAwait(false);
         }
 
@@ -58,7 +58,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             {
                 throw new Exception("Not updated");
             }
-            await UpdateUserRole(user, dto.Roles).ConfigureAwait(false);
+            await UpdateUserRole(user, dto.Roles.Select(x=>x.Value).ToList()).ConfigureAwait(false);
             await UpdateUserClaims(user, dto.Claims).ConfigureAwait(false);
         }
 
@@ -88,7 +88,6 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             var userIds = idUsers.ConvertAll(c => c.Id);
 
             //var userRoles = await Task.WhenAll(idUsers.ConvertAll(x => _userManager.GetRolesAsync(x))).ConfigureAwait(false);
-      
 
             var idClaims = await _dbContext.UserClaims.Where(y => userIds.Contains(y.UserId)).ToListAsync(cancel).ConfigureAwait(false);
 

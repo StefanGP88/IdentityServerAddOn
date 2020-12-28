@@ -137,7 +137,7 @@
                         {
                             <tr>
                                 <td>
-                                    <input type="checkbox" id="@("addRole"+item.RoleName)" name="dto.Roles[@Model.UserRoleList.Items.IndexOf(item)]" value="@item.RoleName" />
+                                    <input type="checkbox" id="@("addRole"+item.RoleName)" name="dto.Roles[@item.Id]" value="@item.RoleName" />
                                 </td>
                                 <td>@item.RoleName</td>
                             </tr>
@@ -245,7 +245,7 @@
                         {
                             <tr>
                                 <td>
-                                    <input type="checkbox" id="@("editRole"+item.RoleName)" name="dto.Roles[@Model.UserRoleList.Items.IndexOf(item)]" value="@item.RoleName" />
+                                    <input type="checkbox" id="@("editRole"+item.RoleName)" name="dto.Roles[@item.Id]" value="@item.RoleName" />
                                 </td>
                                 <td>@item.RoleName</td>
                             </tr>
