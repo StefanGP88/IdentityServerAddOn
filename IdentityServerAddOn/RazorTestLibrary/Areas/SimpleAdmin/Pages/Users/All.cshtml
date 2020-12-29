@@ -242,7 +242,7 @@
                 <table class="table table-sm">
                     <tbody>
                         @foreach (var item in Model.UserRoleList.Items)
-                        {
+                        {//
                             <tr>
                                 <td>
                                     <input type="checkbox" id="@("editRole"+item.RoleName)" name="dto.Roles[@item.Id]" value="@item.RoleName" />
