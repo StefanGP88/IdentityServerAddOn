@@ -33,14 +33,14 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                     Key = x.Key,
                     Value = x.Value
                 }).ToList(),
-                UserClaims = dto.Claims.ConvertAll(x => new ApiScopeClaim
+                UserClaims = dto.Claims.Select(x => new ApiScopeClaim
                 {
-                    Type = x
-                })
+                    Type = x.Value
+                }).ToList()
             };
 
             _ = await _confContext.ApiScopes.AddAsync(newScope, cancel).ConfigureAwait(false);
-
+            await _confContext.SaveChangesAsync(false).ConfigureAwait(false);
             return new ApiScopeResponseDto();
         }
 

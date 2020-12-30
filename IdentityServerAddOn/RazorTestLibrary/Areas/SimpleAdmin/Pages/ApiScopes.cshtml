@@ -165,12 +165,6 @@
 @section Scripts{
     <script type="text/javascript">
 
-        $(document).ready(function () {
-            $('#addLockoutEndDate').val('@(new DateTime(1970, 1, 1).ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture))');
-            $('#addLockoutEndTime').val('@(new DateTime(1970, 1, 1).ToString("T", System.Globalization.CultureInfo.InvariantCulture))');
-            $('#addLockoutEnd').val($('#addLockoutEndDate').val() + ' ' + $('#addLockoutEndTime').val());
-        });
-
         $('#addClaimBtn').on('click', function (e) {
             e.preventDefault();
             var claim = $('#addClaim').val();
@@ -191,7 +185,7 @@
                 alert('property and property key must have a value');
             }
             else {
-                $('#addPropertyTableBody').append('<tr><td><button class="btn btn-danger btn-sm editClaimRemove" onclick="RemoveClaim(this, event);"></button><input type="hidden" name="dto.Properties[' + property + ']" value="' + propertyKey + '" /></td><td>' + property + '</td><td>' + propertyKey + '</td></tr>');
+                $('#addPropertyTableBody').append('<tr><td><button class="btn btn-danger btn-sm editClaimRemove" onclick="RemoveClaim(this, event);"></button><input type="hidden" name="dto.Properties[' + propertyKey + ']" value="' + property + '" /></td><td>' + property + '</td><td>' + propertyKey + '</td></tr>');
                 $('#addProperty').val('');
                 $('#addPropertyKey').val('');
             }

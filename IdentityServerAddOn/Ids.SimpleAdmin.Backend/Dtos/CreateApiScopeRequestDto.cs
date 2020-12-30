@@ -11,7 +11,7 @@ namespace Ids.SimpleAdmin.Backend.Dtos
         public bool Required { get; set; }
         public bool Emphasize { get; set; }
         public bool ShowInDiscoveryDocument { get; set; }
-        public List<string> Claims { get; set; }
+        public Dictionary<string, string> Claims { get; set; }
         public Dictionary<string, string> Properties { get; set; }
     }
 }
