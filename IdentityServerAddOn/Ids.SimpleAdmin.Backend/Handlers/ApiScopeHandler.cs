@@ -3,6 +3,7 @@ using IdentityServer4.EntityFramework.Entities;
 using Ids.SimpleAdmin.Backend.Dtos;
 using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -59,6 +60,47 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 Items = scopes.ConvertAll(x => MapToDto(x)),
                 TotalItems = scopes.Count
             };
+        }
+
+        public async Task<ApiScopeResponseDto> UpdateApiScope(UpdateApiScopeRequestDto dto)
+        {
+            var scope = await _confContext.ApiScopes
+                .Include(x=>x.UserClaims)
+                .Include(x=>x.Properties)
+                .FirstOrDefaultAsync(x => x.Id == dto.Id)
+                .ConfigureAwait(false);
+            if (scope == null) throw new Exception("scope not found");
+
+            scope.Description = dto.Description;
+            scope.DisplayName = dto.DisplayName;
+            scope.Emphasize = dto.Emphasize;
+            scope.Enabled = dto.Enabled;
+            scope.Name = dto.Name;
+            scope.Required = dto.Required;
+            scope.ShowInDiscoveryDocument = dto.ShowInDiscoveryDocument;
+
+            scope.UserClaims.RemoveAll(x => !dto.Claims.ContainsKey(x.Id));
+            var toUpdateScope = scope.UserClaims.Where(x => dto.Claims.ContainsKey(x.Id)).ToList();
+            var toAddScope = dto.Claims.Where(x => !toUpdateScope.Any(y => y.Id == x.Key)).ToList();
+
+            foreach(var item in toUpdateScope)
+            {
+                item.Type = dto.Claims[item.Id];
+            }
+
+            foreach(var item in toAddScope)
+            {
+                scope.UserClaims.Add(new ApiScopeClaim 
+                {
+                    ScopeId = dto.Id,
+                    Type = item.Value
+                });
+            }
+
+
+
+
+            return new ApiScopeResponseDto();
         }
 
         private ApiScopeResponseDto MapToDto(ApiScope apiScope)

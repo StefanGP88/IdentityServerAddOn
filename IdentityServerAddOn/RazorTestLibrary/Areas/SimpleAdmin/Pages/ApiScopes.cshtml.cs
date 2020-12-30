@@ -25,12 +25,12 @@ namespace RazorTestLibrary.Areas.SimpleAdmin.Pages
             return Page();
         }
 
-        //public IActionResult OnPostEdit([FromForm] UpdateApiScopeRequestDto dto, CancellationToken cancel = default)
-        //{
-        //    _ = _handler.UpdateApiScope(dto).GetAwaiter().GetResult();
-        //    List = _handler.ReadAllApiScopes(PageNumber, PageSize, cancel).GetAwaiter().GetResult();
-        //    return Page();
-        //}
+        public IActionResult OnPostEdit([FromForm] UpdateApiScopeRequestDto dto, CancellationToken cancel = default)
+        {
+            _ = _handler.UpdateApiScope(dto).GetAwaiter().GetResult();
+            List = _handler.ReadAllApiScopes(PageNumber, PageSize, cancel).GetAwaiter().GetResult();
+            return Page();
+        }
 
         //public IActionResult OnPostDelete([FromForm] DeleteApiScopeRequestDto dto, CancellationToken cancel = default)
         //{
