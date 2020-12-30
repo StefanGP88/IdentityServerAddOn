@@ -1,4 +1,7 @@
-﻿namespace Ids.SimpleAdmin.Backend.Dtos
+﻿using System.Collections.Generic;
+using System.Security.Claims;
+
+namespace Ids.SimpleAdmin.Backend.Dtos
 {
     public class RoleResponseDto
     {
@@ -6,5 +9,6 @@
         public string NormalizedName{ get; set; }
         public string Id { get; set; }
         public string ConcurrencyStamp { get; set; }
+        public List<Claim> Claims { get; set; }
     }
 }

@@ -35,9 +35,7 @@
                         data-lockoutendtime="@item?.LockoutEnd.ToString("T", System.Globalization.CultureInfo.InvariantCulture)"
                         data-concurrencystamp="@item?.ConcurrencyStamp"
                         data-rolelist="@(item.Roles.Any() ? "[\"" + string.Join("\", \"", item.Roles) + "\"]" : "[]")"
-                        @*data-claimlist="@(item.Claims.Any() ? "{"+string.Join(", ", item.Claims.Select(x=> "'"+ x.Value + "':'"+x.Type+"'").ToList()) + "}":"{}")">*@
-                    data-claimlist="@(item.Claims.Any() ? "["+string.Join(", ", item.Claims.Select(x=> "{\""+ x.Value + "\": \""+x.Type+"\"}").ToList()) + "]":"[]")">
-
+                        data-claimlist="@(item.Claims.Any() ? "["+string.Join(", ", item.Claims.Select(x=> "{\""+ x.Value + "\": \""+x.Type+"\"}").ToList()) + "]":"[]")">
                 </button>
             </td>
             <td>@item?.Username</td>
@@ -48,17 +46,7 @@
                         data-toggle="modal" data-target="#deleteModal"
                         data-userid="@item?.Userid"
                         data-username="@item?.Username"
-                        data-email="@item?.Email"
-                        data-phonenumber="@item?.Phonenumber"
-                        data-use2fa="@item?.Use2Fa"
-                        data-emailconfirmed="@item?.EmailConfirmed"
-                        data-phonenumberconfirmed="@item?.PhoneNumberConfirmed"
-                        data-lockoutenabled="@item?.LockoutEnabled"
-                        data-lockoutenddate="@item?.LockoutEnd.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)"
-                        data-lockoutendtime="@item?.LockoutEnd.ToString("T", System.Globalization.CultureInfo.InvariantCulture)"
-                        data-concurrencystamp="@item?.ConcurrencyStamp"
-                        data-rolelist="@(item.Roles.Any() ? "['" + string.Join("', '", item.Roles) + "']" : "[]")"
-                        data-claimlist="@(item.Claims.Any() ? "[{'"+string.Join("'}, {'", item.Claims.Select(x=> x.Value + ","+x.Type).ToList()) + "'}]":"[]")">
+                        data-concurrencystamp="@item?.ConcurrencyStamp">
                 </button>
             </td>
         </tr>
@@ -379,7 +367,7 @@
             modal.find('.modal-body #editConfirmEmail').prop('checked', button.data('emailconfirmed') === 'True');
             modal.find('.modal-body #editConfirmPhoneNumber').prop('checked', button.data('phonenumberconfirmed') === 'True');
             modal.find('.modal-body #editEnableLockout').prop('checked', button.data('lockoutenabled') === 'True');
-        
+
             var rolelist = button.data('rolelist');
             @foreach (var item in Model.UserRoleList.Items)@*not exactly pretty but will do for now*@
             {

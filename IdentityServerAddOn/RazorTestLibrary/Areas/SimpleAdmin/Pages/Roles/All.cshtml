@@ -21,8 +21,10 @@
             <td scope="row">
                 <button type="button" class="btn btn-info"
                         data-toggle="modal" data-target="#editModal"
-                        data-rolename="@item?.RoleName" data-roleid="@item?.Id" data-roleConcurrency="@item?.ConcurrencyStamp">
-                    Edit
+                        data-rolename="@item?.RoleName"
+                        data-roleid="@item?.Id"
+                        data-claimlist="@(item.Claims.Any() ? "["+string.Join(", ", item.Claims.Select(x=> "{\""+ x.Value + "\": \""+x.Type+"\"}").ToList()) + "]":"[]")"
+                        data-roleConcurrency="@item?.ConcurrencyStamp">
                 </button>
             </td>
             <td>@item?.RoleName</td>
@@ -30,8 +32,9 @@
             <td>
                 <button type="button" class="btn btn-danger float-right"
                         data-toggle="modal" data-target="#deleteModal"
-                        data-rolename="@item?.RoleName" data-roleid="@item?.Id" data-roleconcurrency="@item?.ConcurrencyStamp">
-                    Delete
+                        data-rolename="@item?.RoleName"
+                        data-roleid="@item?.Id"
+                        data-roleconcurrency="@item?.ConcurrencyStamp">
                 </button>
             </td>
         </tr>
@@ -44,11 +47,51 @@
 
 @section AddModalBody{
     <form id="AddForm" method="post" asp-page-handler="Add" asp-route-pageNumber="@Model.List.Page" asp-route-pageSize="@Model.List.PageSize">
-        @*Is there no tag helper for adding a anti forgery token? *@
+        @*TODO: Is there no tag helper for adding a anti forgery token? *@
         @Html.AntiForgeryToken()
-        <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Rolename</label>
-            <input type="text" class="form-control" id="addRoleName" name="roleName">
+        <nav>
+            <div>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-basesettingsadd-tab" data-toggle="tab" href="#nav-basesettingsadd" role="tab" aria-controls="nav-basesettingsadd" aria-selected="true">Base Settings</a>
+                    <a class="nav-item nav-link" id="nav-claimsadd-tab" data-toggle="tab" href="#nav-claimsadd" role="tab" aria-controls="nav-claimsadd" aria-selected="false">Role claims</a>
+                </div>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-basesettingsadd" role="tabpanel" aria-labelledby="nav-basesettingsadd-tab">
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Rolename</label>
+                    <input type="text" class="form-control" id="addRoleName" name="dto.RoleName">
+                </div>
+            </div>
+            <div class="tab-pane fade show" id="nav-claimsadd" role="tabpanel" aria-labelledby="nav-claimsadd-tab">
+                <br />
+                <table class="table table-sm">
+                    <tbody id="addClaimTableBody">
+                        <tr>
+                            <td scope="col">
+                            </td>
+                            <td scope="col">
+                                Claim
+                            </td>
+                            <td scope="col">
+                                Claim type
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="col">
+                                <button id="addClaimBtn" class="btn btn-primary btn-sm addsign"></button>
+                            </td>
+                            <td scope="col">
+                                <input type="text" id="addClaim" />
+                            </td>
+                            <td scope="col">
+                                <input type="text" id="addClaimType" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </form>
 }
@@ -56,9 +99,49 @@
 @section EditModalBody{
     <form id="EditForm" method="post" asp-page-handler="Edit" asp-route-pageNumber="@Model.List.Page" asp-route-pageSize="@Model.List.PageSize">
         @Html.AntiForgeryToken()
-        <div class="form-group">
-            <label for="recipient-name" class="col-form-label">RoleName</label>
-            <input type="text" class="form-control" id="editRoleName" name="dto.RoleName">
+        <nav>
+            <div>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-basesettingsedit-tab" data-toggle="tab" href="#nav-basesettingsedit" role="tab" aria-controls="nav-basesettingsedit" aria-selected="true">Base Settings</a>
+                    <a class="nav-item nav-link" id="nav-claimsedit-tab" data-toggle="tab" href="#nav-claimsedit" role="tab" aria-controls="nav-claimsedit" aria-selected="false">Role claims</a>
+                </div>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-basesettingsedit" role="tabpanel" aria-labelledby="nav-basesettingsedit-tab">
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">RoleName</label>
+                    <input type="text" class="form-control" id="editRoleName" name="dto.RoleName">
+                </div>
+            </div>
+            <div class="tab-pane fade show" id="nav-claimsedit" role="tabpanel" aria-labelledby="nav-claimsedit-tab">
+                <br />
+                <table class="table table-sm">
+                    <tbody id="editClaimTableBody">
+                        <tr>
+                            <td scope="col">
+                            </td>
+                            <td scope="col">
+                                Claim
+                            </td>
+                            <td scope="col">
+                                Claim type
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="col">
+                                <button id="editClaimBtn" class="btn btn-primary btn-sm addsign"></button>
+                            </td>
+                            <td scope="col">
+                                <input type="text" id="editClaim" />
+                            </td>
+                            <td scope="col">
+                                <input type="text" id="editClaimType" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <input type="hidden" id="editId" name="dto.Id" />
         <input type="hidden" id="editConcurrencyStamp" name="dto.ConcurrencyStamp" />
@@ -84,6 +167,18 @@
             modal.find('.modal-body #editRoleName').val(button.data('rolename'));
             modal.find('.modal-body #editId').val(button.data('roleid'));
             modal.find('.modal-body #editConcurrencyStamp').val(button.data('roleconcurrency'));
+
+            var claimRows = $('#editClaimTableBody .editClaimRemove');
+            for (var key in claimRows) {
+                $('#editClaimTableBody .editClaimRemove').parents().eq(1).remove();
+            }
+
+            var claimlist = button.data('claimlist');
+            for (var key in claimlist) {
+                for (var kkey in claimlist[key]) {
+                    $('#editClaimTableBody').append('<tr><td><button class="btn btn-danger btn-sm editClaimRemove" onclick="RemoveClaim(this, event);"></button><input type="hidden" name="dto.Claims[' + kkey + ']" value="' + claimlist[key][kkey] + '" /></td><td>' + kkey + '</td><td>' + claimlist[key][kkey] + '</td></tr>');
+                }
+            }
         });
 
         $('#deleteModal').on('show.bs.modal', function (event) {
@@ -92,6 +187,41 @@
             modal.find('.modal-body #deleteRoleName').text(button.data('rolename'));
             modal.find('.modal-body #deleteId').val(button.data('roleid'));
             modal.find('.modal-body #deleteConcurrencyStamp').val(button.data('roleconcurrency'));
+        });
+
+        function RemoveClaim(element, event) {
+            event.preventDefault();
+            $(element).parents().eq(1).remove();
+        }
+
+        $('#editClaimBtn').on('click', function (e) {
+            e.preventDefault();
+            var claim = $('#editClaim').val();
+            var claimType = $('#editClaimType').val();
+            console.log(claim);
+            if (claim.length < 1 || claimType.length < 1) {
+                alert('claim and claim type must have a value');
+            }
+            else {
+                $('#editClaimTableBody').append('<tr><td><button class="btn btn-danger btn-sm editClaimRemove" onclick="RemoveClaim(this, event);"></button><input type="hidden" name="dto.Claims[' + claim + ']" value="' + claimType + '" /></td><td>' + claim + '</td><td>' + claimType + '</td></tr>');
+                $('#editClaim').val('');
+                $('#editClaimType').val('');
+            }
+        });
+
+        $('#addClaimBtn').on('click', function (e) {
+            e.preventDefault();
+            var claim = $('#addClaim').val();
+            var claimType = $('#addClaimType').val();
+            console.log(claim);
+            if (claim.length < 1 || claimType.length < 1) {
+                alert('claim and claim type must have a value');
+            }
+            else {
+                $('#addClaimTableBody').append('<tr><td><button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button><input type="hidden" name="dto.Claims[' + claim + ']" value="' + claimType + '" /></td><td>' + claim + '</td><td>' + claimType + '</td></tr>');
+                $('#addClaim').val('');
+                $('#addClaimType').val('');
+            }
         });
     </script>
 }

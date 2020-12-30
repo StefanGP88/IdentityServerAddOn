@@ -6,7 +6,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers.Interfaces
 {
     public interface IRoleHandler
     {
-        Task<RoleResponseDto> CreateRole(string roleName);
+        Task<RoleResponseDto> CreateRole(CreateRoleRequestDto dto);
 
         Task<ListDto<RoleResponseDto>> ReadRoles(int page, int pageSize, CancellationToken cancel);
         Task<ListDto<RoleResponseDto>> ReadAllRoles(CancellationToken cancel);

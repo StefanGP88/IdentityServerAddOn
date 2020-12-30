@@ -18,9 +18,9 @@ namespace RazorTestLibrary.Areas.SimpleAdmin.Pages.Roles
             List = _handler.ReadRoles(PageNumber, PageSize, cancel).GetAwaiter().GetResult();
             return Page();
         }
-        public IActionResult OnPostAdd([FromForm] string roleName, CancellationToken cancel = default)
+        public IActionResult OnPostAdd([FromForm] CreateRoleRequestDto dto, CancellationToken cancel = default)
         {
-            _ = _handler.CreateRole(roleName).GetAwaiter().GetResult();
+            _ = _handler.CreateRole(dto).GetAwaiter().GetResult();
             List = _handler.ReadRoles(PageNumber, PageSize, cancel).GetAwaiter().GetResult();
             return Page();
         }
