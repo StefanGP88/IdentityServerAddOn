@@ -11,6 +11,8 @@ namespace Ids.SimpleAdmin.Backend
         {
             sc.AddScoped<IRoleHandler, RoleHandler>();
             sc.AddScoped<IUserHandler, UserHandler<TContext>>();
+            sc.AddScoped<IApiScopeHandler, ApiScopeHandler>();
+
             sc.AddScoped<IUserRoleHandler, UserRoleHandler>();
 
             //TODO: can these claim handlers user same interface ?

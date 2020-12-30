@@ -1,0 +1,45 @@
+﻿@page "{handler?}"
+@model RazorTestLibrary.Areas.SimpleAdmin.Pages.ApiScopesModel
+@{
+    Layout = "_NestedLayout";
+}
+
+@section TableHead {
+    <tr>
+        <th scope="col"></th>
+        <th scope="col">Name</th>
+        <th scope="col">Display name</th>
+        <th scope="col">Description</th>
+        <th scope="col"></th>
+    </tr>
+}
+@section TableBody{
+    @foreach (var item in Model?.List?.Items)
+    {
+        <tr>
+            <td scope="row">
+                <button type="button" class="btn btn-info"
+                        data-toggle="modal" data-target="#editModal"
+                        data-userid="@item?.Description"
+                        data-username="@item?.DisplayName"
+                        data-email="@item?.Emphasize"
+                        data-phonenumber="@item?.Enabled"
+                        data-use2fa="@item?.Id"
+                        data-emailconfirmed="@item?.Name"
+                        data-phonenumberconfirmed="@item?.Required"
+                        data-lockoutenabled="@item?.ShowInDiscoveryDocument">
+                </button>
+            </td>
+            <td>@item?.Name</td>
+            <td>@item?.DisplayName</td>
+            <td>@item?.Description</td>
+            <td>
+                <button type="button" class="btn btn-danger float-right"
+                        data-toggle="modal" data-target="#deleteModal"
+                        data-userid="@item?.Id"
+                        data-username="@item?.Name">
+                </button>
+            </td>
+        </tr>
+    }
+}
