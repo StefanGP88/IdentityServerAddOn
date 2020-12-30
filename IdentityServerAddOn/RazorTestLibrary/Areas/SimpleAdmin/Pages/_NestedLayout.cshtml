@@ -134,6 +134,12 @@
         $('input.btn-info').prop('title', 'Save');
         $('button.btn-secondary').prop('title', 'Close');
         $('a.addsign').prop('title', 'Add');
+
+        function RemoveClaim(element, event) {
+            event.preventDefault();
+            $(element).parents().eq(1).remove();
+        }
+
     </script>
     @RenderSection("scripts", required: false)
 }

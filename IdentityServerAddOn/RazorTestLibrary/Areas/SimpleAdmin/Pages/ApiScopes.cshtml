@@ -20,14 +20,14 @@
             <td scope="row">
                 <button type="button" class="btn btn-info"
                         data-toggle="modal" data-target="#editModal"
-                        data-userid="@item?.Description"
-                        data-username="@item?.DisplayName"
-                        data-email="@item?.Emphasize"
-                        data-phonenumber="@item?.Enabled"
-                        data-use2fa="@item?.Id"
-                        data-emailconfirmed="@item?.Name"
-                        data-phonenumberconfirmed="@item?.Required"
-                        data-lockoutenabled="@item?.ShowInDiscoveryDocument">
+                        data-scopeid="@item?.Id"
+                        data-name="@item?.Name"
+                        data-displayName="@item?.DisplayName"
+                        data-description="@item?.Description"
+                        data-enabled="@item?.Enabled"
+                        data-required="@item?.Required"
+                        data-emphasize="@item?.Emphasize"
+                        data-showindiscoverydocument="@item?.ShowInDiscoveryDocument">
                 </button>
             </td>
             <td>@item?.Name</td>
@@ -50,6 +50,99 @@
 @section AddModalBody{
     <form id="AddForm" method="post" asp-page-handler="Add" asp-route-pageNumber="@Model.List.Page" asp-route-pageSize="@Model.List.PageSize">
         @Html.AntiForgeryToken()
+        <nav>
+            <div>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-basesettingsadd-tab" data-toggle="tab" href="#nav-basesettingsadd" role="tab" aria-controls="nav-basesettingsadd" aria-selected="true">Base Settings</a>
+                    <a class="nav-item nav-link" id="nav-claimsadd-tab" data-toggle="tab" href="#nav-claimsadd" role="tab" aria-controls="nav-claimsadd" aria-selected="false">Claims</a>
+                    <a class="nav-item nav-link" id="nav-propertyadd-tab" data-toggle="tab" href="#nav-propertyadd" role="tab" aria-controls="nav-propertyadd" aria-selected="false">Properties</a>
+                </div>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-basesettingsadd" role="tabpanel" aria-labelledby="nav-basesettingsadd-tab">
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Name</label>
+                    <input type="text" class="form-control" id="editScopeName" name="dto.Name">
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Display name</label>
+                    <input type="text" class="form-control" id="editScopeDisplayName" name="dto.DisplayName">
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Description</label>
+                    <textarea class="form-control" id="editScopeDescription" name="dto.Description"></textarea>
+                </div>
+                <fieldset class="form-group">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="addEnabled" name="dto.Enabled" value="True" />
+                        <label for="reciepent-name" class="form-check-label">Is enabled</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="addRequired" name="dto.Required" value="True" />
+                        <label for="reciepent-name" class="form-check-label">Is required</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="addEmphasize" name="dto.Emphasize" value="True" />
+                        <label for="reciepent-name" class="form-check-label">Emphasize</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="addShowInDiscovery" name="dto.ShowInDiscoveryDocument" value="True" />
+                        <label for="reciepent-name" class="form-check-label">Show in discovery document</label>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="tab-pane fade" id="nav-claimsadd" role="tabpanel" aria-labelledby="nav-claimsadd-tab">
+                <br />
+                <table class="table table-sm">
+                    <tbody id="addClaimTableBody">
+                        <tr>
+                            <td scope="col">
+                            </td>
+                            <td scope="col">
+                                Claim
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="col">
+                                <button id="addClaimBtn" class="btn btn-primary btn-sm addsign"></button>
+                            </td>
+                            <td scope="col">
+                                <input type="text" id="addClaim" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="nav-propertyadd" role="tabpanel" aria-labelledby="nav-propertyadd-tab">
+                <br />
+                <table class="table table-sm">
+                    <tbody id="addPropertyTableBody">
+                        <tr>
+                            <td scope="col">
+                            </td>
+                            <td scope="col">
+                                Property
+                            </td>
+                            <td scope="col">
+                                Key
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="col">
+                                <button id="addPropertyBtn" class="btn btn-primary btn-sm addsign"></button>
+                            </td>
+                            <td scope="col">
+                                <input type="text" id="addProperty" />
+                            </td>
+                            <td scope="col">
+                                <input type="text" id="addPropertyKey" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </form>
 }
 
@@ -67,4 +160,41 @@
         @Html.AntiForgeryToken()
         <input type="hidden" id="deleteId" name="userId" />
     </form>
+}
+
+@section Scripts{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#addLockoutEndDate').val('@(new DateTime(1970, 1, 1).ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture))');
+            $('#addLockoutEndTime').val('@(new DateTime(1970, 1, 1).ToString("T", System.Globalization.CultureInfo.InvariantCulture))');
+            $('#addLockoutEnd').val($('#addLockoutEndDate').val() + ' ' + $('#addLockoutEndTime').val());
+        });
+
+        $('#addClaimBtn').on('click', function (e) {
+            e.preventDefault();
+            var claim = $('#addClaim').val();
+            if (claim.length < 1 ) {
+                alert('claim must have a value');
+            }
+            else {
+                $('#addClaimTableBody').append('<tr><td><button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button><input type="hidden" name="dto.Claims[' + claim + ']" value="' + claim + '" /></td><td>' + claim + '</td></tr>');
+                $('#addClaim').val('');
+            }
+        });
+
+        $('#addPropertyBtn').on('click', function (e) {
+            e.preventDefault();
+            var property = $('#addProperty').val();
+            var propertyKey = $('#addPropertyKey').val();
+            if (property.length < 1 || propertyKey.length < 1) {
+                alert('property and property key must have a value');
+            }
+            else {
+                $('#addPropertyTableBody').append('<tr><td><button class="btn btn-danger btn-sm editClaimRemove" onclick="RemoveClaim(this, event);"></button><input type="hidden" name="dto.Properties[' + property + ']" value="' + propertyKey + '" /></td><td>' + property + '</td><td>' + propertyKey + '</td></tr>');
+                $('#addProperty').val('');
+                $('#addPropertyKey').val('');
+            }
+        });
+    </script>
 }

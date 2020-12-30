@@ -294,11 +294,6 @@
             $('#addLockoutEnd').val($('#addLockoutEndDate').val() + ' ' + $('#addLockoutEndTime').val());
         });
 
-        function RemoveClaim( element, event) {
-            event.preventDefault();
-            $(element).parents().eq(1).remove();
-        }
-
         $('#editClaimBtn').on('click', function (e) {
             e.preventDefault();
             var claim = $('#editClaim').val();
