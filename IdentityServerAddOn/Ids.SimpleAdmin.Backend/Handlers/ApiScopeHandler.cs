@@ -61,7 +61,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 TotalItems = scopes.Count
             };
         }
-
+        //
         public async Task<ApiScopeResponseDto> UpdateApiScope(UpdateApiScopeRequestDto dto)
         {
             var scope = await _confContext.ApiScopes
