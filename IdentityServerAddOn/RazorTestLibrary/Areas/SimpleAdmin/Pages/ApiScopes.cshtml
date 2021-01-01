@@ -27,7 +27,9 @@
                         data-enabled="@item?.Enabled"
                         data-required="@item?.Required"
                         data-emphasize="@item?.Emphasize"
-                        data-showindiscoverydocument="@item?.ShowInDiscoveryDocument">
+                        data-showindiscoverydocument="@item?.ShowInDiscoveryDocument"
+                        data-claimlist="@(item.Claims.Any() ? "["+string.Join(", ", item.Claims.Select(x=> "{\"" + x.Value + "\": \"" + x.Key + "\"}").ToList()) + "]":"[]")"
+                        data-propertylist="@(item.Properties.Any()?"{"+string.Join(", ", item.Properties.Select().)+"]":"[]")">
                 </button>
             </td>
             <td>@item?.Name</td>
@@ -168,7 +170,7 @@
         $('#addClaimBtn').on('click', function (e) {
             e.preventDefault();
             var claim = $('#addClaim').val();
-            if (claim.length < 1 ) {
+            if (claim.length < 1) {
                 alert('claim must have a value');
             }
             else {

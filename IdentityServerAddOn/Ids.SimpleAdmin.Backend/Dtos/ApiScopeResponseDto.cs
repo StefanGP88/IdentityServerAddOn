@@ -1,4 +1,6 @@
-﻿namespace Ids.SimpleAdmin.Backend.Dtos
+﻿using System.Collections.Generic;
+
+namespace Ids.SimpleAdmin.Backend.Dtos
 {
     public class ApiScopeResponseDto
     {
@@ -10,5 +12,13 @@
         public bool Required { get; set; }
         public bool Emphasize { get; set; }
         public bool ShowInDiscoveryDocument { get; set; }
+        public Dictionary<int , string > Claims { get; set; }
+        public Dictionary<int , ApiScopePropertyResponseDto> Properties { get; set; }
     }
+    public class ApiScopePropertyResponseDto
+    {
+        public string Key { get; set; }
+        public string  PropertyValue { get; set; }
+    }
+    
 }

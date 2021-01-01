@@ -50,6 +50,8 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             var scopes = await _confContext.ApiScopes
                             .OrderBy(x => x.Name)
                             .Skip(page * pageSize)
+                            .Include(x => x.UserClaims)
+                            .Include(x => x.Properties)
                             .Take(pageSize)
                             .ToListAsync(cancel)
                             .ConfigureAwait(false);
@@ -65,8 +67,8 @@ namespace Ids.SimpleAdmin.Backend.Handlers
         public async Task<ApiScopeResponseDto> UpdateApiScope(UpdateApiScopeRequestDto dto)
         {
             var scope = await _confContext.ApiScopes
-                .Include(x=>x.UserClaims)
-                .Include(x=>x.Properties)
+                .Include(x => x.UserClaims)
+                .Include(x => x.Properties)
                 .FirstOrDefaultAsync(x => x.Id == dto.Id)
                 .ConfigureAwait(false);
             if (scope == null) throw new Exception("scope not found");
@@ -83,14 +85,14 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             var toUpdateScope = scope.UserClaims.Where(x => dto.Claims.ContainsKey(x.Id)).ToList();
             var toAddScope = dto.Claims.Where(x => !toUpdateScope.Any(y => y.Id == x.Key)).ToList();
 
-            foreach(var item in toUpdateScope)
+            foreach (var item in toUpdateScope)
             {
                 item.Type = dto.Claims[item.Id];
             }
 
-            foreach(var item in toAddScope)
+            foreach (var item in toAddScope)
             {
-                scope.UserClaims.Add(new ApiScopeClaim 
+                scope.UserClaims.Add(new ApiScopeClaim
                 {
                     ScopeId = dto.Id,
                     Type = item.Value
@@ -115,7 +117,9 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 Name = apiScope.Name,
                 Required = apiScope.Required,
                 ShowInDiscoveryDocument = apiScope.ShowInDiscoveryDocument,
-                Description = apiScope.Description
+                Description = apiScope.Description,
+                Claims = apiScope.UserClaims.ToDictionary(x => x.Id, x => x.Type),
+                Properties = apiScope.Properties.ToDictionary(x => x.Id, x => new ApiScopePropertyResponseDto { Key = x.Key, PropertyValue = x.Value })
             };
         }
     }
