@@ -13,12 +13,11 @@ namespace Ids.SimpleAdmin.Backend.Dtos
         public bool Emphasize { get; set; }
         public bool ShowInDiscoveryDocument { get; set; }
         public Dictionary<int , string > Claims { get; set; }
-        public Dictionary<int , ApiScopePropertyResponseDto> Properties { get; set; }
+        public Dictionary<string , ApiScopePropertyResponseDto> Properties { get; set; }
     }
     public class ApiScopePropertyResponseDto
     {
         public string Key { get; set; }
         public string  PropertyValue { get; set; }
     }
-    
 }

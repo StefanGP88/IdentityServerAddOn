@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Ids.SimpleAdmin.Backend.Dtos
 {
@@ -14,7 +12,7 @@ namespace Ids.SimpleAdmin.Backend.Dtos
         public bool Required { get; set; }
         public bool Emphasize { get; set; }
         public bool ShowInDiscoveryDocument { get; set; }
-        public Dictionary<int, string> Claims { get; set; }
-        //public Dictionary<string, string> Properties { get; set; }
+        public Dictionary<string, string> Claims { get; set; }
+        public Dictionary<string, ApiScopePropertyResponseDto> Properties { get; set; }
     }
 }

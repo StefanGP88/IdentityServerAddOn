@@ -13,8 +13,8 @@ namespace Ids.SimpleAdmin.Backend.Handlers.Interfaces
 
         //Task<ApiScopeResponseDto> ReadApiScope(string id);
 
-        Task<ApiScopeResponseDto> UpdateApiScope(UpdateApiScopeRequestDto dto);
+        Task<ApiScopeResponseDto> UpdateApiScope(UpdateApiScopeRequestDto dto, CancellationToken cancel);
 
-        //Task DeleteApiScope(DeleteApiScopeRequestDto dto);
+        Task DeleteApiScope(string id, CancellationToken token);
     }
 }

@@ -27,16 +27,16 @@ namespace RazorTestLibrary.Areas.SimpleAdmin.Pages
 
         public IActionResult OnPostEdit([FromForm] UpdateApiScopeRequestDto dto, CancellationToken cancel = default)
         {
-            _ = _handler.UpdateApiScope(dto).GetAwaiter().GetResult();
+            _ = _handler.UpdateApiScope(dto, cancel).GetAwaiter().GetResult();
             List = _handler.ReadAllApiScopes(PageNumber, PageSize, cancel).GetAwaiter().GetResult();
             return Page();
         }
 
-        //public IActionResult OnPostDelete([FromForm] DeleteApiScopeRequestDto dto, CancellationToken cancel = default)
-        //{
-        //    _handler.DeleteApiScope(dto).GetAwaiter().GetResult();
-        //    List = _handler.ReadAllApiScopes(PageNumber, PageSize, cancel).GetAwaiter().GetResult();
-        //    return Page();
-        //}
+        public IActionResult OnPostDelete([FromForm] string id, CancellationToken cancel = default)
+        {
+            _handler.DeleteApiScope(id, cancel).GetAwaiter().GetResult();
+            List = _handler.ReadAllApiScopes(PageNumber, PageSize, cancel).GetAwaiter().GetResult();
+            return Page();
+        }
     }
 }

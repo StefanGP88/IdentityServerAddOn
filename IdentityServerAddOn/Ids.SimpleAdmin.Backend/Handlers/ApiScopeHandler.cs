@@ -45,6 +45,14 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             return new ApiScopeResponseDto();
         }
 
+        public async Task DeleteApiScope(string id, CancellationToken token)
+        {
+            var scope = await _confContext.ApiScopes.FirstOrDefaultAsync(x => x.Id.ToString() == id, token).ConfigureAwait(false);
+            if (scope == null) return;
+            _confContext.ApiScopes.Remove(scope);
+            await _confContext.SaveChangesAsync(token).ConfigureAwait(false);
+        }
+
         public async Task<ListDto<ApiScopeResponseDto>> ReadAllApiScopes(int page, int pageSize, CancellationToken cancel)
         {
             var scopes = await _confContext.ApiScopes
@@ -64,7 +72,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             };
         }
 
-        public async Task<ApiScopeResponseDto> UpdateApiScope(UpdateApiScopeRequestDto dto)
+        public async Task<ApiScopeResponseDto> UpdateApiScope(UpdateApiScopeRequestDto dto, CancellationToken cancellation)
         {
             var scope = await _confContext.ApiScopes
                 .Include(x => x.UserClaims)
@@ -81,13 +89,13 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             scope.Required = dto.Required;
             scope.ShowInDiscoveryDocument = dto.ShowInDiscoveryDocument;
 
-            scope.UserClaims.RemoveAll(x => !dto.Claims.ContainsKey(x.Id));
-            var toUpdateScope = scope.UserClaims.Where(x => dto.Claims.ContainsKey(x.Id)).ToList();
-            var toAddScope = dto.Claims.Where(x => !toUpdateScope.Any(y => y.Id == x.Key)).ToList();
+            scope.UserClaims.RemoveAll(x => !dto.Claims.ContainsKey(x.Id.ToString()));
+            var toUpdateScope = scope.UserClaims.Where(x => dto.Claims.ContainsKey(x.Id.ToString())).ToList();
+            var toAddScope = dto.Claims.Where(x => !toUpdateScope.Any(y => y.Id.ToString() == x.Key)).ToList();
 
             foreach (var item in toUpdateScope)
             {
-                item.Type = dto.Claims[item.Id];
+                item.Type = dto.Claims[item.Id.ToString()];
             }
 
             foreach (var item in toAddScope)
@@ -98,6 +106,29 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                     Type = item.Value
                 });
             }
+
+            scope.Properties.RemoveAll(x=> !dto.Properties.ContainsKey(x.Id.ToString()));
+            var toUpdateProperty = scope.Properties.Where(x => dto.Properties.ContainsKey(x.Id.ToString())).ToList();
+            var toAddProperty = dto.Properties.Where(x => !toUpdateProperty.Any(y => y.Id.ToString() == x.Key)).ToList();
+
+            foreach(var item in toUpdateProperty)
+            {
+                item.Key = dto.Properties[item.Id.ToString()].Key;
+                item.Value = dto.Properties[item.Id.ToString()].PropertyValue;
+            }
+
+            foreach(var item in toAddProperty)
+            {
+                scope.Properties.Add(new ApiScopeProperty
+                {
+                    Key = item.Value.Key,
+                    Value = item.Value.PropertyValue
+                });
+            }
+
+            _confContext.ApiScopes.Update(scope);
+
+            await _confContext.SaveChangesAsync(cancellation).ConfigureAwait(false);
 
             return new ApiScopeResponseDto();
         }
@@ -116,7 +147,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 ShowInDiscoveryDocument = apiScope.ShowInDiscoveryDocument,
                 Description = apiScope.Description,
                 Claims = apiScope.UserClaims.ToDictionary(x => x.Id, x => x.Type),
-                Properties = apiScope.Properties.ToDictionary(x => x.Id, x => new ApiScopePropertyResponseDto { Key = x.Key, PropertyValue = x.Value })
+                Properties = apiScope.Properties.ToDictionary(x => x.Id.ToString(), x => new ApiScopePropertyResponseDto { Key = x.Key, PropertyValue = x.Value })
             };
         }
     }

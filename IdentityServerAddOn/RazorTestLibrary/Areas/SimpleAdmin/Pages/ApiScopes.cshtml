@@ -38,8 +38,8 @@
             <td>
                 <button type="button" class="btn btn-danger float-right"
                         data-toggle="modal" data-target="#deleteModal"
-                        data-userid="@item?.Id"
-                        data-username="@item?.Name">
+                        data-scopeid="@item?.Id"
+                        data-scopename="@item?.Name">
                 </button>
             </td>
         </tr>
@@ -161,6 +161,7 @@
                 </div>
             </div>
         </nav>
+        <input type="hidden" id="scopeid" name="dto.Id"/>
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-basesettingsedit" role="tabpanel" aria-labelledby="nav-basesettingsedit-tab">
                 <div class="form-group">
@@ -250,11 +251,11 @@
 
 @section DeleteModalBody{
     <div class="alert alert-danger" role="alert">
-        Are you sure you want to delete  <span id="deleteUserName"></span> ?
+        Are you sure you want to delete  <span id="deleteApiScope"></span> ?
     </div>
     <form id="DeleteForm" method="post" asp-page-handler="Delete" asp-route-pageNumber="@Model.List.Page" asp-route-pageSize="@Model.List.PageSize">
         @Html.AntiForgeryToken()
-        <input type="hidden" id="deleteId" name="userId" />
+        <input type="hidden" id="deleteId" name="Id" />
     </form>
 }
 
@@ -284,6 +285,32 @@
                 $('#addPropertyTableBody').append('<tr><td><button class="btn btn-danger btn-sm editClaimRemove" onclick="RemoveClaim(this, event);"></button><input type="hidden" name="dto.Properties[' + propertyKey + ']" value="' + property + '" /></td><td>' + property + '</td><td>' + propertyKey + '</td></tr>');
                 $('#addProperty').val('');
                 $('#addPropertyKey').val('');
+            }
+        });
+
+        $('#editClaimBtn').on('click', function (e) {
+            e.preventDefault();
+            var claim = $('#editClaim').val();
+            if (claim.length < 1) {
+                alert('claim must have a value');
+            }
+            else {
+                $('#editClaimTableBody').append('<tr><td><button class="btn btn-danger btn-sm editClaimRemove" onclick="RemoveClaim(this, event);"></button><input type="hidden" name="dto.Claims[' + claim + ']" value="' + claim + '" /></td><td>' + claim + '</td></tr>');
+                $('#editClaim').val('');
+            }
+        });
+
+        $('#editPropertyBtn').on('click', function (e) {
+            e.preventDefault();
+            var property = $('#editProperty').val();
+            var propertyKey = $('#editPropertyKey').val();
+            if (property.length < 1 || propertyKey.length < 1) {
+                alert('property and property key must have a value');
+            }
+            else {
+                $('#editPropertyTableBody').append('<tr><td><button class="btn btn-danger btn-sm editPropertyRemove" onclick="RemoveClaim(this, event);"></button><input type="hidden" name="dto.Properties[' + propertyKey + '].PropertyValue" value="' + property + '" /><input type="hidden" name="dto.Properties[' + propertyKey + '].Key" value="' + propertyKey + '" /></td><td>' + property + '</td><td>' + propertyKey + '</td></tr>');
+                $('#editProperty').val('');
+                $('#editPropertyKey').val('');
             }
         });
 
@@ -318,9 +345,18 @@
 
             var propertylist = button.data('propertylist');
             for (var key in propertylist) {
-                $('#editPropertyTableBody').append('<tr><td><button class="btn btn-danger btn-sm editPropertyRemove" onclick="RemoveClaim(this, event);"></button><input type="hidden" name="dto.Claims[' + propertylist[key].propertyid + '].propertyvalue" value="' + propertylist[key].propertyvalue + '" /><input type="hidden" name="dto.Claims[' + propertylist[key].propertyvalue + '].PropertyKey" value="' + propertylist[key].propertyvalue + '" /></td><td>' + propertylist[key].propertyvalue + '</td><td>' + propertylist[key].propertykey + '</td></tr>');
+                $('#editPropertyTableBody').append('<tr><td><button class="btn btn-danger btn-sm editPropertyRemove" onclick="RemoveClaim(this, event);"></button><input type="hidden" name="dto.Properties[' + propertylist[key].propertyid + '].PropertyValue" value="' + propertylist[key].propertyvalue + '" /><input type="hidden" name="dto.Properties[' + propertylist[key].propertyid + '].Key" value="' + propertylist[key].propertykey + '" /></td><td>' + propertylist[key].propertyvalue + '</td><td>' + propertylist[key].propertykey + '</td></tr>');
 
             }
+        });
+
+        $('#deleteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            console.log(button.data('scopename'));
+            console.log(button.data('scopeid'));
+            modal.find('.modal-body #deleteApiScope').text(button.data('scopename'));
+            modal.find('.modal-body #deleteId').val(button.data('scopeid'));
         });
     </script>
 }
