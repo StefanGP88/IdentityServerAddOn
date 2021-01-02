@@ -21,15 +21,15 @@
                 <button type="button" class="btn btn-info"
                         data-toggle="modal" data-target="#editModal"
                         data-scopeid="@item?.Id"
-                        data-name="@item?.Name"
-                        data-displayName="@item?.DisplayName"
+                        data-scopename="@item?.Name"
+                        data-displayname="@item?.DisplayName"
                         data-description="@item?.Description"
                         data-enabled="@item?.Enabled"
                         data-required="@item?.Required"
                         data-emphasize="@item?.Emphasize"
                         data-showindiscoverydocument="@item?.ShowInDiscoveryDocument"
-                        data-claimlist="@(item.Claims.Any() ? "["+string.Join(", ", item.Claims.Select(x=> "{\"" + x.Value + "\": \"" + x.Key + "\"}").ToList()) + "]":"[]")"
-                        data-propertylist="@(item.Properties.Any()?"{"+string.Join(", ", item.Properties.Select().)+"]":"[]")">
+                        data-claimlist="@(item.Claims.Any() ? "["+string.Join(", ", item.Claims.Select(x=> "{\"" + x.Key + "\": \"" + x.Value + "\"}").ToList()) + "]":"[]")"
+                        data-propertylist="@(item.Properties.Any()?"["+string.Join(", ", item.Properties.Select(x=> "{\"propertyid\":\""+x.Key+"\", \"propertykey\":\""+x.Value.Key+"\", \"propertyvalue\":\""+x.Value.PropertyValue+"\"}").ToList())+"]":"[]")">
                 </button>
             </td>
             <td>@item?.Name</td>
@@ -63,17 +63,18 @@
         </nav>
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-basesettingsadd" role="tabpanel" aria-labelledby="nav-basesettingsadd-tab">
+                <input type="hidden" id="scopeid" name="dto.Id" />
                 <div class="form-group">
                     <label for="recipient-name" class="col-form-label">Name</label>
-                    <input type="text" class="form-control" id="editScopeName" name="dto.Name">
+                    <input type="text" class="form-control" id="addScopeName" name="dto.Name">
                 </div>
                 <div class="form-group">
                     <label for="recipient-name" class="col-form-label">Display name</label>
-                    <input type="text" class="form-control" id="editScopeDisplayName" name="dto.DisplayName">
+                    <input type="text" class="form-control" id="addScopeDisplayName" name="dto.DisplayName">
                 </div>
                 <div class="form-group">
                     <label for="recipient-name" class="col-form-label">Description</label>
-                    <textarea class="form-control" id="editScopeDescription" name="dto.Description"></textarea>
+                    <textarea class="form-control" id="addScopeDescription" name="dto.Description"></textarea>
                 </div>
                 <fieldset class="form-group">
                     <div class="form-check">
@@ -151,6 +152,99 @@
 @section EditModalBody{
     <form id="EditForm" method="post" asp-page-handler="Edit" asp-route-pageNumber="@Model.List.Page" asp-route-pageSize="@Model.List.PageSize">
         @Html.AntiForgeryToken()
+        <nav>
+            <div>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-basesettingsedit-tab" data-toggle="tab" href="#nav-basesettingsedit" role="tab" aria-controls="nav-basesettingsedit" aria-selected="true">Base Settings</a>
+                    <a class="nav-item nav-link" id="nav-claimsedit-tab" data-toggle="tab" href="#nav-claimsedit" role="tab" aria-controls="nav-claimsedit" aria-selected="false">Claims</a>
+                    <a class="nav-item nav-link" id="nav-propertyedit-tab" data-toggle="tab" href="#nav-propertyedit" role="tab" aria-controls="nav-propertyedit" aria-selected="false">Properties</a>
+                </div>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-basesettingsedit" role="tabpanel" aria-labelledby="nav-basesettingsedit-tab">
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Name</label>
+                    <input type="text" class="form-control" id="editScopeName" name="dto.Name">
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Display name</label>
+                    <input type="text" class="form-control" id="editScopeDisplayName" name="dto.DisplayName">
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Description</label>
+                    <textarea class="form-control" id="editScopeDescription" name="dto.Description"></textarea>
+                </div>
+                <fieldset class="form-group">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="editenabled" name="dto.Enabled" value="True" />
+                        <label for="reciepent-name" class="form-check-label">Is enabled</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="editRequired" name="dto.Required" value="True" />
+                        <label for="reciepent-name" class="form-check-label">Is required</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="editEmphasize" name="dto.Emphasize" value="True" />
+                        <label for="reciepent-name" class="form-check-label">Emphasize</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="editShowInDiscovery" name="dto.ShowInDiscoveryDocument" value="True" />
+                        <label for="reciepent-name" class="form-check-label">Show in discovery document</label>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="tab-pane fade" id="nav-claimsedit" role="tabpanel" aria-labelledby="nav-claimsedit-tab">
+                <br />
+                <table class="table table-sm">
+                    <tbody id="editClaimTableBody">
+                        <tr>
+                            <td scope="col">
+                            </td>
+                            <td scope="col">
+                                Claim
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="col">
+                                <button id="editClaimBtn" class="btn btn-primary btn-sm addsign"></button>
+                            </td>
+                            <td scope="col">
+                                <input type="text" id="editClaim" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="nav-propertyedit" role="tabpanel" aria-labelledby="nav-propertyedit-tab">
+                <br />
+                <table class="table table-sm">
+                    <tbody id="editPropertyTableBody">
+                        <tr>
+                            <td scope="col">
+                            </td>
+                            <td scope="col">
+                                Property
+                            </td>
+                            <td scope="col">
+                                Key
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="col">
+                                <button id="editPropertyBtn" class="btn btn-primary btn-sm addsign"></button>
+                            </td>
+                            <td scope="col">
+                                <input type="text" id="editProperty" />
+                            </td>
+                            <td scope="col">
+                                <input type="text" id="editPropertyKey" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </form>
 }
 
@@ -190,6 +284,42 @@
                 $('#addPropertyTableBody').append('<tr><td><button class="btn btn-danger btn-sm editClaimRemove" onclick="RemoveClaim(this, event);"></button><input type="hidden" name="dto.Properties[' + propertyKey + ']" value="' + property + '" /></td><td>' + property + '</td><td>' + propertyKey + '</td></tr>');
                 $('#addProperty').val('');
                 $('#addPropertyKey').val('');
+            }
+        });
+
+        $('#editModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            modal.find('.modal-body #scopeid').val(button.data('scopeid'));
+            modal.find('.modal-body #editScopeName').val(button.data('scopename'));
+            modal.find('.modal-body #editScopeDisplayName').val(button.data('displayname'));
+            modal.find('.modal-body #editScopeDescription').val(button.data('description'));
+            modal.find('.modal-body #editenabled').prop('checked', button.data('enabled') === 'True');
+            modal.find('.modal-body #editRequired').prop('checked', button.data('required') === 'True');
+            modal.find('.modal-body #editEmphasize').prop('checked', button.data('emphasize') === 'True');
+            modal.find('.modal-body #editShowInDiscovery').prop('checked', button.data('showindiscoverydocument') === 'True');
+
+            var claimRows = $('#editClaimTableBody .editClaimRemove');
+            for (var key in claimRows) {
+                $('#editClaimTableBody .editClaimRemove').parents().eq(1).remove();
+            }
+
+            var claimlist = button.data('claimlist');
+            for (var key in claimlist) {
+                for (var kkey in claimlist[key]) {
+                    $('#editClaimTableBody').append('<tr><td><button class="btn btn-danger btn-sm editClaimRemove" onclick="RemoveClaim(this, event);"></button><input type="hidden" name="dto.Claims[' + kkey + ']" value="' + claimlist[key][kkey] + '" /></td><td>' + claimlist[key][kkey] + '</td></tr>');
+                }
+            }
+
+            var claimRows = $('#editClaimTableBody .editPropertyRemove');
+            for (var key in claimRows) {
+                $('#editPropertyTableBody .editPropertyRemove').parents().eq(1).remove();
+            }
+
+            var propertylist = button.data('propertylist');
+            for (var key in propertylist) {
+                $('#editPropertyTableBody').append('<tr><td><button class="btn btn-danger btn-sm editPropertyRemove" onclick="RemoveClaim(this, event);"></button><input type="hidden" name="dto.Claims[' + propertylist[key].propertyid + '].propertyvalue" value="' + propertylist[key].propertyvalue + '" /><input type="hidden" name="dto.Claims[' + propertylist[key].propertyvalue + '].PropertyKey" value="' + propertylist[key].propertyvalue + '" /></td><td>' + propertylist[key].propertyvalue + '</td><td>' + propertylist[key].propertykey + '</td></tr>');
+
             }
         });
     </script>
