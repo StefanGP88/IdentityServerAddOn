@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Ids.SimpleAdmin.Backend.Dtos
 {
@@ -12,5 +13,6 @@ namespace Ids.SimpleAdmin.Backend.Dtos
         public bool ShowInDiscoveryDocument { get; set; }
         public DateTime Created { get; set; }
         public bool NonEditable { get; set; }
+        public Dictionary<string,string> Claims { get; set; }
     }
 }

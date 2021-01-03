@@ -1,4 +1,5 @@
 ﻿using Ids.SimpleAdmin.Backend.Dtos;
+using Newtonsoft.Json;
 
 namespace RazorTestLibrary
 {
@@ -30,6 +31,10 @@ namespace RazorTestLibrary
         {
             var currentItemIndex = info.Page * info.PageSize;
             return currentItemIndex / newPageSize;
+        }
+        public static string AsJsonObject(this object obj)
+        {
+            return JsonConvert.SerializeObject(obj);
         }
     }
 }

@@ -8,6 +8,11 @@ namespace RazorTestLibrary.Areas.SimpleAdmin.Pages
     {
         public IActionResult OnGet(CancellationToken cancel = default)
         {
+            List = new ListDto<ApiResourceResponseDto>
+            {
+                Page = PageNumber,
+                PageSize = PageSize
+            };
             return Page();
         }
         public IActionResult OnPostAdd([FromForm] CreateApiScopeRequestDto dto, CancellationToken cancel = default)

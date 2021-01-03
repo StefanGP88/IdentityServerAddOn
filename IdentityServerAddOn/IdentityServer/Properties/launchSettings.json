@@ -18,7 +18,7 @@
     "IdentityServer": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "simpleadmin/apiscopes",
+      "launchUrl": "simpleadmin/apiresources",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
