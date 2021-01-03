@@ -4,6 +4,43 @@
     Layout = "_NestedLayout";
 }
 
+<div style="display:none">
+    <div id="selector">
+        <div class="row">
+            <div class="col">
+                asdasd
+            </div>
+            <div class="col">
+                asdasd
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                asdasd
+            </div>
+            <div class="col">
+                asdasd
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                asdasd
+            </div>
+            <div class="col">
+                asdasd
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                asdasd
+            </div>
+            <div class="col">
+                asdasd
+            </div>
+        </div>
+    </div>
+</div>
+
 @section TableHead {
     <tr>
         <th scope="col"></th>
@@ -172,69 +209,71 @@
             </div>
             <div class="tab-pane fade" id="nav-secretsadd" role="tabpanel" aria-labelledby="nav-secretsadd-tab">
                 <br />
-                    <table class="table table-sm">
-                        <tbody id="addPropertyTableBody">
-                            <tr>
-                                <td scope="col">
-                                </td>
-                                <td scope="col">
-                                    Property
-                                </td>
-                                <td scope="col">
-                                    Key
-                                </td>
-                                <td scope="col">
-                                    &ensp;
-                                </td>
-                            </tr>
-                            <tr>
-                                <td scope="col">
-                                    <button id="addPropertyBtn" class="btn btn-primary btn-sm addsign"></button>
-                                </td>
-                                <td scope="col">
-                                    <input type="text" id="addProperty" />
-                                </td>
-                                <td scope="col">
-                                    <input type="text" id="addPropertyKey" />
-                                </td>
-                                <td scope="col">
-                                    &ensp;
-                                </td>
-                            </tr>
-                            <tr>
-                                <td scope="col">
-                                    <button id="addPropertyBtn" class="btn btn-primary btn-sm addsign"></button>
-                                </td>
+                <table class="table table-sm">
+                    <tbody id="addPropertyTableBody">
+                        <tr>
+                            <td scope="col">
+                            </td>
+                            <td scope="col">
+                                Property
+                            </td>
+                            <td scope="col">
+                                Key
+                            </td>
+                            <td scope="col">
+                                &ensp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="col">
+                                <button id="addPropertyBtn" class="btn btn-primary btn-sm addsign"></button>
+                            </td>
+                            <td scope="col">
+                                <input type="text" id="addProperty" />
+                            </td>
+                            <td scope="col">
+                                <input type="text" id="addPropertyKey" />
+                            </td>
+                            <td scope="col">
+                                &ensp;
+                            </td>
+                        </tr>                    
+                        <tr>
+                            <td scope="col">
+                                <button id="addPropertyBtn" class="btn btn-primary btn-sm addsign"></button>
+                            </td>
 
-                                <td scope="col">
-                                    sfsdfsdfsdfsd
-                                </td>
-                                <td scope="col">
-                                    sfsdfsdfsdfsd
-                                </td>
-                                <td scope="col">
-                                    <button id="addPropertyBtn" class="btn btn-success btn-sm">&#128269;</button>
-                                </td>
+                            <td scope="col">
+                                sfsdfsdfsdfsd
+                            </td>
+                            <td scope="col">
+                                sfsdfsdfsdfsd
+                            </td>
+                            <td scope="col">
+                                <a tabindex="0" id="addPropertyBtn" class="btn btn-success btn-sm" role="button"
+                                   data-toggle="popover" data-trigger="focus">&#128269;</a>
+                            </td>
 
-                            </tr>
-                            <tr>
-                                <td scope="col">
-                                    <button id="addPropertyBtn" class="btn btn-primary btn-sm addsign"></button>
-                                </td>
+                        </tr>
+                        <tr>
+                            <td scope="col">
+                                <button id="addPropertyBtn" class="btn btn-primary btn-sm addsign"></button>
+                            </td>
 
-                                <td scope="col">
-                                    sfsdfsdfsdfsd
-                                </td>
-                                <td scope="col">
-                                    sfsdfsdfsdfsd
-                                </td>
-                                <td scope="col">
-                                    <button id="addPropertyBtn" class="btn btn-success btn-sm">&#128270;</button>
-                                </td>
+                            <td scope="col">
+                                sfsdfsdfsdfsd
+                            </td>
+                            <td scope="col">
+                                sfsdfsdfsdfsd
+                            </td>
+                            <td scope="col">
+                                <a tabindex="0" id="addPropertyBtn" class="btn btn-success btn-sm" role="button"
+                                   data-toggle="popover" data-trigger="focus">&#128270;</a>
+                            </td>
 
-                            </tr>
-                        </tbody>
-                    </table>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </form>
@@ -259,6 +298,14 @@
 
 @section Scripts{
     <script type="text/javascript">
-
+        $(document).ready(function () {
+            $('[data-toggle="popover"]').popover({
+                delay: { show: 0, hide: 0 },
+                html: true,
+                content: function() {
+                    return $('#selector').html();
+                }
+            });
+        });
     </script>
 }
