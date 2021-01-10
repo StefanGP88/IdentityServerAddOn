@@ -70,7 +70,6 @@
                 <a class="nav-item nav-link" id="nav-propertyadd-tab" data-toggle="tab" href="#nav-propertyadd" role="tab" aria-controls="nav-propertyadd" aria-selected="false">Properties</a>
                 <a class="nav-item nav-link" id="nav-scopesadd-tab" data-toggle="tab" href="#nav-scopesadd" role="tab" aria-controls="nav-scopesadd" aria-selected="false">Scopes</a>
                 <a class="nav-item nav-link" id="nav-secretsoverviewadd-tab" data-toggle="tab" href="#nav-secretsoverviewadd" role="tab" aria-controls="nav-secretsoverviewadd" aria-selected="false">Secrets</a>
-                <a class="nav-item nav-link" id="nav-secretadd-tab" data-toggle="tab" href="#nav-secretadd" role="tab" aria-controls="nav-secretadd" aria-selected="false">SecretsDetails</a>
             </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
@@ -185,7 +184,7 @@
                     <tbody id="addSecretOverviewTableBody">
                         <tr>
                             <td scope="col">
-                                <button id="addPropertyBtn" class="btn btn-primary btn-sm addsign"></button>
+                                <button id="addPropertyBtn" class="btn btn-primary btn-sm addsign"  data-toggle="tab" href="#nav-secretadd" role="tab" aria-controls="nav-secretadd" aria-selected="false" onclick="RemoveActive(this);"></button>
                             </td>
                             <td scope="col">
                                 <span class="text-dark font-italic">Type</span>
@@ -197,200 +196,89 @@
                                 &ensp;
                             </td>
                         </tr>
-                        <tr>
-                            <td scope="col">
-                                <button id="addPropertyBtn" class="btn btn-primary btn-sm addsign"></button>
-                            </td>
-
-                            <td scope="col">
-                                sfsdfsdfsdfsd
-                            </td>
-                            <td scope="col">
-                                sfsdfsdfsdfsd
-                            </td>
-                            <td scope="col">
-                                <a class="btn btn-success btn-sm" id="nav-secretdetailsadd-tab" data-toggle="tab" href="#nav-secretdetailsadd" role="tab" aria-controls="nav-secretdetailsadd" aria-selected="false">&#128270;</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td scope="col">
-                                <button id="addPropertyBtn" class="btn btn-primary btn-sm addsign"></button>
-                            </td>
-                            <td scope="col">
-                                sfsdfsdfsdfsd
-                            </td>
-                            <td scope="col">
-                                sfsdfsdfsdfsd
-                            </td>
-                            <td scope="col">
-                                <a class="btn btn-success btn-sm" id="nav-secretdetailsadd-tab" data-toggle="tab" href="#nav-secretdetailsadd" role="tab" aria-controls="nav-secretdetailsadd" aria-selected="false">&#128270;</a>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
             <div class="tab-pane fade" id="nav-secretdetailsadd" role="tabpanel" aria-labelledby="nav-secretdetailsadd-tab">
-                <br />
-                <table class="table table-sm">
-                    <tbody id="addPropertyTableBody">
-                        <tr>
-                            <td scope="col" class="border-top-0 py-0">
-                                <span class="text-muted font-weight-light">&ensp;</span>
-                                @*<button id="addSecretBtn" class="btn btn-primary btn-sm addsign"></button>*@
-                            </td>
-                            <td scope="col" class="border-top-0 py-0">
-                                <span class="text-muted font-weight-light">Type</span><br />
-                                <input type="text" id="addSecretTypeDetail" disabled style="width:100%;" />
-                            </td>
-                            <td scope="col" class="border-top-0 py-0">
-                                <span class="text-muted font-weight-light">Value</span><br />
-                                <input type="text" id="addSecretValueDetail" disabled style="width:100%;" />
-                            </td>
-                            <td scope="col" class="border-top-0 py-0">
-                                <span class="text-muted font-weight-light">&ensp;</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td scope="col" class="border-top-0 py-0">
-                                &ensp;
-                            </td>
-                            <td scope="col" class="border-top-0 py-0">
-                                <span class="text-muted font-weight-light">Expiration</span><br />
-                                <input type="date" id="addSecretExpirationDateDetail" style="width:100%;" disabled />
-                            </td>
-                            <td scope="col" class="border-top-0 py-0">
-                                <span class="text-muted font-weight-light">&ensp;</span><br />
-                                <input type="time" id="addSecretExpirationTimeDetail" style="width:100%;" disabled />
-                            </td>
-                            <td scope="col" class="border-top-0 py-0">
-                                &ensp;
-                            </td>
-                        </tr>
-                        <tr>
-                            <td scope="col" class="border-top-0 py-0">
-                                &ensp;
-                            </td>
-                            <td scope="col" class="border-top-0 py-0">
-                                <span class="text-muted font-weight-light">Created</span><br />
-                                <input type="date" id="addSecretCreatedDateDetail" style="width:100%;" disabled />
-                            </td>
-                            <td scope="col" class="border-top-0 py-0">
-                                <span class="text-muted font-weight-light">&ensp;</span><br />
-                                <input type="time" id="addSecretCreatedTimeDetail" style="width:100%;" disabled />
-                            </td>
-                            <td scope="col" class="border-top-0 py-0">
-                                &ensp;
-                            </td>
-                        </tr>
-                        <tr>
-                            <td scope="col" class="border-top-0 py-0">
-                                &ensp;
-                            </td>
-                            <td scope="col" class="border-top-0 py-0" colspan="2">
-                                <span class="text-muted font-weight-light">Description</span><br />
-                                <textarea id="addSecretDescriptionDetail" style="width:100%;" disabled> </textarea>
-                            </td>
-                            <td scope="col" class="border-top-0 py-0">
-                                &ensp;
-                            </td>
-                        </tr>
-                        <tr>
-                            <td scope="col" class="border-top-0 py-0" colspan="4">
-                                &ensp;
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="form-group">
+                    <label class="col-form-label">Type</label>
+                    <input type="text" id="addSecretTypeDetail" disabled class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Value</label><br />
+                    <input type="text" id="addSecretValueDetail" disabled class="form-control" />
+                </div>
+                <fieldset class="form-group">
+                    <label class="col-form-label">Expiration</label>
+                    <div class="row">
+                        <div class="col">
+                            <input type="date" id="addSecretExpirationDateDetail" class="form-control" disabled />
+                        </div>
+                        <div class="col">
+                            <input type="time" id="addSecretExpirationTimeDetail" class="form-control" disabled />
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="form-group">
+                    <label class="col-form-label">Created</label>
+                    <div class="row">
+                        <div class="col">
+                            <input type="date" id="addSecretCreatedDateDetail" class="form-control" disabled />
+                        </div>
+                        <div class="col">
+                            <input type="time" id="addSecretCreatedTimeDetail" class="form-control" disabled />
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="form-group">
+                    <label class="col-form-label">Description</label>
+                    <textarea id="addSecretDescriptionDetail" class="form-control" disabled> </textarea>
+                </div>
+                <div class="form-group">
+                    <button id="addSecretBtnCancelDetail" class="btn btn-secondary" data-toggle="tab" href="#nav-secretsoverviewadd" role="tab" aria-controls="nav-secretsoverviewadd" aria-selected="false" onclick="UnpopulateDetail(this);"></button>
+                </div>
             </div>
             <div class="tab-pane fade" id="nav-secretadd" role="tabpanel" aria-labelledby="nav-secretadd-tab">
-                <br />
-                <table class="table table-sm">
-                    <tbody id="addSecretAddTableBody">
-                        <tr>
-                            <td scope="col" class="border-top-0 py-0">
-                                <span class="text-muted font-weight-light">&ensp;</span>
-                            </td>
-                            <td scope="col" class="border-top-0 py-0">
-                                <span class="text-muted font-weight-light">Type</span><br />
-                                <input type="text" id="addSecretType" style="width:100%;" value="" />
-                            </td>
-                            <td scope="col" class="border-top-0 py-0">
-                                <span class="text-muted font-weight-light">Value</span><br />
-                                <input type="text" id="addSecretValue" style="width:100%;" value="" />
-                            </td>
-                            <td scope="col" class="border-top-0 py-0">
-                                <span class="text-muted font-weight-light">&ensp;</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td scope="col" class="border-top-0 py-0">
-                                &ensp;
-                            </td>
-                            <td scope="col" class="border-top-0 py-0">
-                                <span class="text-muted font-weight-light">Expiration</span><br />
-                                <input type="date" id="addSecretExpirationDate" style="width:100%;" value="" />
-                            </td>
-                            <td scope="col" class="border-top-0 py-0">
-                                <span class="text-muted font-weight-light">&ensp;</span><br />
-                                <input type="time" id="addSecretExpirationTime" style="width:100%;" value="" />
-                            </td>
-                            <td scope="col" class="border-top-0 py-0">
-                                &ensp;
-                            </td>
-                        </tr>
-                        <tr>
-                            <td scope="col" class="border-top-0 py-0">
-                                &ensp;
-                            </td>
-                            <td scope="col" class="border-top-0 py-0">
-                                <span class="text-muted font-weight-light">Created</span><br />
-                                <input type="date" id="addSecretCreatedDate" style="width:100%;" value=""/>
-                            </td>
-                            <td scope="col" class="border-top-0 py-0">
-                                <span class="text-muted font-weight-light">&ensp;</span><br />
-                                <input type="time" id="addSecretCreatedTime" style="width:100%;" value=""/>
-                            </td>
-                            <td scope="col" class="border-top-0 py-0">
-                                &ensp;
-                            </td>
-                        </tr>
-                        <tr>
-                            <td scope="col" class="border-top-0 py-0">
-                                &ensp;
-                            </td>
-                            <td scope="col" class="border-top-0 py-0" colspan="2">
-                                <span class="text-muted font-weight-light">Description</span><br />
-                                <textarea id="addSecretDescription" style="width:100%;"> </textarea>
-                            </td>
-                            <td scope="col" class="border-top-0 py-0">
-                                &ensp;
-                            </td>
-                        </tr>
-                        <tr>
-                            <td scope="col" class="border-top-0 py-0" colspan="4">
-                                &ensp;
-                            </td>
-                        </tr>
-                        <tr>
-                            <td scope="col" class="border-top-0 py-0">
-                                &ensp;
-                            </td>
-                            <td scope="col" class="border-top-0 py-0">
-                                <div class="centerBtn">
-                                    <button id="addSecretBtnCancel" class="btn btn-secondary btn-sm"></button>
-                                </div>
-                            </td>
-                            <td scope="col" class="border-top-0 py-0">
-                                <div class="centerBtn">
-                                    <button id="addSecretBtn" class="btn btn-primary btn-sm addsign"></button>
-                                </div>
-                            </td>
-                            <td scope="col" class="border-top-0 py-0">
-                                &ensp;
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="form-group">
+                    <label class="col-form-label">Type</label>
+                    <input type="text" id="addSecretType" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Value</label><br />
+                    <input type="text" id="addSecretValue" class="form-control" />
+                </div>
+                <fieldset class="form-group">
+                    <label class="col-form-label">Expiration</label>
+                    <div class="row">
+                        <div class="col">
+                            <input type="date" id="addSecretExpirationDate" class="form-control" />
+                        </div>
+                        <div class="col">
+                            <input type="time" id="addSecretExpirationTime" class="form-control" />
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="form-group">
+                    <label class="col-form-label">Created</label>
+                    <div class="row">
+                        <div class="col">
+                            <input type="date" id="addSecretCreatedDate" class="form-control" />
+                        </div>
+                        <div class="col">
+                            <input type="time" id="addSecretCreatedTime" class="form-control" />
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="form-group">
+                    <label class="col-form-label">Description</label>
+                    <textarea id="addSecretDescription" class="form-control"> </textarea>
+                </div>
+                <div class="form-group">
+                    <div class="form-group">
+                        <button id="addSecretBtnCancel" class="btn btn-secondary" data-toggle="tab" href="#nav-secretsoverviewadd" role="tab" aria-controls="nav-secretsoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                        <button id="addSecretBtn" class="btn btn-primary addsign"></button>
+                    </div>
+                </div>
             </div>
         </div>
     </form>
@@ -427,9 +315,7 @@
         $('#addSecretBtn').on('click', function (e) {
             e.preventDefault();
             var secretType = $('#addSecretType').val();
-            console.log(secretType);
             var secretValue = $('#addSecretValue').val();
-            console.log(secretValue);
             var secretExpirationDate = $('#addSecretExpirationDate').val();
             var secretExpirationTime = $('#addSecretExpirationTime').val();
             var secretCreatedDate = $('#addSecretCreatedDate').val();
@@ -441,22 +327,22 @@
             }
             else {
                 var append = '<tr>\
-                                          <td scope="col">\
-                                            <button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button>\
-                                            <input type="hidden" name="dto.Secrets[' + secretType + '].Value" value="' + secretValue + '" />\
-                                            <input type="hidden" name="dto.Secrets[' + secretType + '].Description" value="' + secretDescription + '" />\
-                                            <input type="hidden" name="dto.Secrets[' + secretType + '].Expiration" value="' + secretExpirationDate + ' ' + secretExpirationTime + '" />\
-                                            <input type="hidden" name="dto.Secrets[' + secretType + '].Created" value="' + secretCreatedDate + ' ' + secretCreatedTime + '" />\
-                                          </td>\
-                                          <td scope="col">' + secretType + '</td>\
-                                          <td scope="col">' + secretValue + '</td>\
-                                          <td scope="col">\
-                                             <a class="btn btn-success btn-sm" id="nav-secretdetailsadd-tab" data-toggle="tab" href="#nav-secretdetailsadd" role="tab" aria-controls="nav-secretdetailsadd" aria-selected="false"\
-                                                data-secrettype="'+ secretType + '" data-secretvalue="' + secretValue + '" data-description="' + secretDescription + '"\
-                                                data-expirationdate="'+ secretExpirationDate + '" data-expirationtime="' + secretExpirationTime + '" data-createddate="' + secretCreatedDate + '" data-createdtime="' + secretCreatedTime + '">\
-                                            &#128270;</a>\
-                                          </td>\
-                                     </tr>'
+<td scope="col">\
+                                                                <button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button>\
+                                                                <input type="hidden" name="dto.Secrets[' + secretType + '].Value" value="' + secretValue + '" />\
+                                                                <input type="hidden" name="dto.Secrets[' + secretType + '].Description" value="' + secretDescription + '" />\
+                                                                <input type="hidden" name="dto.Secrets[' + secretType + '].Expiration" value="' + secretExpirationDate + ' ' + secretExpirationTime + '" />\
+                                                                <input type="hidden" name="dto.Secrets[' + secretType + '].Created" value="' + secretCreatedDate + ' ' + secretCreatedTime + '" />\
+                                                              </td>\
+                                                              <td scope="col">' + secretType + '</td>\
+                                                              <td scope="col">' + secretValue + '</td>\
+                                                              <td scope="col">\
+                                                                 <a class="btn btn-success btn-sm" id="nav-secretdetailsadd-tab" data-toggle="tab"\
+                                                                    href="#nav-secretdetailsadd" role="tab" aria-controls="nav-secretdetailsadd" aria-selected="false"\
+onclick="PopulateDetail(\''+ secretType + '\',\'' + secretValue + '\',\'' + secretExpirationDate + '\',\'' + secretExpirationTime + '\',\'' + secretCreatedDate + '\',\'' + secretCreatedTime + '\',\'' + secretDescription + '\',this);">\
+                                                                &#128270;</a>\
+                                                              </td>\
+                                                         </tr>'
                 $('#addSecretOverviewTableBody').append(append);
                 $('#addSecretType').val('');
                 $('#addSecretValue').val('');
@@ -467,5 +353,33 @@
                 $('#addSecretDescription').val('');
             }
         });
+
+        function PopulateDetail(secretType, secretValue, secretExpirationDate, secretExpirationTime, secretCreatedDate, secretCreatedTime, secretDescriptio, element) {
+            $(element).removeClass("active");
+            $('#addSecretTypeDetail').val(secretType);
+            $('#addSecretValueDetail').val(secretValue);
+            $('#addSecretExpirationDateDetail').val(secretExpirationDate);
+            $('#addSecretExpirationTimeDetail').val(secretExpirationTime);
+            $('#addSecretCreatedDateDetail').val(secretCreatedDate);
+            $('#addSecretCreatedTimeDetail').val(secretCreatedTime);
+            $('#addSecretDescriptionDetail').val(secretDescriptio);
+            $('#nav-secretsoverviewadd-tab').trigger("click");
+
+        }
+
+        function UnpopulateDetail(element) {
+            $(element).removeClass("active");
+            $('#addSecretTypeDetail').val('');
+            $('#addSecretValueDetail').val('');
+            $('#addSecretExpirationDateDetail').val('');
+            $('#addSecretExpirationTimeDetail').val('');
+            $('#addSecretCreatedDateDetail').val('');
+            $('#addSecretCreatedTimeDetail').val('');
+            $('#addSecretDescriptionDetail').val('');
+        }
+
+        function RemoveActive(element) {
+            $(element).removeClass("active");
+        }
     </script>
 }
