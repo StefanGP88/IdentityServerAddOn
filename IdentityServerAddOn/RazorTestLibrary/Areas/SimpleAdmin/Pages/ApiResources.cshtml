@@ -66,7 +66,7 @@
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <a class="nav-item nav-link active" id="nav-basesettingsadd-tab" data-toggle="tab" href="#nav-basesettingsadd" role="tab" aria-controls="nav-basesettingsadd" aria-selected="true">Base Settings</a>
-                <a class="nav-item nav-link" id="nav-claimsadd-tab" data-toggle="tab" href="#nav-claimsadd" role="tab" aria-controls="nav-claimsadd" aria-selected="false">Claims</a>
+                <a class="nav-item nav-link" id="nav-claimsoverviewadd-tab" data-toggle="tab" href="#nav-claimsoverviewadd" role="tab" aria-controls="nav-claimsoverviewadd" aria-selected="false">Claims</a>
                 <a class="nav-item nav-link" id="nav-propertyadd-tab" data-toggle="tab" href="#nav-propertyadd" role="tab" aria-controls="nav-propertyadd" aria-selected="false">Properties</a>
                 <a class="nav-item nav-link" id="nav-scopesadd-tab" data-toggle="tab" href="#nav-scopesadd" role="tab" aria-controls="nav-scopesadd" aria-selected="false">Scopes</a>
                 <a class="nav-item nav-link" id="nav-secretsoverviewadd-tab" data-toggle="tab" href="#nav-secretsoverviewadd" role="tab" aria-controls="nav-secretsoverviewadd" aria-selected="false">Secrets</a>
@@ -106,27 +106,42 @@
                     </div>
                 </fieldset>
             </div>
-            <div class="tab-pane fade" id="nav-claimsadd" role="tabpanel" aria-labelledby="nav-claimsadd-tab">
+            <div class="tab-pane fade" id="nav-claimsoverviewadd" role="tabpanel" aria-labelledby="nav-claimsoverviewadd-tab">
                 <br />
                 <table class="table table-sm">
                     <tbody id="addClaimTableBody">
                         <tr>
-                            <td scope="col">
+                            <td scope="col" class="border-top-0">
+                                <div class="centercontent">
+                                    <button id="addClaimBtnOverview" class="btn btn-primary btn-sm addsign" data-toggle="tab" href="#nav-claimsadd" role="tab" aria-controls="nav-claimsadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                                </div>
                             </td>
-                            <td scope="col">
-                                Claim
+                            <td scope="col" class="border-top-0">
+                                <div class="centercontent">
+                                    <span class="text-dark font-italic">Claim</span>
+                                </div>
                             </td>
-                        </tr>
-                        <tr>
-                            <td scope="col">
-                                <button id="addClaimBtn" class="btn btn-primary btn-sm addsign"></button>
-                            </td>
-                            <td scope="col">
-                                <input type="text" id="addClaim" />
+
+                            <td scope="col" class="border-top-0">
+                                <div class="centercontent">
+                                    &ensp;
+                                </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <div class="tab-pane fade" id="nav-claimsadd" role="tabpanel" aria-labelledby="nav-claimsadd-tab">
+                <div class="form-group">
+                    <label class="col-form-label">Claim</label>
+                    <input type="text" id="addClaim" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <div class="form-group">
+                        <button id="addClaimBtnCancel" class="btn btn-secondary" data-toggle="tab" href="#nav-claimsoverviewadd" role="tab" aria-controls="nav-claimsoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                        <button id="addClaimBtn" class="btn btn-primary addsign" data-toggle="tab" href="#nav-claimsoverviewadd" role="tab" aria-controls="nav-claimsoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                    </div>
+                </div>
             </div>
             <div class="tab-pane fade" id="nav-propertyadd" role="tabpanel" aria-labelledby="nav-propertyadd-tab">
                 <br />
@@ -185,7 +200,7 @@
                         <tr>
                             <td scope="col" class="border-top-0">
                                 <div class="centercontent">
-                                    <button id="addPropertyBtn" class="btn btn-primary btn-sm addsign" data-toggle="tab" href="#nav-secretadd" role="tab" aria-controls="nav-secretadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                                    <button id="addSecretBtnOverview" class="btn btn-primary btn-sm addsign" data-toggle="tab" href="#nav-secretadd" role="tab" aria-controls="nav-secretadd" aria-selected="false" onclick="RemoveActive(this);"></button>
                                 </div>
                             </td>
                             <td scope="col" class="border-top-0">
@@ -311,6 +326,17 @@
 
 @section Scripts{
     <script type="text/javascript">
+        $('#claimsoverviewadd').on('click', function (e) {
+            e.preventDefault();
+            var claim = $('#addClaim').val();
+            if (claim.length < 1) {
+                alert('claim must have a value');
+            } else {
+
+            }
+
+        });
+
         $('#addSecretBtn').on('click', function (e) {
             e.preventDefault();
             var secretType = $('#addSecretType').val();
