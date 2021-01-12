@@ -243,7 +243,7 @@
                     <textarea id="addSecretDescriptionDetail" class="form-control" disabled> </textarea>
                 </div>
                 <div class="form-group">
-                    <button id="addSecretBtnCancelDetail" class="btn btn-secondary" data-toggle="tab" href="#nav-secretsoverviewadd" role="tab" aria-controls="nav-secretsoverviewadd" aria-selected="false" onclick="UnpopulateDetail(this);"></button>
+                    <button id="addSecretBtnCancelDetail" class="btn btn-secondary" data-toggle="tab" href="#nav-secretsoverviewadd" role="tab" aria-controls="nav-secretsoverviewadd" aria-selected="false" onclick="UnpopulateSecretDetail(this);"></button>
                 </div>
             </div>
             <div class="tab-pane fade" id="nav-secretadd" role="tabpanel" aria-labelledby="nav-secretadd-tab">
@@ -326,22 +326,27 @@
             }
             else {
                 var append = '<tr>\
-<td scope="col"><div class="centercontent">\
-                                                                <button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button>\
-                                                                <input type="hidden" name="dto.Secrets[' + secretType + '].Value" value="' + secretValue + '" />\
-                                                                <input type="hidden" name="dto.Secrets[' + secretType + '].Description" value="' + secretDescription + '" />\
-                                                                <input type="hidden" name="dto.Secrets[' + secretType + '].Expiration" value="' + secretExpirationDate + ' ' + secretExpirationTime + '" />\
-                                                                <input type="hidden" name="dto.Secrets[' + secretType + '].Created" value="' + secretCreatedDate + ' ' + secretCreatedTime + '" />\
-                                                              </div></td>\
-                                                              <td scope="col"><div class="centercontent"> ' + secretType + '</div></td>\
-                                                              <td scope="col"><div class="centercontent"> ' + secretValue + '</div></td>\
-                                                              <td scope="col"><div class="centercontent"> \
-                                                                 <a class="btn btn-success btn-sm" id="nav-secretdetailsadd-tab" data-toggle="tab"\
-                                                                    href="#nav-secretdetailsadd" role="tab" aria-controls="nav-secretdetailsadd" aria-selected="false"\
-onclick="PopulateDetail(\''+ secretType + '\',\'' + secretValue + '\',\'' + secretExpirationDate + '\',\'' + secretExpirationTime + '\',\'' + secretCreatedDate + '\',\'' + secretCreatedTime + '\',\'' + secretDescription + '\',this);">\
-                                                                &#128270;</a>\
-                                                              </div></td>\
-                                                         </tr>'
+                                    <td scope="col">\
+                                        <div class="centercontent">\
+                                            <button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button>\
+                                            <input type="hidden" name="dto.Secrets[' + secretType + '].Value" value="' + secretValue + '" />\
+                                            <input type="hidden" name="dto.Secrets[' + secretType + '].Type" value="' + secretType + '" />\
+                                            <input type="hidden" name="dto.Secrets[' + secretType + '].Description" value="' + secretDescription + '" />\
+                                            <input type="hidden" name="dto.Secrets[' + secretType + '].Expiration" value="' + secretExpirationDate + ' ' + secretExpirationTime + '" />\
+                                            <input type="hidden" name="dto.Secrets[' + secretType + '].Created" value="' + secretCreatedDate + ' ' + secretCreatedTime + '" />\
+                                        </div>\
+                                    </td>\
+                                    <td scope="col"><div class="centercontent"> ' + secretType + '</div></td>\
+                                    <td scope="col"><div class="centercontent"> ' + secretValue + '</div></td>\
+                                    <td scope="col">\
+                                        <div class="centercontent"> \
+                                            <a class="btn btn-success btn-sm" id="nav-secretdetailsadd-tab" data-toggle="tab"\
+                                                href="#nav-secretdetailsadd" role="tab" aria-controls="nav-secretdetailsadd" aria-selected="false"\
+                                                onclick="PopulateSecretDetail(\''+ secretType + '\',\'' + secretValue + '\',\'' + secretExpirationDate + '\',\'' + secretExpirationTime + '\',\'' + secretCreatedDate + '\',\'' + secretCreatedTime + '\',\'' + secretDescription + '\',this);">\
+                                                &#128270;</a>\
+                                        </div>\
+                                    </td>\
+                                </tr>'
                 $('#addSecretOverviewTableBody').append(append);
                 $('#addSecretType').val('');
                 $('#addSecretValue').val('');
@@ -354,7 +359,7 @@ onclick="PopulateDetail(\''+ secretType + '\',\'' + secretValue + '\',\'' + secr
             }
         });
 
-        function PopulateDetail(secretType, secretValue, secretExpirationDate, secretExpirationTime, secretCreatedDate, secretCreatedTime, secretDescriptio, element) {
+        function PopulateSecretDetail(secretType, secretValue, secretExpirationDate, secretExpirationTime, secretCreatedDate, secretCreatedTime, secretDescriptio, element) {
             $(element).removeClass("active");
             $('#addSecretTypeDetail').val(secretType);
             $('#addSecretValueDetail').val(secretValue);
@@ -366,7 +371,7 @@ onclick="PopulateDetail(\''+ secretType + '\',\'' + secretValue + '\',\'' + secr
 
         }
 
-        function UnpopulateDetail(element) {
+        function UnpopulateSecretDetail(element) {
             $(element).removeClass("active");
             $('#addSecretTypeDetail').val('');
             $('#addSecretValueDetail').val('');
