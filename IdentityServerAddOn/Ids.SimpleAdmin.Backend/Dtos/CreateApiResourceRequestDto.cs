@@ -14,5 +14,8 @@ namespace Ids.SimpleAdmin.Backend.Dtos
         public DateTime Created { get; set; }
         public bool NonEditable { get; set; }
         public Dictionary<string,string> Claims { get; set; }
+        public Dictionary<string, ApiResourcePropertyResponseDto> Properties { get; set; }
+        public Dictionary<string, string> Scopes { get; set; }
+        public Dictionary<string, ApiResourceSecretsResponseDto> Secrets { get; set; }
     }
 }

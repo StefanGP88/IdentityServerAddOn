@@ -5,7 +5,7 @@
 }
 
 <style>
-    .centerBtn {
+    .centercontent {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -183,17 +183,25 @@
                 <table class="table table-sm">
                     <tbody id="addSecretOverviewTableBody">
                         <tr>
-                            <td scope="col">
-                                <button id="addPropertyBtn" class="btn btn-primary btn-sm addsign"  data-toggle="tab" href="#nav-secretadd" role="tab" aria-controls="nav-secretadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                            <td scope="col" class="border-top-0">
+                                <div class="centercontent">
+                                    <button id="addPropertyBtn" class="btn btn-primary btn-sm addsign" data-toggle="tab" href="#nav-secretadd" role="tab" aria-controls="nav-secretadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                                </div>
                             </td>
-                            <td scope="col">
-                                <span class="text-dark font-italic">Type</span>
+                            <td scope="col" class="border-top-0">
+                                <div class="centercontent">
+                                    <span class="text-dark font-italic">Type</span>
+                                </div>
                             </td>
-                            <td scope="col">
-                                <span class="text-dark font-italic">Value</span>
+                            <td scope="col" class="border-top-0">
+                                <div class="centercontent">
+                                    <span class="text-dark font-italic">Value</span>
+                                </div>
                             </td>
-                            <td scope="col">
-                                &ensp;
+                            <td scope="col" class="border-top-0">
+                                <div class="centercontent">
+                                    &ensp;
+                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -276,7 +284,7 @@
                 <div class="form-group">
                     <div class="form-group">
                         <button id="addSecretBtnCancel" class="btn btn-secondary" data-toggle="tab" href="#nav-secretsoverviewadd" role="tab" aria-controls="nav-secretsoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
-                        <button id="addSecretBtn" class="btn btn-primary addsign"></button>
+                        <button id="addSecretBtn" class="btn btn-primary addsign" data-toggle="tab" href="#nav-secretsoverviewadd" role="tab" aria-controls="nav-secretsoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
                     </div>
                 </div>
             </div>
@@ -303,15 +311,6 @@
 
 @section Scripts{
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('[data-toggle="popover"]').popover({
-                delay: { show: 0, hide: 0 },
-                html: true,
-                content: function () {
-                    return $('#selector').html();
-                }
-            });
-        });
         $('#addSecretBtn').on('click', function (e) {
             e.preventDefault();
             var secretType = $('#addSecretType').val();
@@ -327,21 +326,21 @@
             }
             else {
                 var append = '<tr>\
-<td scope="col">\
+<td scope="col"><div class="centercontent">\
                                                                 <button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button>\
                                                                 <input type="hidden" name="dto.Secrets[' + secretType + '].Value" value="' + secretValue + '" />\
                                                                 <input type="hidden" name="dto.Secrets[' + secretType + '].Description" value="' + secretDescription + '" />\
                                                                 <input type="hidden" name="dto.Secrets[' + secretType + '].Expiration" value="' + secretExpirationDate + ' ' + secretExpirationTime + '" />\
                                                                 <input type="hidden" name="dto.Secrets[' + secretType + '].Created" value="' + secretCreatedDate + ' ' + secretCreatedTime + '" />\
-                                                              </td>\
-                                                              <td scope="col">' + secretType + '</td>\
-                                                              <td scope="col">' + secretValue + '</td>\
-                                                              <td scope="col">\
+                                                              </div></td>\
+                                                              <td scope="col"><div class="centercontent"> ' + secretType + '</div></td>\
+                                                              <td scope="col"><div class="centercontent"> ' + secretValue + '</div></td>\
+                                                              <td scope="col"><div class="centercontent"> \
                                                                  <a class="btn btn-success btn-sm" id="nav-secretdetailsadd-tab" data-toggle="tab"\
                                                                     href="#nav-secretdetailsadd" role="tab" aria-controls="nav-secretdetailsadd" aria-selected="false"\
 onclick="PopulateDetail(\''+ secretType + '\',\'' + secretValue + '\',\'' + secretExpirationDate + '\',\'' + secretExpirationTime + '\',\'' + secretCreatedDate + '\',\'' + secretCreatedTime + '\',\'' + secretDescription + '\',this);">\
                                                                 &#128270;</a>\
-                                                              </td>\
+                                                              </div></td>\
                                                          </tr>'
                 $('#addSecretOverviewTableBody').append(append);
                 $('#addSecretType').val('');
@@ -351,6 +350,7 @@ onclick="PopulateDetail(\''+ secretType + '\',\'' + secretValue + '\',\'' + secr
                 $('#addSecretCreatedDate').val('');
                 $('#addSecretCreatedTime').val('');
                 $('#addSecretDescription').val('');
+                $('#nav-secretsoverviewadd-tab').trigger("click");
             }
         });
 
@@ -363,7 +363,6 @@ onclick="PopulateDetail(\''+ secretType + '\',\'' + secretValue + '\',\'' + secr
             $('#addSecretCreatedDateDetail').val(secretCreatedDate);
             $('#addSecretCreatedTimeDetail').val(secretCreatedTime);
             $('#addSecretDescriptionDetail').val(secretDescriptio);
-            $('#nav-secretsoverviewadd-tab').trigger("click");
 
         }
 
