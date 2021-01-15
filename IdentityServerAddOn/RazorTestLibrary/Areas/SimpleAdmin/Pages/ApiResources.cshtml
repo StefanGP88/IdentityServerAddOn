@@ -67,7 +67,7 @@
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <a class="nav-item nav-link active" id="nav-basesettingsadd-tab" data-toggle="tab" href="#nav-basesettingsadd" role="tab" aria-controls="nav-basesettingsadd" aria-selected="true">Base Settings</a>
                 <a class="nav-item nav-link" id="nav-claimsoverviewadd-tab" data-toggle="tab" href="#nav-claimsoverviewadd" role="tab" aria-controls="nav-claimsoverviewadd" aria-selected="false">Claims</a>
-                <a class="nav-item nav-link" id="nav-propertyadd-tab" data-toggle="tab" href="#nav-propertyadd" role="tab" aria-controls="nav-propertyadd" aria-selected="false">Properties</a>
+                <a class="nav-item nav-link" id="nav-propertyoverviewadd-tab" data-toggle="tab" href="#nav-propertyoverviewadd" role="tab" aria-controls="nav-propertyoverviewadd" aria-selected="false">Properties</a>
                 <a class="nav-item nav-link" id="nav-scopesadd-tab" data-toggle="tab" href="#nav-scopesadd" role="tab" aria-controls="nav-scopesadd" aria-selected="false">Scopes</a>
                 <a class="nav-item nav-link" id="nav-secretsoverviewadd-tab" data-toggle="tab" href="#nav-secretsoverviewadd" role="tab" aria-controls="nav-secretsoverviewadd" aria-selected="false">Secrets</a>
             </div>
@@ -153,33 +153,65 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade" id="nav-propertyadd" role="tabpanel" aria-labelledby="nav-propertyadd-tab">
+            <div class="tab-pane fade" id="nav-propertyoverviewadd" role="tabpanel" aria-labelledby="nav-propertyoverviewadd-tab">
                 <br />
                 <table class="table table-sm">
                     <tbody id="addPropertyTableBody">
                         <tr>
-                            <td scope="col">
+                            <td scope="col" class="border-top-0">
+                                <div class="centercontent">
+                                    <button id="addPropertyBtnOverview" class="btn btn-primary btn-sm addsign" data-toggle="tab" href="#nav-propertyadd" role="tab" aria-controls="nav-propertyadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                                </div>
                             </td>
-                            <td scope="col">
-                                Property
+                            <td scope="col" class="border-top-0">
+                                <div class="centercontent">
+                                    Property
+                                </div>
                             </td>
-                            <td scope="col">
-                                Key
+                            <td scope="col" class="border-top-0">
+                                <div class="centercontent">
+                                    Key
+                                </div>
                             </td>
-                        </tr>
-                        <tr>
-                            <td scope="col">
-                                <button id="addPropertyBtn" class="btn btn-primary btn-sm addsign"></button>
-                            </td>
-                            <td scope="col">
-                                <input type="text" id="addProperty" />
-                            </td>
-                            <td scope="col">
-                                <input type="text" id="addPropertyKey" />
+                            <td scope="col" class="border-top-0">
+                                <div class="centercontent">
+                                    &ensp;
+                                </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <div class="tab-pane fade" id="nav-propertyadd" role="tabpanel" aria-labelledby="nav-propertyadd-tab">
+                <div class="form-group">
+                    <label class="col-form-label">Property</label>
+                    <input type="text" id="addProperty"  class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Key</label>
+                    <input type="text" id="addPropertyKey"  class="form-control" />
+                </div>
+                <div class="form-group">
+                    <div class="form-group">
+                        <button id="addPropertyBtnCancel" class="btn btn-secondary" data-toggle="tab" href="#nav-propertyoverviewadd" role="tab" aria-controls="nav-propertyoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                        <button id="addPropertyBtn" class="btn btn-primary addsign" data-toggle="tab" href="#nav-propertyoverviewadd" role="tab" aria-controls="nav-propertyoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-propertydetailadd" role="tabpanel" aria-labelledby="nav-propertydetailadd-tab">
+                <div class="form-group">
+                    <label class="col-form-label">Property</label>
+                    <input type="text" id="addProperty" disabled class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Key</label>
+                    <input type="text" id="addPropertyKey" disabled class="form-control" />
+                </div>
+                <div class="form-group">
+                    <div class="form-group">
+                        <button id="addPropertyBtnCancel" class="btn btn-secondary" data-toggle="tab" href="#nav-propertyoverviewadd" role="tab" aria-controls="nav-propertyoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                    </div>
+                </div>
             </div>
             <div class="tab-pane fade" id="nav-scopesadd" role="tabpanel" aria-labelledby="nav-scopesadd-tab">
                 <br />
@@ -336,6 +368,36 @@
 
 @section Scripts{
     <script type="text/javascript">
+        $('#addPropertyBtn').on('click', function (e) {
+            var property = $('#addProperty').val();
+            var propertyKey = $('#addPropertyKey').val();
+            if (property.length < 1 && propertyKey.length < 1) {
+                alert('property and key must have a value');
+            } else {
+                var append = '<tr>\
+                                                    <td scope="col">\
+                                                        <div class="centercontent">\
+                                                            <button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button>\
+                                                            <input type="hidden" name="dto.Property[' + property + '].PropertyValue" value="' + property + '" />\
+                                                            <input type="hidden" name="dto.Property[' + propertyKey + '].Key" value="' + propertyKey + '" />\
+                                                        </div>\
+                                                    </td>\
+                                                    <td scope="col"><div class="centercontent"> ' + property + '</div></td>\
+                                                    <td scope="col"><div class="centercontent"> ' + addPropertyKey + '</div></td>\
+                                                    <td scope="col">\
+                                                        <div class="centercontent"> \
+                                                            <a class="btn btn-success btn-sm" id="nav-propertydetailadd-tab" data-toggle="tab"\
+                                                                href="#nav-propertydetailadd" role="tab" aria-controls="nav-propertydetailadd" aria-selected="false"\
+                                                                onclick="PopulatePropertyDetail(\''+ property + '\',\'' + addPropertyKey + '\',this);">\
+                                                                &#128270;</a>\
+                                                        </div>\
+                                                    </td>\
+                                                </tr>'
+            }
+            $('#addPropertyTableBody').append(append);
+            $('#addProperty').val('');
+            $('#addPropertyKey').val('');
+        });
 
         $('#addClaimBtn').on('click', function (e) {
             e.preventDefault();
@@ -344,24 +406,24 @@
                 alert('claim must have a value');
             } else {
                 var append = '<tr>\
-                                            <td scope="col">\
-                                                <div class="centercontent">\
-                                                    <button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button>\
-                                                    <input type="hidden" name="dto.Secrets[' + claim + '].Value" value="' + claim + '" />\
-                                                </div>\
-                                            </td>\
-                                            <td scope="col"><div class="centercontent"> ' + claim + '</div></td>\
-                                            <td scope="col">\
-                                                <div class="centercontent"> \
-                                                    <a class="btn btn-success btn-sm" id="nav-claimsdetailadd-tab" data-toggle="tab"\
-                                                        href="#nav-claimsdetailadd" role="tab" aria-controls="nav-claimsdetailadd" aria-selected="false"\
-                                                        onclick="PopulateClaimDetail(\''+ claim + '\',this);">\
-                                                        &#128270;</a>\
-                                                </div>\
-                                            </td>\
-                                        </tr>'
+                                                    <td scope="col">\
+                                                        <div class="centercontent">\
+                                                            <button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button>\
+                                                            <input type="hidden" name="dto.Claims[' + claim + '].Value" value="' + claim + '" />\
+                                                        </div>\
+                                                    </td>\
+                                                    <td scope="col"><div class="centercontent"> ' + claim + '</div></td>\
+                                                    <td scope="col">\
+                                                        <div class="centercontent"> \
+                                                            <a class="btn btn-success btn-sm" id="nav-claimsdetailadd-tab" data-toggle="tab"\
+                                                                href="#nav-claimsdetailadd" role="tab" aria-controls="nav-claimsdetailadd" aria-selected="false"\
+                                                                onclick="PopulateClaimDetail(\''+ claim + '\',this);">\
+                                                                &#128270;</a>\
+                                                        </div>\
+                                                    </td>\
+                                                </tr>'
                 $('#addClaimTableBody').append(append);
-
+                $('#addClaim').val('');
             }
         });
         $('#addSecretBtn').on('click', function (e) {
@@ -379,27 +441,27 @@
             }
             else {
                 var append = '<tr>\
-                                            <td scope="col">\
-                                                <div class="centercontent">\
-                                                    <button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button>\
-                                                    <input type="hidden" name="dto.Secrets[' + secretType + '].Value" value="' + secretValue + '" />\
-                                                    <input type="hidden" name="dto.Secrets[' + secretType + '].Type" value="' + secretType + '" />\
-                                                    <input type="hidden" name="dto.Secrets[' + secretType + '].Description" value="' + secretDescription + '" />\
-                                                    <input type="hidden" name="dto.Secrets[' + secretType + '].Expiration" value="' + secretExpirationDate + ' ' + secretExpirationTime + '" />\
-                                                    <input type="hidden" name="dto.Secrets[' + secretType + '].Created" value="' + secretCreatedDate + ' ' + secretCreatedTime + '" />\
-                                                </div>\
-                                            </td>\
-                                            <td scope="col"><div class="centercontent"> ' + secretType + '</div></td>\
-                                            <td scope="col"><div class="centercontent"> ' + secretValue + '</div></td>\
-                                            <td scope="col">\
-                                                <div class="centercontent"> \
-                                                    <a class="btn btn-success btn-sm" id="nav-secretdetailsadd-tab" data-toggle="tab"\
-                                                        href="#nav-secretdetailsadd" role="tab" aria-controls="nav-secretdetailsadd" aria-selected="false"\
-                                                        onclick="PopulateSecretDetail(\''+ claim + '\',\'' + secretValue + '\',\'' + secretExpirationDate + '\',\'' + secretExpirationTime + '\',\'' + secretCreatedDate + '\',\'' + secretCreatedTime + '\',\'' + secretDescription + '\',this);">\
-                                                        &#128270;</a>\
-                                                </div>\
-                                            </td>\
-                                        </tr>'
+                                                    <td scope="col">\
+                                                        <div class="centercontent">\
+                                                            <button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button>\
+                                                            <input type="hidden" name="dto.Secrets[' + secretType + '].Value" value="' + secretValue + '" />\
+                                                            <input type="hidden" name="dto.Secrets[' + secretType + '].Type" value="' + secretType + '" />\
+                                                            <input type="hidden" name="dto.Secrets[' + secretType + '].Description" value="' + secretDescription + '" />\
+                                                            <input type="hidden" name="dto.Secrets[' + secretType + '].Expiration" value="' + secretExpirationDate + ' ' + secretExpirationTime + '" />\
+                                                            <input type="hidden" name="dto.Secrets[' + secretType + '].Created" value="' + secretCreatedDate + ' ' + secretCreatedTime + '" />\
+                                                        </div>\
+                                                    </td>\
+                                                    <td scope="col"><div class="centercontent"> ' + secretType + '</div></td>\
+                                                    <td scope="col"><div class="centercontent"> ' + secretValue + '</div></td>\
+                                                    <td scope="col">\
+                                                        <div class="centercontent"> \
+                                                            <a class="btn btn-success btn-sm" id="nav-secretdetailsadd-tab" data-toggle="tab"\
+                                                                href="#nav-secretdetailsadd" role="tab" aria-controls="nav-secretdetailsadd" aria-selected="false"\
+                                                                onclick="PopulateSecretDetail(\''+ claim + '\',\'' + secretValue + '\',\'' + secretExpirationDate + '\',\'' + secretExpirationTime + '\',\'' + secretCreatedDate + '\',\'' + secretCreatedTime + '\',\'' + secretDescription + '\',this);">\
+                                                                &#128270;</a>\
+                                                        </div>\
+                                                    </td>\
+                                                </tr>'
                 $('#addSecretOverviewTableBody').append(append);
                 $('#addSecretType').val('');
                 $('#addSecretValue').val('');
@@ -428,6 +490,12 @@
             $(element).removeClass("active");
             $('#addClaimDetail').val(claim);
         }
+
+        function PopulatePropertyDetail(property, propertykey, element) {
+            $(element).removeClass("active");
+            $('#addClaimDetail').val(claim);
+        }
+
 
         function UnpopulateSecretDetail(element) {
             $(element).removeClass("active");
