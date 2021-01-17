@@ -379,27 +379,6 @@
                 $.get('/SimpleAdmin/ApiResources?handler=PropertyTableRow&property=' + property + '&propertyKey=' + propertyKey, function (data) {
                     $('#addPropertyTableBody').append(data);
                 });
-                //var append = '<tr>\
-                //                                    <td scope="col">\
-                //                                        <div class="centercontent">\
-                //                                            <button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button>\
-                //                                            <input type="hidden" name="dto.Property[' + property + '].PropertyValue" value="' + property + '" />\
-                //                                            <input type="hidden" name="dto.Property[' + propertyKey + '].Key" value="' + propertyKey + '" />\
-                //                                        </div>\
-                //                                    </td>\
-                //                                    <td scope="col"><div class="centercontent"> ' + property + '</div></td>\
-                //                                    <td scope="col"><div class="centercontent"> ' + addPropertyKey + '</div></td>\
-                //                                    <td scope="col">\
-                //                                        <div class="centercontent"> \
-                //                                            <a class="btn btn-success btn-sm" id="nav-propertydetailadd-tab" data-toggle="tab"\
-                //                                                href="#nav-propertydetailadd" role="tab" aria-controls="nav-propertydetailadd" aria-selected="false"\
-                //                                                onclick="PopulatePropertyDetail(\''+ property + '\',\'' + addPropertyKey + '\',this);">\
-                //                                                &#128270;</a>\
-                //                                        </div>\
-                //                                    </td>\
-                //                                </tr>'
-                //$('#addPropertyTableBody').append(append);
-                //$('#addPropertyTableBody').load('/SimpleAdmin/ApiResources?handler=PropertyTableRow')
             }
             $('#addProperty').val('');
             $('#addPropertyKey').val('');
