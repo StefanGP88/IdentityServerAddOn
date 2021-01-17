@@ -35,7 +35,7 @@ namespace RazorTestLibrary.Areas.SimpleAdmin.Pages
         }
         public PartialViewResult OnGetPropertyTableRow(string property, string propertyKey)
         {
-            return Partial("_PropertyTableRow");
+            return Partial("_PropertyTableRow", new PropertRowModel {Property = property, PropertyKey = propertyKey });
         }
     }
 }

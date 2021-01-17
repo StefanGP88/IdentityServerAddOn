@@ -1,19 +1,22 @@
-﻿@{
+﻿@model PropertRowModel
+@{
 }
 <tr>
     <td scope="col" class="border-top-0">
+        @*<div class="centercontent">
+            <button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button>
+            <input type="hidden" name="dto.Property[' + property + '].PropertyValue" value="' + property + '" />
+            <input type="hidden" name="dto.Property[' + propertyKey + '].Key" value="' + propertyKey + '" />
+        </div>*@
+    </td>
+    <td scope="col" class="border-top-0">
         <div class="centercontent">
-            &ensp;
+            @Model.Property
         </div>
     </td>
     <td scope="col" class="border-top-0">
         <div class="centercontent">
-            asd
-        </div>
-    </td>
-    <td scope="col" class="border-top-0">
-        <div class="centercontent">
-            asd
+            @Model.PropertyKey
         </div>
     </td>
     <td scope="col" class="border-top-0">
