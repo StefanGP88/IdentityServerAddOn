@@ -12,6 +12,8 @@ namespace RazorTestLibrary
         {
             services.AddIdentityServerAddOn<TContext>();
             services.AddScoped<PageSizeMiddleware>();
+
+            services.AddHttpContextAccessor();
         }
         public static IMvcBuilder AddRazorPagesForSimpleAdmin<TContext>(this IMvcBuilder builder) where TContext : IdentityDbContext
         {

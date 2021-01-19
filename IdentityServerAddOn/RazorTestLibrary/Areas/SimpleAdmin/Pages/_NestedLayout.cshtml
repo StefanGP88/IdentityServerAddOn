@@ -124,7 +124,6 @@
     </div>
 </div>
 
-
 <!-- #endregion-->
 @section scripts {
 
@@ -140,6 +139,11 @@
             $(element).parents().eq(2).remove();
         }
 
+        function AppendTableRow(input, element) {
+            $.get('@_httpContextAccessor.HttpContext.Request.Path', input, function (data) {
+                $(element).append(data);
+            });
+        }
     </script>
     @RenderSection("scripts", required: false)
 }
