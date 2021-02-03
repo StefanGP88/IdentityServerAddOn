@@ -206,14 +206,17 @@
 
         $('#addClaimBtn').on('click', function (e) {
             e.preventDefault();
-            var claim = $('#addClaim').val();
-            var claimType = $('#addClaimType').val();
-            console.log(claim);
-            if (claim.length < 1 || claimType.length < 1) {
+            var input = {
+                handler: 'AddClaimRow',
+                claim: $('#addClaim').val(),
+                claimType: $('#addClaimType').val()
+            };
+            console.log(input);
+            if (input.claim.length < 1 || input.claimType.length < 1) {
                 alert('claim and claim type must have a value');
             }
             else {
-                $('#addClaimTableBody').append('<tr><td><button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button><input type="hidden" name="dto.Claims[' + claim + ']" value="' + claimType + '" /></td><td>' + claim + '</td><td>' + claimType + '</td></tr>');
+                AppendTableRow(input, $('#addClaimTableBody'));
                 $('#addClaim').val('');
                 $('#addClaimType').val('');
             }

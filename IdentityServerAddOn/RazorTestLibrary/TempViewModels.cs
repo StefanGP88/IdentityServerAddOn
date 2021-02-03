@@ -16,4 +16,10 @@ namespace RazorTestLibrary
         public DateTime Created { get; set; }
         public string Description { get; set; }
     }
+
+    public class AddRoleClaimModel
+    {
+        public string Claim { get; set; }
+        public string ClaimType { get; set; }
+    }
 }

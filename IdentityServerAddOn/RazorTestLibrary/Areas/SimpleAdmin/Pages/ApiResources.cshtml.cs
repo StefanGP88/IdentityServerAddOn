@@ -1,6 +1,7 @@
 using Ids.SimpleAdmin.Backend.Dtos;
 using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading;
 
 namespace RazorTestLibrary.Areas.SimpleAdmin.Pages
@@ -14,7 +15,7 @@ namespace RazorTestLibrary.Areas.SimpleAdmin.Pages
         }
         public IActionResult OnGet(CancellationToken cancel = default)
         {
-            List =  _hander.ReadAll(PageNumber, PageSize, cancel).GetAwaiter().GetResult();
+            List = _hander.ReadAll(PageNumber, PageSize, cancel).GetAwaiter().GetResult();
             return Page();
         }
         public IActionResult OnPostAdd([FromForm] CreateApiResourceRequestDto dto, CancellationToken cancel = default)
@@ -35,7 +36,12 @@ namespace RazorTestLibrary.Areas.SimpleAdmin.Pages
         }
         public PartialViewResult OnGetPropertyTableRow(string property, string propertyKey)
         {
-            return Partial("_PropertyTableRow", new PropertRowModel {Property = property, PropertyKey = propertyKey });
+            return Partial("_PropertyTableRow", new PropertRowModel { Property = property, PropertyKey = propertyKey });
+            //return Partial("ApiResourcesTableRows/_SecretTableRows", new SecretRowModel {Created = DateTime.Now, Description= "description", Expiration = DateTime.Now, Type= "typeee", Value="valueee"});
+        }
+        public PartialViewResult OnGetSecretTableRow(string description, string type, string value, DateTime created, DateTime expiration)
+        {
+            return Partial("ApiResourcesTableRows/_SecretTableRows", new SecretRowModel { Created = created, Description = description, Expiration = expiration, Type = type, Value = value });
         }
     }
 }

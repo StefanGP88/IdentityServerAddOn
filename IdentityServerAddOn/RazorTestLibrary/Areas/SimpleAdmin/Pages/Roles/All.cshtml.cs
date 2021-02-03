@@ -38,5 +38,10 @@ namespace RazorTestLibrary.Areas.SimpleAdmin.Pages.Roles
             List = _handler.ReadRoles(PageNumber, PageSize, cancel).GetAwaiter().GetResult();
             return Page();
         }
+
+        public PartialViewResult OnGetAddClaimRow(CancellationToken cancel = default)
+        {
+            return Partial("_AddClaimRow", new AddRoleClaimModel {  Claim="test claim", ClaimType="test type"});
+        }
     }
 }

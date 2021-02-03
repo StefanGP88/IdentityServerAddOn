@@ -380,9 +380,9 @@
                 alert('property and key must have a value');
             } else {
                 AppendTableRow(input, $('#addPropertyTableBody'));
+                $('#addProperty').val('');
+                $('#addPropertyKey').val('');
             }
-            $('#addProperty').val('');
-            $('#addPropertyKey').val('');
         });
 
         $('#addClaimBtn').on('click', function (e) {
@@ -392,63 +392,42 @@
                 alert('claim must have a value');
             } else {
                 var append = '<tr>\
-                                                                <td scope="col">\
-                                                                    <div class="centercontent">\
-                                                                        <button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button>\
-                                                                        <input type="hidden" name="dto.Claims[' + claim + '].Value" value="' + claim + '" />\
-                                                                    </div>\
-                                                                </td>\
-                                                                <td scope="col"><div class="centercontent"> ' + claim + '</div></td>\
-                                                                <td scope="col">\
-                                                                    <div class="centercontent"> \
-                                                                        <a class="btn btn-success btn-sm" id="nav-claimsdetailadd-tab" data-toggle="tab"\
-                                                                            href="#nav-claimsdetailadd" role="tab" aria-controls="nav-claimsdetailadd" aria-selected="false"\
-                                                                            onclick="PopulateClaimDetail(\''+ claim + '\',this);">\
-                                                                            &#128270;</a>\
-                                                                    </div>\
-                                                                </td>\
-                                                            </tr>'
+                                                                    <td scope="col">\
+                                                                        <div class="centercontent">\
+                                                                            <button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button>\
+                                                                            <input type="hidden" name="dto.Claims[' + claim + '].Value" value="' + claim + '" />\
+                                                                        </div>\
+                                                                    </td>\
+                                                                    <td scope="col"><div class="centercontent"> ' + claim + '</div></td>\
+                                                                    <td scope="col">\
+                                                                        <div class="centercontent"> \
+                                                                            <a class="btn btn-success btn-sm" id="nav-claimsdetailadd-tab" data-toggle="tab"\
+                                                                                href="#nav-claimsdetailadd" role="tab" aria-controls="nav-claimsdetailadd" aria-selected="false"\
+                                                                                onclick="PopulateClaimDetail(\''+ claim + '\',this);">\
+                                                                                &#128270;</a>\
+                                                                        </div>\
+                                                                    </td>\
+                                                                </tr>'
                 $('#addClaimTableBody').append(append);
                 $('#addClaim').val('');
             }
         });
         $('#addSecretBtn').on('click', function (e) {
             e.preventDefault();
-            var secretType = $('#addSecretType').val();
-            var secretValue = $('#addSecretValue').val();
-            var secretExpirationDate = $('#addSecretExpirationDate').val();
-            var secretExpirationTime = $('#addSecretExpirationTime').val();
-            var secretCreatedDate = $('#addSecretCreatedDate').val();
-            var secretCreatedTime = $('#addSecretCreatedTime').val();
-            var secretDescription = $('#addSecretDescription').val();
+            var input = {
+                handler: 'SecretTableRow'
+                type: $('#addSecretType').val(),
+                value: $('#addSecretValue').val(),
+                expiration: $('#addSecretExpirationDate').val() + ' ' + $('#addSecretExpirationTime').val(),
+                created: $('#addSecretCreatedDate').val() + ' ' + $('#addSecretCreatedTime').val(),
+                description: $('#addSecretDescription').val()
+            };
 
             if (secretType.length < 1 || secretValue.length < 1) {
                 alert('type and value must have a value');
             }
             else {
-                var append = '<tr>\
-                                                                <td scope="col">\
-                                                                    <div class="centercontent">\
-                                                                        <button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button>\
-                                                                        <input type="hidden" name="dto.Secrets[' + secretType + '].Value" value="' + secretValue + '" />\
-                                                                        <input type="hidden" name="dto.Secrets[' + secretType + '].Type" value="' + secretType + '" />\
-                                                                        <input type="hidden" name="dto.Secrets[' + secretType + '].Description" value="' + secretDescription + '" />\
-                                                                        <input type="hidden" name="dto.Secrets[' + secretType + '].Expiration" value="' + secretExpirationDate + ' ' + secretExpirationTime + '" />\
-                                                                        <input type="hidden" name="dto.Secrets[' + secretType + '].Created" value="' + secretCreatedDate + ' ' + secretCreatedTime + '" />\
-                                                                    </div>\
-                                                                </td>\
-                                                                <td scope="col"><div class="centercontent"> ' + secretType + '</div></td>\
-                                                                <td scope="col"><div class="centercontent"> ' + secretValue + '</div></td>\
-                                                                <td scope="col">\
-                                                                    <div class="centercontent"> \
-                                                                        <a class="btn btn-success btn-sm" id="nav-secretdetailsadd-tab" data-toggle="tab"\
-                                                                            href="#nav-secretdetailsadd" role="tab" aria-controls="nav-secretdetailsadd" aria-selected="false"\
-                                                                            onclick="PopulateSecretDetail(\''+ secretType + '\',\'' + secretValue + '\',\'' + secretExpirationDate + '\',\'' + secretExpirationTime + '\',\'' + secretCreatedDate + '\',\'' + secretCreatedTime + '\',\'' + secretDescription + '\',this);">\
-                                                                            &#128270;</a>\
-                                                                    </div>\
-                                                                </td>\
-                                                            </tr>'
-                $('#addSecretOverviewTableBody').append(append);
+                AppendTableRow(input, $('#addSecretOverviewTableBody'));
                 $('#addSecretType').val('');
                 $('#addSecretValue').val('');
                 $('#addSecretExpirationDate').val('');

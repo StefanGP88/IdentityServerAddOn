@@ -1,0 +1,9 @@
+﻿@model AddRoleClaimModel
+<tr>
+    <td>
+        <button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button>
+        <input type="hidden" name="dto.Claims['@Model.Claim']" value="@Model.ClaimType" />
+    </td>
+    <td>@Model.Claim</td>
+    <td>@Model.ClaimType</td>
+</tr>
