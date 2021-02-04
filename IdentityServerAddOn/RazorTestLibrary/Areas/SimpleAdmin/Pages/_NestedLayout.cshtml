@@ -136,7 +136,7 @@
 
         function RemoveClaim(element, event) {
             event.preventDefault();
-            $(element).parents().eq(2).remove();
+            $(element).closest('tr').remove();
         }
 
         function AppendTableRow(input, element) {

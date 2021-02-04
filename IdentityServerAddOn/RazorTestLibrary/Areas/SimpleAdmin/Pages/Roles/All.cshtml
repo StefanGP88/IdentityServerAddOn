@@ -53,7 +53,7 @@
             <div>
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
                     <a class="nav-item nav-link active" id="nav-basesettingsadd-tab" data-toggle="tab" href="#nav-basesettingsadd" role="tab" aria-controls="nav-basesettingsadd" aria-selected="true">Base Settings</a>
-                    <a class="nav-item nav-link" id="nav-claimsadd-tab" data-toggle="tab" href="#nav-claimsadd" role="tab" aria-controls="nav-claimsadd" aria-selected="false">Role claims</a>
+                    <a class="nav-item nav-link" id="nav-claimsoverviewadd-tab" data-toggle="tab" href="#nav-claimsoverviewadd" role="tab" aria-controls="nav-claimsoverviewadd" aria-selected="false">Role claims</a>
                 </div>
             </div>
         </nav>
@@ -64,33 +64,75 @@
                     <input type="text" class="form-control" id="addRoleName" name="dto.RoleName">
                 </div>
             </div>
-            <div class="tab-pane fade show" id="nav-claimsadd" role="tabpanel" aria-labelledby="nav-claimsadd-tab">
+            <div class="tab-pane fade show" id="nav-claimsoverviewadd" role="tabpanel" aria-labelledby="nav-claimsoverviewadd-tab">
                 <br />
                 <table class="table table-sm">
                     <tbody id="addClaimTableBody">
                         <tr>
-                            <td scope="col">
+                            <td scope="col" class="border-top-0">
+                                <div class="centercontent">
+                                    <button id="addClaimBtnOverview" class="btn btn-primary btn-sm addsign" data-toggle="tab" href="#nav-claimsadd" role="tab" aria-controls="nav-claimsadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                                </div>
                             </td>
-                            <td scope="col">
-                                Claim
+                            <td scope="col" class="border-top-0">
+                                <div class="centercontent">
+                                    <span class="text-dark font-italic">Claim</span>
+                                </div>
                             </td>
-                            <td scope="col">
-                                Claim type
+                            <td scope="col" class="border-top-0">
+                                <div class="centercontent">
+                                    <span class="text-dark font-italic">Claim type</span>
+                                </div>
                             </td>
-                        </tr>
-                        <tr>
-                            <td scope="col">
-                                <button id="addClaimBtn" class="btn btn-primary btn-sm addsign"></button>
-                            </td>
-                            <td scope="col">
-                                <input type="text" id="addClaim" />
-                            </td>
-                            <td scope="col">
-                                <input type="text" id="addClaimType" />
+                            <td scope="col" class="border-top-0">
+                                <div class="centercontent">
+                                    &ensp;
+                                </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            @*<div class="tab-pane fade show" id="nav-claimsoverviewadd" role="tabpanel" aria-labelledby="nav-claimsoverviewadd-tab">
+                <div class="form-group">
+                    <label class="col-form-label">Claim</label>
+                    <input type="text" id="addClaim" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Claim type</label>
+                    <input type="text" id="addClaimType" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <button id="addClaimBtnCancel" class="btn btn-secondary" data-toggle="tab" href="#nav-claimsoverviewadd" role="tab" aria-controls="nav-secretsoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                    <button id="addClaimBtn" class="btn btn-primary addsign" data-toggle="tab" href="#nav-claimsoverviewadd" role="tab" aria-controls="nav-secretsoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                </div>
+            </div>*@
+            <div class="tab-pane fade show" id="nav-claimsadd" role="tabpanel" aria-labelledby="nav-claimsadd-tab">
+                <div class="form-group">
+                    <label class="col-form-label">Claim</label>
+                    <input type="text" id="addClaim" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Claim type</label>
+                    <input type="text" id="addClaimType" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <button id="addClaimBtnCancel" class="btn btn-secondary" data-toggle="tab" href="#nav-claimsoverviewadd" role="tab" aria-controls="nav-secretsoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                    <button id="addClaimBtn" class="btn btn-primary addsign" data-toggle="tab" href="#nav-claimsoverviewadd" role="tab" aria-controls="nav-secretsoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                </div>
+            </div>
+            <div class="tab-pane fade show" id="nav-claimsadddetail" role="tabpanel" aria-labelledby="nav-claimsadddetail-tab">
+                <div class="form-group">
+                    <label class="col-form-label">Claim</label>
+                    <input type="text" id="addClaimDetail" class="form-control" disabled />
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">Claim type</label>
+                    <input type="text" id="addClaimTypeDetail" class="form-control" disabled />
+                </div>
+                <div class="form-group">
+                    <button id="addClaimBtnCancelDetail" class="btn btn-secondary" data-toggle="tab" href="#nav-claimsoverviewadd" role="tab" aria-controls="nav-secretsoverviewadd" aria-selected="false" onclick="UnpopulateClaimsDetail(this);"></button>
+                </div>
             </div>
         </div>
     </form>
@@ -161,6 +203,21 @@
 
 @section Scripts{
     <script type="text/javascript">
+        function PopulateClaimsDetail(element) {            
+            $('#addClaimDetail').val($(element).data('claim'));
+            $('#addClaimTypeDetail').val($(element).data('claimtype'));
+        }
+
+        function UnpopulateClaimsDetail(element) {
+            $('#addClaimDetail').val('');
+            $('#addClaimTypeDetail').val('');
+            RemoveActive(element);
+        }
+
+        function RemoveActive(element) {
+            $(element).removeClass("active");
+        }
+
         $('#editModal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
             var modal = $(this);

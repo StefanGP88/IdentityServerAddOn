@@ -208,10 +208,8 @@
                     <input type="text" id="addPropertyKeyDetail" disabled class="form-control" />
                 </div>
                 <div class="form-group">
-                    <div class="form-group">
-                        <button id="addPropertyBtnCancel" class="btn btn-secondary" data-toggle="tab" href="#nav-propertyoverviewadd" role="tab" aria-controls="nav-propertyoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
-                    </div>
-                </div>
+                    <button id="addPropertyBtnCancel" class="btn btn-secondary" data-toggle="tab" href="#nav-propertyoverviewadd" role="tab" aria-controls="nav-propertyoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                </div>s
             </div>
             <div class="tab-pane fade" id="nav-scopesadd" role="tabpanel" aria-labelledby="nav-scopesadd-tab">
                 <br />
@@ -339,10 +337,9 @@
                     <textarea id="addSecretDescription" class="form-control"> </textarea>
                 </div>
                 <div class="form-group">
-                    <div class="form-group">
                         <button id="addSecretBtnCancel" class="btn btn-secondary" data-toggle="tab" href="#nav-secretsoverviewadd" role="tab" aria-controls="nav-secretsoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
                         <button id="addSecretBtn" class="btn btn-primary addsign" data-toggle="tab" href="#nav-secretsoverviewadd" role="tab" aria-controls="nav-secretsoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
-                    </div>
+                  
                 </div>
             </div>
         </div>
@@ -392,22 +389,22 @@
                 alert('claim must have a value');
             } else {
                 var append = '<tr>\
-                                                                    <td scope="col">\
-                                                                        <div class="centercontent">\
-                                                                            <button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button>\
-                                                                            <input type="hidden" name="dto.Claims[' + claim + '].Value" value="' + claim + '" />\
-                                                                        </div>\
-                                                                    </td>\
-                                                                    <td scope="col"><div class="centercontent"> ' + claim + '</div></td>\
-                                                                    <td scope="col">\
-                                                                        <div class="centercontent"> \
-                                                                            <a class="btn btn-success btn-sm" id="nav-claimsdetailadd-tab" data-toggle="tab"\
-                                                                                href="#nav-claimsdetailadd" role="tab" aria-controls="nav-claimsdetailadd" aria-selected="false"\
-                                                                                onclick="PopulateClaimDetail(\''+ claim + '\',this);">\
-                                                                                &#128270;</a>\
-                                                                        </div>\
-                                                                    </td>\
-                                                                </tr>'
+                                                                        <td scope="col">\
+                                                                            <div class="centercontent">\
+                                                                                <button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button>\
+                                                                                <input type="hidden" name="dto.Claims[' + claim + '].Value" value="' + claim + '" />\
+                                                                            </div>\
+                                                                        </td>\
+                                                                        <td scope="col"><div class="centercontent"> ' + claim + '</div></td>\
+                                                                        <td scope="col">\
+                                                                            <div class="centercontent"> \
+                                                                                <a class="btn btn-success btn-sm" id="nav-claimsdetailadd-tab" data-toggle="tab"\
+                                                                                    href="#nav-claimsdetailadd" role="tab" aria-controls="nav-claimsdetailadd" aria-selected="false"\
+                                                                                    onclick="PopulateClaimDetail(\''+ claim + '\',this);">\
+                                                                                    &#128270;</a>\
+                                                                            </div>\
+                                                                        </td>\
+                                                                    </tr>'
                 $('#addClaimTableBody').append(append);
                 $('#addClaim').val('');
             }
@@ -415,7 +412,7 @@
         $('#addSecretBtn').on('click', function (e) {
             e.preventDefault();
             var input = {
-                handler: 'SecretTableRow'
+                handler: 'SecretTableRow',
                 type: $('#addSecretType').val(),
                 value: $('#addSecretValue').val(),
                 expiration: $('#addSecretExpirationDate').val() + ' ' + $('#addSecretExpirationTime').val(),
