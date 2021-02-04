@@ -1,8 +1,10 @@
 ﻿@model AddRoleClaimModel
 <tr>
     <td scope="col" class="border-top-0">
-        <button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button>
-        <input type="hidden" name="dto.Claims['@Model.Claim']" value="@Model.ClaimType" />
+        <div class="centercontent">
+            <button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button>
+            <input type="hidden" name="dto.Claims['@Model.Claim']" value="@Model.ClaimType" />
+        </div>
     </td>
     <td scope="col" class="border-top-0">
         <div class="centercontent">
