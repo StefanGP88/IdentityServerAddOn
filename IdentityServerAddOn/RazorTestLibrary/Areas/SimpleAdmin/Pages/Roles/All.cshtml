@@ -63,7 +63,7 @@
                 </div>
             </div>
             <div class="tab-pane fade show" id="nav-claimsoverviewadd" role="tabpanel" aria-labelledby="nav-claimsoverviewadd-tab">
-                <partial name="_ClaimOverviewPartial" model="@(new TablePartialDataContainer("Role", "Claim", false))" />
+                <partial name="_ClaimOverviewPartial" model="@(new TablePartialDataContainer("Role", "Claim", false, new string[] { "Claim", "ClaimType" }))" />
             </div>
             <div class="tab-pane fade show" id="nav-claimsadd" role="tabpanel" aria-labelledby="nav-claimsadd-tab">
                 <partial name="_ClaimPartial" model="@(new PartialDataContainer("Role", "Claim", false, false))" />
@@ -92,7 +92,7 @@
                 </div>
             </div>
             <div class="tab-pane fade show" id="nav-claimsoverviewadd" role="tabpanel" aria-labelledby="nav-claimsoverviewadd-tab">
-                <partial name="_ClaimOverviewPartial" model="@(new TablePartialDataContainer("Role", "Claim", true))" />
+                <partial name="_ClaimOverviewPartial" model="@(new TablePartialDataContainer("Role", "Claim", true, new string[] { "Claim", "ClaimType" }))" />
             </div>
             <div class="tab-pane fade show" id="nav-claimsadd" role="tabpanel" aria-labelledby="nav-claimsadd-tab">
                 <partial name="_ClaimPartial" model="@(new PartialDataContainer("Role", "Claim", false,  true))" />

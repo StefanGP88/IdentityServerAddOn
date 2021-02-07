@@ -66,8 +66,11 @@ namespace RazorTestLibrary
 
     public class TablePartialDataContainer : PartialDataContainer
     {
-        public TablePartialDataContainer(string resource, string property, bool isForExistingResource)
-            : base(resource, property, isForExistingResource, false) { }
+        public TablePartialDataContainer(string resource, string property, bool isForExistingResource, string[] columns)
+            : base(resource, property, isForExistingResource, false)
+        {
+            Columns = columns;
+        }
 
         public string[] Columns { get; set; }
 

@@ -9,6 +9,7 @@ namespace RazorTestLibrary
 {
     public class PageSizeMiddleware : IMiddleware
     {
+        //TODO: make configuratble
         private readonly string defaultPageSize = "10";
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
@@ -53,6 +54,7 @@ namespace RazorTestLibrary
         private void SetPageSizeCookie(HttpContext context, string size)
         {
             var pageSizeCookie = context.Request.Path.ToString();
+            pageSizeCookie = pageSizeCookie.Replace("/", "");
             context.Response.Cookies.Append(pageSizeCookie, size);
         }
 
