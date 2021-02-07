@@ -1,0 +1,58 @@
+﻿@model TablePartialDataContainer
+
+<br />
+<table class="table table-sm">
+    <tbody id="addClaimTableBody">
+        <tr>
+            <td scope="col" class="border-top-0">
+                <div class="centercontent">
+                    <button id="@Model.GetAddButtonId()" class="btn btn-primary btn-sm addsign"
+                            data-toggle="tab" href="#nav-claimsadd" role="tab"
+                            aria-controls="nav-claimsadd" aria-selected="false"
+                            onclick="RemoveActive(this);"></button>
+                </div>
+            </td>
+            @foreach (var item in Model.Columns)
+            {
+                <td scope="col" class="border-top-0">
+                    <div class="centercontent">
+                        <span class="text-dark font-italic">@item</span>
+                    </div>
+                </td>
+            }
+            <td scope="col" class="border-top-0">
+                <div class="centercontent">
+                    &ensp;
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+@*<br />
+    <table class="table table-sm">
+        <tbody id="addClaimTableBody">
+            <tr>
+                <td scope="col" class="border-top-0">
+                    <div class="centercontent">
+                        <button id="addClaimBtnOverview" class="btn btn-primary btn-sm addsign" data-toggle="tab" href="#nav-claimsadd" role="tab" aria-controls="nav-claimsadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                    </div>
+                </td>
+                <td scope="col" class="border-top-0">
+                    <div class="centercontent">
+                        <span class="text-dark font-italic">Claim</span>
+                    </div>
+                </td>
+                <td scope="col" class="border-top-0">
+                    <div class="centercontent">
+                        <span class="text-dark font-italic">Claim type</span>
+                    </div>
+                </td>
+                <td scope="col" class="border-top-0">
+                    <div class="centercontent">
+                        &ensp;
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>*@

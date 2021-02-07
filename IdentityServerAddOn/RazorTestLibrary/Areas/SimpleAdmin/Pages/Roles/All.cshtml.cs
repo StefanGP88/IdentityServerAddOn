@@ -39,9 +39,9 @@ namespace RazorTestLibrary.Areas.SimpleAdmin.Pages.Roles
             return Page();
         }
 
-        public PartialViewResult OnGetAddClaimRow(CancellationToken cancel = default)
+        public PartialViewResult OnGetAddClaimRow(string claim, string claimType)
         {
-            return Partial("_AddClaimRow", new AddRoleClaimModel {  Claim="test claim", ClaimType="test type"});
+            return Partial("_AddClaimRow", new AddRoleClaimModel { Claim = claim, ClaimType = claimType });
         }
     }
 }

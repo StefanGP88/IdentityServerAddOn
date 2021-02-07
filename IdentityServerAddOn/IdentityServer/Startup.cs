@@ -61,7 +61,6 @@ namespace IdentityServer
                 .AddOperationalStore(connectionString, migrationAssembly);
 
             services.AddRazorPages().AddRazorPagesForSimpleAdmin<AppDbContext>();
-
             services.AddIdentityServerAddOn<AppDbContext>();
         }
 

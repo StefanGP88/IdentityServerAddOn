@@ -431,7 +431,7 @@
 
 
         function PopulateSecretDetail(secretType, secretValue, secretExpirationDate, secretExpirationTime, secretCreatedDate, secretCreatedTime, secretDescriptio, element) {
-            $(element).removeClass("active");
+            RemoveActive(element);
             $('#addSecretTypeDetail').val(secretType);
             $('#addSecretValueDetail').val(secretValue);
             $('#addSecretExpirationDateDetail').val(secretExpirationDate);
@@ -442,19 +442,19 @@
 
         }
         function PopulateClaimDetail(claim, element) {
-            $(element).removeClass("active");
+            RemoveActive(element);
             $('#addClaimDetail').val(claim);
         }
 
         function PopulatePropertyDetail(property, propertykey, element) {
-            $(element).removeClass("active");
+            RemoveActive(element);
             $('#addPropertyDetail').val(property);
             $('#addPropertyKeyDetail').val(propertykey);
         }
 
 
         function UnpopulateSecretDetail(element) {
-            $(element).removeClass("active");
+            RemoveActive(element);
             $('#addSecretTypeDetail').val('');
             $('#addSecretValueDetail').val('');
             $('#addSecretExpirationDateDetail').val('');
@@ -462,10 +462,6 @@
             $('#addSecretCreatedDateDetail').val('');
             $('#addSecretCreatedTimeDetail').val('');
             $('#addSecretDescriptionDetail').val('');
-        }
-
-        function RemoveActive(element) {
-            $(element).removeClass("active");
         }
     </script>
 }

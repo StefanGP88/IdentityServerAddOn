@@ -18,6 +18,10 @@
         content: ' \2796';
     }
 
+    a.btn-success:after {
+        content: ' \1F50E';
+    }
+
     a.addsign:after {
         content: ' \2795';
     }
@@ -150,6 +154,11 @@
                 $(element).append(data);
             });
         }
+
+        function RemoveActive(element) {
+            $(element).removeClass("active");
+        }
+
     </script>
     @RenderSection("scripts", required: false)
 }

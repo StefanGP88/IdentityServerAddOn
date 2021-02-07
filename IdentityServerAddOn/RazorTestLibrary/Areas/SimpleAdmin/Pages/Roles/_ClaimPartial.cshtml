@@ -1,0 +1,43 @@
+﻿@model TablePartialDataContainer
+@{
+    var claim = "Claim";
+    var claimType = "ClaimType";
+}
+
+<div class="form-group">
+    <label class="col-form-label">Claim</label>
+    <input type="text" id="@Model.GetHtmlId(claim)" class="form-control" @Model.GeHtmlTags() />
+</div>
+<div class="form-group">
+    <label class="col-form-label">Claim type</label>
+    <input type="text" id="@Model.GetHtmlId(claimType)" class="form-control" @Model.GeHtmlTags() />
+</div>
+<div class="form-group">
+    <button id="addClaimBtnCancel" class="btn btn-secondary"
+            data-toggle="tab" href="#nav-claimsoverviewadd" role="tab"
+            aria-controls="nav-secretsoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+    @if (!Model.IsDetailPartial)
+    {
+        <button id="addClaimBtn" class="btn btn-primary addsign"
+                data-toggle="tab" href="#nav-claimsoverviewadd" role="tab"
+                aria-controls="nav-secretsoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+    }
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        function @Model.GetPopulateMethodName(claim) {
+            $('#@Model.GetHtmlId(claim)').val($(element).data('@claim.ToLower()'));
+            $('#@Model.GetHtmlId(claimType)').val($(element).data('@claimType.ToLower()'));
+        }
+
+        function @Model.GetUnpopulateMethodName(claim) {
+            RemoveActive(element);
+            $('#@Model.GetHtmlId(claim)').val('');
+            $('#@Model.GetHtmlId(claimType)').val('');
+        }
+
+    </script>
+}
