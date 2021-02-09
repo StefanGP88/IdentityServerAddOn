@@ -25,7 +25,6 @@ namespace RazorTestLibrary
 
     public class PartialDataContainer
     {
-        public NavTabDataContainer NavTab { get; set; }
         public PartialDataContainer(string resource, string property, bool isForExistingResource, bool isDetailPartial, bool isAddForm)
         {
             Resource = resource;
@@ -66,6 +65,16 @@ namespace RazorTestLibrary
             if (IsForExistingResource) return string.Format("Populate{0}ForExisitng{1}(element)", name, FormType);
             return string.Format("Unopulate{0}ForNew{1}(element)", name, FormType);
         }
+
+        public string GetTabId(string tabName, TabType tabType)
+        {
+            return string.Format("nav-{0}{1}-tab", tabName.Replace(" ", ""), FormType).ToLower();
+        }
+
+        public string GetNavTargetId(string tabName, TabType tabType)
+        {
+            return string.Format("nav-{0}{1}", tabName.Replace(" ", ""), FormType).ToLower();
+        }
     }
 
     public class TablePartialDataContainer : PartialDataContainer
@@ -104,14 +113,21 @@ namespace RazorTestLibrary
             IsAddForm = isAddForm;
         }
 
-        public string GetTabId()
+        public string GetTabId(TabType tabType)
         {
             return string.Format("nav-{0}{1}-tab", TabName.Replace(" ", ""), FormType).ToLower();
         }
 
-        public string GetNavTargetId()
+        public string GetNavTargetId(TabType tabType)
         {
             return string.Format("nav-{0}{1}", TabName.Replace(" ", ""), FormType).ToLower();
         }
+    }
+
+    public enum TabType
+    {
+        Overview,
+        Add,
+        Detail
     }
 }

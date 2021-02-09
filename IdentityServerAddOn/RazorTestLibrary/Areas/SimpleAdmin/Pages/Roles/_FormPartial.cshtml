@@ -5,9 +5,7 @@
 
     var claimOverview = new TablePartialDataContainer("Role", "Claim", true, Model.IsAddForm, new string[] { "Claim", "ClaimType" });
     var claimAdd = new PartialDataContainer("Role", "Claim", false, true, Model.IsAddForm);
-    claimAdd.NavTab = roleClaims;
     var claimDetail = new PartialDataContainer("Role", "Claim", true, true, Model.IsAddForm);
-    claimDetail.NavTab = roleClaims;
 }
 <nav>
     <div class="nav nav-tabs" id="nav-tab" role="tablist">

@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace RazorTestLibrary.Areas.SimpleAdmin.Pages
 {
-    public class ApiResourcesModel : BasePageModel<ApiResourceResponseDto>
+    public class ApiResourcesModel : BasePageModel<ApiResourceResponseDto, ApiResourceProperties>
     {
         private readonly IApiResourceHandler _hander;
         public ApiResourcesModel(IApiResourceHandler apiResourceHandler)
@@ -43,5 +43,9 @@ namespace RazorTestLibrary.Areas.SimpleAdmin.Pages
         {
             return Partial("ApiResourcesTableRows/_SecretTableRows", new SecretRowModel { Created = created, Description = description, Expiration = expiration, Type = type, Value = value });
         }
+    }
+    public class ApiResourceProperties
+    {
+
     }
 }

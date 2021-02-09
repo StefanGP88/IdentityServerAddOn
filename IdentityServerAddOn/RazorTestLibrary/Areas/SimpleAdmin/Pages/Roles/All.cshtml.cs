@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace RazorTestLibrary.Areas.SimpleAdmin.Pages.Roles
 {
-    public class AllModel : BasePageModel<RoleResponseDto>
+    public class AllModel : BasePageModel<RoleResponseDto, RoleProperties>
     {
         private readonly IRoleHandler _handler;
         public AllModel(IRoleHandler handler)
@@ -43,5 +43,9 @@ namespace RazorTestLibrary.Areas.SimpleAdmin.Pages.Roles
         {
             return Partial("_AddClaimRow", new AddRoleClaimModel { Claim = claim, ClaimType = claimType });
         }
+    }
+    public class RoleProperties
+    {
+
     }
 }

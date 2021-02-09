@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace RazorTestLibrary.Areas.SimpleAdmin.Pages.Users
 {
-    public class AllModel : BasePageModel<UserResponseDto>
+    public class AllModel : BasePageModel<UserResponseDto, UserProperties>
     {
         private readonly IUserHandler _userHandler;
         private readonly IRoleHandler _roleHandler;
@@ -45,5 +45,10 @@ namespace RazorTestLibrary.Areas.SimpleAdmin.Pages.Users
             UserRoleList = _roleHandler.ReadAllRoles(cancel).GetAwaiter().GetResult();
             return Page();
         }
+
     }
+        public class UserProperties
+        {
+
+        }
 }
