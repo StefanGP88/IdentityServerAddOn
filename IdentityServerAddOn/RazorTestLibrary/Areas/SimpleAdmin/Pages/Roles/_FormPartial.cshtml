@@ -1,0 +1,36 @@
+﻿@model FormPartialDataContainer
+@{ 
+    var baseSettings = new NavTabDataContainer("Base settings", true, Model.IsAddForm);
+    var roleClaims = new NavTabDataContainer("Role claims", false, Model.IsAddForm);
+
+    var claimOverview = new TablePartialDataContainer("Role", "Claim", true, Model.IsAddForm, new string[] { "Claim", "ClaimType" });
+    var claimAdd = new PartialDataContainer("Role", "Claim", false, true, Model.IsAddForm);
+    claimAdd.NavTab = roleClaims;
+    var claimDetail = new PartialDataContainer("Role", "Claim", true, true, Model.IsAddForm);
+    claimDetail.NavTab = roleClaims;
+}
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <partial name="_NavTabPartial" model="@baseSettings" />
+        <partial name="_NavTabPartial" model="@roleClaims" />
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="@baseSettings.GetNavTargetId()" role="tabpanel" aria-labelledby="@baseSettings.GetTabId()">
+        <div class="form-group">
+            <label for="recipient-name" class="col-form-label">RoleName</label>
+            <input type="text" class="form-control" id="@Model.GetHtmlId("RoleName")" name="dto.RoleName">
+        </div>
+    </div>
+    <div class="tab-pane fade show" id="@roleClaims.GetNavTargetId()" role="tabpanel" aria-labelledby="@roleClaims.GetTabId()">
+        <partial name="_ClaimOverviewPartial" model="@claimOverview" />
+    </div>
+    <div class="tab-pane fade show" id="nav-claimsadd" role="tabpanel" aria-labelledby="nav-claimsadd-tab">
+        <partial name="_ClaimPartial" model="@claimAdd" />
+    </div>
+    <div class="tab-pane fade show" id="nav-claimsadddetail" role="tabpanel" aria-labelledby="nav-claimsadddetail-tab">
+        <partial name="_ClaimPartial" model="@claimDetail" />
+    </div>
+</div>
+<input type="hidden" id="@Model.GetHtmlId("Id")" name="dto.Id" />
+<input type="hidden" id="@Model.GetHtmlId("ConcurrencyStamp")" name="dto.ConcurrencyStamp" />

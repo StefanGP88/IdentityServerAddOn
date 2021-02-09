@@ -1,0 +1,7 @@
+﻿@model NavTabDataContainer
+@{
+    var activeClass = Model.IsActive ? "active" : string.Empty;
+}
+<a class="nav-item nav-link @activeClass" id="@Model.GetTabId()"
+   data-toggle="tab" href="#@Model.GetNavTargetId()" role="tab"
+   aria-controls="@Model.GetNavTargetId()" aria-selected="true">@Model.TabName</a>
