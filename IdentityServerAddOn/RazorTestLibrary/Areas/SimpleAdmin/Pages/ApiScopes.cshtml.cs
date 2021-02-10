@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace RazorTestLibrary.Areas.SimpleAdmin.Pages
 {
-    public class ApiScopesModel : BasePageModel<ApiScopeResponseDto>
+    public class ApiScopesModel : BasePageModel<ApiScopeResponseDto, replacethis>
     {
         private readonly IApiScopeHandler _handler;
         public ApiScopesModel(IApiScopeHandler handler)
@@ -38,5 +38,9 @@ namespace RazorTestLibrary.Areas.SimpleAdmin.Pages
             List = _handler.ReadAllApiScopes(PageNumber, PageSize, cancel).GetAwaiter().GetResult();
             return Page();
         }
+    }
+    public class replacethis
+    {
+
     }
 }

@@ -1,26 +1,50 @@
-﻿@model PartialDataContainer
+﻿@model PropertyPartialDataContainer
 @{
     var claim = "Claim";
     var claimType = "ClaimType";
+
+    var roleClaims = AllModel.Properties.RoleClaims.GetValueContainer(Model.IsAddForm);
 }
 
 <div class="form-group">
     <label class="col-form-label">Claim</label>
-    <input type="text" id="@Model.GetHtmlId(claim)" class="form-control" @Model.GeHtmlTags() />
+    <input type="text" id="@(claim + Model.FormType)" class="form-control" @Model.GeHtmlTags() />
 </div>
 <div class="form-group">
     <label class="col-form-label">Claim type</label>
-    <input type="text" id="@Model.GetHtmlId(claimType)" class="form-control" @Model.GeHtmlTags() />
+    <input type="text" id="@(claimType+ Model.FormType)" class="form-control" @Model.GeHtmlTags() />
 </div>
 <div class="form-group">
-    <button id="addClaimBtnCancel" class="btn btn-secondary"
-            data-toggle="tab" href="#nav-claimsoverviewadd" role="tab"
-            aria-controls="nav-secretsoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
-    @if (!Model.IsDetailPartial)
+    @if (Model.TabType == TabType.Detail)
     {
-        <button id="addClaimBtn" class="btn btn-primary addsign"
-                data-toggle="tab" href="#nav-claimsoverviewadd" role="tab"
-                aria-controls="nav-secretsoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+        <button id="@roleClaims.NavBtnIdCancel"
+                class="btn btn-secondary"
+                data-toggle="tab"
+                href="#@roleClaims.NavPaneIdOverview"
+                role="tab"
+                aria-controls="@roleClaims.NavPaneIdOverview"
+                aria-selected="false"
+                onclick="RemoveActive(this);"></button>
+    }
+    else
+    {
+        <button id="@roleClaims.NavBtnIdCancelDetail"
+                class="btn btn-secondary"
+                data-toggle="tab"
+                href="#@roleClaims.NavPaneIdOverview"
+                role="tab"
+                aria-controls="@roleClaims.NavPaneIdOverview"
+                aria-selected="false"
+                onclick="RemoveActive(this);"></button>
+
+        <button id="@roleClaims.NavBtnIdAddNew"
+                class="btn btn-primary addsign"
+                data-toggle="tab"
+                href="#@roleClaims.NavPaneIdOverview"
+                role="tab"
+                aria-controls="@roleClaims.NavPaneIdOverview"
+                aria-selected="false"
+                onclick="RemoveActive(this);"></button>
     }
 </div>
 
@@ -28,7 +52,19 @@
 {
     <script type="text/javascript">
 
-        function @Model.GetPopulateMethodName(claim) {
+
+         function @AllModel.Properties.RoleClaims.GetPopulateMethodName() {
+            $('#@(claim + Model.FormType)').val($(element).data('@((claim + Model.FormType).ToLower())'));
+            $('#@(claimType+ Model.FormType)').val($(element).data('@((claimType + Model.FormType).ToLower())'));
+        }
+
+        function @AllModel.Properties.RoleClaims.GetUnpopulateMethodName() {
+            RemoveActive(element);
+            $('#@(claim + Model.FormType)').val('');
+            $('#@(claimType+ Model.FormType)').val('');
+        }
+
+        @*function @Model.GetPopulateMethodName(claim) {
             $('#@Model.GetHtmlId(claim)').val($(element).data('@claim.ToLower()'));
             $('#@Model.GetHtmlId(claimType)').val($(element).data('@claimType.ToLower()'));
         }
@@ -37,7 +73,7 @@
             RemoveActive(element);
             $('#@Model.GetHtmlId(claim)').val('');
             $('#@Model.GetHtmlId(claimType)').val('');
-        }
+        }*@
 
     </script>
 }

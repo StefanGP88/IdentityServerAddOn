@@ -44,8 +44,9 @@ namespace RazorTestLibrary.Areas.SimpleAdmin.Pages.Roles
             return Partial("_AddClaimRow", new AddRoleClaimModel { Claim = claim, ClaimType = claimType });
         }
     }
-    public class RoleProperties
+    public class RoleProperties: BaseResourcePropertyContainer
     {
+        public ResourceProperty RoleClaims { get; } = new ResourceProperty("Role claims");
 
     }
 }

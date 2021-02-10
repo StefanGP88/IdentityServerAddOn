@@ -23,25 +23,72 @@ namespace RazorTestLibrary
         public string ClaimType { get; set; }
     }
 
-    public class PartialDataContainer
+    //public class PartialDataContainer
+    //{
+    //    public PartialDataContainer(string resource, string property, bool isForExistingResource, bool isDetailPartial, bool isAddForm)
+    //    {
+    //        Resource = resource;
+    //        IsForExistingResource = isForExistingResource;
+    //        IsDetailPartial = isDetailPartial;
+    //        Property = property;
+    //        IsAddForm = isAddForm;
+    //    }
+    //    public string Resource { get; set; }
+    //    public string Property { get; set; }
+    //    public bool IsForExistingResource { get; set; }
+    //    public bool IsDetailPartial { get; set; }
+    //    public string GetHtmlId(string name)
+    //    {
+    //        return (IsForExistingResource, IsDetailPartial) switch
+    //        {
+    //            (true, true) => string.Format("see{0}DetailForExisting{1}{2}", name, Resource, FormType),
+    //            (true, false) => string.Format("add{0}ToExisting{1}{2}", name, Resource, FormType),
+    //            (false, true) => string.Format("see{0}DetailForNew{1}{2}", name, Resource, FormType),
+    //            (false, false) => string.Format("add{0}ToNew{1}{2}", name, Resource, FormType)
+    //        };
+    //    }
+
+    //    public string GeHtmlTags()
+    //    {
+    //        return IsDetailPartial ? " disabled " : string.Empty;
+    //    }
+
+    //    public string GetPopulateMethodName(string name)
+    //    {
+    //        if (IsForExistingResource) return string.Format("Populate{0}ForExisitng{1}(element)", name, FormType);
+    //        return string.Format("Populate{0}ForNew{1}(element)", name, FormType);
+    //    }
+    //    public string GetUnpopulateMethodName(string name)
+    //    {
+    //        if (IsForExistingResource) return string.Format("Populate{0}ForExisitng{1}(element)", name, FormType);
+    //        return string.Format("Unopulate{0}ForNew{1}(element)", name, FormType);
+    //    }
+
+    //    public string GetTabId(string tabName, TabType tabType)
+    //    {
+    //        return string.Format("nav-{0}{1}-tab", tabName.Replace(" ", ""), FormType).ToLower();
+    //    }
+
+    //    public string GetNavTargetId(string tabName, TabType tabType)
+    //    {
+    //        return string.Format("nav-{0}{1}", tabName.Replace(" ", ""), FormType).ToLower();
+    //    }
+    //}
+
+
+    public class FormPartialDataContainer
     {
-        public PartialDataContainer(string resource, string property, bool isForExistingResource, bool isDetailPartial, bool isAddForm)
+        public FormPartialDataContainer(string resource, bool isAddForm)
         {
-            Resource = resource;
-            IsForExistingResource = isForExistingResource;
-            IsDetailPartial = isDetailPartial;
-            Property = property;
             IsAddForm = isAddForm;
+            Resource = resource;
         }
-        public string Resource { get; set; }
-        public string Property { get; set; }
-        public bool IsForExistingResource { get; set; }
-        public bool IsDetailPartial { get; set; }
         public bool IsAddForm { get; set; }
         public string FormType { get { return IsAddForm ? "AddForm" : "EditForm"; } }
-        public string GetHtmlId(string name)
+        public string Resource { get; set; }
+        public string GetHtmlId(string name, bool isForExistingResource, bool isDetailPartial)
         {
-            return (IsForExistingResource, IsDetailPartial) switch
+            return (isForExistingResource, isDetailPartial) switch
             {
                 (true, true) => string.Format("see{0}DetailForExisting{1}{2}", name, Resource, FormType),
                 (true, false) => string.Format("add{0}ToExisting{1}{2}", name, Resource, FormType),
@@ -50,84 +97,98 @@ namespace RazorTestLibrary
             };
         }
 
+    }
+
+    public class PropertyPartialDataContainer : FormPartialDataContainer
+    {
+        public TabType TabType;
+        public PropertyPartialDataContainer(string resource, bool isAddForm, TabType tabType)
+            : base(resource, isAddForm)
+        {
+            TabType = tabType;
+        }
         public string GeHtmlTags()
         {
-            return IsDetailPartial ? " disabled " : string.Empty;
-        }
-
-        public string GetPopulateMethodName(string name)
-        {
-            if (IsForExistingResource) return string.Format("Populate{0}ForExisitng{1}(element)", name, FormType);
-            return string.Format("Populate{0}ForNew{1}(element)", name, FormType);
-        }
-        public string GetUnpopulateMethodName(string name)
-        {
-            if (IsForExistingResource) return string.Format("Populate{0}ForExisitng{1}(element)", name, FormType);
-            return string.Format("Unopulate{0}ForNew{1}(element)", name, FormType);
-        }
-
-        public string GetTabId(string tabName, TabType tabType)
-        {
-            return string.Format("nav-{0}{1}-tab", tabName.Replace(" ", ""), FormType).ToLower();
-        }
-
-        public string GetNavTargetId(string tabName, TabType tabType)
-        {
-            return string.Format("nav-{0}{1}", tabName.Replace(" ", ""), FormType).ToLower();
+            return TabType == TabType.Detail ? " disabled " : string.Empty;
         }
     }
 
-    public class TablePartialDataContainer : PartialDataContainer
+    public class TablePartialDataContainer : FormPartialDataContainer
     {
-        public TablePartialDataContainer(string resource, string property, bool isForExistingResource, bool isAddForm, string[] columns)
-            : base(resource, property, isForExistingResource, false, isAddForm)
+        public TablePartialDataContainer(string resource, bool isAddForm, string[] columns)
+            : base(resource, isAddForm)
         {
             Columns = columns;
         }
 
         public string[] Columns { get; set; }
-
-        public string GetAddButtonId()
-        {
-            if (IsForExistingResource) return string.Format("add{0}ToExisitng{1}Btn{2}", Property, Resource, FormType);
-            return string.Format("add{0}ToNew{1}Btn{2}", Property, Resource, FormType);
-        }
-    }
-
-    public class FormPartialDataContainer : PartialDataContainer
-    {
-        public FormPartialDataContainer(string resource, string property, bool isForExistingResource, bool isAddForm)
-            : base(resource, property, isForExistingResource, false, isAddForm) { }
-    }
-    public class NavTabDataContainer
-    {
-        public bool IsActive { get; set; }
-        public string TabName { get; set; }
-        public bool IsAddForm { get; set; }
-        public string FormType { get { return IsAddForm ? "AddForm" : "EditForm"; } }
-
-        public NavTabDataContainer(string tabName, bool isActive, bool isAddForm)
-        {
-            IsActive = isActive;
-            TabName = tabName;
-            IsAddForm = isAddForm;
-        }
-
-        public string GetTabId(TabType tabType)
-        {
-            return string.Format("nav-{0}{1}-tab", TabName.Replace(" ", ""), FormType).ToLower();
-        }
-
-        public string GetNavTargetId(TabType tabType)
-        {
-            return string.Format("nav-{0}{1}", TabName.Replace(" ", ""), FormType).ToLower();
-        }
     }
 
     public enum TabType
     {
         Overview,
         Add,
-        Detail
+        Detail,
+        BaseSetting
     }
+
+    #region Resource Properties
+    public class BaseResourcePropertyContainer
+    {
+        public ResourceProperty BasicSettings { get; } = new ResourceProperty("Base settings", true);
+    }
+    public class ResourceProperty
+    {
+        public string Name { get; set; }
+        public bool IsActive { get; set; }
+        public ResourceProperty(string name) : this(name, false) { }
+        public ResourceProperty(string name, bool isActive)
+        {
+            Name = name;
+            IsActive = isActive;
+        }
+
+        public ResourcePropertyValues GetValueContainer(bool isAddForm)
+        {
+            var form = isAddForm ? "AddForm" : "EditForm";
+
+            return new ResourcePropertyValues
+            {
+                IsActive = IsActive,
+                Name = Name,
+                NavBtnIdAddNew = form+ "NavBtnIdAddNew" + Name,
+                NavBtnIdCancel = form + "NavBtnIdCancel" + Name,
+                NavPaneIdNew = form + "NavPaneIdNew" + Name,
+                NavBtnIdCancelDetail = form + "NavBtnIdCancelDetail" + Name,
+                NavPaneIdDetail = form + "NavPaneIdDetail" + Name,
+                NavPaneIdOverview = form + "NavPaneIdOverview" + Name,
+                NavTabId = form + "NavTabId" + Name
+            };
+        }
+
+
+        public string GetPopulateMethodName()
+        {
+            return "Populate" + Name;
+        }
+        public string GetUnpopulateMethodName()
+        {
+            return "Unpopulate" + Name;
+        }
+
+    }
+
+    public class ResourcePropertyValues
+    {
+        public string NavTabId { get; set; }
+        public string NavPaneIdOverview { get; set; }
+        public string NavPaneIdNew { get; set; }
+        public string NavPaneIdDetail { get; set; }
+        public string NavBtnIdCancel { get; set; }
+        public string NavBtnIdCancelDetail { get; set; }
+        public string NavBtnIdAddNew { get; set; }
+        public string Name { get; set; }
+        public bool IsActive { get; set; }
+    }
+    #endregion
 }

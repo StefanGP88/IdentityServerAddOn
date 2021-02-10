@@ -49,7 +49,8 @@
     <form id="AddForm" method="post" asp-page-handler="Add" asp-route-pageNumber="@Model.List.Page" asp-route-pageSize="@Model.List.PageSize">
         @*TODO: Is there no tag helper for adding a anti forgery token? *@
         @Html.AntiForgeryToken()
-        <nav>
+        <partial name="_FormPartial" model="@(new FormPartialDataContainer("Role", true))" />
+        @*<nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <a class="nav-item nav-link active" id="nav-basesettingsadd-tab" data-toggle="tab" href="#nav-basesettingsadd" role="tab" aria-controls="nav-basesettingsadd" aria-selected="true">Base Settings</a>
                 <a class="nav-item nav-link" id="nav-claimsoverviewadd-tab" data-toggle="tab" href="#nav-claimsoverviewadd" role="tab" aria-controls="nav-claimsoverviewadd" aria-selected="false">Role claims</a>
@@ -71,14 +72,15 @@
             <div class="tab-pane fade show" id="nav-claimsadddetail" role="tabpanel" aria-labelledby="nav-claimsadddetail-tab">
                 <partial name="_ClaimPartial" model="@(new PartialDataContainer("Role", "Claim", true, false, true))" />
             </div>
-        </div>
+        </div>*@
     </form>
 }
 
 @section EditModalBody{
     <form id="EditForm" method="post" asp-page-handler="Edit" asp-route-pageNumber="@Model.List.Page" asp-route-pageSize="@Model.List.PageSize">
         @Html.AntiForgeryToken()
-        <nav>
+        <partial name="_FormPartial" model="@(new FormPartialDataContainer("Role", false))" />
+        @*<nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <a class="nav-item nav-link active" id="nav-basesettingsedit-tab" data-toggle="tab" href="#nav-basesettingsedit" role="tab" aria-controls="nav-basesettingsedit" aria-selected="true">Base Settings</a>
                 <a class="nav-item nav-link" id="nav-claimsedit-tab" data-toggle="tab" href="#nav-claimsedit" role="tab" aria-controls="nav-claimsedit" aria-selected="false">Role claims</a>
@@ -102,7 +104,7 @@
             </div>
         </div>
         <input type="hidden" id="editId" name="dto.Id" />
-        <input type="hidden" id="editConcurrencyStamp" name="dto.ConcurrencyStamp" />
+        <input type="hidden" id="editConcurrencyStamp" name="dto.ConcurrencyStamp" />*@
     </form>
 }
 
