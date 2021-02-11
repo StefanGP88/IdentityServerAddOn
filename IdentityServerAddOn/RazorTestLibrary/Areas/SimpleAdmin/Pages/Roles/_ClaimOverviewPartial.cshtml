@@ -1,16 +1,16 @@
 ﻿@model TablePartialDataContainer
-@{ 
+@{
 
     var roleClaims = AllModel.Properties.RoleClaims.GetValueContainer(Model.IsAddForm);
 }
 
 <br />
 <table class="table table-sm">
-    <tbody id="addClaimTableBody">
+    <tbody>
         <tr>
             <td scope="col" class="border-top-0">
                 <div class="centercontent">
-                    <button id="@roleClaims.NavBtnIdAddNew"
+                    <button id="@roleClaims.NavBtnIdNew"
                             class="btn btn-primary btn-sm addsign"
                             data-toggle="tab"
                             href="#@roleClaims.NavPaneIdNew"
@@ -31,6 +31,42 @@
             <td scope="col" class="border-top-0">
                 <div class="centercontent">
                     &ensp;
+                </div>
+            </td>
+        </tr>
+    </tbody>
+    <tbody id="addClaimTableBody">
+        <tr>
+            <td scope="col" class="border-top-0">
+                <div class="centercontent">
+                    <button id="@roleClaims.NavBtnIdNew"
+                            class="btn btn-primary btn-sm addsign"
+                            data-toggle="tab"
+                            href="#@roleClaims.NavPaneIdNew"
+                            role="tab"
+                            aria-controls="@roleClaims.NavPaneIdNew"
+                            aria-selected="false"
+                            onclick="RemoveActive(this);"></button>
+                </div>
+            </td>
+            @foreach (var item in Model.Columns)
+            {
+                <td scope="col" class="border-top-0">
+                    <div class="centercontent">
+                        <span class="text-dark font-italic">@item</span>
+                    </div>
+                </td>
+            }
+            <td scope="col" class="border-top-0">
+                <div class="centercontent">
+                    <button id="@roleClaims.NavBtnIdNew"
+                            class="btn btn-primary btn-sm addsign"
+                            data-toggle="tab"
+                            href="#@roleClaims.NavPaneIdNew"
+                            role="tab"
+                            aria-controls="@roleClaims.NavPaneIdNew"
+                            aria-selected="false"
+                            onclick="RemoveActive(this);"></button>
                 </div>
             </td>
         </tr>

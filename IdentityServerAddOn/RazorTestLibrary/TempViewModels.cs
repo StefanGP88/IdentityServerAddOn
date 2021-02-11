@@ -127,7 +127,7 @@ namespace RazorTestLibrary
     public enum TabType
     {
         Overview,
-        Add,
+        New,
         Detail,
         BaseSetting
     }
@@ -151,18 +151,20 @@ namespace RazorTestLibrary
         public ResourcePropertyValues GetValueContainer(bool isAddForm)
         {
             var form = isAddForm ? "AddForm" : "EditForm";
-
+            var name = Name.Replace(" ", "");
             return new ResourcePropertyValues
             {
                 IsActive = IsActive,
                 Name = Name,
-                NavBtnIdAddNew = form+ "NavBtnIdAddNew" + Name,
-                NavBtnIdCancel = form + "NavBtnIdCancel" + Name,
-                NavPaneIdNew = form + "NavPaneIdNew" + Name,
-                NavBtnIdCancelDetail = form + "NavBtnIdCancelDetail" + Name,
-                NavPaneIdDetail = form + "NavPaneIdDetail" + Name,
-                NavPaneIdOverview = form + "NavPaneIdOverview" + Name,
-                NavTabId = form + "NavTabId" + Name
+                NavBtnIdAddNew = form + "NavBtnIdAddNew" + name,
+                NavBtnIdCancel = form + "NavBtnIdCancel" + name,
+                NavPaneIdNew = form + "NavPaneIdNew" + name,
+                NavBtnIdCancelDetail = form + "NavBtnIdCancelDetail" + name,
+                NavPaneIdDetail = form + "NavPaneIdDetail" + name,
+                NavPaneIdOverview = form + "NavPaneIdOverview" + name,
+                NavTabId = form + "NavTabId" + name,
+                NavBtnIdNew = form + "NavBtnIdNew" + name
+
             };
         }
 
@@ -186,6 +188,7 @@ namespace RazorTestLibrary
         public string NavPaneIdDetail { get; set; }
         public string NavBtnIdCancel { get; set; }
         public string NavBtnIdCancelDetail { get; set; }
+        public string NavBtnIdNew { get; set; }
         public string NavBtnIdAddNew { get; set; }
         public string Name { get; set; }
         public bool IsActive { get; set; }

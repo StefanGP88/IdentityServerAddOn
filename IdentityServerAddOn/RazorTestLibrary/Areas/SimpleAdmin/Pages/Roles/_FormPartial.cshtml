@@ -25,13 +25,13 @@
          role="tabpanel" aria-labelledby="@roleClaims.NavTabId">
         <partial name="_ClaimOverviewPartial" model="@claimOverview" />
     </div>
-    <div class="tab-pane fade show" id="@roleClaims.NavPaneIdDetail"
+    <div class="tab-pane fade show" id="@roleClaims.NavPaneIdNew"
          role="tabpanel" aria-labelledby="@roleClaims.NavTabId">
-        @*<partial name="_ClaimPartial" model="@claimAdd" />*@
+        <partial name="_ClaimPartial" model="@(new PropertyPartialDataContainer(Model.Resource, Model.IsAddForm, TabType.New))" />
     </div>
     <div class="tab-pane fade show" id="@roleClaims.NavPaneIdDetail"
          role="tabpanel" aria-labelledby="@roleClaims.NavTabId">
-        @*<partial name="_ClaimPartial" model="@claimDetail" />*@
+        <partial name="_ClaimPartial" model="@(new PropertyPartialDataContainer(Model.Resource, Model.IsAddForm, TabType.Detail))" />
     </div>
 </div>
 @if (!Model.IsAddForm)

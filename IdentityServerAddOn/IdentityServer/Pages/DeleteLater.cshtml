@@ -1,0 +1,701 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> - IdentityServer</title>
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" href="/">IdentityServer</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="">Login</a>
+                        </li>
+                    </ul>
+
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" href="/Privacy">Privacy</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            <style>
+                            button.btn-danger:after {
+                                content: ' \274C';
+                            }
+
+                            button.btn-info:after {
+                                content: ' \270E';
+                            }
+
+                            /*   input.btn-info:[target] {
+                        content: ' \270E';
+                    }
+                */
+                            button.btn-secondary:after {
+                                content: ' \2796';
+                            }
+
+                            a.btn-success:after {
+                                content: ' \1F50E';
+                            }
+
+                            a.addsign:after {
+                                content: ' \2795';
+                            }
+
+                            button.addsign:after {
+                                content: ' \2795';
+                            }
+
+                            /*    a.addsign:after {
+                        content: ' \271A';
+                    }*/
+
+                            .centercontent {
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                            }
+            </style>
+
+            <div class="container">
+                <table class="table table-striped border border-dark">
+                    <thead class="thead-dark">
+
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Role</th>
+                            <th scope="col">Normalized</th>
+                            <th scope="col"></th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td scope="row">
+                                <button type="button" class="btn btn-info"
+                                        data-toggle="modal" data-target="#editModal"
+                                        data-rolename="Admin"
+                                        data-roleid="2255e3ed-89ed-4c63-b00c-62b77e7ac7c0"
+                                        data-claimlist="[]"
+                                        data-roleConcurrency="2255e3ed-89ed-4c63-b00c-62b77e7ac7c0">
+                                </button>
+                            </td>
+                            <td>Admin</td>
+                            <td>ADMIN</td>
+                            <td>
+                                <button type="button" class="btn btn-danger float-right"
+                                        data-toggle="modal" data-target="#deleteModal"
+                                        data-rolename="Admin"
+                                        data-roleid="2255e3ed-89ed-4c63-b00c-62b77e7ac7c0"
+                                        data-roleconcurrency="2255e3ed-89ed-4c63-b00c-62b77e7ac7c0">
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="row">
+                                <button type="button" class="btn btn-info"
+                                        data-toggle="modal" data-target="#editModal"
+                                        data-rolename="Demouser"
+                                        data-roleid="037302ab-3b98-43dc-8eb8-509c472dc0fe"
+                                        data-claimlist="[{&quot;read&quot;: &quot;readonly&quot;}, {&quot;armageddon&quot;: &quot;worms&quot;}]"
+                                        data-roleConcurrency="c296175b-dcff-4d94-863f-a6b97584023c">
+                                </button>
+                            </td>
+                            <td>Demouser</td>
+                            <td>DEMOUSER</td>
+                            <td>
+                                <button type="button" class="btn btn-danger float-right"
+                                        data-toggle="modal" data-target="#deleteModal"
+                                        data-rolename="Demouser"
+                                        data-roleid="037302ab-3b98-43dc-8eb8-509c472dc0fe"
+                                        data-roleconcurrency="c296175b-dcff-4d94-863f-a6b97584023c">
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="row">
+                                <button type="button" class="btn btn-info"
+                                        data-toggle="modal" data-target="#editModal"
+                                        data-rolename="Guest"
+                                        data-roleid="d5cd335c-fa6c-44f1-9401-3a4bb90c84f5"
+                                        data-claimlist="[]"
+                                        data-roleConcurrency="d5cd335c-fa6c-44f1-9401-3a4bb90c84f5">
+                                </button>
+                            </td>
+                            <td>Guest</td>
+                            <td>GUEST</td>
+                            <td>
+                                <button type="button" class="btn btn-danger float-right"
+                                        data-toggle="modal" data-target="#deleteModal"
+                                        data-rolename="Guest"
+                                        data-roleid="d5cd335c-fa6c-44f1-9401-3a4bb90c84f5"
+                                        data-roleconcurrency="d5cd335c-fa6c-44f1-9401-3a4bb90c84f5">
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="row">
+                                <button type="button" class="btn btn-info"
+                                        data-toggle="modal" data-target="#editModal"
+                                        data-rolename="SuperUser"
+                                        data-roleid="f531b284-03ae-4fc4-a839-d32f21bb8c61"
+                                        data-claimlist="[]"
+                                        data-roleConcurrency="f531b284-03ae-4fc4-a839-d32f21bb8c61">
+                                </button>
+                            </td>
+                            <td>SuperUser</td>
+                            <td>SUPERUSER</td>
+                            <td>
+                                <button type="button" class="btn btn-danger float-right"
+                                        data-toggle="modal" data-target="#deleteModal"
+                                        data-rolename="SuperUser"
+                                        data-roleid="f531b284-03ae-4fc4-a839-d32f21bb8c61"
+                                        data-roleconcurrency="f531b284-03ae-4fc4-a839-d32f21bb8c61">
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="row">
+                                <button type="button" class="btn btn-info"
+                                        data-toggle="modal" data-target="#editModal"
+                                        data-rolename="User"
+                                        data-roleid="a3569f3f-2cfb-43ab-be72-b463baf0ea2b"
+                                        data-claimlist="[]"
+                                        data-roleConcurrency="a3569f3f-2cfb-43ab-be72-b463baf0ea2b">
+                                </button>
+                            </td>
+                            <td>User</td>
+                            <td>USER</td>
+                            <td>
+                                <button type="button" class="btn btn-danger float-right"
+                                        data-toggle="modal" data-target="#deleteModal"
+                                        data-rolename="User"
+                                        data-roleid="a3569f3f-2cfb-43ab-be72-b463baf0ea2b"
+                                        data-roleconcurrency="a3569f3f-2cfb-43ab-be72-b463baf0ea2b">
+                                </button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                    <caption>
+                        <div class="row">
+                            <div class="col-6">
+                                <nav>
+                                    <ul class="pagination">
+                                        <li class="page-item active">
+                                            <a href="#" class="page-link addsign" data-toggle="modal" data-target="#addModal"></a>
+                                        </li>
+                                    </ul>
+                                </nav>
+
+                            </div>
+                            <div class="col-6">
+
+                                <nav class="float-right">
+                                    <ul class="pagination float-right">
+                                        <li class="page-item">
+                                            <div class="dropdown">
+                                                <a href="#" class="page-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    10
+                                                </a>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <h6 class="dropdown-header">Select page size</h6>
+                                                    <a class="dropdown-item" href="/SimpleAdmin/Roles/All?pageNumber=0&amp;pageSize=1">1</a>
+                                                    <a class="dropdown-item" href="/SimpleAdmin/Roles/All?pageNumber=0&amp;pageSize=2">2</a>
+                                                    <a class="dropdown-item" href="/SimpleAdmin/Roles/All?pageNumber=0&amp;pageSize=3">3</a>
+                                                    <a class="dropdown-item" href="/SimpleAdmin/Roles/All?pageNumber=0&amp;pageSize=4">4</a>
+                                                    <a class="dropdown-item active" href="/SimpleAdmin/Roles/All?pageNumber=0&amp;pageSize=10">10</a>
+                                                    <a class="dropdown-item" href="/SimpleAdmin/Roles/All?pageNumber=0&amp;pageSize=25">25</a>
+                                                    <a class="dropdown-item" href="/SimpleAdmin/Roles/All?pageNumber=0&amp;pageSize=50">50</a>
+                                                    <a class="dropdown-item" href="/SimpleAdmin/Roles/All?pageNumber=0&amp;pageSize=100">100</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </nav>
+
+
+                            </div>
+
+                        </div>
+                    </caption>
+                </table>
+            </div>
+
+
+
+
+
+
+
+
+
+            <!-- #region addModal -->
+            <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addModalLabel">Add</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <form id="AddForm" method="post" action="/SimpleAdmin/Roles/All/Add?pageNumber=0&amp;pageSize=10">
+
+                                <nav>
+                                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                        <a class="nav-item nav-link active"
+                                           id="AddFormNavTabIdBasesettings"
+                                           data-toggle="tab"
+                                           href="#AddFormNavPaneIdOverviewBasesettings"
+                                           role="tab"
+                                           aria-controls="AddFormNavPaneIdOverviewBasesettings"
+                                           aria-selected="true">Base settings</a>
+
+                                        <a class="nav-item nav-link "
+                                           id="AddFormNavTabIdRoleclaims"
+                                           data-toggle="tab"
+                                           href="#AddFormNavPaneIdOverviewRoleclaims"
+                                           role="tab"
+                                           aria-controls="AddFormNavPaneIdOverviewRoleclaims"
+                                           aria-selected="true">Role claims</a>
+
+                                    </div>
+                                </nav>
+                                <div class="tab-content" id="nav-tabContent">
+                                    <div class="tab-pane fade show active" id="AddFormNavPaneIdOverviewBasesettings"
+                                         role="tabpanel" aria-labelledby="AddFormNavTabIdBasesettings">
+                                        <div class="form-group">
+                                            <label for="recipient-name" class="col-form-label">RoleName</label>
+                                            <input type="text" class="form-control" id="RoleNameAddForm" name="dto.RoleName">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade show" id="AddFormNavPaneIdOverviewRoleclaims"
+                                         role="tabpanel" aria-labelledby="AddFormNavTabIdRoleclaims">
+
+                                        <br />
+                                        <table class="table table-sm">
+                                            <tbody id="addClaimTableBody">
+                                                <tr>
+                                                    <td scope="col" class="border-top-0">
+                                                        <div class="centercontent">
+                                                            <button id="AddFormNavBtnIdNewRoleclaims"
+                                                                    class="btn btn-primary btn-sm addsign"
+                                                                    data-toggle="tab"
+                                                                    href="#AddFormNavPaneIdNewRoleclaims"
+                                                                    role="tab"
+                                                                    aria-controls="AddFormNavPaneIdNewRoleclaims"
+                                                                    aria-selected="false"
+                                                                    onclick="RemoveActive(this);"></button>
+                                                        </div>
+                                                    </td>
+                                                    <td scope="col" class="border-top-0">
+                                                        <div class="centercontent">
+                                                            <span class="text-dark font-italic">Claim</span>
+                                                        </div>
+                                                    </td>
+                                                    <td scope="col" class="border-top-0">
+                                                        <div class="centercontent">
+                                                            <span class="text-dark font-italic">ClaimType</span>
+                                                        </div>
+                                                    </td>
+                                                    <td scope="col" class="border-top-0">
+                                                        <div class="centercontent">
+                                                            &ensp;
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade show" id="AddFormNavPaneIdNewRoleclaims"
+                                         role="tabpanel" aria-labelledby="AddFormNavTabIdRoleclaims">
+
+                                        <div class="form-group">
+                                            <label class="col-form-label">Claim</label>
+                                            <input type="text" id="ClaimAddForm" class="form-control" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-form-label">Claim type</label>
+                                            <input type="text" id="ClaimTypeAddForm" class="form-control" />
+                                        </div>
+                                        <div class="form-group">
+                                            <button id="AddFormNavBtnIdCancelDetailRoleclaims"
+                                                    class="btn btn-secondary"
+                                                    data-toggle="tab"
+                                                    href="#AddFormNavPaneIdOverviewRoleclaims"
+                                                    role="tab"
+                                                    aria-controls="AddFormNavPaneIdOverviewRoleclaims"
+                                                    aria-selected="false"
+                                                    onclick="RemoveActive(this);"></button>
+                                            <button id="AddFormNavBtnIdAddNewRoleclaims"
+                                                    class="btn btn-primary addsign"
+                                                    data-toggle="tab"
+                                                    href="#AddFormNavPaneIdOverviewRoleclaims"
+                                                    role="tab"
+                                                    aria-controls="AddFormNavPaneIdOverviewRoleclaims"
+                                                    aria-selected="false"
+                                                    onclick="RemoveActive(this);"></button>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="tab-pane fade show" id="AddFormNavPaneIdDetailRoleclaims"
+                                         role="tabpanel" aria-labelledby="AddFormNavTabIdRoleclaims">
+
+                                        <div class="form-group">
+                                            <label class="col-form-label">Claim</label>
+                                            <input type="text" id="ClaimAddForm" class="form-control" disabled />
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-form-label">Claim type</label>
+                                            <input type="text" id="ClaimTypeAddForm" class="form-control" disabled />
+                                        </div>
+                                        <div class="form-group">
+                                            <button id="AddFormNavBtnIdCancelRoleclaims"
+                                                    class="btn btn-secondary"
+                                                    data-toggle="tab"
+                                                    href="#AddFormNavPaneIdOverviewRoleclaims"
+                                                    role="tab"
+                                                    aria-controls="AddFormNavPaneIdOverviewRoleclaims"
+                                                    aria-selected="false"
+                                                    onclick="RemoveActive(this);"></button>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                                <input name="__RequestVerificationToken" type="hidden" value="CfDJ8F3vYYztP6pChYm0bKAbl3IZ132SMM398h4a4KAiheqD98bJCVLN830q6wGmMhD9xz07Ky7JVvGMx51uRNfQmlquA_ixonrVebHF0IOvhlWqDLbChHWxEzL5BgVD3oznYMp7Cj8fF_fr8PTkzjlbLVE" />
+                            </form>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"></button>
+                            <input type="submit" class="btn btn-info" form="AddForm" value="&#10004;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- #endregion -->
+            <!-- #region editModal-->
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editModalLabel">Edit</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <form id="EditForm" method="post" action="/SimpleAdmin/Roles/All/Edit?pageNumber=0&amp;pageSize=10">
+
+                                <nav>
+                                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                        <a class="nav-item nav-link active"
+                                           id="EditFormNavTabIdBasesettings"
+                                           data-toggle="tab"
+                                           href="#EditFormNavPaneIdOverviewBasesettings"
+                                           role="tab"
+                                           aria-controls="EditFormNavPaneIdOverviewBasesettings"
+                                           aria-selected="true">Base settings</a>
+
+                                        <a class="nav-item nav-link "
+                                           id="EditFormNavTabIdRoleclaims"
+                                           data-toggle="tab"
+                                           href="#EditFormNavPaneIdOverviewRoleclaims"
+                                           role="tab"
+                                           aria-controls="EditFormNavPaneIdOverviewRoleclaims"
+                                           aria-selected="true">Role claims</a>
+
+                                    </div>
+                                </nav>
+                                <div class="tab-content" id="nav-tabContent">
+                                    <div class="tab-pane fade show active" id="EditFormNavPaneIdOverviewBasesettings"
+                                         role="tabpanel" aria-labelledby="EditFormNavTabIdBasesettings">
+                                        <div class="form-group">
+                                            <label for="recipient-name" class="col-form-label">RoleName</label>
+                                            <input type="text" class="form-control" id="RoleNameEditForm" name="dto.RoleName">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade show" id="EditFormNavPaneIdOverviewRoleclaims"
+                                         role="tabpanel" aria-labelledby="EditFormNavTabIdRoleclaims">
+
+                                        <br />
+                                        <table class="table table-sm">
+                                            <tbody id="addClaimTableBody">
+                                                <tr>
+                                                    <td scope="col" class="border-top-0">
+                                                        <div class="centercontent">
+                                                            <button id="EditFormNavBtnIdNewRoleclaims"
+                                                                    class="btn btn-primary btn-sm addsign"
+                                                                    data-toggle="tab"
+                                                                    href="#EditFormNavPaneIdNewRoleclaims"
+                                                                    role="tab"
+                                                                    aria-controls="EditFormNavPaneIdNewRoleclaims"
+                                                                    aria-selected="false"
+                                                                    onclick="RemoveActive(this);"></button>
+                                                        </div>
+                                                    </td>
+                                                    <td scope="col" class="border-top-0">
+                                                        <div class="centercontent">
+                                                            <span class="text-dark font-italic">Claim</span>
+                                                        </div>
+                                                    </td>
+                                                    <td scope="col" class="border-top-0">
+                                                        <div class="centercontent">
+                                                            <span class="text-dark font-italic">ClaimType</span>
+                                                        </div>
+                                                    </td>
+                                                    <td scope="col" class="border-top-0">
+                                                        <div class="centercontent">
+                                                            &ensp;
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade show" id="EditFormNavPaneIdNewRoleclaims"
+                                         role="tabpanel" aria-labelledby="EditFormNavTabIdRoleclaims">
+
+                                        <div class="form-group">
+                                            <label class="col-form-label">Claim</label>
+                                            <input type="text" id="ClaimEditForm" class="form-control" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-form-label">Claim type</label>
+                                            <input type="text" id="ClaimTypeEditForm" class="form-control" />
+                                        </div>
+                                        <div class="form-group">
+                                            <button id="EditFormNavBtnIdCancelDetailRoleclaims"
+                                                    class="btn btn-secondary"
+                                                    data-toggle="tab"
+                                                    href="#EditFormNavPaneIdOverviewRoleclaims"
+                                                    role="tab"
+                                                    aria-controls="EditFormNavPaneIdOverviewRoleclaims"
+                                                    aria-selected="false"
+                                                    onclick="RemoveActive(this);"></button>
+                                            <button id="EditFormNavBtnIdAddNewRoleclaims"
+                                                    class="btn btn-primary addsign"
+                                                    data-toggle="tab"
+                                                    href="#EditFormNavPaneIdOverviewRoleclaims"
+                                                    role="tab"
+                                                    aria-controls="EditFormNavPaneIdOverviewRoleclaims"
+                                                    aria-selected="false"
+                                                    onclick="RemoveActive(this);"></button>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="tab-pane fade show" id="EditFormNavPaneIdDetailRoleclaims"
+                                         role="tabpanel" aria-labelledby="EditFormNavTabIdRoleclaims">
+
+                                        <div class="form-group">
+                                            <label class="col-form-label">Claim</label>
+                                            <input type="text" id="ClaimEditForm" class="form-control" disabled />
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-form-label">Claim type</label>
+                                            <input type="text" id="ClaimTypeEditForm" class="form-control" disabled />
+                                        </div>
+                                        <div class="form-group">
+                                            <button id="EditFormNavBtnIdCancelRoleclaims"
+                                                    class="btn btn-secondary"
+                                                    data-toggle="tab"
+                                                    href="#EditFormNavPaneIdOverviewRoleclaims"
+                                                    role="tab"
+                                                    aria-controls="EditFormNavPaneIdOverviewRoleclaims"
+                                                    aria-selected="false"
+                                                    onclick="RemoveActive(this);"></button>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <input type="hidden" id="IdEditForm" name="dto.Id" />
+                                <input type="hidden" id="ConcurrencyStampEditForm" name="dto.ConcurrencyStamp" />
+
+                                <input name="__RequestVerificationToken" type="hidden" value="CfDJ8F3vYYztP6pChYm0bKAbl3IZ132SMM398h4a4KAiheqD98bJCVLN830q6wGmMhD9xz07Ky7JVvGMx51uRNfQmlquA_ixonrVebHF0IOvhlWqDLbChHWxEzL5BgVD3oznYMp7Cj8fF_fr8PTkzjlbLVE" />
+                            </form>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"></button>
+                            <input type="submit" class="btn btn-info" form="EditForm" value="&#10004;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- #endregion-->
+            <!-- #region deleteModal-->
+            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Delete</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="alert alert-danger" role="alert">
+                                Are you sure you want to delete the <span id="deleteRoleName"></span> role?
+                            </div>
+                            <form id="DeleteForm" method="post" action="/SimpleAdmin/Roles/All/Delete?pageNumber=0&amp;pageSize=10">
+
+                                <input type="hidden" id="deleteId" name="dto.Id" />
+                                <input type="hidden" id="deleteConcurrencyStamp" name="dto.ConcurrencyStamp" />
+                                <input name="__RequestVerificationToken" type="hidden" value="CfDJ8F3vYYztP6pChYm0bKAbl3IZ132SMM398h4a4KAiheqD98bJCVLN830q6wGmMhD9xz07Ky7JVvGMx51uRNfQmlquA_ixonrVebHF0IOvhlWqDLbChHWxEzL5BgVD3oznYMp7Cj8fF_fr8PTkzjlbLVE" />
+                            </form>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal"></button>
+                            <input type="submit" class="btn btn-info" form="DeleteForm" value="&#10004;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- #endregion-->
+
+        </main>
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - IdentityServer - <a href="/Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/site.js?v=dLGP40S79Xnx6GqUthRF6NWvjvhQ1nOvdVSwaNcgG18"></script>
+
+
+
+    <script type="text/javascript">
+        $('button.btn-danger').prop('title', 'Delete');
+        $('button.btn-info').prop('title', 'Edit');
+        $('input.btn-info').prop('title', 'Save');
+        $('button.btn-secondary').prop('title', 'Close');
+        $('a.addsign').prop('title', 'Add');
+
+        function RemoveClaim(element, event) {
+            event.preventDefault();
+            $(element).closest('tr').remove();
+        }
+
+        function AppendTableRow(input, element) {
+            $.get('/simpleadmin/roles/all', input, function (data) {
+                $(element).append(data);
+            });
+        }
+
+        function RemoveActive(element) {
+            $(element).removeClass("active");
+        }
+
+    </script>
+
+    <script type="text/javascript">
+
+
+        $('#editModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            modal.find('.modal-body #editRoleName').val(button.data('rolename'));
+            modal.find('.modal-body #editId').val(button.data('roleid'));
+            modal.find('.modal-body #editConcurrencyStamp').val(button.data('roleconcurrency'));
+
+            var claimRows = $('#editClaimTableBody .editClaimRemove');
+            for (var key in claimRows) {
+                $('#editClaimTableBody .editClaimRemove').parents().eq(1).remove();
+            }
+
+            var claimlist = button.data('claimlist');
+            for (var key in claimlist) {
+                for (var kkey in claimlist[key]) {
+                    $('#editClaimTableBody').append('<tr><td><button class="btn btn-danger btn-sm editClaimRemove" onclick="RemoveClaim(this, event);"></button><input type="hidden" name="dto.Claims[' + kkey + ']" value="' + claimlist[key][kkey] + '" /></td><td>' + kkey + '</td><td>' + claimlist[key][kkey] + '</td></tr>');
+                }
+            }
+        });
+
+        $('#deleteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            modal.find('.modal-body #deleteRoleName').text(button.data('rolename'));
+            modal.find('.modal-body #deleteId').val(button.data('roleid'));
+            modal.find('.modal-body #deleteConcurrencyStamp').val(button.data('roleconcurrency'));
+        });
+
+        $('#editClaimBtn').on('click', function (e) {
+            e.preventDefault();
+            var claim = $('#editClaim').val();
+            var claimType = $('#editClaimType').val();
+            console.log(claim);
+            if (claim.length < 1 || claimType.length < 1) {
+                alert('claim and claim type must have a value');
+            }
+            else {
+                $('#editClaimTableBody').append('<tr><td><button class="btn btn-danger btn-sm editClaimRemove" onclick="RemoveClaim(this, event);"></button><input type="hidden" name="dto.Claims[' + claim + ']" value="' + claimType + '" /></td><td>' + claim + '</td><td>' + claimType + '</td></tr>');
+                $('#editClaim').val('');
+                $('#editClaimType').val('');
+            }
+        });
+
+        $('#addClaimBtn').on('click', function (e) {
+            e.preventDefault();
+            var input = {
+                handler: 'AddClaimRow',
+                claim: $('#addClaim').val(),
+                claimType: $('#addClaimType').val()
+            };
+            console.log(input);
+            if (input.claim.length < 1 || input.claimType.length < 1) {
+                alert('claim and claim type must have a value');
+            }
+            else {
+                AppendTableRow(input, $('#addClaimTableBody'));
+                $('#addClaim').val('');
+                $('#addClaimType').val('');
+            }
+        });
+
+    </script>
+
+
+
+</body>
+</html>

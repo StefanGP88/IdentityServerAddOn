@@ -17,7 +17,7 @@
 <div class="form-group">
     @if (Model.TabType == TabType.Detail)
     {
-        <button id="@roleClaims.NavBtnIdCancel"
+        <button id="@roleClaims.NavBtnIdCancelDetail"
                 class="btn btn-secondary"
                 data-toggle="tab"
                 href="#@roleClaims.NavPaneIdOverview"
@@ -28,7 +28,7 @@
     }
     else
     {
-        <button id="@roleClaims.NavBtnIdCancelDetail"
+        <button id="@roleClaims.NavBtnIdCancel"
                 class="btn btn-secondary"
                 data-toggle="tab"
                 href="#@roleClaims.NavPaneIdOverview"
