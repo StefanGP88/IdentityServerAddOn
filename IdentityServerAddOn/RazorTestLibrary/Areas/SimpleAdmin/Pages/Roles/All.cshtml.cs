@@ -7,6 +7,7 @@ namespace RazorTestLibrary.Areas.SimpleAdmin.Pages.Roles
 {
     public class AllModel : BasePageModel<RoleResponseDto, RoleProperties>
     {
+        public int MyProperty { get; set; }
         private readonly IRoleHandler _handler;
         public AllModel(IRoleHandler handler)
         {
