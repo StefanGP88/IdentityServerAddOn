@@ -9,7 +9,10 @@ namespace RazorTestLibrary.Areas.SimpleAdmin.Pages.ApiResources
 {
     public class AddModel : PageModel
     {
-        public void OnGet()
+        //public void OnGet()
+        //{
+        //}
+        public void OnGet(int id)
         {
         }
     }

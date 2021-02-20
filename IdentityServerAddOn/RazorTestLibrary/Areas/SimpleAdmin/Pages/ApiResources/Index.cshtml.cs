@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using Ids.SimpleAdmin.Backend.Dtos;
 
 namespace RazorTestLibrary.Areas.SimpleAdmin.Pages.ApiResources
 {
-    public class IndexModel : PageModel
+    public class IndexModel : BaseIndexPage<ApiResourceResponseDto>
     {
         public void OnGet()
         {
