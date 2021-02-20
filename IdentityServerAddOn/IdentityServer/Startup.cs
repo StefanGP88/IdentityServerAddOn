@@ -8,7 +8,7 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using IdentityServer.Data;
 using Ids.SimpleAdmin.Backend;
-using RazorTestLibrary;
+using Ids.SimpleAdmin.Frontend;
 
 namespace IdentityServer
 {
