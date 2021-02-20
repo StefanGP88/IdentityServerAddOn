@@ -4,10 +4,10 @@
 <div class="container">
     <table class="table table-striped border border-dark">
         <thead class="thead-dark">
-            @RenderSection("TableHead", required: false)
+            @RenderSection("TableHead", required: true)
         </thead>
         <tbody>
-            @RenderSection("TableBody", required: false)
+            @RenderSection("TableBody", required: true)
         </tbody>
         <caption>
             <div class="row">
@@ -21,7 +21,7 @@
                     </nav>
                 </div>
                 <div class="col-6">
-                    @RenderSection("Pagenation", required: false)
+                    @RenderSection("Pagenation", required: true)
                 </div>
             </div>
         </caption>
