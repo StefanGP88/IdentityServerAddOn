@@ -2,6 +2,7 @@
 using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
 using Ids.SimpleAdmin.Backend.Handlers;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Ids.SimpleAdmin.Backend.Dtos;
 
 namespace Ids.SimpleAdmin.Backend
 {
@@ -14,7 +15,8 @@ namespace Ids.SimpleAdmin.Backend
             sc.AddScoped<IApiScopeHandler, ApiScopeHandler>();
 
             sc.AddScoped<IUserRoleHandler, UserRoleHandler>();
-            sc.AddScoped<IApiResourceHandler, ApiResourceHandler>();
+            //sc.AddScoped<IApiResourceHandler, ApiResourceHandler>();
+            sc.AddScoped<IHandler<ApiResourceResponseDto>, ApiResourceHandler>();
 
             //TODO: can these claim handlers user same interface ?
             sc.AddScoped<IRoleClaimHandler, RoleClaimHandler>();

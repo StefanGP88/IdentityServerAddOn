@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\MyFeature\**" />
+    <Content Remove="Areas\MyFeature\**" />
+    <EmbeddedResource Remove="Areas\MyFeature\**" />
+    <None Remove="Areas\MyFeature\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 

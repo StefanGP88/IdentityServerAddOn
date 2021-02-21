@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Ids.SimpleAdmin.Backend.Handlers
 {
-    public class ApiResourceHandler: IApiResourceHandler
+    public class ApiResourceHandler: IHandler<ApiResourceResponseDto>
     {
         private readonly ConfigurationDbContext _confContext;
         public ApiResourceHandler(ConfigurationDbContext configurationDbContext)
@@ -58,7 +58,12 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             _ = await _confContext.SaveChangesAsync(cancellation).ConfigureAwait(false);
         }
 
-        public async Task<ListDto<ApiResourceResponseDto>> ReadAll(int page, int pageSize, CancellationToken cancel)
+        public async Task Delete<T2>(T2 id)
+        {
+            await Task.Delay(2).ConfigureAwait(false);
+        }
+
+        public async Task<ListDto<ApiResourceResponseDto>> GetAll(int page, int pageSize, CancellationToken cancel)
         {
             var resources = await _confContext.ApiResources
                 .OrderBy(x => x.Name)
