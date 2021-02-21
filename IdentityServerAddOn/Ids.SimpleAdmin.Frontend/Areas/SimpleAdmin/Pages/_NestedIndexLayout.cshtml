@@ -27,3 +27,37 @@
         </caption>
     </table>
 </div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger" role="alert">
+                    Are you sure you want to delete <span id="deleteNameSpan"></span> ?
+                </div>
+                <form id="DeleteForm" method="post" asp-route-pageNumber="@Model.List.Page" asp-route-pageSize="@Model.List.PageSize">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" id="deleteId" name="id" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"></button>
+                <input type="submit" class="btn btn-info" form="DeleteForm" value="&#10004;" />
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script type="text/javascript">
+        function SetDataDeleteModal(identifier, name) {
+            $('#deleteId').val(identifier);
+            $('#deleteNameSpan').text(name);
+        }
+    </script>
+}

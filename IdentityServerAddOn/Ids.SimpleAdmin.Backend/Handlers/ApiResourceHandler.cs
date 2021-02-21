@@ -58,9 +58,9 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             _ = await _confContext.SaveChangesAsync(cancellation).ConfigureAwait(false);
         }
 
-        public async Task Delete<T2>(T2 id)
+        public async Task<ListDto<ApiResourceResponseDto>> Delete<T2>(T2 id, int page, int pageSize, CancellationToken cancel)
         {
-            await Task.Delay(2).ConfigureAwait(false);
+            return await GetAll(page, pageSize, cancel).ConfigureAwait(false);
         }
 
         public async Task<ListDto<ApiResourceResponseDto>> GetAll(int page, int pageSize, CancellationToken cancel)
@@ -110,5 +110,6 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 TotalItems = resources.Count
             };
         }
+
     }
 }

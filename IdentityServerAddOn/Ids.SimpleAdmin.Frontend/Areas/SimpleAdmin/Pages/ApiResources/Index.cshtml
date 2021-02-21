@@ -31,7 +31,10 @@
                 @item.Description
             </td>
             <td>
-                <button>asdasdas</button>
+                <button type="button" class="btn btn-danger float-right"
+                        data-toggle="modal" data-target="#deleteModal"
+                        onclick="SetDataDeleteModal(@item.Id, '@item.Name')">
+                </button>
             </td>
         </tr>
     }
