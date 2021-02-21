@@ -6,19 +6,24 @@ using System.Threading.Tasks;
 
 namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages
 {
-    public class BaseIndexPage<TDataTransferObject, TIdentifier> : PageModel
+    public class BasePage<TDataTransferObject> : PageModel
     {
         internal readonly IHandler<TDataTransferObject> _handler;
         [FromQuery(Name = "pagesize")]
         public int PageSize { get; set; }
         [FromQuery(Name = "pagenumber")]
         public int PageNumber { get; set; }
-        public ListDto<TDataTransferObject> List { get; set; }
 
-        public BaseIndexPage(IHandler<TDataTransferObject> handler)
+        public BasePage(IHandler<TDataTransferObject> handler)
         {
             _handler = handler;
         }
+    }
+
+    public class BaseIndexPage<TDataTransferObject, TIdentifier> : BasePage<TDataTransferObject>
+    {
+        public ListDto<TDataTransferObject> List { get; set; }
+        public BaseIndexPage(IHandler<TDataTransferObject> handler) : base(handler) { }
 
         public async Task<IActionResult> OnGet()
         {
@@ -29,6 +34,15 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages
         public async Task<IActionResult> OnPost(TIdentifier id)
         {
             List = await _handler.Delete(id, PageNumber, PageSize, default).ConfigureAwait(false);
+            return Page();
+        }
+    }
+
+    public class BaseAddPage<TDataTransferObject> : BasePage<TDataTransferObject>
+    {
+        public BaseAddPage(IHandler<TDataTransferObject> handler) : base(handler) { }
+        public async Task<IActionResult> OnGet()
+        {
             return Page();
         }
     }
