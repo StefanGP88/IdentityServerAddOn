@@ -1,4 +1,438 @@
-﻿@page "{id}"
+﻿@page
+
 @model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.ApiResources.AddModel
 @{
 }
+<form id="AddForm" method="post" asp-route-pageNumber="@Model.PageNumber" asp-route-pageSize="@Model.PageSize">
+    @Html.AntiForgeryToken()
+    <nav>
+        <div class="nav nav-pills nav-fill" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="basesettingstab" data-toggle="tab" href="#basesettings" role="tab">Base Settings</a>
+            <a class="nav-item nav-link" id="claimstab" data-toggle="tab" href="#claims" role="tab">Claims</a>
+            <a class="nav-item nav-link" id="propertiestab" data-toggle="tab" href="#properties" role="tab">Properties</a>
+            <a class="nav-item nav-link" id="scopestab" data-toggle="tab" href="#scopes" role="tab">Scopes</a>
+            <a class="nav-item nav-link" id="secretstab" data-toggle="tab" href="#secrets" role="tab">Secrets</a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="basesettings" role="tabpanel">
+            <input type="hidden" id="resourceId" name="dto.Id" />
+            <div class="form-group">
+                <label class="col-form-label">Name</label>
+                <input type="text" class="form-control" id="adeName" name="dto.Name">
+            </div>
+            <div class="form-group">
+                <label class="col-form-label">Display name</label>
+                <input type="text" class="form-control" id="addDisplayName" name="dto.DisplayName">
+            </div>
+            <div class="form-group">
+                <label class="col-form-label">Description</label>
+                <textarea class="form-control" id="addDescription" name="dto.Description"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="col-form-label">Allowed access token signing algorithmes</label>
+                <textarea class="form-control" id="addAllowedAlgorithmes" name="dto.AllowedAccessTokenSigningAlgorithmes"></textarea>
+            </div>
+            <fieldset class="form-group">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="addEnabled" name="dto.Enabled" value="True" />
+                    <label for="reciepent-name" class="form-check-label">Is enabled</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="addNonEditable" name="dto.NonEditable" value="True" />
+                    <label for="reciepent-name" class="form-check-label">Is non-editable</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="addShowInDiscovery" name="dto.ShowInDiscoveryDocument" value="True" />
+                    <label for="reciepent-name" class="form-check-label">Show in discovery document</label>
+                </div>
+            </fieldset>
+        </div>
+        <div class="tab-pane fade" id="claims" role="tabpanel">
+            <br />
+            <table class="table table-striped border border-dark">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Claim</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody id="claimsTableBody">
+                </tbody>
+                <caption>
+                    <div class="row">
+                        <div class="col-6">
+                            <nav>
+                                <ul class="pagination">
+                                    <li class="page-item active">
+                                        <a href="#" class="page-link addsign" data-toggle="modal" data-target="#addModal"></a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="col-6">
+                        </div>
+                    </div>
+                </caption>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="properties" role="tabpanel">
+            <br />
+            <table class="table table-striped border border-dark">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Property</th>
+                        <th scope="col">Key</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody id="propertiesTableBody">
+                </tbody>
+                <caption>
+                    <div class="row">
+                        <div class="col-6">
+                            <nav>
+                                <ul class="pagination">
+                                    <li class="page-item active">
+                                        <a href="#" class="page-link addsign" data-toggle="modal" data-target="#addModal"></a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="col-6">
+                        </div>
+                    </div>
+                </caption>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="scopes" role="tabpanel">
+            <br />
+            <table class="table table-striped border border-dark">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Scope</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody id="scopesTableBody">
+                </tbody>
+                <caption>
+                    <div class="row">
+                        <div class="col-6">
+                            <nav>
+                                <ul class="pagination">
+                                    <li class="page-item active">
+                                        <a href="#" class="page-link addsign" data-toggle="modal" data-target="#addModal"></a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="col-6">
+                        </div>
+                    </div>
+                </caption>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="secrets" role="tabpanel">
+            <br />
+            <table class="table table-striped border border-dark">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Value</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody id="secretsTableBody">
+                </tbody>
+                <caption>
+                    <nav>
+                        <ul class="pagination">
+                            <li class="page-item active">
+                                <a href="#" class="page-link addsign" data-toggle="modal" data-target="#addModal"></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </caption>
+            </table>
+        </div>
+
+    </div>
+</form>
+
+
+@*<div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-basesettingsadd" role="tabpanel">
+            <input type="hidden" id="scopeid" name="dto.Id" />
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Name</label>
+                <input type="text" class="form-control" id="adeName" name="dto.Name">
+            </div>
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Display name</label>
+                <input type="text" class="form-control" id="addDisplayName" name="dto.DisplayName">
+            </div>
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Description</label>
+                <textarea class="form-control" id="addDescription" name="dto.Description"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Allowed access token signing algorithmes</label>
+                <textarea class="form-control" id="addAllowedAlgorithmes" name="dto.AllowedAccessTokenSigningAlgorithmes"></textarea>
+            </div>
+            <fieldset class="form-group">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="addEnabled" name="dto.Enabled" value="True" />
+                    <label for="reciepent-name" class="form-check-label">Is enabled</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="addNonEditable" name="dto.NonEditable" value="True" />
+                    <label for="reciepent-name" class="form-check-label">Is non-editable</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="addShowInDiscovery" name="dto.ShowInDiscoveryDocument" value="True" />
+                    <label for="reciepent-name" class="form-check-label">Show in discovery document</label>
+                </div>
+            </fieldset>
+        </div>
+        <div class="tab-pane fade" id="nav-claimsoverviewadd" role="tabpanel">
+            <br />
+            <table class="table table-sm">
+                <tbody id="addClaimTableBody">
+                    <tr>
+                        <td scope="col" class="border-top-0">
+                            <div class="centercontent">
+                                <button id="addClaimBtnOverview" class="btn btn-primary btn-sm addsign" data-toggle="tab" href="#nav-claimsadd" role="tab" aria-controls="nav-claimsadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                            </div>
+                        </td>
+                        <td scope="col" class="border-top-0">
+                            <div class="centercontent">
+                                <span class="text-dark font-italic">Claim</span>
+                            </div>
+                        </td>
+                        <td scope="col" class="border-top-0">
+                            <div class="centercontent">
+                                &ensp;
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="nav-claimsadd" role="tabpanel">
+            <div class="form-group">
+                <label class="col-form-label">Claim</label>
+                <input type="text" id="addClaim" class="form-control" />
+            </div>
+            <div class="form-group">
+                <div class="form-group">
+                    <button id="addClaimBtnCancel" class="btn btn-secondary" data-toggle="tab" href="#nav-claimsoverviewadd" role="tab" aria-controls="nav-claimsoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                    <button id="addClaimBtn" class="btn btn-primary addsign" data-toggle="tab" href="#nav-claimsoverviewadd" role="tab" aria-controls="nav-claimsoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-claimsdetailadd" role="tabpanel">
+            <div class="form-group">
+                <label class="col-form-label">Claim</label>
+                <input type="text" id="addClaimDetail" disabled class="form-control" />
+            </div>
+            <div class="form-group">
+                <div class="form-group">
+                    <button id="addClaimBtnCancelDetail" class="btn btn-secondary" data-toggle="tab" href="#nav-claimsoverviewadd" role="tab" aria-controls="nav-claimsoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-propertyoverviewadd" role="tabpanel">
+            <br />
+            <table class="table table-sm">
+                <tbody id="addPropertyTableBody">
+                    <tr>
+                        <td scope="col" class="border-top-0">
+                            <div class="centercontent">
+                                <button id="addPropertyBtnOverview" class="btn btn-primary btn-sm addsign" data-toggle="tab" href="#nav-propertyadd" role="tab" aria-controls="nav-propertyadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                            </div>
+                        </td>
+                        <td scope="col" class="border-top-0">
+                            <div class="centercontent">
+                                Property
+                            </div>
+                        </td>
+                        <td scope="col" class="border-top-0">
+                            <div class="centercontent">
+                                Key
+                            </div>
+                        </td>
+                        <td scope="col" class="border-top-0">
+                            <div class="centercontent">
+                                &ensp;
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="nav-propertyadd" role="tabpanel">
+            <div class="form-group">
+                <label class="col-form-label">Property</label>
+                <input type="text" id="addProperty" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="col-form-label">Key</label>
+                <input type="text" id="addPropertyKey" class="form-control" />
+            </div>
+            <div class="form-group">
+                <div class="form-group">
+                    <button id="addPropertyBtnCancel" class="btn btn-secondary" data-toggle="tab" href="#nav-propertyoverviewadd" role="tab" aria-controls="nav-propertyoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                    <button id="addPropertyBtn" class="btn btn-primary addsign" data-toggle="tab" href="#nav-propertyoverviewadd" role="tab" aria-controls="nav-propertyoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-propertydetailadd" role="tabpanel">
+            <div class="form-group">
+                <label class="col-form-label">Property</label>
+                <input type="text" id="addPropertyDetail" disabled class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="col-form-label">Key</label>
+                <input type="text" id="addPropertyKeyDetail" disabled class="form-control" />
+            </div>
+            <div class="form-group">
+                <button id="addPropertyBtnCancel" class="btn btn-secondary" data-toggle="tab" href="#nav-propertyoverviewadd" role="tab" aria-controls="nav-propertyoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+            </div>s
+        </div>
+        <div class="tab-pane fade" id="nav-scopesadd" role="tabpanel">
+            <br />
+            <table class="table table-sm">
+                <tbody id="addScopeTableBody">
+                    <tr>
+                        <td scope="col">
+                        </td>
+                        <td scope="col">
+                            Scope
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="col">
+                            <button id="addScopeBtn" class="btn btn-primary btn-sm addsign"></button>
+                        </td>
+                        <td scope="col">
+                            <input type="text" id="addScope" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="nav-secretsoverviewadd" role="tabpanel">
+            <br />
+            <table class="table table-sm">
+                <tbody id="addSecretOverviewTableBody">
+                    <tr>
+                        <td scope="col" class="border-top-0">
+                            <div class="centercontent">
+                                <button id="addSecretBtnOverview" class="btn btn-primary btn-sm addsign" data-toggle="tab" href="#nav-secretadd" role="tab" aria-controls="nav-secretadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                            </div>
+                        </td>
+                        <td scope="col" class="border-top-0">
+                            <div class="centercontent">
+                                <span class="text-dark font-italic">Type</span>
+                            </div>
+                        </td>
+                        <td scope="col" class="border-top-0">
+                            <div class="centercontent">
+                                <span class="text-dark font-italic">Value</span>
+                            </div>
+                        </td>
+                        <td scope="col" class="border-top-0">
+                            <div class="centercontent">
+                                &ensp;
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="nav-secretdetailsadd" role="tabpanel" aria-labelledby="nav-secretdetailsadd-tab">
+            <div class="form-group">
+                <label class="col-form-label">Type</label>
+                <input type="text" id="addSecretTypeDetail" disabled class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="col-form-label">Value</label><br />
+                <input type="text" id="addSecretValueDetail" disabled class="form-control" />
+            </div>
+            <fieldset class="form-group">
+                <label class="col-form-label">Expiration</label>
+                <div class="row">
+                    <div class="col">
+                        <input type="date" id="addSecretExpirationDateDetail" class="form-control" disabled />
+                    </div>
+                    <div class="col">
+                        <input type="time" id="addSecretExpirationTimeDetail" class="form-control" disabled />
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="form-group">
+                <label class="col-form-label">Created</label>
+                <div class="row">
+                    <div class="col">
+                        <input type="date" id="addSecretCreatedDateDetail" class="form-control" disabled />
+                    </div>
+                    <div class="col">
+                        <input type="time" id="addSecretCreatedTimeDetail" class="form-control" disabled />
+                    </div>
+                </div>
+            </fieldset>
+            <div class="form-group">
+                <label class="col-form-label">Description</label>
+                <textarea id="addSecretDescriptionDetail" class="form-control" disabled> </textarea>
+            </div>
+            <div class="form-group">
+                <button id="addSecretBtnCancelDetail" class="btn btn-secondary" data-toggle="tab" href="#nav-secretsoverviewadd" role="tab" aria-controls="nav-secretsoverviewadd" aria-selected="false" onclick="UnpopulateSecretDetail(this);"></button>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-secretadd" role="tabpanel" aria-labelledby="nav-secretadd-tab">
+            <div class="form-group">
+                <label class="col-form-label">Type</label>
+                <input type="text" id="addSecretType" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="col-form-label">Value</label><br />
+                <input type="text" id="addSecretValue" class="form-control" />
+            </div>
+            <fieldset class="form-group">
+                <label class="col-form-label">Expiration</label>
+                <div class="row">
+                    <div class="col">
+                        <input type="date" id="addSecretExpirationDate" class="form-control" />
+                    </div>
+                    <div class="col">
+                        <input type="time" id="addSecretExpirationTime" class="form-control" />
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="form-group">
+                <label class="col-form-label">Created</label>
+                <div class="row">
+                    <div class="col">
+                        <input type="date" id="addSecretCreatedDate" class="form-control" />
+                    </div>
+                    <div class="col">
+                        <input type="time" id="addSecretCreatedTime" class="form-control" />
+                    </div>
+                </div>
+            </fieldset>
+            <div class="form-group">
+                <label class="col-form-label">Description</label>
+                <textarea id="addSecretDescription" class="form-control"> </textarea>
+            </div>
+            <div class="form-group">
+                <button id="addSecretBtnCancel" class="btn btn-secondary" data-toggle="tab" href="#nav-secretsoverviewadd" role="tab" aria-controls="nav-secretsoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+                <button id="addSecretBtn" class="btn btn-primary addsign" data-toggle="tab" href="#nav-secretsoverviewadd" role="tab" aria-controls="nav-secretsoverviewadd" aria-selected="false" onclick="RemoveActive(this);"></button>
+
+            </div>
+        </div>
+    </div>*@

@@ -1,19 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using Ids.SimpleAdmin.Backend.Dtos;
+using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
 
 namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.ApiResources
 {
-    public class AddModel : PageModel
+    public class AddModel : BaseAddPage<ApiResourceResponseDto>
     {
-        //public void OnGet()
-        //{
-        //}
-        public void OnGet(int id)
-        {
-        }
+        public AddModel(IHandler<ApiResourceResponseDto> handler) : base(handler) { }
     }
 }
