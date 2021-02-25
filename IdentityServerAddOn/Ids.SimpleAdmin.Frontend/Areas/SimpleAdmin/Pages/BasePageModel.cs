@@ -1,4 +1,4 @@
-﻿using Ids.SimpleAdmin.Backend.Dtos;
+﻿using Ids.SimpleAdmin.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;

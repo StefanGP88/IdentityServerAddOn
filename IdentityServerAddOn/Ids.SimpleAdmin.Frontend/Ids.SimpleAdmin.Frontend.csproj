@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ids.SimpleAdmin.Backend\Ids.SimpleAdmin.Backend.csproj" />
+    <ProjectReference Include="..\Ids.SimpleAdmin.Contracts\Ids.SimpleAdmin.Contracts.csproj" />
   </ItemGroup>
 
 

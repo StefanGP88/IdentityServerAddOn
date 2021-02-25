@@ -1,7 +1,8 @@
-﻿using Ids.SimpleAdmin.Backend.Dtos;
-using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
+﻿using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
+using Ids.SimpleAdmin.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages
@@ -25,15 +26,15 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages
         public ListDto<TDataTransferObject> List { get; set; }
         public BaseIndexPage(IHandler<TDataTransferObject> handler) : base(handler) { }
 
-        public async Task<IActionResult> OnGet()
+        public async Task<IActionResult> OnGet(CancellationToken cancel = default)
         {
-            List = await _handler.GetAll(PageNumber, PageSize, default).ConfigureAwait(false);
+            List = await _handler.GetAll(PageNumber, PageSize, cancel).ConfigureAwait(false);
             return Page();
         }
 
-        public async Task<IActionResult> OnPost(TIdentifier id)
+        public async Task<IActionResult> OnPost(TIdentifier id, CancellationToken cancel = default)
         {
-            List = await _handler.Delete(id, PageNumber, PageSize, default).ConfigureAwait(false);
+            List = await _handler.Delete(id, PageNumber, PageSize, cancel).ConfigureAwait(false);
             return Page();
         }
     }
@@ -41,8 +42,13 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages
     public class BaseAddPage<TDataTransferObject> : BasePage<TDataTransferObject>
     {
         public BaseAddPage(IHandler<TDataTransferObject> handler) : base(handler) { }
-        public async Task<IActionResult> OnGet()
+        public async Task<IActionResult> OnGet(CancellationToken cancel = default)
         {
+            return Page();
+        }
+        public async Task<IActionResult> OnPost(TDataTransferObject dto, CancellationToken cancel = default)
+        {
+            var result = await _handler.Create(dto, PageNumber, PageSize, cancel).ConfigureAwait(false);
             return Page();
         }
     }

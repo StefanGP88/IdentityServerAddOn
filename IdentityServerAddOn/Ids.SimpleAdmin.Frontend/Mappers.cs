@@ -1,4 +1,4 @@
-﻿using Ids.SimpleAdmin.Backend.Dtos;
+﻿using Ids.SimpleAdmin.Contracts;
 using Newtonsoft.Json;
 
 namespace Ids.SimpleAdmin.Frontend

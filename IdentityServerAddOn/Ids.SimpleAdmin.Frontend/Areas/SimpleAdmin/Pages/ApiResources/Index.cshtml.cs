@@ -1,10 +1,10 @@
-using Ids.SimpleAdmin.Backend.Dtos;
 using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
+using Ids.SimpleAdmin.Contracts;
 
 namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.ApiResources
 {
-    public class IndexModel : BaseIndexPage<ApiResourceResponseDto, int>
+    public class IndexModel : BaseIndexPage<ApiResourceContract, int>
     {
-        public IndexModel(IHandler<ApiResourceResponseDto> handler) : base(handler) { }
+        public IndexModel(IHandler<ApiResourceContract> handler) : base(handler) { }
     }
 }
