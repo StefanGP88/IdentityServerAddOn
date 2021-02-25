@@ -10,7 +10,8 @@ namespace Ids.SimpleAdmin.Backend
     {
         public static void AddIdentityServerAddOn<TContext>(this IServiceCollection sc) where TContext : IdentityDbContext
         {
-            sc.AddScoped<IHandler<ApiResourceContract>, ApiResourceHandler>();
+            //TODO: make scoped
+            sc.AddSingleton<IHandler<ApiResourceContract>, ApiResourceHandler>();
         }
     }
 }
