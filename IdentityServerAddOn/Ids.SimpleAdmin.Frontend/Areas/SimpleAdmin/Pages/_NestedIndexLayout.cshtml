@@ -59,5 +59,11 @@
             $('#deleteId').val(identifier);
             $('#deleteNameSpan').text(name);
         }
+
+        function AppendTableRow(input, element) {
+            $.get('@_httpContextAccessor.HttpContext.Request.Path', input, function (data) {
+                $(element).append(data);
+            });
+        }
     </script>
 }

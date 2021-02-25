@@ -14,9 +14,12 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
         private List<ApiResourceContract> tempList = new List<ApiResourceContract>();
 
-        public ApiResourceHandler(ConfigurationDbContext configurationDbContext)
+        //public ApiResourceHandler(ConfigurationDbContext configurationDbContext)
+        //{
+        //    _confContext = configurationDbContext;
+        //}
+        public ApiResourceHandler()
         {
-            _confContext = configurationDbContext;
         }
 
         public Task<ListDto<ApiResourceContract>> GetAll(int page, int pageSize, CancellationToken cancel)

@@ -1,0 +1,22 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+<form id="formInLayout" method="post" asp-route-pageNumber="@Model.PageNumber" asp-route-pageSize="@Model.PageSize">
+    <button>asdasdsa</button>
+</form>
+
+    @RenderBody()
+
+    @RenderSection("Scripts", required: false)
+    @section Scripts{
+
+        <script type="text/javascript">
+        function AppendTableRow(input, element) {
+            $.get('@_httpContextAccessor.HttpContext.Request.Path', input, function (data) {
+                $(element).append(data);
+            });
+        }
+        </script>
+    }
+

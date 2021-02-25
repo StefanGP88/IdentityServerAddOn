@@ -1,9 +1,10 @@
 ﻿@page
-
 @model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.ApiResources.AddModel
 @{
+    Layout = "_NestedResourceLayout";
 }
 <form id="form" method="post" asp-route-pageNumber="@Model.PageNumber" asp-route-pageSize="@Model.PageSize">
+    <input type="hidden" id="resourceId" name="dto.Id" />
     @Html.AntiForgeryToken()
     <nav>
         <div class="nav nav-pills nav-fill" id="nav-tab" role="tablist">
@@ -16,7 +17,6 @@
     </nav>
     <div class="tab-content" id="nav-tabContent">
         <div class="tab-pane fade show active" id="basesettings" role="tabpanel">
-            @*<input type="hidden" id="resourceId" name="dto.Id" />*@
             <div class="form-group">
                 <label class="col-form-label">Name</label>
                 <input type="text" class="form-control" id="name" name="dto.Name">
@@ -31,7 +31,7 @@
             </div>
             <div class="form-group">
                 <label class="col-form-label">Allowed access token signing algorithmes</label>
-                <textarea class="form-control" id="allowedAlgorithmes" name="dto.AllowedAccessTokenSigningAlgorithmes"></textarea>
+                <textarea class="form-control" id="allowedAlgorithmes" name="dto.AllowedAccessTokenSigningAlgorithms"></textarea>
             </div>
             <fieldset class="form-group">
                 <div class="form-check">
@@ -54,8 +54,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col"></th>
-                        <th scope="col">Claim</th>
-                        <th scope="col">Claim type</th>
+                        <th scope="col">Type</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
@@ -82,17 +81,13 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label class="col-form-label">Claim</label>
+                                <label class="col-form-label">Type</label>
                                 <input type="text" id="claim" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <label class="col-form-label">Claim type</label>
-                                <input type="text" id="claimType" class="form-control" />
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal"></button>
-                            <input type="submit" class="btn btn-info" form="AddForm" value="&#10004;" />
+                            <button type="button" class="btn btn-info" data-dismiss="modal" value="&#10004;" onclick="SetClaim()" />
                         </div>
                     </div>
                 </div>
@@ -246,3 +241,20 @@
     </div>
 </form>
 
+@section Scripts{
+    <script type="text/javascript">
+        function SetClaim() {
+            var input = {
+                handler: 'Claims',
+                dto: {
+                    Id: null,
+                    Type: $('#claim').val(),
+                    ApiResourceId: null
+                }
+            };
+            var element = $('#claimsTableBody');
+            AppendTableRow(input, element);
+            $('#claim').val('');
+        }
+    </script>
+}
