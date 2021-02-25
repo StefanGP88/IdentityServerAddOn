@@ -1,0 +1,394 @@
+﻿@page "{handler?}"
+@model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Users.AllModel
+@{
+    Layout = "_NestedLayout";
+}
+
+
+
+@section TableHead {
+    <tr>
+        <th scope="col"></th>
+        <th scope="col">Username</th>
+        <th scope="col">Email</th>
+        <th scope="col">Phone</th>
+        <th scope="col"></th>
+    </tr>
+}
+
+@section TableBody{
+    @foreach (var item in Model?.List?.Items)
+    {
+        <tr>
+            <td scope="row">
+                <button type="button" class="btn btn-info"
+                        data-toggle="modal" data-target="#editModal"
+                        data-userid="@item?.Userid"
+                        data-username="@item?.Username"
+                        data-email="@item?.Email"
+                        data-phonenumber="@item?.Phonenumber"
+                        data-use2fa="@item?.Use2Fa"
+                        data-emailconfirmed="@item?.EmailConfirmed"
+                        data-phonenumberconfirmed="@item?.PhoneNumberConfirmed"
+                        data-lockoutenabled="@item?.LockoutEnabled"
+                        data-lockoutenddate="@item?.LockoutEnd.ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture)"
+                        data-lockoutendtime="@item?.LockoutEnd.ToString("T", System.Globalization.CultureInfo.InvariantCulture)"
+                        data-concurrencystamp="@item?.ConcurrencyStamp"
+                        data-rolelist="@(item.Roles.Any() ? "[\"" + string.Join("\", \"", item.Roles) + "\"]" : "[]")"
+                        data-claimlist="@(item.Claims.Any() ? "["+string.Join(", ", item.Claims.Select(x=> "{\""+ x.Value + "\": \""+x.Type+"\"}").ToList()) + "]":"[]")">
+                </button>
+            </td>
+            <td>@item?.Username</td>
+            <td>@item?.Email</td>
+            <td>@item?.Phonenumber</td>
+            <td>
+                <button type="button" class="btn btn-danger float-right"
+                        data-toggle="modal" data-target="#deleteModal"
+                        data-userid="@item?.Userid"
+                        data-username="@item?.Username"
+                        data-concurrencystamp="@item?.ConcurrencyStamp">
+                </button>
+            </td>
+        </tr>
+    }
+}
+
+@section Pagenation{
+    <partial name="_Pagenation" model="Model.List.ToPagenationInfo()" />
+}
+
+@section AddModalBody{
+    <form id="AddForm" method="post" asp-page-handler="Add" asp-route-pageNumber="@Model.List.Page" asp-route-pageSize="@Model.List.PageSize">
+        @Html.AntiForgeryToken()
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-basesettings-tab" data-toggle="tab" href="#nav-basesettings" role="tab" aria-controls="nav-basesettings" aria-selected="true">Base Settings</a>
+                <a class="nav-item nav-link" id="nav-roles-tab" data-toggle="tab" href="#nav-roles" role="tab" aria-controls="nav-roles" aria-selected="false">Roles</a>
+                <a class="nav-item nav-link" id="nav-claims-tab" data-toggle="tab" href="#nav-claims" role="tab" aria-controls="nav-claims" aria-selected="false">User claims</a>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-basesettings" role="tabpanel" aria-labelledby="nav-basesettings-tab">
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Username</label>
+                    <input type="text" class="form-control" id="addUsername" name="dto.Username">
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Password</label>
+                    <input type="password" class="form-control" id="addPassword" name="dto.Password" />
+                </div>
+                <div class="form-group">
+                    <label for="reciepent-name" class="col-form-label">E-mail</label>
+                    <input type="email" class="form-control" id="addEmail" name="dto.Email" />
+                </div>
+                <div class="form-group">
+                    <label for="reciepient-name" class="col-form-label">Phone number</label>
+                    <input type="tel" class="form-control" id="addPhoneNumber" name="dto.PhoneNumber" />
+                </div>
+                <br />
+                <fieldset class="form-group">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="addUse2fa" name="dto.Use2Fa" value="True" />
+                        <label for="reciepent-name" class="form-check-label">Use two factor authentication</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="addConfirmEmail" name="dto.ConfirmEmail" value="True" />
+                        <label for="reciepent-name" class="form-check-label">Confirm e-mail</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="addConfirmPhoneNumber" name="dto.ConfirmPhoneNumber" value="True" />
+                        <label for="reciepent-name" class="form-check-label">Confirm phone number</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="addEnableLockout" name="dto.EnableLockout" value="True" />
+                        <label for="reciepent-name" class="form-check-label">Enable lockout</label>
+                    </div>
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="reciepent-name" class="col-form-label">Lockout end</label>
+                    <div class="row">
+                        <div class="col">
+                            <input type="date" class="form-control" id="addLockoutEndDate">
+                        </div>
+                        <div class="col">
+                            <input type="time" class="form-control" id="addLockoutEndTime">
+                        </div>
+                    </div>
+                    <input type="hidden" id="addLockoutEnd" name="dto.EndLockout" value="@(new DateTime(1970,1,1).ToString("s", System.Globalization.CultureInfo.InvariantCulture))" />
+                </fieldset>
+            </div>
+            <div class="tab-pane fade" id="nav-roles" role="tabpanel" aria-labelledby="nav-roles-tab">
+                <br />
+                <table class="table table-sm">
+                    <tbody>
+                        @foreach (var item in Model.UserRoleList.Items)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="checkbox" id="@("addRole"+item.RoleName)" name="dto.Roles[@item.Id]" value="@item.RoleName" />
+                                </td>
+                                <td>@item.RoleName</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="nav-claims" role="tabpanel" aria-labelledby="nav-claims-tab">
+                <br />
+                <table class="table table-sm">
+                    <tbody id="addClaimTableBody">
+                        <tr>
+                            <td scope="col">
+                            </td>
+                            <td scope="col">
+                                Claim
+                            </td>
+                            <td scope="col">
+                                Claim type
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="col">
+                                <button id="addClaimBtn" class="btn btn-primary btn-sm addsign"></button>
+                            </td>
+                            <td scope="col">
+                                <input type="text" id="addClaim" />
+                            </td>
+                            <td scope="col">
+                                <input type="text" id="addClaimType" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+}
+
+@section EditModalBody{
+    <form id="EditForm" method="post" asp-page-handler="Edit" asp-route-pageNumber="@Model.List.Page" asp-route-pageSize="@Model.List.PageSize">
+        @Html.AntiForgeryToken()
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-basesettingsedit-tab" data-toggle="tab" href="#nav-basesettingsedit" role="tab" aria-controls="nav-basesettingsedit" aria-selected="true">Base Settings</a>
+                <a class="nav-item nav-link" id="nav-rolesedit-tab" data-toggle="tab" href="#nav-rolesedit" role="tab" aria-controls="nav-rolesedit" aria-selected="false">Roles</a>
+                <a class="nav-item nav-link" id="nav-claimsedit-tab" data-toggle="tab" href="#nav-claimsedit" role="tab" aria-controls="nav-claimsedit" aria-selected="false">User claims</a>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-basesettingsedit" role="tabpanel" aria-labelledby="nav-basesettingsedit-tab">
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Username</label>
+                    <input type="text" class="form-control" id="editUsername" name="dto.Username">
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="col-form-label">Password</label>
+                    <input type="password" class="form-control" id="editPassword" name="dto.Password" />
+                </div>
+                <div class="form-group">
+                    <label for="reciepent-name" class="col-form-label">E-mail</label>
+                    <input type="email" class="form-control" id="editEmail" name="dto.Email" />
+                </div>
+                <div class="form-group">
+                    <label for="reciepient-name" class="col-form-label">Phone number</label>
+                    <input type="tel" class="form-control" id="editPhoneNumber" name="dto.PhoneNumber" />
+                </div>
+                <br />
+                <fieldset class="form-group">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="editUse2fa" name="dto.Use2Fa" value="True" />
+                        <label for="reciepent-name" class="form-check-label">Use two factor authentication</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="editConfirmEmail" name="dto.ConfirmEmail" value="True" />
+                        <label for="reciepent-name" class="form-check-label">Confirm e-mail</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="editConfirmPhoneNumber" name="dto.ConfirmPhoneNumber" value="True" />
+                        <label for="reciepent-name" class="form-check-label">Confirm phone number</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="editEnableLockout" name="dto.EnableLockout" value="True" />
+                        <label for="reciepent-name" class="form-check-label">Enable lockout</label>
+                    </div>
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="reciepent-name" class="col-form-label">Lockout end</label>
+                    <div class="row">
+                        <div class="col">
+                            <input type="date" class="form-control" id="editLockoutEndDate">
+                        </div>
+                        <div class="col">
+                            <input type="time" class="form-control" id="editLockoutEndTime">
+                        </div>
+                    </div>
+                    <input type="hidden" id="editLockoutEnd" name="dto.EndLockout" value="@DateTime.MinValue.ToString("s", System.Globalization.CultureInfo.InvariantCulture)" />
+                </fieldset>
+            </div>
+            <div class="tab-pane fade" id="nav-rolesedit" role="tabpanel" aria-labelledby="nav-rolesedit-tab">
+                <br />
+                <table class="table table-sm">
+                    <tbody>
+                        @foreach (var item in Model.UserRoleList.Items)
+                        {//
+                            <tr>
+                                <td>
+                                    <input type="checkbox" id="@("editRole"+item.RoleName)" name="dto.Roles[@item.Id]" value="@item.RoleName" />
+                                </td>
+                                <td>@item.RoleName</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="nav-claimsedit" role="tabpanel" aria-labelledby="nav-claimsedit-tab">
+                <br />
+                <table class="table table-sm">
+                    <tbody id="editClaimTableBody">
+                        <tr>
+                            <td scope="col">
+                            </td>
+                            <td scope="col">
+                                Claim
+                            </td>
+                            <td scope="col">
+                                Claim type
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="col">
+                                <button id="editClaimBtn" class="btn btn-primary btn-sm addsign"></button>
+                            </td>
+                            <td scope="col">
+                                <input type="text" id="editClaim" />
+                            </td>
+                            <td scope="col">
+                                <input type="text" id="editClaimType" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <input type="hidden" id="editId" name="dto.UserId" />
+        <input type="hidden" id="editConcurrencyStamp" name="dto.ConcurrencyStamp" />
+    </form>
+}
+
+@section DeleteModalBody{
+    <div class="alert alert-danger" role="alert">
+        Are you sure you want to delete  <span id="deleteUserName"></span> ?
+    </div>
+    <form id="DeleteForm" method="post" asp-page-handler="Delete" asp-route-pageNumber="@Model.List.Page" asp-route-pageSize="@Model.List.PageSize">
+        @Html.AntiForgeryToken()
+        <input type="hidden" id="deleteId" name="userId" />
+        @*<input type="hidden" id="deleteConcurrencyStamp" name="dto.ConcurrencyStamp" />*@
+    </form>
+}
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#addLockoutEndDate').val('@(new DateTime(1970, 1, 1).ToString("yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture))');
+            $('#addLockoutEndTime').val('@(new DateTime(1970, 1, 1).ToString("T", System.Globalization.CultureInfo.InvariantCulture))');
+            $('#addLockoutEnd').val($('#addLockoutEndDate').val() + ' ' + $('#addLockoutEndTime').val());
+        });
+
+        $('#editClaimBtn').on('click', function (e) {
+            e.preventDefault();
+            var claim = $('#editClaim').val();
+            var claimType = $('#editClaimType').val();
+            console.log(claim);
+            if (claim.length < 1 || claimType.length < 1)
+            {
+                alert('claim and claim type must have a value');
+            }
+            else
+            {
+                $('#editClaimTableBody').append('<tr><td><button class="btn btn-danger btn-sm editClaimRemove" onclick="RemoveClaim(this, event);"></button><input type="hidden" name="dto.Claims[' + claim + ']" value="' + claimType + '" /></td><td>' + claim + '</td><td>' + claimType + '</td></tr>');
+                $('#editClaim').val('');
+                $('#editClaimType').val('');
+            }
+        });
+
+        $('#addClaimBtn').on('click', function (e) {
+            e.preventDefault();
+            var claim = $('#addClaim').val();
+            var claimType = $('#addClaimType').val();
+            console.log(claim);
+            if (claim.length < 1 || claimType.length < 1) {
+                alert('claim and claim type must have a value');
+            }
+            else {
+                $('#addClaimTableBody').append('<tr><td><button class="btn btn-danger btn-sm addClaimRemove" onclick="RemoveClaim(this, event);"></button><input type="hidden" name="dto.Claims[' + claim + ']" value="' + claimType + '" /></td><td>' + claim + '</td><td>' + claimType + '</td></tr>');
+                $('#addClaim').val('');
+                $('#addClaimType').val('');
+            }
+        });
+
+        $('#addLockoutEndDate').on('change', function () {
+            var date = $('#addLockoutEndDate').val();
+            var time = $('#addLockoutEndTime').val();
+            $('#addLockoutEnd').val(date + ' ' + time);
+        });
+        $('#addLockoutEndTime').on('change', function () {
+            var date = $('#addLockoutEndDate').val();
+            var time = $('#addLockoutEndTime').val();
+            $('#addLockoutEnd').val(date + ' ' + time);
+        });
+        $('#editLockoutEndDate').on('change', function () {
+            var date = $('#editLockoutEndDate').val();
+            var time = $('#editLockoutEndTime').val();
+            $('#editLockoutEnd').val(date + ' ' + time);
+        });
+        $('#editLockoutEndTime').on('change', function () {
+            var date = $('#editLockoutEndDate').val();
+            var time = $('#editLockoutEndTime').val();
+            $('#editLockoutEnd').val(date + ' ' + time);
+        });
+
+        $('#editModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            modal.find('.modal-body #editId').val(button.data('userid'));
+            modal.find('.modal-body #editUsername').val(button.data('username'));
+            modal.find('.modal-body #editEmail').val(button.data('email'));
+            modal.find('.modal-body #editPhoneNumber').val(button.data('phonenumber'));
+            modal.find('.modal-body #editLockoutEndDate').val(button.data('lockoutenddate'));
+            modal.find('.modal-body #editLockoutEndTime').val(button.data('lockoutendtime'));
+            $('#editLockoutEnd').val(button.data('lockoutenddate') + ' ' + button.data('lockoutendtime'));
+            modal.find('.modal-body #editConcurrencyStamp').val(button.data('concurrencystamp'));
+            modal.find('.modal-body #editUse2fa').prop('checked', button.data('use2fa') === 'True');
+            modal.find('.modal-body #editConfirmEmail').prop('checked', button.data('emailconfirmed') === 'True');
+            modal.find('.modal-body #editConfirmPhoneNumber').prop('checked', button.data('phonenumberconfirmed') === 'True');
+            modal.find('.modal-body #editEnableLockout').prop('checked', button.data('lockoutenabled') === 'True');
+
+            var rolelist = button.data('rolelist');
+            @foreach (var item in Model.UserRoleList.Items)@*not exactly pretty but will do for now*@
+            {
+                <text>modal.find('.modal-body @("#editRole"+item.RoleName)').prop('checked', rolelist.includes('@item.RoleName'));</text>
+            }
+
+            var claimRows = $('#editClaimTableBody .editClaimRemove');
+            for (var key in claimRows) {
+                $('#editClaimTableBody .editClaimRemove').parents().eq(1).remove();
+            }
+
+            var claimlist = button.data('claimlist');
+            for (var key in claimlist) {
+                for (var kkey in claimlist[key])
+                {
+                    $('#editClaimTableBody').append('<tr><td><button class="btn btn-danger btn-sm editClaimRemove" onclick="RemoveClaim(this, event);"></button><input type="hidden" name="dto.Claims[' + kkey + ']" value="' + claimlist[key][kkey] + '" /></td><td>' + kkey + '</td><td>' + claimlist[key][kkey] + '</td></tr>');
+                }
+            }
+        });
+
+        $('#deleteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            modal.find('.modal-body #deleteUserName').text(button.data('username'));
+            modal.find('.modal-body #deleteId').val(button.data('userid'));
+            modal.find('.modal-body #deleteConcurrencyStamp').val(button.data('roleconcurrency'));
+        });
+    </script>
+}
