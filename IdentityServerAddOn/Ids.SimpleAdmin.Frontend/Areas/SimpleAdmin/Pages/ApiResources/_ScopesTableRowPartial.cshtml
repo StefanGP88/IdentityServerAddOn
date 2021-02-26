@@ -1,4 +1,4 @@
-﻿@model ApiResourceClaimsContract
+﻿@model ApiResourceScopesContract
 @{
     var idx = Guid.NewGuid();
 }
@@ -7,14 +7,12 @@
         <input type="button" class="btn" />
     </td>
     <td>
-        <label class="col-form-label">@Model.Type</label>
+        <label class="col-form-label">@Model.Scope</label>
         <input class="form-control" type="hidden" name="dto.ApiResourceClaims[@idx].Id" value="@Model.Id" />
         <input class="form-control" type="hidden" name="dto.ApiResourceClaims[@idx].ApiResourceId" value="@Model.ApiResourceId" />
-        <input class="form-control" type="hidden" name="dto.ApiResourceClaims[@idx].Type" value="@Model.Type" />
-
+        <input class="form-control" type="hidden" name="dto.ApiResourceClaims[@idx].Scope" value="@Model.Scope" />
     </td>
     <td>
         <input type="button" class="btn" />
-
     </td>
 </tr>

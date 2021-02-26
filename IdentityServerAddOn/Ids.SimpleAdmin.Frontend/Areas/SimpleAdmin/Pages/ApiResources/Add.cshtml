@@ -1,7 +1,7 @@
 ﻿@page
 @model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.ApiResources.AddModel
 @{
-    Layout = "_NestedResourceLayoutsss";
+    Layout = "_NestedResourceLayout";
 }
 
 @section NavTabs{
@@ -98,7 +98,7 @@
                 <tr>
                     <th scope="col"></th>
                     <th scope="col">Property</th>
-                    <th scope="col">Property key</th>
+                    <th scope="col">Key</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -129,7 +129,7 @@
                             <input type="text" id="property" class="form-control" />
                         </div>
                         <div class="form-group">
-                            <label class="col-form-label">Property key</label>
+                            <label class="col-form-label">Key</label>
                             <input type="text" id="key" class="form-control" />
                         </div>
                     </div>
@@ -251,6 +251,47 @@
             var element = $('#claimsTableBody');
             AppendTableRow(input, element);
             $('#claim').val('');
+        }
+        function SetProperty() {
+            var input = {
+                handler: 'Properties',
+                Id: null,
+                Value: $('#property').val(),
+                Key: $('#key').val(),
+                ApiResourceId: null
+            };
+            var element = $('#propertiesTableBody');
+            AppendTableRow(input, element);
+            $('#property').val('');
+            $('#key').val('');
+        }
+        function SetScope() {
+            var input = {
+                handler: 'Scope',
+                Id: null,
+                Scope: $('#scope').val(),
+                ApiResourceId: null
+            };
+            var element = $('#scopeTableBody');
+            AppendTableRow(input, element);
+            $('#scope').val('');
+        }
+        function SetSecret() {
+            var input = {
+                handler: 'Secret',
+                Id: null,
+                Description: $('#description').val(),
+                Value: $('#value').val(),
+                Expiration: $('#expiration').val(),
+                Type: $('#type').val(),
+                ApiResourceId: null
+            };
+            var element = $('#secretTableBody');
+            AppendTableRow(input, element);
+            $('#description').val('');
+            $('#value').val('');
+            $('#expiration').val('');
+            $('#type').val('');
         }
     </script>
 }

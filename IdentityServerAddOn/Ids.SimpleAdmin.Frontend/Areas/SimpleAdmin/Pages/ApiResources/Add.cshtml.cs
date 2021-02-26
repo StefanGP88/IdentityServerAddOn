@@ -12,5 +12,17 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.ApiResources
         {
             return Partial("_ClaimsTableRowPartial", dto);
         }
+        public PartialViewResult OnGetProperties(ApiResourcePropertiesContract dto)
+        {
+            return Partial("_PropertiesTableRowPartial", dto);
+        }
+        public PartialViewResult OnGetScopes(ApiResourceScopesContract dto)
+        {
+            return Partial("_ScopesTableRowPartial", dto);
+        }
+        public PartialViewResult OnGetSecrets(ApiResourceSecretsContract dto)
+        {
+            return Partial("_SecretsTableRowPartial", dto);
+        }
     }
 }
