@@ -1,7 +1,6 @@
 ﻿@{
     Layout = "_Layout";
 }
-
 <div class="container">
     <form id="form" method="post" asp-route-pageNumber="@Model.PageNumber" asp-route-pageSize="@Model.PageSize">
         <input type="hidden" id="resourceId" name="dto.Id" />
@@ -20,9 +19,7 @@
         </div>
     </form>
 </div>
-
 @section Scripts{
-
     <script type="text/javascript">
         function AppendTableRow(input, element) {
             $.get('@_httpContextAccessor.HttpContext.Request.Path', input, function (data) {
@@ -30,5 +27,6 @@
             });
         }
     </script>
+    @RenderSection("Scripts", required: false)
 }
 
