@@ -6,6 +6,5 @@ namespace Ids.SimpleAdmin.Frontend
     {
         public string Name { get; set; }
         public List<string> Columns { get; set; }
-        public string FormPartialName { get; set; }
     }
 }

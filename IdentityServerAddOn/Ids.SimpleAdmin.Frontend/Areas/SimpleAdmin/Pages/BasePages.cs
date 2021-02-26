@@ -2,6 +2,7 @@
 using Ids.SimpleAdmin.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -39,9 +40,13 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages
         }
     }
 
-    public class BaseAddPage<TDataTransferObject> : BasePage<TDataTransferObject>
+    public abstract class BaseAddPage<TDataTransferObject> : BasePage<TDataTransferObject>
     {
-        public BaseAddPage(IHandler<TDataTransferObject> handler) : base(handler) { }
+        public List<ResourcePropertyInfo> ResourceProperties { get; set; } = new List<ResourcePropertyInfo>();
+        public BaseAddPage(IHandler<TDataTransferObject> handler) : base(handler)
+        {
+            SetResourceProperties();
+        }
         public async Task<IActionResult> OnGet(CancellationToken cancel = default)
         {
             return Page();
@@ -51,5 +56,7 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages
             var result = await _handler.Create(dto, PageNumber, PageSize, cancel).ConfigureAwait(false);
             return Page();
         }
+
+        internal abstract void SetResourceProperties();
     }
 }

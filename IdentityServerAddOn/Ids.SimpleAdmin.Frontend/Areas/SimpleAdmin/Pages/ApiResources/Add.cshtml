@@ -5,10 +5,10 @@
 }
 
 @section NavTabs{
-    <a class="nav-item nav-link" id="claimstab" data-toggle="tab" href="#claims" role="tab">Claims</a>
-    <a class="nav-item nav-link" id="propertiestab" data-toggle="tab" href="#properties" role="tab">Properties</a>
-    <a class="nav-item nav-link" id="scopestab" data-toggle="tab" href="#scopes" role="tab">Scopes</a>
-    <a class="nav-item nav-link" id="secretstab" data-toggle="tab" href="#secrets" role="tab">Secrets</a>
+    @foreach (var item in Model.ResourceProperties)
+    {
+        <a class="nav-item nav-link" id="@item.Name.ToLower()tab" data-toggle="tab" href="#@item.Name.ToLower()" role="tab">Claims</a>
+    }
 }
 
 @section Basesettings{
@@ -45,57 +45,13 @@
 }
 
 @section ResourceProperties{
-
-    <div class="tab-pane fade" id="claims" role="tabpanel">
-
-        @{
-            var claimsInfo = new ResourcePropertyInfo()
-            {
-                Name = "Claims",
-                Columns = new List<string> { "Type" },
-                FormPartialName = "_ClaimsFormPartial"
-            };
-        }
-        <partial name="_ResourcePropertyTable" model="claimsInfo" />
-        <partial name="_ResourcePropertyModal" model="claimsInfo" />
-    </div>
-    <div class="tab-pane fade" id="properties" role="tabpanel">
-        @{
-            var propertiesInfo = new ResourcePropertyInfo()
-            {
-                Name = "Properties",
-                Columns = new List<string> { "Property", "Key" },
-                FormPartialName = "_PropertiesFormPartial"
-            };
-        }
-        <partial name="_ResourcePropertyTable" model="propertiesInfo" />
-        <partial name="_ResourcePropertyModal" model="propertiesInfo" />
-    </div>
-    <div class="tab-pane fade" id="scopes" role="tabpanel">
-        @{
-            var scopesInfo = new ResourcePropertyInfo()
-            {
-                Name = "Scopes",
-                Columns = new List<string> { "Scope" },
-                FormPartialName = "_ScopesFormPartial"
-            };
-        }
-        <partial name="_ResourcePropertyTable" model="scopesInfo" />
-        <partial name="_ResourcePropertyModal" model="scopesInfo" />
-    </div>
-    <div class="tab-pane fade" id="secrets" role="tabpanel">
-        @{
-            var secretsInfo = new ResourcePropertyInfo()
-            {
-                Name = "Secrets",
-                Columns = new List<string> { "Type", "Value" },
-                FormPartialName = "_SecretsFormPartial"
-            };
-        }
-        <partial name="_ResourcePropertyTable" model="secretsInfo" />
-        <partial name="_ResourcePropertyModal" model="secretsInfo" />
-    </div>
-
+    @foreach (var item in Model.ResourceProperties)
+    {
+        <div class="tab-pane fade" id="@item.Name.ToLower()" role="tabpanel">
+            <partial name="_ResourcePropertyTable" model="item" />
+            <partial name="_ResourcePropertyModal" model="item" />
+        </div>
+    }
 }
 
 @section Scripts{
