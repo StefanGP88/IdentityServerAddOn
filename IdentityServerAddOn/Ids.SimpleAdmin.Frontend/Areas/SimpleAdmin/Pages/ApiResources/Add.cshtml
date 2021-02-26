@@ -1,245 +1,243 @@
 ﻿@page
 @model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.ApiResources.AddModel
 @{
-    Layout = "_NestedResourceLayout";
+    Layout = "_NestedResourceLayoutsss";
 }
-<form id="form" method="post" asp-route-pageNumber="@Model.PageNumber" asp-route-pageSize="@Model.PageSize">
-    <input type="hidden" id="resourceId" name="dto.Id" />
-    @Html.AntiForgeryToken()
-    <nav>
-        <div class="nav nav-pills nav-fill" id="nav-tab" role="tablist">
-            <a class="nav-item nav-link active" id="basesettingstab" data-toggle="tab" href="#basesettings" role="tab">Base Settings</a>
-            <a class="nav-item nav-link" id="claimstab" data-toggle="tab" href="#claims" role="tab">Claims</a>
-            <a class="nav-item nav-link" id="propertiestab" data-toggle="tab" href="#properties" role="tab">Properties</a>
-            <a class="nav-item nav-link" id="scopestab" data-toggle="tab" href="#scopes" role="tab">Scopes</a>
-            <a class="nav-item nav-link" id="secretstab" data-toggle="tab" href="#secrets" role="tab">Secrets</a>
+
+@section NavTabs{
+    <a class="nav-item nav-link" id="claimstab" data-toggle="tab" href="#claims" role="tab">Claims</a>
+    <a class="nav-item nav-link" id="propertiestab" data-toggle="tab" href="#properties" role="tab">Properties</a>
+    <a class="nav-item nav-link" id="scopestab" data-toggle="tab" href="#scopes" role="tab">Scopes</a>
+    <a class="nav-item nav-link" id="secretstab" data-toggle="tab" href="#secrets" role="tab">Secrets</a>
+}
+
+@section Basesettings{
+    <div class="form-group">
+        <label class="col-form-label">Name</label>
+        <input type="text" class="form-control" id="name" name="dto.Name">
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Display name</label>
+        <input type="text" class="form-control" id="displayName" name="dto.DisplayName">
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Description</label>
+        <textarea class="form-control" id="description" name="dto.Description"></textarea>
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Allowed access token signing algorithmes</label>
+        <textarea class="form-control" id="allowedAlgorithmes" name="dto.AllowedAccessTokenSigningAlgorithms"></textarea>
+    </div>
+    <fieldset class="form-group">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="enabled" name="dto.Enabled" value="True" />
+            <label class="form-check-label">Is enabled</label>
         </div>
-    </nav>
-    <div class="tab-content" id="nav-tabContent">
-        <div class="tab-pane fade show active" id="basesettings" role="tabpanel">
-            <div class="form-group">
-                <label class="col-form-label">Name</label>
-                <input type="text" class="form-control" id="name" name="dto.Name">
-            </div>
-            <div class="form-group">
-                <label class="col-form-label">Display name</label>
-                <input type="text" class="form-control" id="displayName" name="dto.DisplayName">
-            </div>
-            <div class="form-group">
-                <label class="col-form-label">Description</label>
-                <textarea class="form-control" id="description" name="dto.Description"></textarea>
-            </div>
-            <div class="form-group">
-                <label class="col-form-label">Allowed access token signing algorithmes</label>
-                <textarea class="form-control" id="allowedAlgorithmes" name="dto.AllowedAccessTokenSigningAlgorithms"></textarea>
-            </div>
-            <fieldset class="form-group">
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="enabled" name="dto.Enabled" value="True" />
-                    <label class="form-check-label">Is enabled</label>
-                </div>
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="nonEditable" name="dto.NonEditable" value="True" />
-                    <label class="form-check-label">Is non-editable</label>
-                </div>
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="showInDiscovery" name="dto.ShowInDiscoveryDocument" value="True" />
-                    <label class="form-check-label">Show in discovery document</label>
-                </div>
-            </fieldset>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="nonEditable" name="dto.NonEditable" value="True" />
+            <label class="form-check-label">Is non-editable</label>
         </div>
-        <div class="tab-pane fade" id="claims" role="tabpanel">
-            <br />
-            <table class="table table-striped border border-dark">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Type</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody id="claimsTableBody">
-                </tbody>
-                <caption>
-                    <nav>
-                        <ul class="pagination">
-                            <li class="page-item active">
-                                <a href="#" class="page-link addsign" data-toggle="modal" data-target="#claimsModal"></a>
-                            </li>
-                        </ul>
-                    </nav>
-                </caption>
-            </table>
-            <div class="modal fade" id="claimsModal" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="claimsModalLabel">Add</h5>
-                            <button type="button" class="close" data-dismiss="modal">
-                                <span>&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label class="col-form-label">Type</label>
-                                <input type="text" id="claim" class="form-control" />
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal"></button>
-                            <button type="button" class="btn btn-info" data-dismiss="modal" value="&#10004;" onclick="SetClaim()" />
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="showInDiscovery" name="dto.ShowInDiscoveryDocument" value="True" />
+            <label class="form-check-label">Show in discovery document</label>
+        </div>
+    </fieldset>
+}
+
+@section ResourceProperties{
+
+    <div class="tab-pane fade" id="claims" role="tabpanel">
+        <br />
+        <table class="table table-striped border border-dark">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Type</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody id="claimsTableBody">
+            </tbody>
+            <caption>
+                <nav>
+                    <ul class="pagination">
+                        <li class="page-item active">
+                            <a href="#" class="page-link addsign" data-toggle="modal" data-target="#claimsModal"></a>
+                        </li>
+                    </ul>
+                </nav>
+            </caption>
+        </table>
+        <div class="modal fade" id="claimsModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="claimsModalLabel">Add</h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-form-label">Type</label>
+                            <input type="text" id="claim" class="form-control" />
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="tab-pane fade" id="properties" role="tabpanel">
-            <br />
-            <table class="table table-striped border border-dark">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Property</th>
-                        <th scope="col">Property key</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody id="propertiesTableBody">
-                </tbody>
-                <caption>
-                    <nav>
-                        <ul class="pagination">
-                            <li class="page-item active">
-                                <a href="#" class="page-link addsign" data-toggle="modal" data-target="#propertiesModal"></a>
-                            </li>
-                        </ul>
-                    </nav>
-                </caption>
-            </table>
-            <div class="modal fade" id="propertiesModal" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="propertiesModalLabel">Add</h5>
-                            <button type="button" class="close" data-dismiss="modal">
-                                <span>&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label class="col-form-label">Property</label>
-                                <input type="text" id="property" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <label class="col-form-label">Property key</label>
-                                <input type="text" id="key" class="form-control" />
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal"></button>
-                            <input type="submit" class="btn btn-info" form="AddForm" value="&#10004;" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="tab-pane fade" id="scopes" role="tabpanel">
-            <br />
-            <table class="table table-striped border border-dark">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Scope</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody id="scopesTableBody">
-                </tbody>
-                <caption>
-                    <nav>
-                        <ul class="pagination">
-                            <li class="page-item active">
-                                <a href="#" class="page-link addsign" data-toggle="modal" data-target="#scopesModal"></a>
-                            </li>
-                        </ul>
-                    </nav>
-                </caption>
-            </table>
-            <div class="modal fade" id="scopesModal" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="scopesModalLabel">Add</h5>
-                            <button type="button" class="close" data-dismiss="modal">
-                                <span>&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label class="col-form-label">Scope</label>
-                                <input type="text" id="scope" class="form-control" />
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal"></button>
-                            <input type="submit" class="btn btn-info" form="AddForm" value="&#10004;" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="tab-pane fade" id="secrets" role="tabpanel">
-            <br />
-            <table class="table table-striped border border-dark">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Secret type</th>
-                        <th scope="col">Secret value</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody id="secretsTableBody">
-                </tbody>
-                <caption>
-                    <nav>
-                        <ul class="pagination">
-                            <li class="page-item active">
-                                <a href="#" class="page-link addsign" data-toggle="modal" data-target="#secretsModal"></a>
-                            </li>
-                        </ul>
-                    </nav>
-                </caption>
-            </table>
-            <div class="modal fade" id="secretsModal" tabindex="-1" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="secretsModalLabel">Add</h5>
-                            <button type="button" class="close" data-dismiss="modal">
-                                <span>&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label class="col-form-label">Secret type</label>
-                                <input type="text" id="type" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <label class="col-form-label">Secret value</label>
-                                <input type="text" id="value" class="form-control" />
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal"></button>
-                            <input type="submit" class="btn btn-info" form="AddForm" value="&#10004;" />
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"></button>
+                        <button type="button" class="btn btn-info" data-dismiss="modal" value="&#10004;" onclick="SetClaim()" />
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</form>
+    <div class="tab-pane fade" id="properties" role="tabpanel">
+        <br />
+        <table class="table table-striped border border-dark">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Property</th>
+                    <th scope="col">Property key</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody id="propertiesTableBody">
+            </tbody>
+            <caption>
+                <nav>
+                    <ul class="pagination">
+                        <li class="page-item active">
+                            <a href="#" class="page-link addsign" data-toggle="modal" data-target="#propertiesModal"></a>
+                        </li>
+                    </ul>
+                </nav>
+            </caption>
+        </table>
+        <div class="modal fade" id="propertiesModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="propertiesModalLabel">Add</h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-form-label">Property</label>
+                            <input type="text" id="property" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Property key</label>
+                            <input type="text" id="key" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"></button>
+                        <input type="submit" class="btn btn-info" form="AddForm" value="&#10004;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="scopes" role="tabpanel">
+        <br />
+        <table class="table table-striped border border-dark">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Scope</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody id="scopesTableBody">
+            </tbody>
+            <caption>
+                <nav>
+                    <ul class="pagination">
+                        <li class="page-item active">
+                            <a href="#" class="page-link addsign" data-toggle="modal" data-target="#scopesModal"></a>
+                        </li>
+                    </ul>
+                </nav>
+            </caption>
+        </table>
+        <div class="modal fade" id="scopesModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="scopesModalLabel">Add</h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-form-label">Scope</label>
+                            <input type="text" id="scope" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"></button>
+                        <input type="submit" class="btn btn-info" form="AddForm" value="&#10004;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="secrets" role="tabpanel">
+        <br />
+        <table class="table table-striped border border-dark">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Secret type</th>
+                    <th scope="col">Secret value</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody id="secretsTableBody">
+            </tbody>
+            <caption>
+                <nav>
+                    <ul class="pagination">
+                        <li class="page-item active">
+                            <a href="#" class="page-link addsign" data-toggle="modal" data-target="#secretsModal"></a>
+                        </li>
+                    </ul>
+                </nav>
+            </caption>
+        </table>
+        <div class="modal fade" id="secretsModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="secretsModalLabel">Add</h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-form-label">Secret type</label>
+                            <input type="text" id="type" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label class="col-form-label">Secret value</label>
+                            <input type="text" id="value" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"></button>
+                        <input type="submit" class="btn btn-info" form="AddForm" value="&#10004;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
 
 @section Scripts{
     <script type="text/javascript">
