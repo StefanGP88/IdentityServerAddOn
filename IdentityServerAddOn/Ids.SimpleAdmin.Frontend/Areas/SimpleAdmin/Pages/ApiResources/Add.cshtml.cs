@@ -8,7 +8,7 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.ApiResources
     {
         public AddModel(IHandler<ApiResourceContract> handler) : base(handler) { }
 
-        public PartialViewResult OnPostClaims(ApiResourceClaimsContract dto)
+        public PartialViewResult OnGetClaims(ApiResourceClaimsContract dto)
         {
             return Partial("_ClaimsTableRowPartial", dto);
         }

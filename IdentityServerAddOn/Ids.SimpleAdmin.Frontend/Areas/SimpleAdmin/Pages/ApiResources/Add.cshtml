@@ -85,7 +85,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"></button>
-                        <button type="button" class="btn btn-info" data-dismiss="modal" value="&#10004;" onclick="SetClaim()" />
+                        <button type="button" class="btn btn-info" data-dismiss="modal" value="&#10004;" onclick="SetClaim(event)" />
                     </div>
                 </div>
             </div>
@@ -244,11 +244,9 @@
         function SetClaim() {
             var input = {
                 handler: 'Claims',
-                dto: {
-                    Id: null,
-                    Type: $('#claim').val(),
-                    ApiResourceId: null
-                }
+                Id: null,
+                Type: $('#claim').val(),
+                ApiResourceId: null
             };
             var element = $('#claimsTableBody');
             AppendTableRow(input, element);

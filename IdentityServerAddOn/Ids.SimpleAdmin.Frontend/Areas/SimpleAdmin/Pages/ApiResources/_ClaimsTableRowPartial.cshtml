@@ -11,9 +11,9 @@
     <td>
         <div class="form-group">
             <label class="col-form-label">@Model.Type</label>
-            <input class="form-control" type="text" name="dto.ApiResourceClaims[@idx].Id" value="@Model.Id" />
-            <input class="form-control" type="text" name="dto.ApiResourceClaims[@idx].ApiResourceId" value="@Model.ApiResourceId" />
-            <input class="form-control" type="text" name="dto.ApiResourceClaims[@idx].Type" value="@Model.Type" />
+            <input class="form-control" type="hidden" name="dto.ApiResourceClaims[@idx].Id" value="@Model.Id" />
+            <input class="form-control" type="hidden" name="dto.ApiResourceClaims[@idx].ApiResourceId" value="@Model.ApiResourceId" />
+            <input class="form-control" type="hidden" name="dto.ApiResourceClaims[@idx].Type" value="@Model.Type" />
         </div>
     </td>
     <td>
