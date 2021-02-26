@@ -47,194 +47,53 @@
 @section ResourceProperties{
 
     <div class="tab-pane fade" id="claims" role="tabpanel">
-        <br />
-        <table class="table table-striped border border-dark">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Type</th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody id="claimsTableBody">
-            </tbody>
-            <caption>
-                <nav>
-                    <ul class="pagination">
-                        <li class="page-item active">
-                            <a href="#" class="page-link addsign" data-toggle="modal" data-target="#claimsModal"></a>
-                        </li>
-                    </ul>
-                </nav>
-            </caption>
-        </table>
-        <div class="modal fade" id="claimsModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="claimsModalLabel">Add</h5>
-                        <button type="button" class="close" data-dismiss="modal">
-                            <span>&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label class="col-form-label">Type</label>
-                            <input type="text" id="claim" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"></button>
-                        <button type="button" class="btn btn-info" data-dismiss="modal" value="&#10004;" onclick="SetClaim(event)" />
-                    </div>
-                </div>
-            </div>
-        </div>
+
+        @{
+            var claimsInfo = new ResourcePropertyInfo()
+            {
+                Name = "Claims",
+                Columns = new List<string> { "Type" },
+                FormPartialName = "_ClaimsFormPartial"
+            };
+        }
+        <partial name="_ResourcePropertyTable" model="claimsInfo" />
+        <partial name="_ResourcePropertyModal" model="claimsInfo" />
     </div>
     <div class="tab-pane fade" id="properties" role="tabpanel">
-        <br />
-        <table class="table table-striped border border-dark">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Property</th>
-                    <th scope="col">Key</th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody id="propertiesTableBody">
-            </tbody>
-            <caption>
-                <nav>
-                    <ul class="pagination">
-                        <li class="page-item active">
-                            <a href="#" class="page-link addsign" data-toggle="modal" data-target="#propertiesModal"></a>
-                        </li>
-                    </ul>
-                </nav>
-            </caption>
-        </table>
-        <div class="modal fade" id="propertiesModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="propertiesModalLabel">Add</h5>
-                        <button type="button" class="close" data-dismiss="modal">
-                            <span>&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label class="col-form-label">Property</label>
-                            <input type="text" id="property" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label class="col-form-label">Key</label>
-                            <input type="text" id="key" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"></button>
-                        <input type="submit" class="btn btn-info" form="AddForm" value="&#10004;" />
-                    </div>
-                </div>
-            </div>
-        </div>
+        @{
+            var propertiesInfo = new ResourcePropertyInfo()
+            {
+                Name = "Properties",
+                Columns = new List<string> { "Property", "Key" },
+                FormPartialName = "_PropertiesFormPartial"
+            };
+        }
+        <partial name="_ResourcePropertyTable" model="propertiesInfo" />
+        <partial name="_ResourcePropertyModal" model="propertiesInfo" />
     </div>
     <div class="tab-pane fade" id="scopes" role="tabpanel">
-        <br />
-        <table class="table table-striped border border-dark">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Scope</th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody id="scopesTableBody">
-            </tbody>
-            <caption>
-                <nav>
-                    <ul class="pagination">
-                        <li class="page-item active">
-                            <a href="#" class="page-link addsign" data-toggle="modal" data-target="#scopesModal"></a>
-                        </li>
-                    </ul>
-                </nav>
-            </caption>
-        </table>
-        <div class="modal fade" id="scopesModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="scopesModalLabel">Add</h5>
-                        <button type="button" class="close" data-dismiss="modal">
-                            <span>&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label class="col-form-label">Scope</label>
-                            <input type="text" id="scope" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"></button>
-                        <input type="submit" class="btn btn-info" form="AddForm" value="&#10004;" />
-                    </div>
-                </div>
-            </div>
-        </div>
+        @{
+            var scopesInfo = new ResourcePropertyInfo()
+            {
+                Name = "Scopes",
+                Columns = new List<string> { "Scope" },
+                FormPartialName = "_ScopesFormPartial"
+            };
+        }
+        <partial name="_ResourcePropertyTable" model="scopesInfo" />
+        <partial name="_ResourcePropertyModal" model="scopesInfo" />
     </div>
     <div class="tab-pane fade" id="secrets" role="tabpanel">
-        <br />
-        <table class="table table-striped border border-dark">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Secret type</th>
-                    <th scope="col">Secret value</th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody id="secretsTableBody">
-            </tbody>
-            <caption>
-                <nav>
-                    <ul class="pagination">
-                        <li class="page-item active">
-                            <a href="#" class="page-link addsign" data-toggle="modal" data-target="#secretsModal"></a>
-                        </li>
-                    </ul>
-                </nav>
-            </caption>
-        </table>
-        <div class="modal fade" id="secretsModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="secretsModalLabel">Add</h5>
-                        <button type="button" class="close" data-dismiss="modal">
-                            <span>&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label class="col-form-label">Secret type</label>
-                            <input type="text" id="type" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label class="col-form-label">Secret value</label>
-                            <input type="text" id="value" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"></button>
-                        <input type="submit" class="btn btn-info" form="AddForm" value="&#10004;" />
-                    </div>
-                </div>
-            </div>
-        </div>
+        @{
+            var secretsInfo = new ResourcePropertyInfo()
+            {
+                Name = "Secrets",
+                Columns = new List<string> { "Type", "Value" },
+                FormPartialName = "_SecretsFormPartial"
+            };
+        }
+        <partial name="_ResourcePropertyTable" model="secretsInfo" />
+        <partial name="_ResourcePropertyModal" model="secretsInfo" />
     </div>
 
 }

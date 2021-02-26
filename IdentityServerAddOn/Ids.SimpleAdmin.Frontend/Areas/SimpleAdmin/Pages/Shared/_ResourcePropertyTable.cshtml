@@ -1,0 +1,26 @@
+﻿@model ResourcePropertyInfo
+
+<br />
+<table class="table table-striped border border-dark">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col"></th>
+            @for (var i = 0; i < Model.Columns.Count; i++)
+            {
+                <th scope="col">@Model.Columns[i]</th>
+            }
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody id="@Model.Name.ToLower()TableBody">
+    </tbody>
+    <caption>
+        <nav>
+            <ul class="pagination">
+                <li class="page-item active">
+                    <a href="#" class="page-link addsign" data-toggle="modal" data-target="#@Model.Name.ToLower()Modal"></a>
+                </li>
+            </ul>
+        </nav>
+    </caption>
+</table>
