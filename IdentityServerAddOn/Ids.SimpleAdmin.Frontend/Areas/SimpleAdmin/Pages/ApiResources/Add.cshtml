@@ -7,7 +7,7 @@
 @section NavTabs{
     @foreach (var item in Model.ResourceProperties)
     {
-        <a class="nav-item nav-link" id="@item.Name.ToLower()tab" data-toggle="tab" href="#@item.Name.ToLower()" role="tab">Claims</a>
+        <a class="nav-item nav-link" id="@item.Name.ToLower()tab" data-toggle="tab" href="#@item.Name.ToLower()" role="tab">@item.Name</a>
     }
 }
 
@@ -56,7 +56,7 @@
 
 @section Scripts{
     <script type="text/javascript">
-        function SetClaim() {
+        function SetClaims() {
             var input = {
                 handler: 'Claims',
                 Id: null,
@@ -66,8 +66,9 @@
             var element = $('#claimsTableBody');
             AppendTableRow(input, element);
             $('#claim').val('');
+            return false;
         }
-        function SetProperty() {
+        function SetProperties() {
             var input = {
                 handler: 'Properties',
                 Id: null,
@@ -79,8 +80,9 @@
             AppendTableRow(input, element);
             $('#property').val('');
             $('#key').val('');
+            return false;
         }
-        function SetScope() {
+        function SetScopes() {
             var input = {
                 handler: 'Scope',
                 Id: null,
@@ -90,8 +92,9 @@
             var element = $('#scopeTableBody');
             AppendTableRow(input, element);
             $('#scope').val('');
+            return false;
         }
-        function SetSecret() {
+        function SetSecrets() {
             var input = {
                 handler: 'Secret',
                 Id: null,
@@ -107,6 +110,7 @@
             $('#value').val('');
             $('#expiration').val('');
             $('#type').val('');
+            return false;
         }
     </script>
 }

@@ -11,19 +11,19 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.ApiResources
 
         public PartialViewResult OnGetClaims(ApiResourceClaimsContract dto)
         {
-            return Partial("_ClaimsTableRowPartial", dto);
+            return GetPartial("_Claims", dto);
         }
         public PartialViewResult OnGetProperties(ApiResourcePropertiesContract dto)
         {
-            return Partial("_PropertiesTableRowPartial", dto);
+            return GetPartial("_Properties", dto);
         }
         public PartialViewResult OnGetScopes(ApiResourceScopesContract dto)
         {
-            return Partial("_ScopesTableRowPartial", dto);
+            return GetPartial("_Scopes", dto);
         }
         public PartialViewResult OnGetSecrets(ApiResourceSecretsContract dto)
         {
-            return Partial("_SecretsTableRowPartial", dto);
+            return GetPartial("_Secrets", dto);
         }
 
         internal override void SetResourceProperties()

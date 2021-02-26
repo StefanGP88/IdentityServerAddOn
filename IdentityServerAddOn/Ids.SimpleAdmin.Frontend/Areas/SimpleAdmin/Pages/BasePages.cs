@@ -43,20 +43,28 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages
     public abstract class BaseAddPage<TDataTransferObject> : BasePage<TDataTransferObject>
     {
         public List<ResourcePropertyInfo> ResourceProperties { get; set; } = new List<ResourcePropertyInfo>();
+
         public BaseAddPage(IHandler<TDataTransferObject> handler) : base(handler)
         {
             SetResourceProperties();
         }
-        public async Task<IActionResult> OnGet(CancellationToken cancel = default)
+
+        public IActionResult OnGet()
         {
-            return Page();
-        }
-        public async Task<IActionResult> OnPost(TDataTransferObject dto, CancellationToken cancel = default)
-        {
-            var result = await _handler.Create(dto, PageNumber, PageSize, cancel).ConfigureAwait(false);
             return Page();
         }
 
+        public async Task<IActionResult> OnPost(TDataTransferObject dto, CancellationToken cancel = default)
+        {
+            var result = await _handler.Create(dto, PageNumber, PageSize, cancel).ConfigureAwait(false);
+            return RedirectToPage("Index", new { PageNumber, PageSize });
+        }
+
+        internal PartialViewResult GetPartial<TPartial>(string partialName, TPartial dto)
+        {
+            return Partial("TableRowPartials/" + partialName, dto);
+        }
         internal abstract void SetResourceProperties();
+
     }
 }
