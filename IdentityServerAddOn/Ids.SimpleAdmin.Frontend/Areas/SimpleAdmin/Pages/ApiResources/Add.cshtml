@@ -84,19 +84,19 @@
         }
         function SetScopes() {
             var input = {
-                handler: 'Scope',
+                handler: 'Scopes',
                 Id: null,
                 Scope: $('#scope').val(),
                 ApiResourceId: null
             };
-            var element = $('#scopeTableBody');
+            var element = $('#scopesTableBody');
             AppendTableRow(input, element);
             $('#scope').val('');
             return false;
         }
         function SetSecrets() {
             var input = {
-                handler: 'Secret',
+                handler: 'Secrets',
                 Id: null,
                 Description: $('#description').val(),
                 Value: $('#value').val(),
@@ -104,7 +104,7 @@
                 Type: $('#type').val(),
                 ApiResourceId: null
             };
-            var element = $('#secretTableBody');
+            var element = $('#secretsTableBody');
             AppendTableRow(input, element);
             $('#description').val('');
             $('#value').val('');
