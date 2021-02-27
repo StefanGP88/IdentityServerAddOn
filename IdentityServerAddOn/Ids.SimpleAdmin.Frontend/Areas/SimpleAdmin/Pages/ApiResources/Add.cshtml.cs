@@ -36,7 +36,7 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.ApiResources
             var propertiesInfo = new ResourcePropertyInfo()
             {
                 Name = "Properties",
-                Columns = new List<string> { "Property", "Key" }
+                Columns = new List<string> { "Value", "Key" }
             };
             var scopesInfo = new ResourcePropertyInfo()
             {
@@ -46,7 +46,7 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.ApiResources
             var secretsInfo = new ResourcePropertyInfo()
             {
                 Name = "Secrets",
-                Columns = new List<string> { "Type", "Value" }
+                Columns = new List<string> { "Type", "Value", "Description", "Expiration" }
             };
 
             ResourceProperties.Add(claimsInfo);

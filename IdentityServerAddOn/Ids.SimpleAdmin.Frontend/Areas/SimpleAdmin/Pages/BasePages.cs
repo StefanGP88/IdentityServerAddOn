@@ -27,13 +27,13 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages
         public ListDto<TDataTransferObject> List { get; set; }
         public BaseIndexPage(IHandler<TDataTransferObject> handler) : base(handler) { }
 
-        public async Task<IActionResult> OnGet(CancellationToken cancel = default)
+        public virtual async Task<IActionResult> OnGet(CancellationToken cancel = default)
         {
             List = await _handler.GetAll(PageNumber, PageSize, cancel).ConfigureAwait(false);
             return Page();
         }
 
-        public async Task<IActionResult> OnPost(TIdentifier id, CancellationToken cancel = default)
+        public virtual async Task<IActionResult> OnPost(TIdentifier id, CancellationToken cancel = default)
         {
             List = await _handler.Delete(id, PageNumber, PageSize, cancel).ConfigureAwait(false);
             return Page();
@@ -49,18 +49,18 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages
             SetResourceProperties();
         }
 
-        public IActionResult OnGet()
+        public virtual IActionResult OnGet()
         {
             return Page();
         }
 
-        public async Task<IActionResult> OnPost(TDataTransferObject dto, CancellationToken cancel = default)
+        public virtual async Task<IActionResult> OnPost(TDataTransferObject dto, CancellationToken cancel = default)
         {
             var result = await _handler.Create(dto, PageNumber, PageSize, cancel).ConfigureAwait(false);
             return RedirectToPage("Index", new { PageNumber, PageSize });
         }
 
-        internal PartialViewResult GetPartial<TPartial>(string partialName, TPartial dto)
+        internal virtual PartialViewResult GetPartial<TPartial>(string partialName, TPartial dto)
         {
             return Partial("TableRowPartials/" + partialName, dto);
         }

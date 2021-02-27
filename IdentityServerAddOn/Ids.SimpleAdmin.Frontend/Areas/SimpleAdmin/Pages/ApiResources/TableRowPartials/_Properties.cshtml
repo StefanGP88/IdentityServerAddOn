@@ -7,18 +7,14 @@
         <input type="button" class="btn" />
     </td>
     <td>
-        <label class="col-form-label">@Model.Value</label>
+        @Model.Value
         <input class="form-control" type="hidden" name="dto.ApiResourceClaims[@idx].Id" value="@Model.Id" />
         <input class="form-control" type="hidden" name="dto.ApiResourceClaims[@idx].ApiResourceId" value="@Model.ApiResourceId" />
         <input class="form-control" type="hidden" name="dto.ApiResourceClaims[@idx].Value" value="@Model.Value" />
         <input class="form-control" type="hidden" name="dto.ApiResourceClaims[@idx].Key" value="@Model.Key" />
     </td>
     <td>
-        <label class="col-form-label">@Model.Key</label>
-        <input class="form-control" type="hidden" name="dto.ApiResourceClaims[@idx].Id" value="@Model.Id" />
-        <input class="form-control" type="hidden" name="dto.ApiResourceClaims[@idx].ApiResourceId" value="@Model.ApiResourceId" />
-        <input class="form-control" type="hidden" name="dto.ApiResourceClaims[@idx].Value" value="@Model.Value" />
-        <input class="form-control" type="hidden" name="dto.ApiResourceClaims[@idx].Key" value="@Model.Key" />
+        @Model.Key
     </td>
     <td>
         <input type="button" class="btn" />
