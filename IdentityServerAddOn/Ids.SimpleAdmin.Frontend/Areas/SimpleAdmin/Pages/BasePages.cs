@@ -40,7 +40,7 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages
         }
     }
 
-    public abstract class BaseAddPage<TDataTransferObject> : BasePage<TDataTransferObject>
+    public class BaseAddPage<TDataTransferObject> : BasePage<TDataTransferObject>
     {
         public List<ResourcePropertyInfo> ResourceProperties { get; set; } = new List<ResourcePropertyInfo>();
 
@@ -64,7 +64,6 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages
         {
             return Partial("TableRowPartials/" + partialName, dto);
         }
-        internal abstract void SetResourceProperties();
-
+        internal virtual void SetResourceProperties() { }
     }
 }

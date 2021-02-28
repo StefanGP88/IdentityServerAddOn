@@ -8,16 +8,16 @@ namespace Ids.SimpleAdmin.Frontend
 {
     public static class DependencyInjection
     {
-        private static void AddSimpleAdminDependencyInjection<TContext>(this IServiceCollection services) where TContext : IdentityDbContext
+        private static void AddSimpleAdminDependencyInjection(this IServiceCollection services)
         {
-            services.AddIdentityServerAddOn<TContext>();
+            services.AddIdentityServerAddOn();
             services.AddScoped<PageSizeMiddleware>();
 
             services.AddHttpContextAccessor();
         }
-        public static IMvcBuilder AddRazorPagesForSimpleAdmin<TContext>(this IMvcBuilder builder) where TContext : IdentityDbContext
+        public static IMvcBuilder AddRazorPagesForSimpleAdmin(this IMvcBuilder builder)
         {
-            builder.Services.AddSimpleAdminDependencyInjection<TContext>();
+            builder.Services.AddSimpleAdminDependencyInjection();
             var assembly = Assembly.GetExecutingAssembly().GetName().Name;
             builder.AddApplicationPart(Assembly.Load(assembly));
 

@@ -8,7 +8,7 @@ namespace Ids.SimpleAdmin.Backend
 {
     public static class DenpendencyInjection
     {
-        public static void AddIdentityServerAddOn<TContext>(this IServiceCollection sc) where TContext : IdentityDbContext
+        public static void AddIdentityServerAddOn(this IServiceCollection sc)
         {
             //TODO: make scoped
             sc.AddSingleton<IHandler<ApiResourceContract>, ApiResourceHandler>();

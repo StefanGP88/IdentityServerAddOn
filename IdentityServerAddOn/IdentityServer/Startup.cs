@@ -60,8 +60,8 @@ namespace IdentityServer
                 .AddConfigurationStore(connectionString, migrationAssembly)
                 .AddOperationalStore(connectionString, migrationAssembly);
 
-            services.AddRazorPages().AddRazorPagesForSimpleAdmin<AppDbContext>();
-            services.AddIdentityServerAddOn<AppDbContext>();
+            services.AddRazorPages().AddRazorPagesForSimpleAdmin();
+            services.AddIdentityServerAddOn();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

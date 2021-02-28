@@ -53,7 +53,6 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.ApiResources
             ResourceProperties.Add(propertiesInfo);
             ResourceProperties.Add(scopesInfo);
             ResourceProperties.Add(secretsInfo);
-
         }
     }
 }
