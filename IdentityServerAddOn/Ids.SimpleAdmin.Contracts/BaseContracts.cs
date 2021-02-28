@@ -9,4 +9,11 @@ namespace Ids.SimpleAdmin.Contracts
         public int PageSize { get; set; }
         public int TotalItems { get; set; }
     }
+
+    public class Identifyable<T>
+    {
+#nullable enable
+        public T? Id { get; set; }
+#nullable disable
+    }
 }

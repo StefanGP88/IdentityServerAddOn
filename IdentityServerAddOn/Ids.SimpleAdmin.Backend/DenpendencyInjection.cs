@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
 using Ids.SimpleAdmin.Backend.Handlers;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Ids.SimpleAdmin.Contracts;
 
 namespace Ids.SimpleAdmin.Backend
@@ -11,7 +10,7 @@ namespace Ids.SimpleAdmin.Backend
         public static void AddIdentityServerAddOn(this IServiceCollection sc)
         {
             //TODO: make scoped
-            sc.AddSingleton<IHandler<ApiResourceContract>, ApiResourceHandler>();
+            sc.AddSingleton<IHandler<ApiResourceContract, int>, ApiResourceHandler>();
         }
     }
 }

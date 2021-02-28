@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 
 namespace Ids.SimpleAdmin.Backend.Handlers.Interfaces
 {
-    public interface IHandler<T>
+    public interface IHandler<TData, TIdentifier>
     {
-        Task<ListDto<T>> GetAll(int page, int pageSize, CancellationToken cancel);
-        Task<ListDto<T>> Delete<T2>(T2 id, int page, int pageSize, CancellationToken cancel);
-        Task<T> Create(T dto, int page, int pageSize, CancellationToken cancel);
+        Task<ListDto<TData>> GetAll(int page, int pageSize, CancellationToken cancel);
+        Task<ListDto<TData>> Delete(TIdentifier id, int page, int pageSize, CancellationToken cancel);
+        Task<TData> Create(TData dto, int page, int pageSize, CancellationToken cancel);
     }
 }

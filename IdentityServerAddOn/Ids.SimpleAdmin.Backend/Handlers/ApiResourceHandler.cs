@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ids.SimpleAdmin.Backend.Handlers
 {
-    public class ApiResourceHandler: IHandler<ApiResourceContract>
+    public class ApiResourceHandler: IHandler<ApiResourceContract,int>
     {
         private readonly ConfigurationDbContext _confContext;
 
@@ -22,16 +22,16 @@ namespace Ids.SimpleAdmin.Backend.Handlers
         {
         }
 
-        public Task<ListDto<ApiResourceContract>> GetAll(int page, int pageSize, CancellationToken cancel)
+        public async Task<ListDto<ApiResourceContract>> GetAll(int page, int pageSize, CancellationToken cancel)
         {
             var list = new ListDto<ApiResourceContract>();
             list.Items = tempList;
             list.Page = page;
             list.PageSize = pageSize;
             list.TotalItems = tempList.Count;
-            return Task.FromResult(list);
+            return await Task.FromResult(list);
         }
-        public Task<ListDto<ApiResourceContract>> Delete<T2>(T2 id, int page, int pageSize, CancellationToken cancel)
+        public async Task<ListDto<ApiResourceContract>> Delete(int id, int page, int pageSize, CancellationToken cancel)
         {
             var _id = int.Parse(id.ToString());
             tempList.RemoveAll(x => x.Id == _id);
@@ -40,14 +40,14 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             list.Page = page;
             list.PageSize = pageSize;
             list.TotalItems = tempList.Count;
-            return Task.FromResult(list);
+            return await Task.FromResult(list);
         }
 
-        public Task<ApiResourceContract> Create(ApiResourceContract dto, int page, int pageSize, CancellationToken cancel)
+        public async Task<ApiResourceContract> Create(ApiResourceContract dto, int page, int pageSize, CancellationToken cancel)
         {
             dto.Id = tempList.Count;
             tempList.Add(dto);
-            return Task.FromResult(dto);
+            return await  Task.FromResult(dto);
         }
     }
 }

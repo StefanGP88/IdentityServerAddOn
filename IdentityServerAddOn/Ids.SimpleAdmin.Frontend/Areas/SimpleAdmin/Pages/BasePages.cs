@@ -8,24 +8,24 @@ using System.Threading.Tasks;
 
 namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages
 {
-    public class BasePage<TDataTransferObject> : PageModel
+    public class BasePage<TData, TIdentifier> : PageModel
     {
-        internal readonly IHandler<TDataTransferObject> _handler;
+        internal readonly IHandler<TData, TIdentifier> _handler;
         [FromQuery(Name = "pagesize")]
         public int PageSize { get; set; }
         [FromQuery(Name = "pagenumber")]
         public int PageNumber { get; set; }
 
-        public BasePage(IHandler<TDataTransferObject> handler)
+        public BasePage(IHandler<TData, TIdentifier> handler)
         {
             _handler = handler;
         }
     }
 
-    public class BaseIndexPage<TDataTransferObject, TIdentifier> : BasePage<TDataTransferObject>
+    public class BaseIndexPage<TData, TIdentifier> : BasePage<TData, TIdentifier>
     {
-        public ListDto<TDataTransferObject> List { get; set; }
-        public BaseIndexPage(IHandler<TDataTransferObject> handler) : base(handler) { }
+        public ListDto<TData> List { get; set; }
+        public BaseIndexPage(IHandler<TData, TIdentifier> handler) : base(handler) { }
 
         public virtual async Task<IActionResult> OnGet(CancellationToken cancel = default)
         {
@@ -40,11 +40,11 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages
         }
     }
 
-    public class BaseAddPage<TDataTransferObject> : BasePage<TDataTransferObject>
+    public class BaseAddPage<TData, TIdentifier> : BasePage<TData, TIdentifier>
     {
         public List<ResourcePropertyInfo> ResourceProperties { get; set; } = new List<ResourcePropertyInfo>();
 
-        public BaseAddPage(IHandler<TDataTransferObject> handler) : base(handler)
+        public BaseAddPage(IHandler<TData, TIdentifier> handler) : base(handler)
         {
             SetResourceProperties();
         }
@@ -54,10 +54,11 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages
             return Page();
         }
 
-        public virtual async Task<IActionResult> OnPost(TDataTransferObject dto, CancellationToken cancel = default)
+        public virtual async Task<IActionResult> OnPost(TData dto, CancellationToken cancel = default)
         {
             var result = await _handler.Create(dto, PageNumber, PageSize, cancel).ConfigureAwait(false);
-            return RedirectToPage("Index", new { PageNumber, PageSize });
+            var abc = result as Identifyable<TIdentifier>;
+            return RedirectToPage("Index", new { PageNumber, PageSize, id = abc.Id});
         }
 
         internal virtual PartialViewResult GetPartial<TPartial>(string partialName, TPartial dto)
