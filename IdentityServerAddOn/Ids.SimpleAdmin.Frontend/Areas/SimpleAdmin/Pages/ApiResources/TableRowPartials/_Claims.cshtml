@@ -8,9 +8,10 @@
     </td>
     <td>
         @Model.Type
-        <input class="form-control" type="hidden" name="dto.ApiResourceClaims[@idx].Id" value="@Model.Id" />
-        <input class="form-control" type="hidden" name="dto.ApiResourceClaims[@idx].ApiResourceId" value="@Model.ApiResourceId" />
-        <input class="form-control" type="hidden" name="dto.ApiResourceClaims[@idx].Type" value="@Model.Type" />
+        <input type="hidden" name="dto.ApiResourceClaims.index" value="@idx" />
+        <input type="hidden" name="dto.ApiResourceClaims[@idx].Id" value="@Model.Id" />
+        <input type="hidden" name="dto.ApiResourceClaims[@idx].ApiResourceId" value="@Model.ApiResourceId" />
+        <input type="hidden" name="dto.ApiResourceClaims[@idx].Type" value="@Model.Type" />
     </td>
     <td>
         <input type="button" class="btn" />
