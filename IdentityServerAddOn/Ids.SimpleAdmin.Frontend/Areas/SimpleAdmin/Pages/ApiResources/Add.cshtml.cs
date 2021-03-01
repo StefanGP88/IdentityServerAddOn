@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.ApiResources
 {
-    public class AddModel : BaseAddPage<ApiResourceContract>
+    public class AddModel : BaseAddPage<ApiResourceContract, int>
     {
-        public AddModel(IHandler<ApiResourceContract> handler) : base(handler) { }
+        public AddModel(IHandler<ApiResourceContract, int> handler) : base(handler) { }
 
         public PartialViewResult OnGetClaims(ApiResourceClaimsContract dto)
         {

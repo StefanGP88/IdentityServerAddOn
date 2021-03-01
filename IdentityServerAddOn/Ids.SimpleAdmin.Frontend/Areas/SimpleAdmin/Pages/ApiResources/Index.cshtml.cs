@@ -5,6 +5,6 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.ApiResources
 {
     public class IndexModel : BaseIndexPage<ApiResourceContract, int>
     {
-        public IndexModel(IHandler<ApiResourceContract> handler) : base(handler) { }
+        public IndexModel(IHandler<ApiResourceContract, int> handler) : base(handler) { }
     }
 }

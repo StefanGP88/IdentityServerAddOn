@@ -56,14 +56,32 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages
 
         public virtual async Task<IActionResult> OnPost(TData dto, CancellationToken cancel = default)
         {
-            var result = await _handler.Create(dto, PageNumber, PageSize, cancel).ConfigureAwait(false);
-            var abc = result as Identifyable<TIdentifier>;
-            return RedirectToPage("Index", new { PageNumber, PageSize, id = abc.Id});
+            _ = await _handler.Create(dto, PageNumber, PageSize, cancel).ConfigureAwait(false);
+            return RedirectToPage("Index", new { PageNumber, PageSize });
         }
 
         internal virtual PartialViewResult GetPartial<TPartial>(string partialName, TPartial dto)
         {
             return Partial("TableRowPartials/" + partialName, dto);
+        }
+        internal virtual void SetResourceProperties() { }
+    }
+    public class BaseEditPage<TData, TIdentifier> : BasePage<TData, TIdentifier>
+    {
+        public TData Data { get; set; }
+        public List<ResourcePropertyInfo> ResourceProperties { get; set; } = new List<ResourcePropertyInfo>();
+        public BaseEditPage(IHandler<TData, TIdentifier> handler) : base(handler)
+        {
+        }
+        public virtual async Task<IActionResult> OnGet(TIdentifier id, CancellationToken cancel = default)
+        {
+            Data = await _handler.Get(id, PageNumber, PageSize, cancel).ConfigureAwait(false);
+            return Page();
+        }
+        public virtual async Task<IActionResult> OnPost(TData dto, CancellationToken cancel = default)
+        {
+            _ = await _handler.Update(dto, PageNumber, PageSize, cancel).ConfigureAwait(false);
+            return RedirectToPage("Index", new { PageNumber, PageSize });
         }
         internal virtual void SetResourceProperties() { }
     }
