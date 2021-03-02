@@ -1,5 +1,5 @@
 ﻿@page "{id}"
-@model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.ApiResources.AddModel
+@model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.ApiResources.EditModel
 @{
     Layout = "_NestedEditLayout";
 }
@@ -48,7 +48,58 @@
     @foreach (var item in Model.ResourceProperties)
     {
         <div class="tab-pane fade" id="@item.Name.ToLower()" role="tabpanel">
-            <partial name="_ResourcePropertyTable" model="item" />
+            <br />
+            <table class="table table-striped border border-dark">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col"></th>
+                        @for (var i = 0; i < item.Columns.Count; i++)
+                        {
+                            <th scope="col">@item.Columns[i]</th>
+                        }
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody id="@item.Name.ToLower()TableBody">
+                    @if (item.Name == "Claims")
+                    {
+                        foreach (var claim in Model.Data.ApiResourceClaims)
+                        {
+                            <partial name="_@item.Name" model="claim" />
+                        }
+                    }
+                    else if (item.Name == "Properties")
+                    {
+                        foreach (var property in Model.Data.ApiResourceProperties)
+                        {
+                            <partial name="_@item.Name" model="property" />
+                        }
+                    }
+                    else if (item.Name == "Scopes")
+                    {
+                        foreach (var scope in Model.Data.ApiResourceScopes)
+                        {
+                            <partial name="_@item.Name" model="scope" />
+                        }
+                    }
+                    else if (item.Name == "Secrets")
+                    {
+                        foreach (var secret in Model.Data.ApiResourceSecrets)
+                        {
+                            <partial name="_@item.Name" model="secret" />
+                        }
+                    }
+                </tbody>
+                <caption>
+                    <nav>
+                        <ul class="pagination">
+                            <li class="page-item active">
+                                <a href="#" class="page-link addsign" data-toggle="modal" data-target="#@item.Name.ToLower()Modal"></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </caption>
+            </table>
             <partial name="_ResourcePropertyModal" model="item" />
         </div>
     }
