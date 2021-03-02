@@ -61,28 +61,28 @@
                     </tr>
                 </thead>
                 <tbody id="@item.Name.ToLower()TableBody">
-                    @if (item.Name == "Claims")
+                    @if (item.Name == "Claims" && Model.Data != null)
                     {
                         foreach (var claim in Model.Data.ApiResourceClaims)
                         {
                             <partial name="_@item.Name" model="claim" />
                         }
                     }
-                    else if (item.Name == "Properties")
+                    else if (item.Name == "Properties" && Model.Data != null)
                     {
                         foreach (var property in Model.Data.ApiResourceProperties)
                         {
                             <partial name="_@item.Name" model="property" />
                         }
                     }
-                    else if (item.Name == "Scopes")
+                    else if (item.Name == "Scopes" && Model.Data != null)
                     {
                         foreach (var scope in Model.Data.ApiResourceScopes)
                         {
                             <partial name="_@item.Name" model="scope" />
                         }
                     }
-                    else if (item.Name == "Secrets")
+                    else if (item.Name == "Secrets" && Model.Data != null)
                     {
                         foreach (var secret in Model.Data.ApiResourceSecrets)
                         {

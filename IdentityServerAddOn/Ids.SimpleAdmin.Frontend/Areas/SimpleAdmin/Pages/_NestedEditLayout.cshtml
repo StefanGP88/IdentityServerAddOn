@@ -5,12 +5,12 @@
     <form id="form" method="post" asp-route-pageNumber="@Model.PageNumber" asp-route-pageSize="@Model.PageSize">
         <input type="hidden" id="resourceId" name="dto.Id" />
         @Html.AntiForgeryToken()
-        @if (IsSectionDefined("Navtabs"))
+        @if (IsSectionDefined("NavTabs"))
         {
             <nav>
                 <div class="nav nav-pills nav-fill" id="nav-tab" role="tablist">
                     <a class="nav-item nav-link active" id="basesettingstab" data-toggle="tab" href="#basesettings" role="tab">Base Settings</a>
-                    @RenderSection("Navtabs", required: false)
+                    @RenderSection("NavTabs", required: false)
                 </div>
             </nav>
         }

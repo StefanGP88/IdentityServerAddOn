@@ -72,6 +72,7 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages
         public List<ResourcePropertyInfo> ResourceProperties { get; set; } = new List<ResourcePropertyInfo>();
         public BaseEditPage(IHandler<TData, TIdentifier> handler) : base(handler)
         {
+            SetResourceProperties();
         }
         public virtual async Task<IActionResult> OnGet(TIdentifier id, CancellationToken cancel = default)
         {
@@ -82,6 +83,10 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages
         {
             _ = await _handler.Update(dto, PageNumber, PageSize, cancel).ConfigureAwait(false);
             return RedirectToPage("Index", new { PageNumber, PageSize });
+        }
+        internal virtual PartialViewResult GetPartial<TPartial>(string partialName, TPartial dto)
+        {
+            return Partial("TableRowPartials/" + partialName, dto);
         }
         internal virtual void SetResourceProperties() { }
     }
