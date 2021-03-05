@@ -2,15 +2,15 @@
 
 <thead class="thead-dark">
     <tr>
-        <th scope="col" class="align-middle">
+        <th class="align-middle">
             <button type="button" class="btn btn-info" form="#" onclick="AppendTableRow('@Model[0]', '@Model[1]')">&#10004;</button>
         </th>
         @for (var i = 2; i < Model.Count; i++)
         {
-            <th scope="col" class="align-middle">
+            <th class="align-middle">
                 <input type="text" class="form-control border-0 bg-transparent font-weight-bold text-white" value="@Model[i]" disabled/>
             </th>
         }
-        <th scope="col" class="align-middle"></th>
+        <th class="align-middle"></th>
     </tr>
 </thead>

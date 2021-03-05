@@ -66,13 +66,11 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages
 
         internal virtual void SetResourceProperties() { }
     }
-    public class BaseEditPage<TData, TIdentifier> : BasePage<TData, TIdentifier>
+    public class BaseEditPage<TData, TIdentifier> : BasePage<TData, TIdentifier> where TData : Identifyable<TIdentifier>
     {
         public TData Data { get; set; }
-        public List<ResourcePropertyInfo> ResourceProperties { get; set; } = new List<ResourcePropertyInfo>();
         public BaseEditPage(IHandler<TData, TIdentifier> handler) : base(handler)
         {
-            SetResourceProperties();
         }
         public virtual async Task<IActionResult> OnGet(TIdentifier id, CancellationToken cancel = default)
         {
@@ -84,6 +82,5 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages
             _ = await _handler.Update(dto, PageNumber, PageSize, cancel).ConfigureAwait(false);
             return RedirectToPage("Index", new { PageNumber, PageSize });
         }
-        internal virtual void SetResourceProperties() { }
     }
 }

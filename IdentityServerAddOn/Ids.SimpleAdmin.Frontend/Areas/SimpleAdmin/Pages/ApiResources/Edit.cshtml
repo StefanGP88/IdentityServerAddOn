@@ -1,21 +1,12 @@
 ﻿@page "{id}"
 @model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.ApiResources.EditModel
 @{
-    Layout = "_NestedEditLayout";
+    Layout = "_NestedInfoLayout";
     var claims = "Claims";
     var properties = "Properties";
     var scopes = "Scopes";
     var secrets = "Secrets";
 }
-
-<style>
-    input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-        color: rgba(0, 0, 0, 0);
-        position: relative;
-        opacity: 1;
-        cursor: pointer;
-    }
-</style>
 
 @section NavTabs{
     <a class="nav-item nav-link" id="@claims.ToLower()tab" data-toggle="tab" href="#@claims.ToLower()" role="tab">@claims</a>
@@ -61,7 +52,7 @@
     <div class="tab-pane fade" id="@claims.ToLower()" role="tabpanel">
         <br />
         <table class="table table-striped border border-dark">
-            <partial name="_TableHead" model="@(new List<string> {claims, claims+"TableBody", "Type"})" />
+            <partial name="_Tableheader" model="@(new List<string> {claims, claims+"TableBody", "Type"})" />
             <tbody id="@(claims + "TableBody")">
                 @if (Model?.Data?.ApiResourceClaims != null)
                 {
@@ -76,7 +67,7 @@
     <div class="tab-pane fade" id="@properties.ToLower()" role="tabpanel">
         <br />
         <table class="table table-striped border border-dark">
-            <partial name="_TableHead" model="@(new List<string> {properties, properties+"TableBody", "Value", "Key" })" />
+            <partial name="_Tableheader" model="@(new List<string> {properties, properties+"TableBody", "Value", "Key" })" />
             <tbody id="@(properties + "TableBody")">
                 @if (Model?.Data?.ApiResourceProperties != null)
                 {
@@ -91,7 +82,7 @@
     <div class="tab-pane fade" id="@scopes.ToLower()" role="tabpanel">
         <br />
         <table class="table table-striped border border-dark">
-            <partial name="_TableHead" model="@(new List<string> {scopes, scopes+"TableBody", "Scope"})" />
+            <partial name="_Tableheader" model="@(new List<string> {scopes, scopes+"TableBody", "Scope"})" />
             <tbody id="@(scopes + "TableBody")">
                 @if (Model?.Data?.ApiResourceScopes != null)
                 {
@@ -106,7 +97,7 @@
     <div class="tab-pane fade" id="@secrets.ToLower()" role="tabpanel">
         <br />
         <table class="table table-striped border border-dark">
-            <partial name="_TableHead" model="@(new List<string> {secrets, @secrets+"TableBody",  "Type", "Value", "Description", "Expiration"})" />
+            <partial name="_Tableheader" model="@(new List<string> {secrets, @secrets+"TableBody",  "Type", "Value", "Description", "Expiration"})" />
             <tbody id="@(secrets + "TableBody")">
                 @if (Model?.Data?.ApiResourceSecrets != null)
                 {
