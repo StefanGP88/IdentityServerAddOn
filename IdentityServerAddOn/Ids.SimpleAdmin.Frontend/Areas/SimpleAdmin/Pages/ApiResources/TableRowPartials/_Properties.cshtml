@@ -7,15 +7,13 @@
         <input type="button" class="btn" />
     </td>
     <td>
-        @Model?.Value
         <input type="hidden" name="dto.ApiResourceProperties.index" value="@idx" />
         <input type="hidden" name="dto.ApiResourceProperties[@idx].Id" value="@Model?.Id" />
         <input type="hidden" name="dto.ApiResourceProperties[@idx].ApiResourceId" value="@Model?.ApiResourceId" />
-        <input type="hidden" name="dto.ApiResourceProperties[@idx].Value" value="@Model?.Value" />
-        <input type="hidden" name="dto.ApiResourceProperties[@idx].Key" value="@Model?.Key" />
+        <input type="text" name="dto.ApiResourceProperties[@idx].Value" value="@Model?.Value" class="form-control" />
     </td>
     <td>
-        @Model?.Key
+        <input type="text" name="dto.ApiResourceProperties[@idx].Key" value="@Model?.Key" class="form-control" />
     </td>
     <td>
         <input type="button" class="btn" />
