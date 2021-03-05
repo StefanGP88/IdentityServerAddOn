@@ -1,0 +1,14 @@
+﻿@model List<string>
+
+<thead class="thead-dark">
+    <tr>
+        <th scope="col" class="align-middle">
+            <button type="button" class="btn btn-info" form="#" onclick="AppendTableRow('@Model[0]', '@Model[1]')">&#10004;</button>
+        </th>
+        @for (var i = 2; i < Model.Count; i++)
+        {
+            <th scope="col" class="align-middle">@Model[i]</th>
+        }
+        <th scope="col" class="align-middle"></th>
+    </tr>
+</thead>

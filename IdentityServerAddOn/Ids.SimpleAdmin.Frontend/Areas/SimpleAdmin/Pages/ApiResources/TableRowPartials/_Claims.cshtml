@@ -4,14 +4,16 @@
 }
 <tr>
     <td>
-        <input type="button" class="btn" />
+        <input type="button" class="btn btn-info" />
     </td>
     <td>
-        @Model.Type
+        <input type="text" class="form-control" value="@Model?.Type" />
+        @*<input type="text" class="form-control border-0 bg-transparent " value="@Model.Type" />*@
+
         <input type="hidden" name="dto.ApiResourceClaims.index" value="@idx" />
-        <input type="hidden" name="dto.ApiResourceClaims[@idx].Id" value="@Model.Id" />
-        <input type="hidden" name="dto.ApiResourceClaims[@idx].ApiResourceId" value="@Model.ApiResourceId" />
-        <input type="hidden" name="dto.ApiResourceClaims[@idx].Type" value="@Model.Type" />
+        <input type="hidden" name="dto.ApiResourceClaims[@idx].Id" value="@Model?.Id" />
+        <input type="hidden" name="dto.ApiResourceClaims[@idx].ApiResourceId" value="@Model?.ApiResourceId" />
+        <input type="hidden" name="dto.ApiResourceClaims[@idx].Type" value="@Model?.Type" />
     </td>
     <td>
         <input type="button" class="btn" />

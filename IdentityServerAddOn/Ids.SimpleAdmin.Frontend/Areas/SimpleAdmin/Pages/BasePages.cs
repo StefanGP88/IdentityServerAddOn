@@ -20,6 +20,10 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages
         {
             _handler = handler;
         }
+        public virtual PartialViewResult OnGetPartial(TIdentifier id, string partialName)
+        {
+            return Partial("TableRowPartials/_" + partialName, null);
+        }
     }
 
     public class BaseIndexPage<TData, TIdentifier> : BasePage<TData, TIdentifier>
@@ -60,10 +64,6 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages
             return RedirectToPage("Index", new { PageNumber, PageSize });
         }
 
-        internal virtual PartialViewResult GetPartial<TPartial>(string partialName, TPartial dto)
-        {
-            return Partial("TableRowPartials/" + partialName, dto);
-        }
         internal virtual void SetResourceProperties() { }
     }
     public class BaseEditPage<TData, TIdentifier> : BasePage<TData, TIdentifier>
@@ -83,10 +83,6 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages
         {
             _ = await _handler.Update(dto, PageNumber, PageSize, cancel).ConfigureAwait(false);
             return RedirectToPage("Index", new { PageNumber, PageSize });
-        }
-        internal virtual PartialViewResult GetPartial<TPartial>(string partialName, TPartial dto)
-        {
-            return Partial("TableRowPartials/" + partialName, dto);
         }
         internal virtual void SetResourceProperties() { }
     }

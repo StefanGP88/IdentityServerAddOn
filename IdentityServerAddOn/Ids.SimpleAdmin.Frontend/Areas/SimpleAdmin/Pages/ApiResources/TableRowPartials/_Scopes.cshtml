@@ -7,11 +7,11 @@
         <input type="button" class="btn" />
     </td>
     <td>
-        @Model.Scope
+        @Model?.Scope
         <input type="hidden" name="dto.ApiResourceScopes.index" value="@idx" />
-        <input type="hidden" name="dto.ApiResourceScopes[@idx].Id" value="@Model.Id" />
-        <input type="hidden" name="dto.ApiResourceScopes[@idx].ApiResourceId" value="@Model.ApiResourceId" />
-        <input type="hidden" name="dto.ApiResourceScopes[@idx].Scope" value="@Model.Scope" />
+        <input type="hidden" name="dto.ApiResourceScopes[@idx].Id" value="@Model?.Id" />
+        <input type="hidden" name="dto.ApiResourceScopes[@idx].ApiResourceId" value="@Model?.ApiResourceId" />
+        <input type="hidden" name="dto.ApiResourceScopes[@idx].Scope" value="@Model?.Scope" />
     </td>
     <td>
         <input type="button" class="btn" />

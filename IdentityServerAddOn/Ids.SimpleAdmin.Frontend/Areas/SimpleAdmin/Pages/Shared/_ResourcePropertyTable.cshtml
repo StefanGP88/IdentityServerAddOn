@@ -4,12 +4,15 @@
 <table class="table table-striped border border-dark">
     <thead class="thead-dark">
         <tr>
-            <th scope="col"></th>
+            <th scope="col" class="align-middle">
+
+                <input type="submit" class="btn btn-info" value="&#10004;" form="#" onclick="@("Set"+Model.Name+"()")" />
+            </th>
             @for (var i = 0; i < Model.Columns.Count; i++)
             {
-                <th scope="col">@Model.Columns[i]</th>
+                <th scope="col" class="align-middle">@Model.Columns[i]</th>
             }
-            <th scope="col"></th>
+            <th scope="col" class="align-middle"></th>
         </tr>
     </thead>
     <tbody id="@Model.Name.ToLower()TableBody">
@@ -18,7 +21,7 @@
         <nav>
             <ul class="pagination">
                 <li class="page-item active">
-                    <a href="#" class="page-link addsign" data-toggle="modal" data-target="#@Model.Name.ToLower()Modal"></a>
+                    <input type="submit" class="btn btn-info" value="&#10004;" form="#" onclick="@("Set"+Model.Name+"()")" />
                 </li>
             </ul>
         </nav>
