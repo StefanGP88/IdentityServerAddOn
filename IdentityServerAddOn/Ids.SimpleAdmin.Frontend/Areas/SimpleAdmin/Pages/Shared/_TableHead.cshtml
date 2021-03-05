@@ -7,7 +7,9 @@
         </th>
         @for (var i = 2; i < Model.Count; i++)
         {
-            <th scope="col" class="align-middle">@Model[i]</th>
+            <th scope="col" class="align-middle">
+                <input type="text" class="form-control border-0 bg-transparent font-weight-bold text-white" value="@Model[i]" disabled/>
+            </th>
         }
         <th scope="col" class="align-middle"></th>
     </tr>
