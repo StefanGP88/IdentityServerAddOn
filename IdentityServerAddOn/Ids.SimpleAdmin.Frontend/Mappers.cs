@@ -1,5 +1,4 @@
 ﻿using Ids.SimpleAdmin.Contracts;
-using Newtonsoft.Json;
 
 namespace Ids.SimpleAdmin.Frontend
 {
@@ -32,9 +31,10 @@ namespace Ids.SimpleAdmin.Frontend
             var currentItemIndex = info.Page * info.PageSize;
             return currentItemIndex / newPageSize;
         }
-        public static string AsJsonObject(this object obj)
+
+        public static string IsChecked(this bool b)
         {
-            return JsonConvert.SerializeObject(obj);
+            return b ? "checked": string.Empty;
         }
     }
 }

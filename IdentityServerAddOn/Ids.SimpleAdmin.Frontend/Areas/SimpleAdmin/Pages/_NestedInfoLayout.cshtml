@@ -3,7 +3,7 @@
 }
 <div class="container">
     <form id="form" method="post" asp-route-pageNumber="@Model.PageNumber" asp-route-pageSize="@Model.PageSize">
-        <input type="hidden" id="resourceId" name="dto.Id" />
+        <input type="hidden" id="resourceId" name="dto.Id" value="@Model?.Data?.Id" />
         @Html.AntiForgeryToken()
         @if (IsSectionDefined("Navtabs"))
         {

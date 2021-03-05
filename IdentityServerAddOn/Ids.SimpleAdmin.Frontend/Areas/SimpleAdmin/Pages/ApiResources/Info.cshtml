@@ -18,31 +18,31 @@
 @section Basesettings{
     <div class="form-group">
         <label class="col-form-label">Name</label>
-        <input type="text" class="form-control" id="name" name="dto.Name">
+        <input type="text" class="form-control" id="name" name="dto.Name" value="@Model?.Data?.Name">
     </div>
     <div class="form-group">
         <label class="col-form-label">Display name</label>
-        <input type="text" class="form-control" id="displayName" name="dto.DisplayName">
+        <input type="text" class="form-control" id="displayName" name="dto.DisplayName" value="@Model?.Data?.DisplayName">
     </div>
     <div class="form-group">
         <label class="col-form-label">Description</label>
-        <textarea class="form-control" id="description" name="dto.Description"></textarea>
+        <textarea class="form-control" id="description" name="dto.Description">@Model?.Data?.Description</textarea>
     </div>
     <div class="form-group">
         <label class="col-form-label">Allowed access token signing algorithmes</label>
-        <textarea class="form-control" id="allowedAlgorithmes" name="dto.AllowedAccessTokenSigningAlgorithms"></textarea>
+        <textarea class="form-control" id="allowedAlgorithmes" name="dto.AllowedAccessTokenSigningAlgorithms">@Model?.Data?.AllowedAccessTokenSigningAlgorithms</textarea>
     </div>
     <fieldset class="form-group">
         <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="enabled" name="dto.Enabled" value="True" />
+            <input type="checkbox" class="form-check-input" id="enabled" name="dto.Enabled" value="True" @Model?.Data?.Enabled.ToString()/>
             <label class="form-check-label">Is enabled</label>
         </div>
         <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="nonEditable" name="dto.NonEditable" value="True" />
+            <input type="checkbox" class="form-check-input" id="nonEditable" name="dto.NonEditable" value="True"  @Model?.Data?.NonEditable.ToString()/>
             <label class="form-check-label">Is non-editable</label>
         </div>
         <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="showInDiscovery" name="dto.ShowInDiscoveryDocument" value="True" />
+            <input type="checkbox" class="form-check-input" id="showInDiscovery" name="dto.ShowInDiscoveryDocument" value="True"  @Model?.Data?.ShowInDiscoveryDocument.ToString()/>
             <label class="form-check-label">Show in discovery document</label>
         </div>
     </fieldset>
