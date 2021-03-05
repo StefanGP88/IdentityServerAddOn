@@ -58,7 +58,11 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages
 
         public virtual async Task<IActionResult> OnPost(TData dto, CancellationToken cancel = default)
         {
-            _ = await _handler.Update(dto, PageNumber, PageSize, cancel).ConfigureAwait(false);
+            if(dto.Id == null)
+                _ = await _handler.Create(dto, PageNumber, PageSize, cancel).ConfigureAwait(false);
+            else
+                _ = await _handler.Update(dto, PageNumber, PageSize, cancel).ConfigureAwait(false);
+
             return RedirectToPage("Index", new { PageNumber, PageSize });
         }
     }

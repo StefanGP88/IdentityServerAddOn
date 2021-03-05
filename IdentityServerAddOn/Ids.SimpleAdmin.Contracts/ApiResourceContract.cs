@@ -21,23 +21,23 @@ namespace Ids.SimpleAdmin.Contracts
         public List<ApiResourceScopesContract> ApiResourceScopes { get; set; }
         public List<ApiResourceSecretsContract> ApiResourceSecrets { get; set; }
     }
-    public class ApiResourceClaimsContract : Identifyable<int>
+    public class ApiResourceClaimsContract : Identifyable<int?>
     {
         public string  Type { get; set; }
         public int? ApiResourceId { get; set; }
     }
-    public class ApiResourcePropertiesContract : Identifyable<int>
+    public class ApiResourcePropertiesContract : Identifyable<int?>
     {
         public string Key { get; set; }
         public string Value { get; set; }
         public int? ApiResourceId { get; set; }
     }
-    public class ApiResourceScopesContract : Identifyable<int>
+    public class ApiResourceScopesContract : Identifyable<int?>
     {
         public string Scope { get; set; }
         public int? ApiResourceId { get; set; }
     }
-    public class ApiResourceSecretsContract : Identifyable<int>
+    public class ApiResourceSecretsContract : Identifyable<int?>
     {
         public string Description { get; set; }
         public string Value { get; set; }
