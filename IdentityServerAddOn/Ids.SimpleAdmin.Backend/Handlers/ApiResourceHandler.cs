@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Ids.SimpleAdmin.Backend.Handlers
 {
-    public class ApiResourceHandler : IHandler<ApiResourceContract, int>
+    public class ApiResourceHandler : IHandler<ApiResourceContract, int?>
     {
         private readonly ConfigurationDbContext _confContext;
 
@@ -36,7 +36,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             return await Task.FromResult(list).ConfigureAwait(false);
         }
 
-        public async Task<ListDto<ApiResourceContract>> Delete(int id, int page, int pageSize, CancellationToken cancel)
+        public async Task<ListDto<ApiResourceContract>> Delete(int? id, int page, int pageSize, CancellationToken cancel)
         {
             var _id = int.Parse(id.ToString());
             tempList.RemoveAll(x => x.Id == _id);
@@ -57,7 +57,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             return await Task.FromResult(dto).ConfigureAwait(false);
         }
 
-        public async Task<ApiResourceContract> Get(int id, int page, int pageSize, CancellationToken cancel)
+        public async Task<ApiResourceContract> Get(int? id, int page, int pageSize, CancellationToken cancel)
         {
             var result = tempList.Find(x => x.Id == id);
             return await Task.FromResult(result).ConfigureAwait(false);

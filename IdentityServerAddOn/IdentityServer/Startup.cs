@@ -38,21 +38,6 @@ namespace IdentityServer
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
-            //services
-            //    .AddIdentityServer()
-            //    .AddAspNetIdentity<IdentityUser>()
-            //    .AddConfigurationStore(options =>
-            //    {
-            //        options.ConfigureDbContext = builder =>
-            //            builder.UseSqlServer(connectionString, sql => sql.MigrationsAssembly(migrationAssembly));
-            //    })
-            //    .AddOperationalStore(options =>
-            //    {
-            //        options.ConfigureDbContext = builder =>
-            //            builder.UseSqlServer(connectionString, sql => sql.MigrationsAssembly(migrationAssembly));
-            //        options.EnableTokenCleanup = true;
-            //        options.TokenCleanupInterval = 30;
-            //    });
 
             services
                 .AddIdentityServer()

@@ -2,7 +2,6 @@
 using Ids.SimpleAdmin.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -44,39 +43,19 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages
         }
     }
 
-    public class BaseAddPage<TData, TIdentifier> : BasePage<TData, TIdentifier>
-    {
-        public List<ResourcePropertyInfo> ResourceProperties { get; set; } = new List<ResourcePropertyInfo>();
-
-        public BaseAddPage(IHandler<TData, TIdentifier> handler) : base(handler)
-        {
-            SetResourceProperties();
-        }
-
-        public virtual IActionResult OnGet()
-        {
-            return Page();
-        }
-
-        public virtual async Task<IActionResult> OnPost(TData dto, CancellationToken cancel = default)
-        {
-            _ = await _handler.Create(dto, PageNumber, PageSize, cancel).ConfigureAwait(false);
-            return RedirectToPage("Index", new { PageNumber, PageSize });
-        }
-
-        internal virtual void SetResourceProperties() { }
-    }
-    public class BaseEditPage<TData, TIdentifier> : BasePage<TData, TIdentifier> where TData : Identifyable<TIdentifier>
+    public class BaseInfoPage<TData, TIdentifier> : BasePage<TData, TIdentifier> where TData : Identifyable<TIdentifier>
     {
         public TData Data { get; set; }
-        public BaseEditPage(IHandler<TData, TIdentifier> handler) : base(handler)
+        public BaseInfoPage(IHandler<TData, TIdentifier> handler) : base(handler)
         {
         }
-        public virtual async Task<IActionResult> OnGet(TIdentifier id, CancellationToken cancel = default)
+
+        public virtual async Task<IActionResult> OnGet(TIdentifier id , CancellationToken cancel = default)
         {
             Data = await _handler.Get(id, PageNumber, PageSize, cancel).ConfigureAwait(false);
             return Page();
         }
+
         public virtual async Task<IActionResult> OnPost(TData dto, CancellationToken cancel = default)
         {
             _ = await _handler.Update(dto, PageNumber, PageSize, cancel).ConfigureAwait(false);

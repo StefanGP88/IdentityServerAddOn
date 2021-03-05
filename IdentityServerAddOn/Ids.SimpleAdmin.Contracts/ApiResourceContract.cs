@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Ids.SimpleAdmin.Contracts
 {
     //TODO: make sure validation is implemented
-    public class ApiResourceContract: Identifyable<int>
+    public class ApiResourceContract: Identifyable<int?>
     {
         public string Name { get; set; }
         public string DisplayName { get; set; }
