@@ -1,6 +1,8 @@
 ﻿@{
     Layout = "_Layout";
 }
+
+<partial name="_SharedScripts" />
 <div class="container">
     <table class="table table-striped border border-dark">
         <thead class="thead-dark">
@@ -53,18 +55,4 @@
         </div>
     </div>
 </div>
-@section Scripts{
-    <script type="text/javascript">
-        function SetDataDeleteModal(identifier, name) {
-            $('#deleteId').val(identifier);
-            $('#deleteNameSpan').text(name);
-        }
-
-        function AppendTableRow(input, element) {
-            $.get('@_httpContextAccessor.HttpContext.Request.Path', input, function (data) {
-                $(element).append(data);
-            });
-        }
-    </script>
-    @RenderSection("Scripts", required: false)
-}
+<partial name="_SharedScripts" />

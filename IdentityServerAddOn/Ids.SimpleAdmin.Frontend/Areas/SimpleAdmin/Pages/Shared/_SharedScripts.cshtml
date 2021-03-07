@@ -1,0 +1,21 @@
+﻿<script type="text/javascript">
+        function SetDataDeleteModal(identifier, name) {
+            $('#deleteId').val(identifier);
+            $('#deleteNameSpan').text(name);
+    }
+
+        function AppendTableRow(partialName, tableBodyName) {
+            console.log(partialName);
+            console.log(tableBodyName);
+            var input = {
+                handler: 'Partial',
+                partialName: partialName
+            };
+            var element = $('#' + tableBodyName);
+            console.log(element);
+            $.get('@(_httpContextAccessor.HttpContext.Request.Path)', input, function (data) {
+                console.log(data);
+                $(element).append(data);
+            });
+        }
+</script>
