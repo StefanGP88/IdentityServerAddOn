@@ -41,15 +41,15 @@
     </div>
     <fieldset class="form-group">
         <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="enabled" name="dto.Enabled" value="True" @Model?.Data?.Enabled.ToString() />
+            <input type="checkbox" class="form-check-input" id="enabled" name="dto.Enabled" value="True" @Model?.Data?.Enabled.IsChecked() />
             <label class="form-check-label">Is enabled</label>
         </div>
         <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="nonEditable" name="dto.NonEditable" value="True" @Model?.Data?.NonEditable.ToString() />
+            <input type="checkbox" class="form-check-input" id="nonEditable" name="dto.NonEditable" value="True" @Model?.Data?.NonEditable.IsChecked() />
             <label class="form-check-label">Is non-editable</label>
         </div>
         <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="showInDiscovery" name="dto.ShowInDiscoveryDocument" value="True" @Model?.Data?.ShowInDiscoveryDocument.ToString() />
+            <input type="checkbox" class="form-check-input" id="showInDiscovery" name="dto.ShowInDiscoveryDocument" value="True" @Model?.Data?.ShowInDiscoveryDocument.IsChecked() />
             <label class="form-check-label">Show in discovery document</label>
         </div>
     </fieldset>
@@ -65,7 +65,7 @@
                 {
                     foreach (var item in Model.Data.UserClaims)
                     {
-                        <partial name="_@userClaims" model="item" />
+                        <partial name="TableRowPartials/_@userClaims.FirstLetterToUpper()" model="item" />
                     }
                 }
             </tbody>
@@ -80,7 +80,7 @@
                 {
                     foreach (var item in Model.Data.Properties)
                     {
-                        <partial name="_@properties" model="item" />
+                        <partial name="TableRowPartials/_@properties.FirstLetterToUpper()" model="item" />
                     }
                 }
             </tbody>
@@ -95,7 +95,7 @@
                 {
                     foreach (var item in Model.Data.Scopes)
                     {
-                        <partial name="_@scopes" model="item" />
+                        <partial name="TableRowPartials/_@scopes.FirstLetterToUpper()" model="item" />
                     }
                 }
             </tbody>
@@ -110,7 +110,7 @@
                 {
                     foreach (var item in Model.Data.Secrets)
                     {
-                        <partial name="_@secrets" model="item" />
+                        <partial name="TableRowPartials/_@secrets.FirstLetterToUpper()" model="item" />
                     }
                 }
             </tbody>

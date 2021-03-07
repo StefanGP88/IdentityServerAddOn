@@ -41,5 +41,16 @@ namespace Ids.SimpleAdmin.Frontend
         {
             return s.Replace(" ", "").ToLower();
         }
+
+        public static string FirstLetterToUpper(this string s)
+        {
+            if (s == null)
+                return null;
+
+            if (s.Length > 1)
+                return char.ToUpper(s[0]) + s.Substring(1);
+
+            return s.ToUpper();
+        }
     }
 }

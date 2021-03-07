@@ -18,6 +18,7 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared
         }
         public virtual PartialViewResult OnGetPartial(string partialName)
         {
+            partialName = partialName.FirstLetterToUpper();
             return Partial("TableRowPartials/_" + partialName, null);
         }
     }
