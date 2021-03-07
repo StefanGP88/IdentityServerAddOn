@@ -1,4 +1,5 @@
 ﻿using Ids.SimpleAdmin.Contracts;
+using System.Globalization;
 
 namespace Ids.SimpleAdmin.Frontend
 {
@@ -34,7 +35,7 @@ namespace Ids.SimpleAdmin.Frontend
 
         public static string IsChecked(this bool b)
         {
-            return b ? "checked": string.Empty;
+            return b ? "checked" : string.Empty;
         }
 
         public static string ToLowerNoSpaces(this string s)
@@ -44,13 +45,8 @@ namespace Ids.SimpleAdmin.Frontend
 
         public static string FirstLetterToUpper(this string s)
         {
-            if (s == null)
-                return null;
-
-            if (s.Length > 1)
-                return char.ToUpper(s[0]) + s.Substring(1);
-
-            return s.ToUpper();
+            if (string.IsNullOrWhiteSpace(s)) return s;
+            return CultureInfo.InvariantCulture.TextInfo.ToTitleCase(s);
         }
     }
 }
