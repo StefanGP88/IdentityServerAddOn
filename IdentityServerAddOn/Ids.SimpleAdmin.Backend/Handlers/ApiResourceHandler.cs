@@ -56,7 +56,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 .ConfigureAwait(false);
         }
 
-        public async Task Delete(int? id, CancellationToken cancel)
+        public async Task<ListDto<ApiResourceContract>> Delete(int? id, int page, int pageSize, CancellationToken cancel)
         {
             var resource = await _confContext.ApiResources
                 .Where(x => x.Id == id)
@@ -67,6 +67,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 .Remove(resource);
 
             await _confContext.SaveChangesAsync(cancel).ConfigureAwait(false);
+            return await GetAll(page, pageSize, cancel).ConfigureAwait(false);
         }
 
         public async Task<ApiResourceContract> Create(ApiResourceContract dto, CancellationToken cancel)
@@ -91,7 +92,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
             dto.Adapt(model);
             _confContext.ApiResources.Update(model);
-            await _confContext.SaveChangesAsync(cancel);
+            await _confContext.SaveChangesAsync(cancel).ConfigureAwait(false);
             return model.Adapt<ApiResourceContract>();
         }
     }

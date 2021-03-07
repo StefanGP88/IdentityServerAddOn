@@ -13,16 +13,16 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared
 
         public virtual async Task<IActionResult> OnGet(TIdentifier id, CancellationToken cancel = default)
         {
-            Data = await _handler.Get(id, PageNumber, PageSize, cancel).ConfigureAwait(false);
+            Data = await _handler.Get(id, cancel).ConfigureAwait(false);
             return Page();
         }
 
         public virtual async Task<IActionResult> OnPost(TData dto, CancellationToken cancel = default)
         {
             if (dto.Id == null)
-                _ = await _handler.Create(dto, PageNumber, PageSize, cancel).ConfigureAwait(false);
+                _ = await _handler.Create(dto, cancel).ConfigureAwait(false);
             else
-                _ = await _handler.Update(dto, PageNumber, PageSize, cancel).ConfigureAwait(false);
+                _ = await _handler.Update(dto, cancel).ConfigureAwait(false);
 
             return RedirectToPage("Index", new { PageNumber, PageSize });
         }
