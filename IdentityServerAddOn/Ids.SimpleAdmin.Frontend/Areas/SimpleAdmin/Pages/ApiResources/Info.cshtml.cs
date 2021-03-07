@@ -7,6 +7,5 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.ApiResources
     public class InfoModel : BaseInfoPage<ApiResourceContract, int?>
     {
         public InfoModel(IHandler<ApiResourceContract, int?> handler) : base(handler) { }
-
     }
 }

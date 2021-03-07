@@ -16,10 +16,10 @@ namespace Ids.SimpleAdmin.Contracts
         public bool Enabled { get; set; }
         public bool NonEditable { get; set; }
         public bool ShowInDiscoveryDocument { get; set; }
-        public List<ApiResourceClaimsContract> ApiResourceClaims { get; set; }
-        public List<ApiResourcePropertiesContract> ApiResourceProperties { get; set; }
-        public List<ApiResourceScopesContract> ApiResourceScopes { get; set; }
-        public List<ApiResourceSecretsContract> ApiResourceSecrets { get; set; }
+        public List<ApiResourceClaimsContract> UserClaims { get; set; }
+        public List<ApiResourcePropertiesContract> Properties { get; set; }
+        public List<ApiResourceScopesContract> Scopes { get; set; }
+        public List<ApiResourceSecretsContract> Secrets { get; set; }
     }
     public class ApiResourceClaimsContract : Identifyable<int?>
     {

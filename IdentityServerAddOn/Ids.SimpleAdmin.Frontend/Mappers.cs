@@ -36,5 +36,10 @@ namespace Ids.SimpleAdmin.Frontend
         {
             return b ? "checked": string.Empty;
         }
+
+        public static string ToLowerNoSpaces(this string s)
+        {
+            return s.Replace(" ", "").ToLower();
+        }
     }
 }

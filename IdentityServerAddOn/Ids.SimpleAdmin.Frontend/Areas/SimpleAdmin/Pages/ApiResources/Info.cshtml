@@ -2,17 +2,24 @@
 @model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.ApiResources.InfoModel
 @{
     Layout = "_NestedInfoLayout";
-    var claims = "Claims";
-    var properties = "Properties";
-    var scopes = "Scopes";
-    var secrets = "Secrets";
+    var userClaimsDisplay = "User Claims";
+    var userClaims = userClaimsDisplay.ToLowerNoSpaces();
+
+    var propertiesDisplay = "Properties";
+    var properties = propertiesDisplay.ToLowerNoSpaces();
+
+    var scopesDisplay = "Scopes";
+    var scopes = scopesDisplay.ToLowerNoSpaces();
+
+    var secretsDisplay = "Secrets";
+    var secrets = secretsDisplay.ToLowerNoSpaces();
 }
 
 @section NavTabs{
-    <a class="nav-item nav-link" id="@claims.ToLower()tab" data-toggle="tab" href="#@claims.ToLower()" role="tab">@claims</a>
-    <a class="nav-item nav-link" id="@properties.ToLower()tab" data-toggle="tab" href="#@properties.ToLower()" role="tab">@properties</a>
-    <a class="nav-item nav-link" id="@scopes.ToLower()tab" data-toggle="tab" href="#@scopes.ToLower()" role="tab">@scopes</a>
-    <a class="nav-item nav-link" id="@secrets.ToLower()tab" data-toggle="tab" href="#@secrets.ToLower()" role="tab">@secrets</a>
+    <a class="nav-item nav-link" id="@(userClaims)tab" data-toggle="tab" href="#@userClaims" role="tab">@userClaimsDisplay</a>
+    <a class="nav-item nav-link" id="@(properties)tab" data-toggle="tab" href="#@properties" role="tab">@propertiesDisplay</a>
+    <a class="nav-item nav-link" id="@(scopes)tab" data-toggle="tab" href="#@scopes" role="tab">@scopesDisplay</a>
+    <a class="nav-item nav-link" id="@(secrets)tab" data-toggle="tab" href="#@secrets" role="tab">@secretsDisplay</a>
 }
 
 @section Basesettings{
@@ -34,44 +41,44 @@
     </div>
     <fieldset class="form-group">
         <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="enabled" name="dto.Enabled" value="True" @Model?.Data?.Enabled.ToString()/>
+            <input type="checkbox" class="form-check-input" id="enabled" name="dto.Enabled" value="True" @Model?.Data?.Enabled.ToString() />
             <label class="form-check-label">Is enabled</label>
         </div>
         <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="nonEditable" name="dto.NonEditable" value="True"  @Model?.Data?.NonEditable.ToString()/>
+            <input type="checkbox" class="form-check-input" id="nonEditable" name="dto.NonEditable" value="True" @Model?.Data?.NonEditable.ToString() />
             <label class="form-check-label">Is non-editable</label>
         </div>
         <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="showInDiscovery" name="dto.ShowInDiscoveryDocument" value="True"  @Model?.Data?.ShowInDiscoveryDocument.ToString()/>
+            <input type="checkbox" class="form-check-input" id="showInDiscovery" name="dto.ShowInDiscoveryDocument" value="True" @Model?.Data?.ShowInDiscoveryDocument.ToString() />
             <label class="form-check-label">Show in discovery document</label>
         </div>
     </fieldset>
 }
 
 @section ResourceProperties{
-    <div class="tab-pane fade" id="@claims.ToLower()" role="tabpanel">
+    <div class="tab-pane fade" id="@userClaims" role="tabpanel">
         <br />
         <table class="table table-striped border border-dark">
-            <partial name="_Tableheader" model="@(new List<string> {claims, claims+"TableBody", "Type"})" />
-            <tbody id="@(claims + "TableBody")">
-                @if (Model?.Data?.ApiResourceClaims != null)
+            <partial name="_Tableheader" model="@(new List<string> {userClaims, userClaims+"TableBody", "Type"})" />
+            <tbody id="@(userClaims + "TableBody")">
+                @if (Model?.Data?.UserClaims != null)
                 {
-                    foreach (var item in Model.Data.ApiResourceClaims)
+                    foreach (var item in Model.Data.UserClaims)
                     {
-                        <partial name="_@claims" model="item" />
+                        <partial name="_@userClaims" model="item" />
                     }
                 }
             </tbody>
         </table>
     </div>
-    <div class="tab-pane fade" id="@properties.ToLower()" role="tabpanel">
+    <div class="tab-pane fade" id="@properties" role="tabpanel">
         <br />
         <table class="table table-striped border border-dark">
             <partial name="_Tableheader" model="@(new List<string> {properties, properties+"TableBody", "Value", "Key" })" />
             <tbody id="@(properties + "TableBody")">
-                @if (Model?.Data?.ApiResourceProperties != null)
+                @if (Model?.Data?.Properties != null)
                 {
-                    foreach (var item in Model.Data.ApiResourceProperties)
+                    foreach (var item in Model.Data.Properties)
                     {
                         <partial name="_@properties" model="item" />
                     }
@@ -79,14 +86,14 @@
             </tbody>
         </table>
     </div>
-    <div class="tab-pane fade" id="@scopes.ToLower()" role="tabpanel">
+    <div class="tab-pane fade" id="@scopes" role="tabpanel">
         <br />
         <table class="table table-striped border border-dark">
             <partial name="_Tableheader" model="@(new List<string> {scopes, scopes+"TableBody", "Scope"})" />
             <tbody id="@(scopes + "TableBody")">
-                @if (Model?.Data?.ApiResourceScopes != null)
+                @if (Model?.Data?.Scopes != null)
                 {
-                    foreach (var item in Model.Data.ApiResourceScopes)
+                    foreach (var item in Model.Data.Scopes)
                     {
                         <partial name="_@scopes" model="item" />
                     }
@@ -94,14 +101,14 @@
             </tbody>
         </table>
     </div>
-    <div class="tab-pane fade" id="@secrets.ToLower()" role="tabpanel">
+    <div class="tab-pane fade" id="@secrets" role="tabpanel">
         <br />
         <table class="table table-striped border border-dark">
             <partial name="_Tableheader" model="@(new List<string> {secrets, @secrets+"TableBody",  "Type", "Value", "Description", "Expiration"})" />
             <tbody id="@(secrets + "TableBody")">
-                @if (Model?.Data?.ApiResourceSecrets != null)
+                @if (Model?.Data?.Secrets != null)
                 {
-                    foreach (var item in Model.Data.ApiResourceSecrets)
+                    foreach (var item in Model.Data.Secrets)
                     {
                         <partial name="_@secrets" model="item" />
                     }
