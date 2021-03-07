@@ -2,7 +2,7 @@
     Layout = "_Layout";
 }
 
-<partial name="_SharedScripts" />
+<partial name="_SharedStyling" />
 <div class="container">
     <table class="table table-striped border border-dark">
         <thead class="thead-dark">
@@ -14,13 +14,7 @@
         <caption>
             <div class="row">
                 <div class="col-6">
-                    <nav>
-                        <ul class="pagination">
-                            <li class="page-item active">
-                                <a href="#" class="page-link addsign" data-toggle="modal" data-target="#addModal"></a>
-                            </li>
-                        </ul>
-                    </nav>
+                    <a asp-page="info" class="btn btn-primary"></a>
                 </div>
                 <div class="col-6">
                     @RenderSection("Pagenation", required: true)
