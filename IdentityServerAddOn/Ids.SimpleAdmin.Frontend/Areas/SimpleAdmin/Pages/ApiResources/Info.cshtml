@@ -59,8 +59,8 @@
     <div class="tab-pane fade" id="@userClaims" role="tabpanel">
         <br />
         <table class="table table-striped border border-dark">
-            <partial name="_Tableheader" model="@(new List<string> {userClaims, userClaims+"TableBody", "Type"})" />
-            <tbody id="@(userClaims + "TableBody")">
+            <partial name="_Tableheader" model="@(new List<string> {"Type"})" />
+            <tbody id="@userClaims.AsTableBody()">
                 @if (Model?.Data?.UserClaims != null)
                 {
                     foreach (var item in Model.Data.UserClaims)
@@ -70,12 +70,13 @@
                 }
             </tbody>
         </table>
+        <button type="button" class="btn btn-info" form="#" onclick="AppendTableRow('@userClaims', '@userClaims.AsTableBody()')"></button>
     </div>
     <div class="tab-pane fade" id="@properties" role="tabpanel">
         <br />
         <table class="table table-striped border border-dark">
-            <partial name="_Tableheader" model="@(new List<string> {properties, properties+"TableBody", "Value", "Key" })" />
-            <tbody id="@(properties + "TableBody")">
+            <partial name="_Tableheader" model="@(new List<string> { "Value", "Key" })" />
+            <tbody id="@properties.AsTableBody()">
                 @if (Model?.Data?.Properties != null)
                 {
                     foreach (var item in Model.Data.Properties)
@@ -85,12 +86,13 @@
                 }
             </tbody>
         </table>
+        <button type="button" class="btn btn-info" form="#" onclick="AppendTableRow('@properties', '@properties.AsTableBody()')"></button>
     </div>
     <div class="tab-pane fade" id="@scopes" role="tabpanel">
         <br />
         <table class="table table-striped border border-dark">
-            <partial name="_Tableheader" model="@(new List<string> {scopes, scopes+"TableBody", "Scope"})" />
-            <tbody id="@(scopes + "TableBody")">
+            <partial name="_Tableheader" model="@(new List<string> { "Scope"})" />
+            <tbody id="@scopes.AsTableBody()">
                 @if (Model?.Data?.Scopes != null)
                 {
                     foreach (var item in Model.Data.Scopes)
@@ -100,12 +102,13 @@
                 }
             </tbody>
         </table>
+        <button type="button" class="btn btn-info" form="#" onclick="AppendTableRow('@scopes', '@scopes.AsTableBody()')"></button>
     </div>
     <div class="tab-pane fade" id="@secrets" role="tabpanel">
         <br />
         <table class="table table-striped border border-dark">
-            <partial name="_Tableheader" model="@(new List<string> {secrets, @secrets+"TableBody",  "Type", "Value", "Description", "Expiration"})" />
-            <tbody id="@(secrets + "TableBody")">
+            <partial name="_Tableheader" model="@(new List<string> { "Type", "Value", "Description", "Expiration"})" />
+            <tbody id="@secrets.AsTableBody()">
                 @if (Model?.Data?.Secrets != null)
                 {
                     foreach (var item in Model.Data.Secrets)
@@ -115,5 +118,6 @@
                 }
             </tbody>
         </table>
+        <button type="button" class="btn btn-info" form="#" onclick="AppendTableRow('@secrets', '@secrets.AsTableBody()')"></button>
     </div>
 }

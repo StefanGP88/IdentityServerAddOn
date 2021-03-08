@@ -3,14 +3,16 @@
 <thead class="thead-dark">
     <tr>
         <th class="align-middle">
-            <button type="button" class="btn btn-info" form="#" onclick="AppendTableRow('@Model[0]', '@Model[1]')"></button>
+            &nbsp;
         </th>
-        @for (var i = 2; i < Model.Count; i++)
+        @for (var i = 0; i < Model.Count; i++)
         {
             <th class="align-middle">
                 <input type="text" class="form-control border-0 bg-transparent font-weight-bold text-white" value="@Model[i]" disabled/>
             </th>
         }
-        <th class="align-middle"></th>
+    <th class="align-middle">
+        &nbsp;
+    </th>
     </tr>
 </thead>

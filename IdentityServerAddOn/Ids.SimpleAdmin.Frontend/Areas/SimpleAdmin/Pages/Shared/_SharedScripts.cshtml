@@ -1,21 +1,49 @@
 ﻿<script type="text/javascript">
-        function SetDataDeleteModal(identifier, name) {
-            $('#deleteId').val(identifier);
-            $('#deleteNameSpan').text(name);
+
+    function SetDataDeleteModal(identifier, name) {
+        $('#deleteId').val(identifier);
+        $('#deleteNameSpan').text(name);
     }
 
-        function AppendTableRow(partialName, tableBodyName) {
-            console.log(partialName);
-            console.log(tableBodyName);
-            var input = {
-                handler: 'Partial',
-                partialName: partialName
-            };
-            var element = $('#' + tableBodyName);
-            console.log(element);
-            $.get('@(_httpContextAccessor.HttpContext.Request.Path)', input, function (data) {
-                console.log(data);
-                $(element).append(data);
-            });
+    function ToggleEdit(element) {
+        if ($(element).hasClass('btn-success')) {
+            $(element).removeClass('btn-success');
+            $(element).addClass('btn-info');
+            ToggleDisabled(element, true);
+
+        } else if ($(element).hasClass('btn-info')) {
+            $(element).removeClass('btn-info');
+            $(element).addClass('btn-success');
+            ToggleDisabled(element, false);
         }
+    }
+
+    function ToggleDisabled(element, isDisabled) {
+        var inputs = GetInputs(element);
+        inputs.each(function () {
+            $(this).prop('disabled', isDisabled);
+            $(this).toggleClass('border-0', isDisabled);
+            $(this).toggleClass('bg-transparent', isDisabled);
+        });
+
+    }
+
+    function GetInputs(element) {
+        var row = $(element).closest('tr');
+        var inputs = row.find('.form-control,.form-check-label');
+        return inputs;
+    }
+
+
+
+    function AppendTableRow(partialName, tableBodyName) {
+        var input = {
+            handler: 'Partial',
+            partialName: partialName
+        };
+        var element = $('#' + tableBodyName);
+        $.get('@(_httpContextAccessor.HttpContext.Request.Path)', input, function (data) {
+            $(element).append(data);
+        });
+    }
 </script>

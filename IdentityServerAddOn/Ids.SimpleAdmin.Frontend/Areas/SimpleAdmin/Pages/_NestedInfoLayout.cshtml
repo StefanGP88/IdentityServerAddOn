@@ -18,10 +18,10 @@
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="basesettings" role="tabpanel">
                 @RenderSection("Basesettings", required: true)
+                <button type="submit">submit</button>
             </div>
             @RenderSection("ResourceProperties", required: false)
         </div>
-        <button type="submit">submit</button>
     </form>
 </div>
 <partial name="_SharedScripts" />

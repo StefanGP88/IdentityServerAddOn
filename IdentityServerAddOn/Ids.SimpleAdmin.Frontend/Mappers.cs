@@ -48,5 +48,9 @@ namespace Ids.SimpleAdmin.Frontend
             if (string.IsNullOrWhiteSpace(s)) return s;
             return CultureInfo.InvariantCulture.TextInfo.ToTitleCase(s);
         }
+        public static string AsTableBody(this string s)
+        {
+            return s + "TableBody";
+        }
     }
 }
