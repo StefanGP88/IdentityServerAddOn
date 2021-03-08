@@ -1,5 +1,4 @@
 ﻿<script type="text/javascript">
-
     function SetDataDeleteModal(identifier, name) {
         $('#deleteId').val(identifier);
         $('#deleteNameSpan').text(name);
@@ -7,13 +6,11 @@
 
     function ToggleEdit(element) {
         if ($(element).hasClass('btn-success')) {
-            $(element).removeClass('btn-success');
-            $(element).addClass('btn-info');
+            $(element).removeClass('btn-success').addClass('btn-info');
             ToggleDisabled(element, true);
 
         } else if ($(element).hasClass('btn-info')) {
-            $(element).removeClass('btn-info');
-            $(element).addClass('btn-success');
+            $(element).removeClass('btn-info').addClass('btn-success');
             ToggleDisabled(element, false);
         }
     }
@@ -33,8 +30,6 @@
         var inputs = row.find('.form-control,.form-check-label');
         return inputs;
     }
-
-
 
     function AppendTableRow(partialName, tableBodyName) {
         var input = {
