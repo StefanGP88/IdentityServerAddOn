@@ -1,11 +1,20 @@
 ﻿<script type="text/javascript">
+    function SetRemoveModal(element, nameofobject) {
+        var removeName = $("[name='" + nameofobject + "']").val();
+        $('#removeRowNameSpan').text(removeName);
+        var ConfirmRemove = function () {
+            $(element).closest('tr').remove();
+        };
+        $('#acceptRemoveBtn').on('click', ConfirmRemove);
+    }
+
     function SetRowCount(element, count) {
         $(element).prop('rows', count);
     }
 
     function SetDataDeleteModal(identifier, name) {
-        $('#deleteId').val(identifier);
         $('#deleteNameSpan').text(name);
+        $('#deleteId').val(identifier);
     }
 
     function ToggleEdit(element) {
