@@ -18,7 +18,18 @@
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="basesettings" role="tabpanel">
                 @RenderSection("Basesettings", required: true)
-                <button type="submit">submit</button>
+                <div class="row">
+                    <div class="col-md">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success form-control"></button>
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-danger form-control"></button>
+                        </div>
+                    </div>
+                </div>
             </div>
             @RenderSection("ResourceProperties", required: false)
         </div>
@@ -41,7 +52,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="SetRemoveModalEmpty();"></button>
-                <button type="button" class="btn btn-success"  data-dismiss="modal" id="acceptRemoveBtn"></button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="acceptRemoveBtn"></button>
             </div>
         </div>
     </div>
