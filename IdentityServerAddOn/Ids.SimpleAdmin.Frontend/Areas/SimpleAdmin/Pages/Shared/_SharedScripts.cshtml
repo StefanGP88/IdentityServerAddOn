@@ -4,8 +4,16 @@
         $('#removeRowNameSpan').text(removeName);
         var ConfirmRemove = function () {
             $(element).closest('tr').remove();
+            SetRemoveModalEmpty();
         };
         $('#acceptRemoveBtn').on('click', ConfirmRemove);
+    }
+
+    function SetRemoveModalEmpty() {
+        $('#removeRowNameSpan').text('');
+        var EmptyRemove = function () {
+        };
+        $('#acceptRemoveBtn').on('click', EmptyRemove);
     }
 
     function SetRowCount(element, count) {

@@ -14,6 +14,6 @@
         <input type="text" name="dto.ApiResourceClaims[@idx].Type" value="@Model?.Type" class="form-control"/>
     </td>
     <td>
-        <input type="button" class="btn" />
+        <button type="button" class="btn btn-danger" onclick="SetRemoveModal(this, 'dto.ApiResourceClaims[@idx].Type');" data-toggle="modal" data-target="#removeRowModal"></button>
     </td>
 </tr>
