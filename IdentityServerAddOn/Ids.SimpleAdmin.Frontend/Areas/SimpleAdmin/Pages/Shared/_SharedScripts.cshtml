@@ -1,4 +1,8 @@
 ﻿<script type="text/javascript">
+    function SetRowCount(element, count) {
+        $(element).prop('rows', count);
+    }
+
     function SetDataDeleteModal(identifier, name) {
         $('#deleteId').val(identifier);
         $('#deleteNameSpan').text(name);
