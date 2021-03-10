@@ -19,7 +19,7 @@
     {
         <tr>
             <td scope="row">
-                <a asp-page="Edit" asp-route-id="@item.Id" class="btn btn-info"></a>
+                <a asp-page="Edit" asp-route-id="@item.Id" class="btn btn-info btn-block"></a>
             </td>
             <td>
                 @item.Name
@@ -31,7 +31,7 @@
                 @item.Description
             </td>
             <td>
-                <button type="button" class="btn btn-danger float-right"
+                <button type="button" class="btn btn-outline-danger btn-block float-right"
                         data-toggle="modal" data-target="#deleteModal"
                         onclick="SetDataDeleteModal(@item.Id, '@item.Name')">
                 </button>

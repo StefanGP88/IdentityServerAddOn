@@ -4,7 +4,7 @@
 }
 <tr>
     <td>
-        <button form="#" class="btn btn-success" onclick="ToggleEdit(this);"></button>
+        <button form="#" class="btn btn-success btn-block" onclick="ToggleEdit(this);"></button>
     </td>
     <td>
         <input type="hidden" name="dto.ApiResourceScopes.index" value="@idx" />
@@ -13,6 +13,6 @@
         <input type="text" name="dto.ApiResourceScopes[@idx].Scope" value="@Model?.Scope"  class="form-control"/>
     </td>
     <td>
-        <button type="button" class="btn btn-danger" onclick="SetRemoveModal(this, 'dto.ApiResourceScopes[@idx].Scope');" data-toggle="modal" data-target="#removeRowModal"></button>
+        <button type="button" class="btn btn-outline-danger btn-block float-right" onclick="SetRemoveModal(this, 'dto.ApiResourceScopes[@idx].Scope');" data-toggle="modal" data-target="#removeRowModal"></button>
     </td>
 </tr>
