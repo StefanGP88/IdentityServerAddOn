@@ -1,19 +1,30 @@
 ﻿@model ApiResourceClaimsContract
 @{
     var idx = Guid.NewGuid();
+    var disabled = Model != null ? "disabled" : string.Empty;
+    var disabledClass = Model != null ? "border-0 bg-transparent" : string.Empty;
+    var disabledBtn = Model != null ? "btn-info" : "btn-success";
 }
 <tr>
     <td>
-        <button form="#" class="btn btn-success btn-block" onclick="ToggleEdit(this);"></button>
+        <button type="button"
+                class="btn @disabledBtn btn-block"
+                onclick="ToggleEdit(this);"></button>
     </td>
     <td>
-        @*<input type="text" class="form-control border-0 bg-transparent " value="@Model.Type" />*@
         <input type="hidden" name="dto.ApiResourceClaims.index" value="@idx" />
         <input type="hidden" name="dto.ApiResourceClaims[@idx].Id" value="@Model?.Id" />
         <input type="hidden" name="dto.ApiResourceClaims[@idx].ApiResourceId" value="@Model?.ApiResourceId" />
-        <input type="text" name="dto.ApiResourceClaims[@idx].Type" value="@Model?.Type" class="form-control"/>
+        <input type="text"
+               name="dto.ApiResourceClaims[@idx].Type"
+               value="@Model?.Type"
+               class="form-control @disabledClass" @disabled/>
     </td>
     <td>
-        <button type="button" class="btn btn-outline-danger btn-block float-right" onclick="SetRemoveModal(this, 'dto.ApiResourceClaims[@idx].Type');" data-toggle="modal" data-target="#removeRowModal"></button>
+        <button type="button"
+                class="btn btn-outline-danger btn-block float-right"
+                onclick="SetRemoveModal(this, 'dto.ApiResourceClaims[@idx].Type');"
+                data-toggle="modal" data-target="#removeRowModal">
+        </button>
     </td>
 </tr>

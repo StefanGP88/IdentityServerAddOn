@@ -1,21 +1,37 @@
 ﻿@model ApiResourcePropertiesContract
 @{
     var idx = Guid.NewGuid();
+    var disabled = Model != null ? "disabled" : string.Empty;
+    var disabledClass = Model != null ? "border-0 bg-transparent" : string.Empty;
+    var disabledBtn = Model != null ? "btn-info" : "btn-success";
 }
 <tr>
     <td>
-        <button form="#" class="btn btn-success btn-block" onclick="ToggleEdit(this);"></button>
+        <button type="button"
+                class="btn @disabledBtn btn-block"
+                onclick="ToggleEdit(this);">
+        </button>
     </td>
     <td>
         <input type="hidden" name="dto.ApiResourceProperties.index" value="@idx" />
         <input type="hidden" name="dto.ApiResourceProperties[@idx].Id" value="@Model?.Id" />
         <input type="hidden" name="dto.ApiResourceProperties[@idx].ApiResourceId" value="@Model?.ApiResourceId" />
-        <input type="text" name="dto.ApiResourceProperties[@idx].Value" value="@Model?.Value" class="form-control" />
+        <input type="text"
+               name="dto.ApiResourceProperties[@idx].Value"
+               value="@Model?.Value"
+               class="form-control @disabledClass" @disabled/>
     </td>
     <td>
-        <input type="text" name="dto.ApiResourceProperties[@idx].Key" value="@Model?.Key" class="form-control" />
+        <input type="text"
+               name="dto.ApiResourceProperties[@idx].Key"
+               value="@Model?.Key"
+               class="form-control @disabledClass" @disabled />
     </td>
     <td>
-        <button type="button" class="btn btn-outline-danger btn-block float-right" onclick="SetRemoveModal(this, 'dto.ApiResourceProperties[@idx].Value');" data-toggle="modal" data-target="#removeRowModal"></button>
+        <button type="button"
+                class="btn btn-outline-danger btn-block float-right"
+                onclick="SetRemoveModal(this, 'dto.ApiResourceProperties[@idx].Value');"
+                data-toggle="modal" data-target="#removeRowModal">
+        </button>
     </td>
 </tr>

@@ -1,18 +1,28 @@
 ﻿@model ApiResourceScopesContract
 @{
     var idx = Guid.NewGuid();
+    var disabled = Model != null ? "disabled" : string.Empty;
+    var disabledClass = Model != null ? "border-0 bg-transparent" : string.Empty;
+    var disabledBtn = Model != null ? "btn-info" : "btn-success";
 }
 <tr>
     <td>
-        <button form="#" class="btn btn-success btn-block" onclick="ToggleEdit(this);"></button>
+        <button form="#" class="btn  @disabledBtn btn-block" onclick="ToggleEdit(this);"></button>
     </td>
     <td>
         <input type="hidden" name="dto.ApiResourceScopes.index" value="@idx" />
         <input type="hidden" name="dto.ApiResourceScopes[@idx].Id" value="@Model?.Id" />
         <input type="hidden" name="dto.ApiResourceScopes[@idx].ApiResourceId" value="@Model?.ApiResourceId" />
-        <input type="text" name="dto.ApiResourceScopes[@idx].Scope" value="@Model?.Scope"  class="form-control"/>
+        <input type="text"
+               name="dto.ApiResourceScopes[@idx].Scope"
+               value="@Model?.Scope"
+               class="form-control @disabledClass" @disabled/>
     </td>
     <td>
-        <button type="button" class="btn btn-outline-danger btn-block float-right" onclick="SetRemoveModal(this, 'dto.ApiResourceScopes[@idx].Scope');" data-toggle="modal" data-target="#removeRowModal"></button>
+        <button type="button"
+                class="btn btn-outline-danger btn-block float-right"
+                onclick="SetRemoveModal(this, 'dto.ApiResourceScopes[@idx].Scope');"
+                data-toggle="modal" data-target="#removeRowModal">
+        </button>
     </td>
 </tr>
