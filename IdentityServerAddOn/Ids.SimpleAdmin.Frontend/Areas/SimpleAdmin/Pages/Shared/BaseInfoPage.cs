@@ -19,6 +19,11 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared
 
         public virtual async Task<IActionResult> OnPost(TData dto, CancellationToken cancel = default)
         {
+            if (!ModelState.IsValid)
+            {
+                Data = dto;
+                return Page();
+            }
             if (dto.Id == null)
                 _ = await _handler.Create(dto, cancel).ConfigureAwait(false);
             else

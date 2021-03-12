@@ -3,6 +3,10 @@ using Ids.SimpleAdmin.Backend;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using Ids.SimpleAdmin.Backend.Validators;
+using Ids.SimpleAdmin.Contracts;
 
 namespace Ids.SimpleAdmin.Frontend
 {
@@ -18,6 +22,8 @@ namespace Ids.SimpleAdmin.Frontend
         public static IMvcBuilder AddRazorPagesForSimpleAdmin(this IMvcBuilder builder)
         {
             builder.Services.AddSimpleAdminDependencyInjection();
+            builder.AddFluentValidation();
+            builder.Services.AddTransient<IValidator<ApiResourceContract>, ApiResourceValidator>();
             var assembly = Assembly.GetExecutingAssembly().GetName().Name;
             builder.AddApplicationPart(Assembly.Load(assembly));
 

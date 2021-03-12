@@ -17,6 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="9.5.2" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="9.5.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Ids.SimpleAdmin.Backend\Ids.SimpleAdmin.Backend.csproj" />
     <ProjectReference Include="..\Ids.SimpleAdmin.Contracts\Ids.SimpleAdmin.Contracts.csproj" />
   </ItemGroup>
