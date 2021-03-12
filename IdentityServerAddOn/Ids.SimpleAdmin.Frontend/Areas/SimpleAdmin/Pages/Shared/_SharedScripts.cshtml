@@ -1,13 +1,13 @@
 ﻿<script type="text/javascript">
     function SetRemoveModal(element, nameofobject) {
-        var removeName = $("[name='" + nameofobject + "']").val();
-        $('#removeRowNameSpan').text(removeName);
+        var template = $('#removeModalBody').html();
         var ConfirmRemove = function () {
             $(element).closest('tr').remove();
             CancelModal();
         };
-        $('#acceptRemoveBtn').on('click', ConfirmRemove);
-        $('#modal').modal('show');
+        ShowModal('Remove', template, ConfirmRemove);
+        var removeName = $("[name='" + nameofobject + "']").val();
+        $('#removeRowNameSpan').text(removeName);
     }
 
     function SetRowCount(element, count) {
@@ -20,9 +20,13 @@
             $('#DeleteForm').submit();
             CancelModal();
         };
-        SetModal('Delete', template, ConfirmDelete);
+        ShowModal('Delete', template, ConfirmDelete);
         $('#deleteId').val(identifier);
         $('#deleteNameSpan').text(name);
+    }
+
+    function ShowModal(title, body, onConfirm) {
+        SetModal(title, body, onConfirm);
         $('#modal').modal('show');
     }
 
