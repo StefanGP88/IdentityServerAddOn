@@ -4,25 +4,38 @@
         $('#removeRowNameSpan').text(removeName);
         var ConfirmRemove = function () {
             $(element).closest('tr').remove();
-            SetRemoveModalEmpty();
+            CancelModal();
         };
         $('#acceptRemoveBtn').on('click', ConfirmRemove);
-    }
-
-    function SetRemoveModalEmpty() {
-        $('#removeRowNameSpan').text('');
-        var EmptyRemove = function () {
-        };
-        $('#acceptRemoveBtn').on('click', EmptyRemove);
+        $('#modal').modal('show');
     }
 
     function SetRowCount(element, count) {
         $(element).prop('rows', count);
     }
 
-    function SetDataDeleteModal(identifier, name) {
-        $('#deleteNameSpan').text(name);
+    function SetDeleteModal(identifier, name) {
+        var template = $('#deleteModalBody').html();
+        var ConfirmDelete = function () {
+            $('#DeleteForm').submit();
+            CancelModal();
+        };
+        SetModal('Delete', template, ConfirmDelete);
         $('#deleteId').val(identifier);
+        $('#deleteNameSpan').text(name);
+        $('#modal').modal('show');
+    }
+
+    function SetModal(title, body, onConfirm) {
+        $('#modalBody').html(body)
+        $('#modalLabel').html(title);
+        $('#dismisModalSuccess').on('click', onConfirm);
+    }
+
+    function CancelModal() {
+        var CancelModal = function () { };
+        SetModal('', '', CancelModal);
+        $('#modal').modal('hide');
     }
 
     function ToggleEdit(element) {
