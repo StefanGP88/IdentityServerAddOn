@@ -10,19 +10,27 @@
         $('#removeRowNameSpan').text(removeName);
     }
 
-    function SetRowCount(element, count) {
-        $(element).prop('rows', count);
-    }
-
     function SetDeleteModal(identifier, name) {
         var template = $('#deleteModalBody').html();
         var ConfirmDelete = function () {
             $('#DeleteForm').submit();
             CancelModal();
+            $('#deleteId').val('&nbsp;');
         };
         ShowModal('Delete', template, ConfirmDelete);
         $('#deleteId').val(identifier);
         $('#deleteNameSpan').text(name);
+    }
+
+    function SetAbandonModal() {
+        var template = $('#abandonModalBody').html();
+        var ConfirmAbandon = function () {
+            window.location.href = '@GetBackUrl()';
+        };
+        ShowModal('Abandon', template, ConfirmAbandon);
+    }
+    function SetRowCount(element, count) {
+        $(element).prop('rows', count);
     }
 
     function ShowModal(title, body, onConfirm) {
@@ -38,7 +46,7 @@
 
     function CancelModal() {
         var CancelModal = function () { };
-        SetModal('', '', CancelModal);
+        SetModal('&nbsp;', '&nbsp;', CancelModal);
         $('#modal').modal('hide');
     }
 
@@ -80,3 +88,12 @@
         });
     }
 </script>
+@functions {
+    string GetBackUrl()
+    {
+        var area = _httpContextAccessor.HttpContext.Request.RouteValues["area"].ToString().ToLower();
+        var page = _httpContextAccessor.HttpContext.Request.RouteValues["page"].ToString().ToLower().TrimEnd("info".ToArray());
+        page = page.TrimEnd('/');
+        return "/" + area + page + _httpContextAccessor.HttpContext.Request.QueryString;
+    }
+} 
