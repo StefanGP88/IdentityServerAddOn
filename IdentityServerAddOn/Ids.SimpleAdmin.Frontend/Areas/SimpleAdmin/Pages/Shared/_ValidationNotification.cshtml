@@ -1,0 +1,8 @@
+﻿@model Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateEntry
+@if(Model != null)
+{
+    foreach (var item in Model.Errors)
+    {
+        <span class="text-danger text-muted">@item.ErrorMessage.</span>
+    }
+}
