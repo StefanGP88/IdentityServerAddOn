@@ -62,15 +62,7 @@
         <br />
         <table class="table table-striped border border-dark">
             <partial name="_Tableheader" model="@(new List<string> {"Type"})" />
-            <tbody id="@userClaims.AsTableBody()">
-                @if (Model?.Data?.UserClaims != null)
-                {
-                    foreach (var item in Model.Data.UserClaims)
-                    {
-                        <partial name="TableRowPartials/_@userClaims.FirstLetterToUpper()" model="item" />
-                    }
-                }
-            </tbody>
+            @{RenderTableBody(userClaims, Model?.Data?.UserClaims);}
         </table>
         <button type="button" class="btn btn-primary" form="#" onclick="AppendTableRow('@userClaims', '@userClaims.AsTableBody()')"></button>
     </div>
@@ -78,15 +70,7 @@
         <br />
         <table class="table table-striped border border-dark">
             <partial name="_Tableheader" model="@(new List<string> { "Value", "Key" })" />
-            <tbody id="@properties.AsTableBody()">
-                @if (Model?.Data?.Properties != null)
-                {
-                    foreach (var item in Model.Data.Properties)
-                    {
-                        <partial name="TableRowPartials/_@properties.FirstLetterToUpper()" model="item" />
-                    }
-                }
-            </tbody>
+            @{RenderTableBody(properties, Model?.Data?.Properties);}
         </table>
         <button type="button" class="btn btn-primary" form="#" onclick="AppendTableRow('@properties', '@properties.AsTableBody()')"></button>
     </div>
@@ -94,15 +78,7 @@
         <br />
         <table class="table table-striped border border-dark">
             <partial name="_Tableheader" model="@(new List<string> { "Scope"})" />
-            <tbody id="@scopes.AsTableBody()">
-                @if (Model?.Data?.Scopes != null)
-                {
-                    foreach (var item in Model.Data.Scopes)
-                    {
-                        <partial name="TableRowPartials/_@scopes.FirstLetterToUpper()" model="item" />
-                    }
-                }
-            </tbody>
+            @{RenderTableBody(scopes, Model?.Data?.Scopes);}
         </table>
         <button type="button" class="btn btn-primary" form="#" onclick="AppendTableRow('@scopes', '@scopes.AsTableBody()')"></button>
     </div>
@@ -110,16 +86,24 @@
         <br />
         <table class="table table-striped border border-dark">
             <partial name="_Tableheader" model="@(new List<string> { "Type", "Value", "Description", "Expiration"})" />
-            <tbody id="@secrets.AsTableBody()">
-                @if (Model?.Data?.Secrets != null)
-                {
-                    foreach (var item in Model.Data.Secrets)
-                    {
-                        <partial name="TableRowPartials/_@secrets.FirstLetterToUpper()" model="item" />
-                    }
-                }
-            </tbody>
+            @{RenderTableBody(secrets, Model?.Data?.Secrets);}
         </table>
         <button type="button" class="btn btn-primary" form="#" onclick="AppendTableRow('@secrets', '@secrets.AsTableBody()')"></button>
     </div>
+}
+
+
+@functions {
+    private void RenderTableBody<T>(string name, List<T> list)
+    {
+        <tbody id="@name.AsTableBody()">
+            @if (list != null)
+            {
+                foreach (var item in list)
+                {
+                    Html.RenderPartialAsync("TableRowPartials/_" + name.FirstLetterToUpper(), item);
+                }
+            }
+        </tbody>
+    }
 }
