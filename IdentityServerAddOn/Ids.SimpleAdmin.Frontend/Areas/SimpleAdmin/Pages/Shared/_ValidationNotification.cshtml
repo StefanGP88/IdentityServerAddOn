@@ -1,8 +1,8 @@
 ﻿@model Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateEntry
-@if(Model != null)
+@if (Model != null)
 {
     foreach (var item in Model.Errors)
     {
-        <span class="text-danger text-muted">@item.ErrorMessage.</span>
+        <span class="text-danger font-weight-light font-italic">@item.ErrorMessage.Replace("'","")</span>
     }
 }
