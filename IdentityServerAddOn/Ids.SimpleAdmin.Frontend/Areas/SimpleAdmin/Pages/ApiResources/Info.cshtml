@@ -58,43 +58,28 @@
 }
 
 @section ResourceProperties{
-    <div class="tab-pane fade" id="@userClaims" role="tabpanel">
-        <br />
-        <table class="table table-striped border border-dark">
-            <partial name="_Tableheader" model="@(new List<string> {"Type"})" />
-            @{RenderTableBody(userClaims, Model?.Data?.UserClaims);}
-        </table>
-        <button type="button" class="btn btn-primary" form="#" onclick="AppendTableRow('@userClaims', '@userClaims.AsTableBody()')"></button>
-    </div>
-    <div class="tab-pane fade" id="@properties" role="tabpanel">
-        <br />
-        <table class="table table-striped border border-dark">
-            <partial name="_Tableheader" model="@(new List<string> { "Value", "Key" })" />
-            @{RenderTableBody(properties, Model?.Data?.Properties);}
-        </table>
-        <button type="button" class="btn btn-primary" form="#" onclick="AppendTableRow('@properties', '@properties.AsTableBody()')"></button>
-    </div>
-    <div class="tab-pane fade" id="@scopes" role="tabpanel">
-        <br />
-        <table class="table table-striped border border-dark">
-            <partial name="_Tableheader" model="@(new List<string> { "Scope"})" />
-            @{RenderTableBody(scopes, Model?.Data?.Scopes);}
-        </table>
-        <button type="button" class="btn btn-primary" form="#" onclick="AppendTableRow('@scopes', '@scopes.AsTableBody()')"></button>
-    </div>
-    <div class="tab-pane fade" id="@secrets" role="tabpanel">
-        <br />
-        <table class="table table-striped border border-dark">
-            <partial name="_Tableheader" model="@(new List<string> { "Type", "Value", "Description", "Expiration"})" />
-            @{RenderTableBody(secrets, Model?.Data?.Secrets);}
-        </table>
-        <button type="button" class="btn btn-primary" form="#" onclick="AppendTableRow('@secrets', '@secrets.AsTableBody()')"></button>
-    </div>
+    @{
+        RenderTabPanel(userClaims,
+            Model?.Data?.UserClaims,
+            new List<string> { "Type" });
+
+        RenderTabPanel(properties,
+            Model?.Data?.Properties,
+            new List<string> { "Value", "Key" });
+
+        RenderTabPanel(scopes,
+            Model?.Data?.Scopes,
+            new List<string> { "Scope" });
+
+        RenderTabPanel(secrets,
+            Model?.Data?.Secrets,
+            new List<string> { "Type", "Value", "Description", "Expiration" });
+    }
 }
 
 
 @functions {
-    private void RenderTableBody<T>(string name, List<T> list)
+    void RenderTableBody<T>(string name, List<T> list)
     {
         <tbody id="@name.AsTableBody()">
             @if (list != null)
@@ -105,5 +90,18 @@
                 }
             }
         </tbody>
+    }
+    void RenderTabPanel<T>(string name, List<T> list, List<string> columns)
+    {
+        <div class="tab-pane fade" id="@name" role="tabpanel">
+            <br />
+            <table class="table table-striped border border-dark">
+                @{
+                    Html.RenderPartialAsync("_Tableheader", columns);
+                    RenderTableBody(name, list);
+                }
+            </table>
+            <button type="button" class="btn btn-primary" form="#" onclick="AppendTableRow('@name', '@name.AsTableBody()')"></button>
+        </div>
     }
 }
