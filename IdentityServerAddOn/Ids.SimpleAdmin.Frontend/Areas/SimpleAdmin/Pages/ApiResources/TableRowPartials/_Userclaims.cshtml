@@ -1,5 +1,11 @@
-﻿@model ApiResourceClaimsContract
+﻿@using Ids.SimpleAdmin.Backend.Validators
+@model ApiResourceClaimsContract
 @{
+    var _validator = new ApiResourceClaimsValidator();
+    if (Model != null)
+    {
+        var validationResult = _validator.Validate(Model);
+    }
     var idx = Guid.NewGuid();
     var disabled = Model != null ? "disabled" : string.Empty;
     var disabledClass = Model != null ? "border-0 bg-transparent" : string.Empty;
@@ -12,13 +18,13 @@
                 onclick="ToggleEdit(this);"></button>
     </td>
     <td>
-        <input type="hidden" name="dto.ApiResourceClaims.index" value="@idx" />
-        <input type="hidden" name="dto.ApiResourceClaims[@idx].Id" value="@Model?.Id" />
-        <input type="hidden" name="dto.ApiResourceClaims[@idx].ApiResourceId" value="@Model?.ApiResourceId" />
+        <input type="hidden" name="dto.UserClaims.index" value="@idx" />
+        <input type="hidden" name="dto.UserClaims[@idx].Id" value="@Model?.Id" />
+        <input type="hidden" name="dto.UserClaims[@idx].ApiResourceId" value="@Model?.ApiResourceId" />
         <input type="text"
-               name="dto.ApiResourceClaims[@idx].Type"
+               name="dto.UserClaims[@idx].Type"
                value="@Model?.Type"
-               class="form-control @disabledClass" @disabled/>
+               class="form-control @disabledClass" @disabled />
     </td>
     <td>
         <button type="button"

@@ -13,17 +13,17 @@
         </button>
     </td>
     <td>
-        <input type="hidden" name="dto.ApiResourceProperties.index" value="@idx" />
-        <input type="hidden" name="dto.ApiResourceProperties[@idx].Id" value="@Model?.Id" />
-        <input type="hidden" name="dto.ApiResourceProperties[@idx].ApiResourceId" value="@Model?.ApiResourceId" />
+        <input type="hidden" name="dto.Properties.index" value="@idx" />
+        <input type="hidden" name="dto.Properties[@idx].Id" value="@Model?.Id" />
+        <input type="hidden" name="dto.Properties[@idx].ApiResourceId" value="@Model?.ApiResourceId" />
         <input type="text"
-               name="dto.ApiResourceProperties[@idx].Value"
+               name="dto.Properties[@idx].Value"
                value="@Model?.Value"
                class="form-control @disabledClass" @disabled/>
     </td>
     <td>
         <input type="text"
-               name="dto.ApiResourceProperties[@idx].Key"
+               name="dto.Properties[@idx].Key"
                value="@Model?.Key"
                class="form-control @disabledClass" @disabled />
     </td>

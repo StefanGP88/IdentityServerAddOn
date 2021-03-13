@@ -10,11 +10,11 @@
         <button form="#" class="btn  @disabledBtn btn-block" onclick="ToggleEdit(this);"></button>
     </td>
     <td>
-        <input type="hidden" name="dto.ApiResourceScopes.index" value="@idx" />
-        <input type="hidden" name="dto.ApiResourceScopes[@idx].Id" value="@Model?.Id" />
-        <input type="hidden" name="dto.ApiResourceScopes[@idx].ApiResourceId" value="@Model?.ApiResourceId" />
+        <input type="hidden" name="dto.Scopes.index" value="@idx" />
+        <input type="hidden" name="dto.Scopes[@idx].Id" value="@Model?.Id" />
+        <input type="hidden" name="dto.Scopes[@idx].ApiResourceId" value="@Model?.ApiResourceId" />
         <input type="text"
-               name="dto.ApiResourceScopes[@idx].Scope"
+               name="dto.Scopes[@idx].Scope"
                value="@Model?.Scope"
                class="form-control @disabledClass" @disabled/>
     </td>
