@@ -1,11 +1,7 @@
 ﻿@using Ids.SimpleAdmin.Backend.Validators
 @model ApiResourceClaimsContract
 @{
-    var _validator = new ApiResourceClaimsValidator();
-    if (Model != null)
-    {
-        var validationResult = _validator.Validate(Model);
-    }
+    var validationResult = ApiResourceClaimsValidator.GetValidationErrors(Model);
     var idx = Guid.NewGuid();
     var disabled = Model != null ? "disabled" : string.Empty;
     var disabledClass = Model != null ? "border-0 bg-transparent" : string.Empty;
@@ -25,6 +21,7 @@
                name="dto.UserClaims[@idx].Type"
                value="@Model?.Type"
                class="form-control @disabledClass" @disabled />
+        <partial name="_ValidationNotificationPartial" model="@validationResult["Type"]" />
     </td>
     <td>
         <button type="button"

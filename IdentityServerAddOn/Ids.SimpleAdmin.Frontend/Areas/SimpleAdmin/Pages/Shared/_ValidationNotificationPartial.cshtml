@@ -1,0 +1,8 @@
+﻿@model List<string> 
+@if (Model != null)
+{
+    foreach (var item in Model)
+    {
+        <span class="text-danger font-weight-light font-italic">@item.Replace("'", "")</span>
+    }
+}

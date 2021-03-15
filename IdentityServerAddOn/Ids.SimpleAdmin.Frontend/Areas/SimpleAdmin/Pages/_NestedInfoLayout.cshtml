@@ -42,4 +42,7 @@
     </div>
 </template>
 <partial name="_Modal" />
-<partial name="_SharedScripts" />
+@section Scripts{
+    <partial name="_SharedScripts" />
+    @RenderSection("Scripts", required: false)
+}
