@@ -20,13 +20,15 @@
         <input type="text"
                name="dto.Properties[@idx].Value"
                value="@Model?.Value"
-               class="form-control @disabledClass" @disabled/>
+               class="form-control @disabledClass" @disabled />
+        <partial name="_ValidationNotificationPartial" model="@validationResult["Value"]" />
     </td>
     <td>
         <input type="text"
                name="dto.Properties[@idx].Key"
                value="@Model?.Key"
                class="form-control @disabledClass" @disabled />
+        <partial name="_ValidationNotificationPartial" model="@validationResult["Key"]" />
     </td>
     <td>
         <button type="button"

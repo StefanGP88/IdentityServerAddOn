@@ -17,7 +17,8 @@
         <input type="text"
                name="dto.Scopes[@idx].Scope"
                value="@Model?.Scope"
-               class="form-control @disabledClass" @disabled/>
+               class="form-control @disabledClass" @disabled />
+        <partial name="_ValidationNotificationPartial" model="@validationResult["Scope"]" />
     </td>
     <td>
         <button type="button"
