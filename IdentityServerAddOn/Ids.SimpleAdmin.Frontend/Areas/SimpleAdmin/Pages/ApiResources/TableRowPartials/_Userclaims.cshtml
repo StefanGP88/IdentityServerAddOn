@@ -3,9 +3,9 @@
 @{
     var validationResult = _validator.Validate(Model);
     var idx = Guid.NewGuid();
-    var disabled = Model != null ? "disabled" : string.Empty;
-    var disabledClass = Model != null ? "border-0 bg-transparent" : string.Empty;
-    var disabledBtn = Model != null ? "btn-info" : "btn-success";
+    var disabled = (!Model.IsNull() && validationResult.IsValid) ? "disabled" : string.Empty;
+    var disabledClass = (!Model.IsNull() && validationResult.IsValid) ? "border-0 bg-transparent" : string.Empty;
+    var disabledBtn = (!Model.IsNull() && validationResult.IsValid) ? "btn-info" : "btn-success";
 }
 <tr>
     <td>

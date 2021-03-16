@@ -55,5 +55,10 @@ namespace Ids.SimpleAdmin.Frontend
         {
             return s + "TableBody";
         }
+
+        public static bool IsNull(this object o)
+        {
+            return o is null;
+        }
     }
 }
