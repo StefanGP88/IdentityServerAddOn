@@ -1,7 +1,7 @@
-﻿@using Ids.SimpleAdmin.Backend.Validators
+﻿@using Ids.SimpleAdmin.Contracts 
 @model ApiResourceClaimsContract
 @{
-    var validationResult = ApiResourceClaimsValidator.GetValidationErrors(Model);
+    var validationResult = _validator.Validate(Model);
     var idx = Guid.NewGuid();
     var disabled = Model != null ? "disabled" : string.Empty;
     var disabledClass = Model != null ? "border-0 bg-transparent" : string.Empty;

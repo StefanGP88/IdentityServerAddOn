@@ -1,5 +1,6 @@
 ﻿@model ApiResourcePropertiesContract
 @{
+    var validationResult = _validator.Validate(Model);
     var idx = Guid.NewGuid();
     var disabled = Model != null ? "disabled" : string.Empty;
     var disabledClass = Model != null ? "border-0 bg-transparent" : string.Empty;

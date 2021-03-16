@@ -25,6 +25,10 @@ namespace Ids.SimpleAdmin.Frontend
             builder.AddFluentValidation();
             builder.Services.AddTransient<IValidator<ApiResourceContract>, ApiResourceValidator>();
             builder.Services.AddTransient<IValidator<ApiResourceClaimsContract>, ApiResourceClaimsValidator>();
+            builder.Services.AddTransient<IValidator<ApiResourceScopesContract>, ApiResourceScopesValidator>();
+            builder.Services.AddTransient<IValidator<ApiResourceSecretsContract>, ApiResourceSecretsValidator>();
+            builder.Services.AddTransient<IValidator<ApiResourcePropertiesContract>, ApiResourcePropertiesValidator>();
+            builder.Services.AddTransient<ValidationFactory>();
             var assembly = Assembly.GetExecutingAssembly().GetName().Name;
             builder.AddApplicationPart(Assembly.Load(assembly));
 
