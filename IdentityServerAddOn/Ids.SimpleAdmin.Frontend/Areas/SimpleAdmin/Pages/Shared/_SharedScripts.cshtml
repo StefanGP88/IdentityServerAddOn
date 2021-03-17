@@ -50,10 +50,11 @@
         $('#modal').modal('hide');
     }
 
-    function ToggleEdit(element) {
+    function ToggleEdit(element, partialName) {
         if ($(element).hasClass('btn-success')) {
-            $(element).removeClass('btn-success').addClass('btn-info');
-            ToggleDisabled(element, true);
+            //$(element).removeClass('btn-success').addClass('btn-info');
+            //ToggleDisabled(element, true);
+            replaceRow(element, partialName);
 
         } else if ($(element).hasClass('btn-info')) {
             $(element).removeClass('btn-info').addClass('btn-success');
@@ -80,11 +81,27 @@
     function AppendTableRow(partialName, tableBodyName) {
         var input = {
             handler: 'Partial',
-            partialName: partialName
+            partialName: partialName,
+            model: null
         };
         var element = $('#' + tableBodyName);
         $.get('@(_httpContextAccessor.HttpContext.Request.Path)', input, function (data) {
             $(element).append(data);
+        });
+    }
+
+    function replaceRow(element, partialName) {
+        var inputs = GetInputs(element); 
+        var model = {};
+        inputs.each(function () {
+            var name = $(this).prop('name');
+            var index = name.lastIndexOf('.') + 1;
+            var substring = name.substring(index);
+            model['model.'+substring] = $(this).val();
+        });
+        $.get('@(_httpContextAccessor.HttpContext.Request.Path)?handler=' + partialName,  model , function (data) {
+            var inner = $(data).closest('tr').html();
+            $(element).closest('tr').html(inner);
         });
     }
 </script>
