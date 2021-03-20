@@ -8,14 +8,14 @@
 }
 <tr>
     <td>
-        <button type="button" class="btn  @disabledBtn btn-block" onclick="ToggleEdit(this, 'Claims');"></button>
+        <button type="button" class="btn  @disabledBtn btn-block" onclick="ToggleEdit(this, 'Userclaims');"></button>
     </td>
     <td>
-        <input type="hidden" name="dto.Claims.index" value="@idx" />
-        <input type="hidden" name="dto.Claims[@idx].Id" value="@Model?.Id" />
-        <input type="hidden" name="dto.Claims[@idx].ApiScopeId" value="@Model?.ApiScopeId" />
+        <input type="hidden" name="dto.Userclaims.index" value="@idx" />
+        <input type="hidden" name="dto.Userclaims[@idx].Id" value="@Model?.Id" />
+        <input type="hidden" name="dto.Userclaims[@idx].ApiScopeId" value="@Model?.ApiScopeId" />
         <input type="text"
-               name="dto.Claims[@idx].Type"
+               name="dto.Userclaims[@idx].Type"
                value="@Model?.Type"
                class="form-control @disabledClass" @disabled />
         <partial name="_ValidationNotificationPartial" model="@validationResult["Type"]" />
@@ -23,7 +23,7 @@
     <td>
         <button type="button"
                 class="btn btn-outline-danger btn-block float-right"
-                onclick="SetRemoveModal(this, 'dto.Claims[@idx].Type');"
+                onclick="SetRemoveModal(this, 'dto.Userclaims[@idx].Type');"
                 data-toggle="modal" data-target="#removeRowModal">
         </button>
     </td>
