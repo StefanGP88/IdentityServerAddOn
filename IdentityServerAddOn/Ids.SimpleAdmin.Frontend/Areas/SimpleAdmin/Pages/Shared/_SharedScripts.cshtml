@@ -52,8 +52,6 @@
 
     function ToggleEdit(element, partialName) {
         if ($(element).hasClass('btn-success')) {
-            //$(element).removeClass('btn-success').addClass('btn-info');
-            //ToggleDisabled(element, true);
             replaceRow(element, partialName);
 
         } else if ($(element).hasClass('btn-info')) {
@@ -69,7 +67,6 @@
             $(this).toggleClass('border-0', isDisabled);
             $(this).toggleClass('bg-transparent', isDisabled);
         });
-
     }
 
     function GetInputs(element) {
@@ -78,20 +75,21 @@
         return inputs;
     }
 
-    function AppendTableRow(partialName, tableBodyName) {
+    function AppendTableRow(element, partialName, tableBodyName) {
         var input = {
             handler: 'Partial',
             partialName: partialName,
             model: null
         };
-        var element = $('#' + tableBodyName);
+        var tablebody = $('#' + tableBodyName);
         $.get('@(_httpContextAccessor.HttpContext.Request.Path)', input, function (data) {
-            $(element).append(data);
+            $(tablebody).append(data);
+            $(element).prop('disabled', true);
         });
     }
 
     function replaceRow(element, partialName) {
-        var inputs = GetInputs(element); 
+        var inputs = GetInputs(element);
         var model = {};
         inputs.each(function () {
             var name = $(this).prop('name');
@@ -99,7 +97,13 @@
             var substring = name.substring(index);
             model['model.'+substring] = $(this).val();
         });
-        $.get('@(_httpContextAccessor.HttpContext.Request.Path)?handler=' + partialName,  model , function (data) {
+        $.get('@(_httpContextAccessor.HttpContext.Request.Path)?handler=' + partialName, model, function (data) {
+            var avc = $(data).find('.btn-info');
+            if (avc.length > 0) {
+                var tab = $(element).closest('div.tab-pane');
+                var bttn = $(tab).find('.btn-primary');
+                $(bttn).prop('disabled', false);
+            }
             var inner = $(data).closest('tr').html();
             $(element).closest('tr').html(inner);
         });

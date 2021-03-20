@@ -103,7 +103,7 @@
                     RenderTableBody(name, list);
                 }
             </table>
-            <button type="button" class="btn btn-primary" form="#" onclick="AppendTableRow('@name', '@name.AsTableBody()')"></button>
+            <button type="button" class="btn btn-primary" onclick="AppendTableRow(this, '@name', '@name.AsTableBody()')"></button>
         </div>
     }
 }
