@@ -1,16 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
+using Ids.SimpleAdmin.Contracts;
+using Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared;
 
 namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.IdentityResources
 {
-    public class IndexModel : PageModel
+    public class IndexModel : BaseIndexPage<IdentityResourceContract, int?>
     {
-        public void OnGet()
-        {
-        }
+        public IndexModel(IHandler<IdentityResourceContract, int?> handler) : base(handler) { }
     }
 }
