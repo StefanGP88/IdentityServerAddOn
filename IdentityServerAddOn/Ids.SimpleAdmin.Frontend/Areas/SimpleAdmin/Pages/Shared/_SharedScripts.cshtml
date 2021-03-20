@@ -84,7 +84,7 @@
         var tablebody = $('#' + tableBodyName);
         $.get('@(_httpContextAccessor.HttpContext.Request.Path)', input, function (data) {
             $(tablebody).append(data);
-            $(element).prop('readonly', true);
+            $(element).prop('disabled', true);
         });
     }
 
@@ -102,7 +102,7 @@
             if (avc.length > 0) {
                 var tab = $(element).closest('div.tab-pane');
                 var bttn = $(tab).find('.btn-primary');
-                $(bttn).prop('readonly', false);
+                $(bttn).prop('disabled', false);
             }
             var inner = $(data).closest('tr').html();
             $(element).closest('tr').html(inner);
