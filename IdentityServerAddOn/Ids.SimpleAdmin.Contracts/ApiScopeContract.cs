@@ -11,7 +11,7 @@ namespace Ids.SimpleAdmin.Contracts
         public bool Required { get; set; }
         public bool Emphasize { get; set; }
         public bool ShowInDiscoveryDocument { get; set; }
-        public List<ApiScopeClaimsContract> Claims { get; set; }
+        public List<ApiScopeClaimsContract> UserClaims { get; set; }
         public List<ApiScopePropertiesContract> Properties { get; set; }
     }
     public class ApiScopeClaimsContract : Identifyable<int?>
