@@ -81,7 +81,6 @@ namespace Ids.SimpleAdmin.Backend.Handlers
         public async Task<ApiResourceContract> Update(ApiResourceContract dto, CancellationToken cancel)
         {
             var model = await _confContext.ApiResources
-                .AsNoTracking()
                 .Where(x => x.Id == dto.Id)
                 .Include(x => x.UserClaims)
                 .Include(x => x.Properties)

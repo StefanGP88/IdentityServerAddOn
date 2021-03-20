@@ -72,7 +72,7 @@
 
     function GetInputs(element) {
         var row = $(element).closest('tr');
-        var inputs = row.find('.form-control,.form-check-label');
+        var inputs = row.find('.form-control,.form-check-input,input[type=hidden]');
         return inputs;
     }
 
@@ -86,7 +86,6 @@
         var tablebody = $('#' + tableBodyName);
         $.get('@(_httpContextAccessor.HttpContext.Request.Path)', input, function (data) {
             $(tablebody).append(data);
-            //$(element).prop('disabled', true);
         });
     }
 
