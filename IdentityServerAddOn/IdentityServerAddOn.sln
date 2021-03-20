@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utilities", "Utilities\Util
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ids.SimpleAdmin.Frontend", "Ids.SimpleAdmin.Frontend\Ids.SimpleAdmin.Frontend.csproj", "{2B41A556-8709-4D1C-89D0-6FFB37F0C2A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ids.SimpleAdmin.Contracts", "Ids.SimpleAdmin.Contracts\Ids.SimpleAdmin.Contracts.csproj", "{2060F5E0-50C9-41B9-B6E8-05700397FC5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ids.SimpleAdmin.Contracts", "Ids.SimpleAdmin.Contracts\Ids.SimpleAdmin.Contracts.csproj", "{2060F5E0-50C9-41B9-B6E8-05700397FC5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
