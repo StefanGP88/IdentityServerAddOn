@@ -80,19 +80,17 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
         public async Task<IdentityResourceContract> Update(IdentityResourceContract dto, CancellationToken cancel)
         {
-            var model = await _confContext.ApiResources
+            var model = await _confContext.IdentityResources
                 .Where(x => x.Id == dto.Id)
                 .Include(x => x.UserClaims)
                 .Include(x => x.Properties)
-                .Include(x => x.Scopes)
-                .Include(x => x.Secrets)
                 .FirstOrDefaultAsync(cancel)
                 .ConfigureAwait(false);
 
             dto.Adapt(model);
             model.Updated = DateTime.UtcNow;
 
-            _confContext.ApiResources.Update(model);
+            _confContext.IdentityResources.Update(model);
             await _confContext.SaveChangesAsync(cancel).ConfigureAwait(false);
 
             return model.Adapt<IdentityResourceContract>();
