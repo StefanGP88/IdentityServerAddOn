@@ -53,10 +53,11 @@
     function ToggleEdit(element, partialName) {
         if ($(element).hasClass('btn-success')) {
             replaceRow(element, partialName);
-
+            DisableEditButtons(element, false);
         } else if ($(element).hasClass('btn-info')) {
             $(element).removeClass('btn-info').addClass('btn-success');
             ToggleReadOnly(element, false);
+            DisableEditButtons(element, true);
         }
     }
 
@@ -76,6 +77,7 @@
     }
 
     function AppendTableRow(element, partialName, tableBodyName) {
+        DisableEditButtons(element, true);
         var input = {
             handler: 'Partial',
             partialName: partialName,
@@ -84,7 +86,7 @@
         var tablebody = $('#' + tableBodyName);
         $.get('@(_httpContextAccessor.HttpContext.Request.Path)', input, function (data) {
             $(tablebody).append(data);
-            $(element).prop('disabled', true);
+            //$(element).prop('disabled', true);
         });
     }
 
@@ -98,20 +100,27 @@
             model['model.'+substring] = $(this).val();
         });
         $.get('@(_httpContextAccessor.HttpContext.Request.Path)?handler=' + partialName, model, function (data) {
-            var avc = $(data).find('.btn-info');
-            if (avc.length > 0) {
-                var tab = $(element).closest('div.tab-pane');
-                var bttn = $(tab).find('.btn-primary');
-                $(bttn).prop('disabled', false);
+            var btnInfo = $(data).find('.btn-info');
+            if (btnInfo.length > 0) {
+                DisableEditButtons(element, false);
+            } else {
+                DisableEditButtons(element, true);
             }
             var inner = $(data).closest('tr').html();
             $(element).closest('tr').html(inner);
         });
     }
 
+    function DisableEditButtons(element, isDisabled) {
+        var tab = $(element).closest('div.tab-pane');
+        var bttns = $(tab).find('.btn-info,.btn-primary');
+        bttns.each(function () {
+            $(this).prop('disabled', isDisabled);
+        });
+    }
+
     $(document).on('focus', '.form-control', function () {
         var readonly = $(this).prop('readonly');
-        console.log(readonly);
         if (readonly) {
             $(this).blur();
         }
