@@ -59,13 +59,13 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
         public async Task<ListDto<ApiResourceContract>> Delete(int? id, int page, int pageSize, CancellationToken cancel)
         {
-            var resource = await _confContext.ApiResources
+            var model = await _confContext.ApiResources
                 .Where(x => x.Id == id)
                 .FirstAsync(cancel)
                 .ConfigureAwait(false);
 
             _confContext.ApiResources
-                .Remove(resource);
+                .Remove(model);
 
             await _confContext.SaveChangesAsync(cancel).ConfigureAwait(false);
             return await GetAll(page, pageSize, cancel).ConfigureAwait(false);
