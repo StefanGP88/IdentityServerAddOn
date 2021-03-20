@@ -2,7 +2,7 @@
 @{
     var validationResult = _validator.Validate(Model);
     var idx = Guid.NewGuid();
-    var disabled = (!Model.IsNull() && validationResult.IsValid) ? "disabled" : string.Empty;
+    var disabled = (!Model.IsNull() && validationResult.IsValid) ? "readonly" : string.Empty;
     var disabledClass = (!Model.IsNull() && validationResult.IsValid) ? "border-0 bg-transparent" : string.Empty;
     var disabledBtn = (!Model.IsNull() && validationResult.IsValid) ? "btn-info" : "btn-success";
 }
@@ -33,7 +33,7 @@
     <td>
         <button type="button"
                 class="btn btn-outline-danger btn-block float-right"
-                onclick="SetRemoveModal(this, 'dto.ApiResourceProperties[@idx].Value');"
+                onclick="SetRemoveModal(this, 'dto.Properties[@idx].Value');"
                 data-toggle="modal" data-target="#removeRowModal">
         </button>
     </td>

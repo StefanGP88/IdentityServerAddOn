@@ -56,16 +56,16 @@
 
         } else if ($(element).hasClass('btn-info')) {
             $(element).removeClass('btn-info').addClass('btn-success');
-            ToggleDisabled(element, false);
+            ToggleReadOnly(element, false);
         }
     }
 
-    function ToggleDisabled(element, isDisabled) {
+    function ToggleReadOnly(element, isReadOnly) {
         var inputs = GetInputs(element);
         inputs.each(function () {
-            $(this).prop('disabled', isDisabled);
-            $(this).toggleClass('border-0', isDisabled);
-            $(this).toggleClass('bg-transparent', isDisabled);
+            $(this).prop('readonly', isReadOnly);
+            $(this).toggleClass('border-0', isReadOnly);
+            $(this).toggleClass('bg-transparent', isReadOnly);
         });
     }
 
@@ -84,7 +84,7 @@
         var tablebody = $('#' + tableBodyName);
         $.get('@(_httpContextAccessor.HttpContext.Request.Path)', input, function (data) {
             $(tablebody).append(data);
-            $(element).prop('disabled', true);
+            $(element).prop('readonly', true);
         });
     }
 
@@ -102,12 +102,20 @@
             if (avc.length > 0) {
                 var tab = $(element).closest('div.tab-pane');
                 var bttn = $(tab).find('.btn-primary');
-                $(bttn).prop('disabled', false);
+                $(bttn).prop('readonly', false);
             }
             var inner = $(data).closest('tr').html();
             $(element).closest('tr').html(inner);
         });
     }
+
+    $(document).on('focus', '.form-control', function () {
+        var readonly = $(this).prop('readonly');
+        console.log(readonly);
+        if (readonly) {
+            $(this).blur();
+        }
+    });
 </script>
 @functions {
     string GetBackUrl()

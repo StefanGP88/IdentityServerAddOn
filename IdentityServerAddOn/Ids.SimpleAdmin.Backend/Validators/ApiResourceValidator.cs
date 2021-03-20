@@ -21,7 +21,7 @@ namespace Ids.SimpleAdmin.Backend.Validators
     {
         public ApiResourceClaimsValidator()
         {
-            RuleFor(x => x.Type).MinimumLength(1).MaximumLength(200).NotNull();
+            RuleFor(x => x.Type).MaximumLength(200).NotNull();
         }
     }
 
