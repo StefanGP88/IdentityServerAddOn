@@ -18,6 +18,8 @@ namespace Ids.SimpleAdmin.Contracts
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public bool NonEditable { get; set; }
+        public List<IdentityResourceClaimsContract> UserClaims { get; set; }
+        public List<IdentityResourcePropertiesContract> Properties { get; set; }
     }
     public class IdentityResourcePropertiesContract : Identifyable<int?>
     {
