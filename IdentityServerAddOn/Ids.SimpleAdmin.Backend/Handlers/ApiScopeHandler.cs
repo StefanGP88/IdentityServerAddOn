@@ -4,6 +4,7 @@ using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
 using Ids.SimpleAdmin.Contracts;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,13 +29,13 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
         public async Task<ListDto<ApiScopeContract>> Delete(int? id, int page, int pageSize, CancellationToken cancel)
         {
-            var scope = await _confContext.ApiScopes
+            var model = await _confContext.ApiScopes
                 .Where(x => x.Id == id)
                 .FirstAsync(cancel)
                 .ConfigureAwait(false);
 
             _confContext.ApiScopes
-                .Remove(scope);
+                .Remove(model);
 
             await _confContext.SaveChangesAsync(cancel).ConfigureAwait(false);
             return await GetAll(page, pageSize, cancel).ConfigureAwait(false);

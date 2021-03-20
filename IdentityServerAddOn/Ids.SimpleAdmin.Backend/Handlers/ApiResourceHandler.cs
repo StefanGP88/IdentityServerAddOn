@@ -4,6 +4,7 @@ using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
 using Ids.SimpleAdmin.Contracts;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -73,8 +74,11 @@ namespace Ids.SimpleAdmin.Backend.Handlers
         public async Task<ApiResourceContract> Create(ApiResourceContract dto, CancellationToken cancel)
         {
             var model = dto.Adapt<ApiResource>();
+            model.Created = DateTime.UtcNow;
+
             await _confContext.ApiResources.AddAsync(model, cancel).ConfigureAwait(false);
             await _confContext.SaveChangesAsync(cancel).ConfigureAwait(false);
+
             return model.Adapt<ApiResourceContract>();
         }
 
@@ -90,8 +94,11 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 .ConfigureAwait(false);
 
             dto.Adapt(model);
+            model.Updated = DateTime.UtcNow;
+
             _confContext.ApiResources.Update(model);
             await _confContext.SaveChangesAsync(cancel).ConfigureAwait(false);
+
             return model.Adapt<ApiResourceContract>();
         }
     }
