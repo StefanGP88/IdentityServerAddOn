@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Ids.SimpleAdmin.Contracts
 {
@@ -6,7 +7,7 @@ namespace Ids.SimpleAdmin.Contracts
     {
         public bool Enabled { get; set; }
         public string ClientId { get; set; }
-        public string  ProtocolType { get; set; }
+        public string ProtocolType { get; set; }
         public bool RequireClientSecret { get; set; }
         public string ClientName { get; set; }
         public string Description { get; set; }
@@ -47,6 +48,15 @@ namespace Ids.SimpleAdmin.Contracts
         public string UserCodeType { get; set; }
         public int DeviceCodeLifetime { get; set; }
         public bool NonEditable { get; set; }
+        public List<ClientScopeContract> Scopes { get; set; }
+        public List<ClientSecretsContract> Secrets { get; set; }
+        public List<ClientRedirectUriContract> RedirectUris { get; set; }
+        public List<ClientPropertiesContract> Properties { get; set; }
+        public List<ClientPostLogoutRedirectUrisContract> PostLogoutRedirectUris { get; set; }
+        public List<ClientIdPRestrictionsContract> IdPRestrictions { get; set; }
+        public List<ClientGrantTypesContract> GrantTypes { get; set; }
+        public List<ClientCordOriginsContract> CordOrigins { get; set;}
+        public List<ClientClaimsContract> Claims { get; set; }
     }
     public class ClientScopeContract : Identifyable<int?>
     {
