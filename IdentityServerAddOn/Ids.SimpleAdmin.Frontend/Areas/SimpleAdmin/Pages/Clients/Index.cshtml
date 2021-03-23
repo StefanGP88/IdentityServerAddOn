@@ -1,0 +1,42 @@
+﻿@page
+@model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Clients.IndexModel
+@{
+    Layout = "_NestedIndexLayout";
+}
+
+@section TableHead {
+    <tr>
+        <th scope="col"></th>
+        <th scope="col">Client Id</th>
+        <th scope="col">Client Name</th>
+        <th scope="col">Description</th>
+        <th scope="col"></th>
+    </tr>
+}
+@section TableBody{
+    @foreach (var item in Model.List.Items)
+    {
+        <tr>
+            <td>
+                <a asp-page="Info" asp-route-id="@item.Id" class="btn btn-info btn-block"></a>
+            </td>
+            <td>
+                @item.ClientId
+            </td>
+            <td>
+                @item.ClientName
+            </td>
+            <td>
+                @item.Description
+            </td>
+            <td>
+                <button type="button" class="btn btn-outline-danger btn-block float-right"
+                        onclick="SetDeleteModal(@item.Id, '@item.ClientName')">
+                </button>
+            </td>
+        </tr>
+    }
+}
+@section Pagenation{
+    <partial name="_Pagenation" model="Model.List.ToPagenationInfo()" />
+}
