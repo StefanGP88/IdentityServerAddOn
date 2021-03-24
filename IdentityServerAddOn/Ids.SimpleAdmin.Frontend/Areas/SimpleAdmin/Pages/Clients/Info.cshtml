@@ -5,10 +5,14 @@
 
     var scopesDisplay = "Scopes";
     var scopes = scopesDisplay.ToLowerNoSpaces();
+
+    var secretsDisplay = "Secrets";
+    var secrets = secretsDisplay.ToLowerNoSpaces();
 }
 
 @section NavTabs{
     <a class="nav-item nav-link" id="@(scopes)tab" data-toggle="tab" href="#@scopes" role="tab">@scopesDisplay</a>
+    <a class="nav-item nav-link" id="@(secrets)tab" data-toggle="tab" href="#@secrets" role="tab">@secretsDisplay</a>
 }
 
 @section Basesettings{
@@ -201,6 +205,9 @@
             Model?.Data?.Scopes,
             new List<string> { "Scope" });
 
+        RenderTabPanel(secrets,
+            Model?.Data?.Secrets,
+            new List<string> { "Type", "Value", "Description", "Expiration" });
     }
 }
 

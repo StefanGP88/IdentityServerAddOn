@@ -12,5 +12,9 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Clients
         {
             return OnGetPartial("Scopes", model);
         }
+        public PartialViewResult OnGetSecrets(ClientSecretsContract model)
+        {
+            return OnGetPartial("Secrets", model);
+        }
     }
 }
