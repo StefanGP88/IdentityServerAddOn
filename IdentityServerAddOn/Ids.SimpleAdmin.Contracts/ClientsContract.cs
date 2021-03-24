@@ -55,7 +55,7 @@ namespace Ids.SimpleAdmin.Contracts
         public List<ClientPostLogoutRedirectUrisContract> PostLogoutRedirectUris { get; set; }
         public List<ClientIdPRestrictionsContract> IdPRestrictions { get; set; }
         public List<ClientGrantTypesContract> GrantTypes { get; set; }
-        public List<ClientCordOriginsContract> CorsOrigins { get; set;}
+        public List<ClientCorsOriginsContract> CorsOrigins { get; set;}
         public List<ClientClaimsContract> Claims { get; set; }
     }
     public class ClientScopeContract : Identifyable<int?>
@@ -98,7 +98,7 @@ namespace Ids.SimpleAdmin.Contracts
         public int? ClientId { get; set; }
         public string GrantType { get; set; }
     }
-    public class ClientCordOriginsContract : Identifyable<int?>
+    public class ClientCorsOriginsContract : Identifyable<int?>
     {
         public int? ClientId { get; set; }
         public string Origin { get; set; }

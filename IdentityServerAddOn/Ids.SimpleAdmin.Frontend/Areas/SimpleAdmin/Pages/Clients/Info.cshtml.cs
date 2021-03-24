@@ -36,5 +36,9 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Clients
         {
             return OnGetPartial("GrantTypes", model);
         }
+        public PartialViewResult OnGetCorsOrigins(ClientCorsOriginsContract model)
+        {
+            return OnGetPartial("CorsOrigins", model);
+        }
     }
 }

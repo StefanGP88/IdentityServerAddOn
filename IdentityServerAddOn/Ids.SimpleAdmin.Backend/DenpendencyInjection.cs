@@ -37,7 +37,7 @@ namespace Ids.SimpleAdmin.Backend
             sc.AddTransient<IValidator<ClientPostLogoutRedirectUrisContract>, ClientPostLogoutRedirectUrisValidator>();
             sc.AddTransient<IValidator<ClientIdPRestrictionsContract>, ClientIdPRestrictionsValidator>();
             sc.AddTransient<IValidator<ClientGrantTypesContract>, ClientGrantTypeValidator>();
-            sc.AddTransient<IValidator<ClientCordOriginsContract>, ClientCorsOriginsValidator>();
+            sc.AddTransient<IValidator<ClientCorsOriginsContract>, ClientCorsOriginsValidator>();
             sc.AddTransient<IValidator<ClientClaimsContract>, ClientClaimsValidator>();
             sc.AddTransient<ValidationFactory>();
         }

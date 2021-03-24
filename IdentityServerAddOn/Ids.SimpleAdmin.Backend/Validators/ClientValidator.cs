@@ -113,7 +113,7 @@ namespace Ids.SimpleAdmin.Backend.Validators
             RuleFor(x => x.GrantType).MaximumLength(250).NotNull();
         }
     }
-    public class ClientCorsOriginsValidator : AbstractValidator<ClientCordOriginsContract>
+    public class ClientCorsOriginsValidator : AbstractValidator<ClientCorsOriginsContract>
     {
         public ClientCorsOriginsValidator()
         {

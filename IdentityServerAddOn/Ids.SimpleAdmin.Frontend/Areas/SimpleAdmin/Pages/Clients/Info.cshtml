@@ -23,6 +23,9 @@
 
     var grantTypesDisplay = "Grant Types";
     var grantTypes = grantTypesDisplay.ToLowerNoSpaces();
+
+    var corsOriginsDisplay = "Cors Origins";
+    var corsOrigins = corsOriginsDisplay.ToLowerNoSpaces();
 }
 
 @section NavTabs{
@@ -33,6 +36,7 @@
     <a class="nav-item nav-link" id="@(postLogoutRedirectUris)tab" data-toggle="tab" href="#@postLogoutRedirectUris" role="tab">@postLogoutRedirectUrisDisplay</a>
     <a class="nav-item nav-link" id="@(idPRestrictions)tab" data-toggle="tab" href="#@idPRestrictions" role="tab">@idPRestrictionsDisplay</a>
     <a class="nav-item nav-link" id="@(grantTypes)tab" data-toggle="tab" href="#@grantTypes" role="tab">@grantTypesDisplay</a>
+    <a class="nav-item nav-link" id="@(corsOrigins)tab" data-toggle="tab" href="#@corsOrigins" role="tab">@corsOriginsDisplay</a>
 }
 
 @section Basesettings{
@@ -249,6 +253,9 @@
             Model?.Data?.GrantTypes,
             new List<string> { "Grant type" });
 
+        RenderTabPanel(corsOrigins,
+            Model?.Data?.CorsOrigins,
+            new List<string> { "Origin" });
     }
 }
 
