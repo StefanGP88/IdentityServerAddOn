@@ -8,11 +8,15 @@
 
     var secretsDisplay = "Secrets";
     var secrets = secretsDisplay.ToLowerNoSpaces();
+
+    var redirectUrisDisplay = "Redirect Uris";
+    var redirectUris = redirectUrisDisplay.ToLowerNoSpaces();
 }
 
 @section NavTabs{
     <a class="nav-item nav-link" id="@(scopes)tab" data-toggle="tab" href="#@scopes" role="tab">@scopesDisplay</a>
     <a class="nav-item nav-link" id="@(secrets)tab" data-toggle="tab" href="#@secrets" role="tab">@secretsDisplay</a>
+    <a class="nav-item nav-link" id="@(redirectUris)tab" data-toggle="tab" href="#@redirectUris" role="tab">@redirectUrisDisplay</a>
 }
 
 @section Basesettings{
@@ -208,6 +212,10 @@
         RenderTabPanel(secrets,
             Model?.Data?.Secrets,
             new List<string> { "Type", "Value", "Description", "Expiration" });
+
+        RenderTabPanel(redirectUris,
+            Model?.Data?.RedirectUris,
+            new List<string> { "RedirectUri" });
     }
 }
 

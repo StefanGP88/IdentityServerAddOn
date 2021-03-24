@@ -16,5 +16,9 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Clients
         {
             return OnGetPartial("Secrets", model);
         }
+        public PartialViewResult OnGetRedirectUris(ClientRedirectUriContract model)
+        {
+            return OnGetPartial("RedirectUris", model);
+        }
     }
 }

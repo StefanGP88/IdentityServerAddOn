@@ -1,0 +1,30 @@
+﻿@model ClientRedirectUriContract
+@{
+    var validationResult = _validator.Validate(Model);
+    var idx = Guid.NewGuid();
+    var disabled = (!Model.IsNull() && validationResult.IsValid) ? "readonly" : string.Empty;
+    var disabledClass = (!Model.IsNull() && validationResult.IsValid) ? "border-0 bg-transparent" : string.Empty;
+    var disabledBtn = (!Model.IsNull() && validationResult.IsValid) ? "btn-info" : "btn-success";
+}
+<tr>
+    <td>
+        <button type="button" class="btn  @disabledBtn btn-block" onclick="ToggleEdit(this, 'RedirectUris');"></button>
+    </td>
+    <td>
+        <input type="hidden" name="dto.RedirectUris.index" value="@idx" />
+        <input type="hidden" name="dto.RedirectUris[@idx].Id" value="@Model?.Id" />
+        <input type="hidden" name="dto.RedirectUris[@idx].ClientId" value="@Model?.ClientId" />
+        <input type="text"
+               name="dto.RedirectUris[@idx].RedirectUri"
+               value="@Model?.RedirectUri"
+               class="form-control @disabledClass" @disabled />
+        <partial name="_ValidationNotificationPartial" model="@validationResult["RedirectUri"]" />
+    </td>
+    <td>
+        <button type="button"
+                class="btn btn-outline-danger btn-block float-right"
+                onclick="SetRemoveModal(this, 'dto.RedirectUris[@idx].RedirectUri');"
+                data-toggle="modal" data-target="#removeRowModal">
+        </button>
+    </td>
+</tr>
