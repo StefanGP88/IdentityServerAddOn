@@ -9,6 +9,8 @@
     var secretsDisplay = "Secrets";
     var secrets = secretsDisplay.ToLowerNoSpaces();
 
+    var urisDisplay = "Uris";
+
     var redirectUrisDisplay = "Redirect Uris";
     var redirectUris = redirectUrisDisplay.ToLowerNoSpaces();
 
@@ -34,7 +36,7 @@
 @section NavTabs{
     <a class="nav-item nav-link" id="@(scopes)tab" data-toggle="tab" href="#@scopes" role="tab">@scopesDisplay</a>
     <a class="nav-item nav-link" id="@(secrets)tab" data-toggle="tab" href="#@secrets" role="tab">@secretsDisplay</a>
-    <a class="nav-item nav-link" id="@(redirectUris)tab" data-toggle="tab" href="#@redirectUris" role="tab">@redirectUrisDisplay</a>
+    <a class="nav-item nav-link" id="@(redirectUris)tab" data-toggle="tab" href="#@redirectUris" role="tab">@urisDisplay</a>
     <a class="nav-item nav-link" id="@(properties)tab" data-toggle="tab" href="#@properties" role="tab">@propertiesDisplay</a>
     <a class="nav-item nav-link" id="@(idPRestrictions)tab" data-toggle="tab" href="#@idPRestrictions" role="tab">@idPRestrictionsDisplay</a>
     <a class="nav-item nav-link" id="@(grantTypes)tab" data-toggle="tab" href="#@grantTypes" role="tab">@grantTypesDisplay</a>
@@ -59,34 +61,9 @@
         <partial name="_ValidationNotification" model="@ModelState["dto.Description"]" />
     </div>
     <div class="form-group">
-        <label class="col-form-label">Client uri</label>
-        <input type="text" class="form-control" id="name" name="dto.ClientUri" value="@Model?.Data?.ClientUri">
-        <partial name="_ValidationNotification" model="@ModelState["dto.ClientUri"]" />
-    </div>
-    <div class="form-group">
-        <label class="col-form-label">Client claims prefix</label> @*TODO:put this in claims tab eventually*@
-        <input type="text" class="form-control" id="name" name="dto.ClientClaimsPrefix" value="@Model?.Data?.ClientClaimsPrefix">
-        <partial name="_ValidationNotification" model="@ModelState["dto.ClientClaimsPrefix"]" />
-    </div>
-    <div class="form-group">
-        <label class="col-form-label">Logo uri</label>
-        <input type="text" class="form-control" id="name" name="dto.LogoUri" value="@Model?.Data?.LogoUri">
-        <partial name="_ValidationNotification" model="@ModelState["dto.LogoUri"]" />
-    </div>
-    <div class="form-group">
         <label class="col-form-label">Protocol type</label>
         <input type="text" class="form-control" id="name" name="dto.ProtocolType" value="@Model?.Data?.ProtocolType">
         <partial name="_ValidationNotification" model="@ModelState["dto.ProtocolType"]" />
-    </div>
-    <div class="form-group">
-        <label class="col-form-label">Front channel logout uri</label>
-        <input type="text" class="form-control" id="name" name="dto.FrontChannelLogoutUri" value="@Model?.Data?.FrontChannelLogoutUri">
-        <partial name="_ValidationNotification" model="@ModelState["dto.FrontChannelLogoutUri"]" />
-    </div>
-    <div class="form-group">
-        <label class="col-form-label">Back channel logout uri</label>
-        <input type="text" class="form-control" id="name" name="dto.BackChannelLogoutUri" value="@Model?.Data?.BackChannelLogoutUri">
-        <partial name="_ValidationNotification" model="@ModelState["dto.BackChannelLogoutUri"]" />
     </div>
     <div class="form-group">
         <label class="col-form-label">Allowed identity token signing algorithms</label>
@@ -159,20 +136,12 @@
             <label class="form-check-label">Is enabled</label>
         </div>
         <div class="form-check">
-            <input type="checkbox" class="form-check-input" name="dto.RequireClientSecret" value="True" @Model?.Data?.RequireClientSecret.IsChecked() />
-            <label class="form-check-label">Require client secret</label> @*TODO: put i client secret tab senere*@
-        </div>
-        <div class="form-check">
             <input type="checkbox" class="form-check-input" name="dto.RequireConsent" value="True" @Model?.Data?.RequireConsent.IsChecked() />
             <label class="form-check-label">Require consent</label>
         </div>
         <div class="form-check">
             <input type="checkbox" class="form-check-input" name="dto.AllowRememberConsent" value="True" @Model?.Data?.AllowRememberConsent.IsChecked() />
             <label class="form-check-label">Allow remember consent</label>
-        </div>
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" name="dto.AlwaysIncludeUserClaimsInToken" value="True" @Model?.Data?.AlwaysIncludeUserClaimsInToken.IsChecked() />
-            <label class="form-check-label">Always include user claims in token</label>
         </div>
         <div class="form-check">
             <input type="checkbox" class="form-check-input" name="dto.RequirePkce" value="True" @Model?.Data?.RequirePkce.IsChecked() />
@@ -203,20 +172,12 @@
             <label class="form-check-label">Allow offline access</label>
         </div>
         <div class="form-check">
-            <input type="checkbox" class="form-check-input" name="dto.UpdateAccessTokenClaimsOnRefresh" value="True" @Model?.Data?.UpdateAccessTokenClaimsOnRefresh.IsChecked() />
-            <label class="form-check-label">Update access token claims on refresh</label>
-        </div>
-        <div class="form-check">
             <input type="checkbox" class="form-check-input" name="dto.EnabledLocalLogin" value="True" @Model?.Data?.EnabledLocalLogin.IsChecked() />
             <label class="form-check-label">Enabled local login</label>
         </div>
         <div class="form-check">
             <input type="checkbox" class="form-check-input" name="dto.IncludeJwtId" value="True" @Model?.Data?.IncludeJwtId.IsChecked() />
             <label class="form-check-label">Include jwt id</label>
-        </div>
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" name="dto.AlwaysSendClientClaims" value="True" @Model?.Data?.AlwaysSendClientClaims.IsChecked() />
-            <label class="form-check-label">Always send client claims</label>
         </div>
         <div class="form-check">
             <input type="checkbox" class="form-check-input" name="dto.NonEditable" value="True" @Model?.Data?.NonEditable.IsChecked() />
@@ -231,11 +192,6 @@
         RenderTabPanel(scopes,
             Model?.Data?.Scopes,
             new List<string> { "Scope" });
-
-        RenderTabPanel(secrets,
-            Model?.Data?.Secrets,
-            new List<string> { "Type", "Value", "Description", "Expiration" });
-
 
         RenderTabPanel(properties,
             Model?.Data?.Properties,
@@ -254,16 +210,80 @@
             Model?.Data?.CorsOrigins,
             new List<string> { "Origin" });
 
-        RenderTabPanel(claims,
-            Model?.Data?.Claims,
-            new List<string> { "Type", "Value" });
+        <div class="tab-pane fade" id="@secrets" role="tabpanel">
+            <br />
+            <div>
+                <table class="table table-striped border border-dark">
+                    @{
+                        await Html.RenderPartialAsync("_Tableheader", new List<string> { "Type", "Value", "Description", "Expiration" });
+                        RenderTableBody(secrets, Model?.Data?.Secrets);
+                    }
+                </table>
+                <button type="button" class="btn btn-primary" onclick="AppendTableRow(this, '@secrets', '@secrets.AsTableBody()')"></button>
+            </div>
+            <br />
+            <fieldset class="form-group">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="dto.RequireClientSecret" value="True" @Model?.Data?.RequireClientSecret.IsChecked() />
+                    <label class="form-check-label">Require client secret</label> @*TODO: implement conditional validation ?*@
+                </div>
+            </fieldset>
+        </div>
 
-
-
-
-
+        <div class="tab-pane fade" id="@claims" role="tabpanel">
+            <div class="form-group">
+                <label class="col-form-label">Client claims prefix</label>
+                <input type="text" class="form-control" id="name" name="dto.ClientClaimsPrefix" value="@Model?.Data?.ClientClaimsPrefix">
+                <partial name="_ValidationNotification" model="@ModelState["dto.ClientClaimsPrefix"]" />
+            </div>
+            <br />
+            <div>
+                <table class="table table-striped border border-dark">
+                    @{
+                        await Html.RenderPartialAsync("_Tableheader", new List<string> { "Type", "Value" });
+                        RenderTableBody(claims, Model?.Data?.Claims);
+                    }
+                </table>
+                <button type="button" class="btn btn-primary" onclick="AppendTableRow(this, '@claims', '@claims.AsTableBody()')"></button>
+            </div>
+            <br />
+            <fieldset class="form-group">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="dto.AlwaysIncludeUserClaimsInToken" value="True" @Model?.Data?.AlwaysIncludeUserClaimsInToken.IsChecked() />
+                    <label class="form-check-label">Always include user claims in token</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="dto.UpdateAccessTokenClaimsOnRefresh" value="True" @Model?.Data?.UpdateAccessTokenClaimsOnRefresh.IsChecked() />
+                    <label class="form-check-label">Update access token claims on refresh</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="dto.AlwaysSendClientClaims" value="True" @Model?.Data?.AlwaysSendClientClaims.IsChecked() />
+                    <label class="form-check-label">Always send client claims</label>
+                </div>
+            </fieldset>
+        </div>
 
         <div class="tab-pane fade" id="@redirectUris" role="tabpanel">
+            <div class="form-group">
+                <label class="col-form-label">Client uri</label>
+                <input type="text" class="form-control" id="name" name="dto.ClientUri" value="@Model?.Data?.ClientUri">
+                <partial name="_ValidationNotification" model="@ModelState["dto.ClientUri"]" />
+            </div>
+            <div class="form-group">
+                <label class="col-form-label">Logo uri</label>
+                <input type="text" class="form-control" id="name" name="dto.LogoUri" value="@Model?.Data?.LogoUri">
+                <partial name="_ValidationNotification" model="@ModelState["dto.LogoUri"]" />
+            </div>
+            <div class="form-group">
+                <label class="col-form-label">Front channel logout uri</label>
+                <input type="text" class="form-control" id="name" name="dto.FrontChannelLogoutUri" value="@Model?.Data?.FrontChannelLogoutUri">
+                <partial name="_ValidationNotification" model="@ModelState["dto.FrontChannelLogoutUri"]" />
+            </div>
+            <div class="form-group">
+                <label class="col-form-label">Back channel logout uri</label>
+                <input type="text" class="form-control" id="name" name="dto.BackChannelLogoutUri" value="@Model?.Data?.BackChannelLogoutUri">
+                <partial name="_ValidationNotification" model="@ModelState["dto.BackChannelLogoutUri"]" />
+            </div>
             <br />
             <div>
                 <table class="table table-striped border border-dark">
