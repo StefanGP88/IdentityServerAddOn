@@ -50,6 +50,15 @@ namespace Ids.SimpleAdmin.Backend.Validators
             RuleFor(x => x.UserCodeType).MaximumLength(100);
             RuleFor(x => x.DeviceCodeLifetime).NotNull();
             RuleFor(x => x.NonEditable).NotNull();
+            RuleForEach(x => x.Scopes).SetValidator(new ClientScopesValidator());
+            RuleForEach(x => x.Secrets).SetValidator(new ClientSecretsValidator());
+            RuleForEach(x => x.RedirectUris).SetValidator(new ClientRedirectUrisValidator());
+            RuleForEach(x => x.Properties).SetValidator(new ClientPropertiesValidator());
+            RuleForEach(x => x.PostLogoutRedirectUris).SetValidator(new ClientPostLogoutRedirectUrisValidator());
+            RuleForEach(x => x.IdPRestrictions).SetValidator(new ClientIdPRestrictionsValidator());
+            RuleForEach(x => x.GrantTypes).SetValidator(new ClientGrantTypeValidator());
+            RuleForEach(x => x.CorsOrigins).SetValidator(new ClientCorsOriginsValidator());
+            RuleForEach(x => x.Claims).SetValidator(new ClientClaimsValidator());
         }
     }
     public class ClientScopesValidator : AbstractValidator<ClientScopeContract>
@@ -57,6 +66,66 @@ namespace Ids.SimpleAdmin.Backend.Validators
         public ClientScopesValidator()
         {
             RuleFor(x => x.Scope).MaximumLength(200).NotNull();
+        }
+    }
+    public class ClientSecretsValidator : AbstractValidator<ClientSecretsContract>
+    {
+        public ClientSecretsValidator()
+        {
+            RuleFor(x => x.Description).MaximumLength(2000).NotNull();
+            RuleFor(x => x.Value).MaximumLength(4000).NotNull();
+            RuleFor(x => x.Type).MaximumLength(250).NotNull();
+        }
+    }
+    public class ClientRedirectUrisValidator : AbstractValidator<ClientRedirectUriContract>
+    {
+        public ClientRedirectUrisValidator()
+        {
+            RuleFor(x => x.RedirectUri).MaximumLength(2000).NotNull();
+        }
+    }
+    public class ClientPropertiesValidator : AbstractValidator<ClientPropertiesContract>
+    {
+        public ClientPropertiesValidator()
+        {
+            RuleFor(x => x.Key).MaximumLength(250).NotNull();
+            RuleFor(x => x.Value).MaximumLength(2000).NotNull();
+        }
+    }
+    public class ClientPostLogoutRedirectUrisValidator : AbstractValidator<ClientPostLogoutRedirectUrisContract>
+    {
+        public ClientPostLogoutRedirectUrisValidator()
+        {
+            RuleFor(x => x.PostLogoutRedirectUri).MaximumLength(2000).NotNull();
+        }
+    }
+    public  class ClientIdPRestrictionsValidator : AbstractValidator<ClientIdPRestrictionsContract>
+    {
+        public ClientIdPRestrictionsValidator()
+        {
+            RuleFor(x => x.Provider).MaximumLength(200).NotNull();
+        }
+    }
+    public class ClientGrantTypeValidator : AbstractValidator<ClientGrantTypesContract>
+    {
+        public ClientGrantTypeValidator()
+        {
+            RuleFor(x => x.GrantType).MaximumLength(250).NotNull();
+        }
+    }
+    public class ClientCorsOriginsValidator : AbstractValidator<ClientCordOriginsContract>
+    {
+        public ClientCorsOriginsValidator()
+        {
+            RuleFor(x => x.Origin).MaximumLength(150).NotNull();
+        }
+    }
+    public class ClientClaimsValidator : AbstractValidator<ClientClaimsContract>
+    {
+        public ClientClaimsValidator()
+        {
+            RuleFor(x => x.Type).MaximumLength(250).NotNull();
+            RuleFor(x => x.Value).MaximumLength(250).NotNull();
         }
     }
 }
