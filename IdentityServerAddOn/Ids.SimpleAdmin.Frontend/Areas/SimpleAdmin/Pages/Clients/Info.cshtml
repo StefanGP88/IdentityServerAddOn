@@ -60,6 +60,61 @@
         <input type="text" class="form-control" id="name" name="dto.PairWiseSubjectSalt" value="@Model?.Data?.PairWiseSubjectSalt">
         <partial name="_ValidationNotification" model="@ModelState["dto.PairWiseSubjectSalt"]" />
     </div>
+    <div class="form-group">
+        <label class="col-form-label">Identity token lifetime</label>
+        <input type="number" class="form-control" name="dto.IdentityTokenLifetime" value="@Model?.Data?.IdentityTokenLifetime">
+        <partial name="_ValidationNotification" model="@ModelState["dto.IdentityTokenLifetime"]" />
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Access token lifetime</label>
+        <input type="number" class="form-control" name="dto.AccessTokenLifetime" value="@Model?.Data?.AccessTokenLifetime">
+        <partial name="_ValidationNotification" model="@ModelState["dto.AccessTokenLifetime"]" />
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Authorization code lifetime</label>
+        <input type="number" class="form-control" name="dto.AuthorizationCodeLifeTime" value="@Model?.Data?.AuthorizationCodeLifeTime">
+        <partial name="_ValidationNotification" model="@ModelState["dto.AuthorizationCodeLifeTime"]" />
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Consent lifetime</label>
+        <input type="number" class="form-control" name="dto.ConsentLifetime" value="@Model?.Data?.ConsentLifetime">
+        <partial name="_ValidationNotification" model="@ModelState["dto.ConsentLifetime"]" />
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Absolute refresh token lifetime</label>
+        <input type="number" class="form-control" name="dto.AbsoluteRefreshTokenLifetime" value="@Model?.Data?.AbsoluteRefreshTokenLifetime">
+        <partial name="_ValidationNotification" model="@ModelState["dto.AbsoluteRefreshTokenLifetime"]" />
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Sliding refresh token lifetime</label>
+        <input type="number" class="form-control" name="dto.SlidingRefreshTokenLifetime" value="@Model?.Data?.SlidingRefreshTokenLifetime">
+        <partial name="_ValidationNotification" model="@ModelState["dto.SlidingRefreshTokenLifetime"]" />
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Refresh token usage</label>
+        <input type="number" class="form-control" name="dto.RefreshTokenUsage" value="@Model?.Data?.RefreshTokenUsage">
+        <partial name="_ValidationNotification" model="@ModelState["dto.RefreshTokenUsage"]" />
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Refresh token expiration</label>
+        <input type="number" class="form-control" name="dto.RefreshTokenExpiration" value="@Model?.Data?.RefreshTokenExpiration">
+        <partial name="_ValidationNotification" model="@ModelState["dto.RefreshTokenExpiration"]" />
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Access token type</label>
+        <input type="number" class="form-control" name="dto.AccessTokenType" value="@Model?.Data?.AccessTokenType">
+        <partial name="_ValidationNotification" model="@ModelState["dto.AccessTokenType"]" />
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">User sso lifetime</label>
+        <input type="number" class="form-control" name="dto.UserSsoLifetime" value="@Model?.Data?.UserSsoLifetime">
+        <partial name="_ValidationNotification" model="@ModelState["dto.UserSsoLifetime"]" />
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Device code lifetime</label>
+        <input type="number" class="form-control" name="dto.DeviceCodeLifetime" value="@Model?.Data?.DeviceCodeLifetime">
+        <partial name="_ValidationNotification" model="@ModelState["dto.DeviceCodeLifetime"]" />
+    </div>
     @*<fieldset class="form-group">
             <div class="form-check">
                 <input type="checkbox" class="form-check-input" id="enabled" name="dto.Enabled" value="True" @Model?.Data?.Enabled.IsChecked() />
