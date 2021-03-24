@@ -36,7 +36,6 @@
     <a class="nav-item nav-link" id="@(secrets)tab" data-toggle="tab" href="#@secrets" role="tab">@secretsDisplay</a>
     <a class="nav-item nav-link" id="@(redirectUris)tab" data-toggle="tab" href="#@redirectUris" role="tab">@redirectUrisDisplay</a>
     <a class="nav-item nav-link" id="@(properties)tab" data-toggle="tab" href="#@properties" role="tab">@propertiesDisplay</a>
-    <a class="nav-item nav-link" id="@(postLogoutRedirectUris)tab" data-toggle="tab" href="#@postLogoutRedirectUris" role="tab">@postLogoutRedirectUrisDisplay</a>
     <a class="nav-item nav-link" id="@(idPRestrictions)tab" data-toggle="tab" href="#@idPRestrictions" role="tab">@idPRestrictionsDisplay</a>
     <a class="nav-item nav-link" id="@(grantTypes)tab" data-toggle="tab" href="#@grantTypes" role="tab">@grantTypesDisplay</a>
     <a class="nav-item nav-link" id="@(corsOrigins)tab" data-toggle="tab" href="#@corsOrigins" role="tab">@corsOriginsDisplay</a>
@@ -237,17 +236,11 @@
             Model?.Data?.Secrets,
             new List<string> { "Type", "Value", "Description", "Expiration" });
 
-        RenderTabPanel(redirectUris,
-            Model?.Data?.RedirectUris,
-            new List<string> { "Redirect uri" });
 
         RenderTabPanel(properties,
             Model?.Data?.Properties,
             new List<string> { "Value", "Key" });
 
-        RenderTabPanel(postLogoutRedirectUris,
-            Model?.Data?.PostLogoutRedirectUris,
-            new List<string> { "Post logout redirect uri" });
 
         RenderTabPanel(idPRestrictions,
             Model?.Data?.IdPRestrictions,
@@ -264,6 +257,35 @@
         RenderTabPanel(claims,
             Model?.Data?.Claims,
             new List<string> { "Type", "Value" });
+
+
+
+
+
+
+        <div class="tab-pane fade" id="@redirectUris" role="tabpanel">
+            <br />
+            <div>
+                <table class="table table-striped border border-dark">
+                    @{
+                        await Html.RenderPartialAsync("_Tableheader", new List<string> { "Redirect uri" });
+                        RenderTableBody(redirectUris, Model?.Data?.RedirectUris);
+                    }
+                </table>
+                <button type="button" class="btn btn-primary" onclick="AppendTableRow(this, '@redirectUris', '@redirectUris.AsTableBody()')"></button>
+            </div>
+            <br />
+            <div>
+                <table class="table table-striped border border-dark">
+                    @{
+                        await Html.RenderPartialAsync("_Tableheader", new List<string> { "Post logout redirect uri" });
+                        RenderTableBody(postLogoutRedirectUris, Model?.Data?.PostLogoutRedirectUris);
+                    }
+                </table>
+                <button type="button" class="btn btn-primary" onclick="AppendTableRow(this, '@postLogoutRedirectUris', '@postLogoutRedirectUris.AsTableBody()')"></button>
+            </div>
+        </div>
+
     }
 }
 

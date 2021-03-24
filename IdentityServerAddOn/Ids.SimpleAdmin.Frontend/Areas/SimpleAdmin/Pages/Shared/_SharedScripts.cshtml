@@ -111,7 +111,7 @@
     }
 
     function DisableEditButtons(element, isDisabled) {
-        var tab = $(element).closest('div.tab-pane');
+        var tab = $(element).closest('div');
         var bttns = $(tab).find('.btn-info,.btn-primary');
         bttns.each(function () {
             $(this).prop('disabled', isDisabled);
