@@ -115,26 +115,74 @@
         <input type="number" class="form-control" name="dto.DeviceCodeLifetime" value="@Model?.Data?.DeviceCodeLifetime">
         <partial name="_ValidationNotification" model="@ModelState["dto.DeviceCodeLifetime"]" />
     </div>
-    @*<fieldset class="form-group">
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="enabled" name="dto.Enabled" value="True" @Model?.Data?.Enabled.IsChecked() />
-                <label class="form-check-label">Is enabled</label>
-            </div>
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="nonEditable" name="dto.Required" value="True" @Model?.Data?.Req.IsChecked() />
-                <label class="form-check-label">Is required</label>
-            </div>
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="nonEditable" name="dto.Emphasize" value="True" @Model?.Data?.Emphasize.IsChecked() />
-                <label class="form-check-label">Emphasize</label>
-            </div>
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="showInDiscovery" name="dto.ShowInDiscoveryDocument" value="True" @Model?.Data?.ShowInDiscoveryDocument.IsChecked() />
-                <label class="form-check-label">Show in discovery document</label>
-            </div>
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="nonEditable" name="dto.NonEditable" value="True" @Model?.Data?.NonEditable.IsChecked() />
-                <label class="form-check-label">Is non-editable</label>
-            </div>
-        </fieldset>*@
+    <fieldset class="form-group">
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="enabled" name="dto.Enabled" value="True" @Model?.Data?.Enabled.IsChecked() />
+            <label class="form-check-label">Is enabled</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="dto.RequireClientSecret" value="True" @Model?.Data?.RequireClientSecret.IsChecked() />
+            <label class="form-check-label">Require client secret</label> put i client secret tab senere
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="dto.RequireConsent" value="True" @Model?.Data?.RequireConsent.IsChecked() />
+            <label class="form-check-label">Require consent</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="dto.AllowRememberConsent" value="True" @Model?.Data?.AllowRememberConsent.IsChecked() />
+            <label class="form-check-label">Allow remember consent</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="dto.AlwaysIncludeUserClaimsInToken" value="True" @Model?.Data?.AlwaysIncludeUserClaimsInToken.IsChecked() />
+            <label class="form-check-label">Always include user claims in token</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="dto.RequirePkce" value="True" @Model?.Data?.RequirePkce.IsChecked() />
+            <label class="form-check-label">Require pkce</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="dto.AllowPlainTextPkce" value="True" @Model?.Data?.AllowPlainTextPkce.IsChecked() />
+            <label class="form-check-label">Allow plain text pkce</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="dto.RequireRequestObject" value="True" @Model?.Data?.RequireRequestObject.IsChecked() />
+            <label class="form-check-label">Require request object</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="dto.AllowAccessTokensViaBrowser" value="True" @Model?.Data?.AllowAccessTokensViaBrowser.IsChecked() />
+            <label class="form-check-label">Allow access tokens via browser</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="dto.FrontChannelSessionRequired" value="True" @Model?.Data?.FrontChannelSessionRequired.IsChecked() />
+            <label class="form-check-label">Is front channel session required</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="dto.BackChannelLogoutSessionRequired" value="True" @Model?.Data?.BackChannelLogoutSessionRequired.IsChecked() />
+            <label class="form-check-label">Is back channel session required</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="dto.AllowOfflineAccess" value="True" @Model?.Data?.AllowOfflineAccess.IsChecked() />
+            <label class="form-check-label">Allow offline access</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="dto.UpdateAccessTokenClaimsOnRefresh" value="True" @Model?.Data?.UpdateAccessTokenClaimsOnRefresh.IsChecked() />
+            <label class="form-check-label">Update access token claims on refresh</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="dto.EnabledLocalLogin" value="True" @Model?.Data?.EnabledLocalLogin.IsChecked() />
+            <label class="form-check-label">Enabled local login</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="dto.IncludeJwtId" value="True" @Model?.Data?.IncludeJwtId.IsChecked() />
+            <label class="form-check-label">Include jwt id</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="dto.AlwaysSendClientClaims" value="True" @Model?.Data?.AlwaysSendClientClaims.IsChecked() />
+            <label class="form-check-label">Always send client claims</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="dto.NonEditable" value="True" @Model?.Data?.NonEditable.IsChecked() />
+            <label class="form-check-label">Is non-editable</label>
+        </div>
+    </fieldset>
 }
