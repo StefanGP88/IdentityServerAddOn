@@ -40,5 +40,9 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Clients
         {
             return OnGetPartial("CorsOrigins", model);
         }
+        public PartialViewResult OnGetClaims(ClientClaimsContract model)
+        {
+            return OnGetPartial("Claims", model);
+        }
     }
 }

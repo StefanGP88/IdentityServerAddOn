@@ -26,6 +26,9 @@
 
     var corsOriginsDisplay = "Cors Origins";
     var corsOrigins = corsOriginsDisplay.ToLowerNoSpaces();
+
+    var claimsDisplay = "Claims";
+    var claims = claimsDisplay.ToLowerNoSpaces();
 }
 
 @section NavTabs{
@@ -37,6 +40,7 @@
     <a class="nav-item nav-link" id="@(idPRestrictions)tab" data-toggle="tab" href="#@idPRestrictions" role="tab">@idPRestrictionsDisplay</a>
     <a class="nav-item nav-link" id="@(grantTypes)tab" data-toggle="tab" href="#@grantTypes" role="tab">@grantTypesDisplay</a>
     <a class="nav-item nav-link" id="@(corsOrigins)tab" data-toggle="tab" href="#@corsOrigins" role="tab">@corsOriginsDisplay</a>
+    <a class="nav-item nav-link" id="@(claims)tab" data-toggle="tab" href="#@claims" role="tab">@claimsDisplay</a>
 }
 
 @section Basesettings{
@@ -256,6 +260,10 @@
         RenderTabPanel(corsOrigins,
             Model?.Data?.CorsOrigins,
             new List<string> { "Origin" });
+
+        RenderTabPanel(claims,
+            Model?.Data?.Claims,
+            new List<string> { "Type", "Value" });
     }
 }
 
