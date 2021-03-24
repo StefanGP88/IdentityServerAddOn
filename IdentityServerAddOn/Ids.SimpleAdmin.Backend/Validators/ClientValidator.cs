@@ -52,4 +52,11 @@ namespace Ids.SimpleAdmin.Backend.Validators
             RuleFor(x => x.NonEditable).NotNull();
         }
     }
+    public class ClientScopesValidator : AbstractValidator<ClientScopeContract>
+    {
+        public ClientScopesValidator()
+        {
+            RuleFor(x => x.Scope).MaximumLength(200).NotNull();
+        }
+    }
 }

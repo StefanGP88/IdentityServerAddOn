@@ -29,6 +29,8 @@ namespace Ids.SimpleAdmin.Backend
             sc.AddTransient<IValidator<IdentityResourceContract>, IdentityResourceValidator>();
             sc.AddTransient<IValidator<IdentityResourceClaimsContract>, IdentityResourceClaimsValidator>();
             sc.AddTransient<IValidator<IdentityResourcePropertiesContract>, IdentityResourcePropertiesValidator>();
+            sc.AddTransient<IValidator<ClientsContract>, ClientValidator>();
+            sc.AddTransient<IValidator<ClientScopeContract>, ClientScopesValidator>();
             sc.AddTransient<ValidationFactory>();
         }
     }

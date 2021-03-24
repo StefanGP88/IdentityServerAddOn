@@ -3,7 +3,14 @@
 @{
     Layout = "_NestedInfoLayout";
 
+    var scopesDisplay = "Scopes";
+    var scopes = scopesDisplay.ToLowerNoSpaces();
 }
+
+@section NavTabs{
+    <a class="nav-item nav-link" id="@(scopes)tab" data-toggle="tab" href="#@scopes" role="tab">@scopesDisplay</a>
+}
+
 @section Basesettings{
     <div class="form-group">
         <label class="col-form-label">Client id</label>
@@ -185,4 +192,42 @@
             <label class="form-check-label">Is non-editable</label>
         </div>
     </fieldset>
+}
+
+@section ResourceProperties{
+    @{
+
+        RenderTabPanel(scopes,
+            Model?.Data?.Scopes,
+            new List<string> { "Scope" });
+
+    }
+}
+
+@functions {
+    void RenderTableBody<T>(string name, List<T> list)
+    {
+        <tbody id="@name.AsTableBody()">
+            @if (list != null)
+            {
+                foreach (var item in list)
+                {
+                    Html.RenderPartialAsync("TableRowPartials/_" + name.FirstLetterToUpper(), item);
+                }
+            }
+        </tbody>
+    }
+    void RenderTabPanel<T>(string name, List<T> list, List<string> columns)
+    {
+        <div class="tab-pane fade" id="@name" role="tabpanel">
+            <br />
+            <table class="table table-striped border border-dark">
+                @{
+                    Html.RenderPartialAsync("_Tableheader", columns);
+                    RenderTableBody(name, list);
+                }
+            </table>
+            <button type="button" class="btn btn-primary" onclick="AppendTableRow(this, '@name', '@name.AsTableBody()')"></button>
+        </div>
+    }
 }
