@@ -14,6 +14,9 @@
 
     var propertiesDisplay = "Properties";
     var properties = propertiesDisplay.ToLowerNoSpaces();
+
+    var postLogoutRedirectUrisDisplay = "Post Logout Redirect Uris";
+    var postLogoutRedirectUris = postLogoutRedirectUrisDisplay.ToLowerNoSpaces();
 }
 
 @section NavTabs{
@@ -21,6 +24,7 @@
     <a class="nav-item nav-link" id="@(secrets)tab" data-toggle="tab" href="#@secrets" role="tab">@secretsDisplay</a>
     <a class="nav-item nav-link" id="@(redirectUris)tab" data-toggle="tab" href="#@redirectUris" role="tab">@redirectUrisDisplay</a>
     <a class="nav-item nav-link" id="@(properties)tab" data-toggle="tab" href="#@properties" role="tab">@propertiesDisplay</a>
+    <a class="nav-item nav-link" id="@(postLogoutRedirectUris)tab" data-toggle="tab" href="#@postLogoutRedirectUris" role="tab">@postLogoutRedirectUrisDisplay</a>
 }
 
 @section Basesettings{
@@ -219,11 +223,16 @@
 
         RenderTabPanel(redirectUris,
             Model?.Data?.RedirectUris,
-            new List<string> { "RedirectUri" });
+            new List<string> { "Redirect uri" });
 
         RenderTabPanel(properties,
             Model?.Data?.Properties,
             new List<string> { "Value", "Key" });
+
+        RenderTabPanel(postLogoutRedirectUris,
+            Model?.Data?.PostLogoutRedirectUris,
+            new List<string> { "Post logout redirect uri" });
+
     }
 }
 
