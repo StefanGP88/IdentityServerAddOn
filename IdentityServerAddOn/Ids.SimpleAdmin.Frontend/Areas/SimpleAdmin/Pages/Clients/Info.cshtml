@@ -11,12 +11,16 @@
 
     var redirectUrisDisplay = "Redirect Uris";
     var redirectUris = redirectUrisDisplay.ToLowerNoSpaces();
+
+    var propertiesDisplay = "Properties";
+    var properties = propertiesDisplay.ToLowerNoSpaces();
 }
 
 @section NavTabs{
     <a class="nav-item nav-link" id="@(scopes)tab" data-toggle="tab" href="#@scopes" role="tab">@scopesDisplay</a>
     <a class="nav-item nav-link" id="@(secrets)tab" data-toggle="tab" href="#@secrets" role="tab">@secretsDisplay</a>
     <a class="nav-item nav-link" id="@(redirectUris)tab" data-toggle="tab" href="#@redirectUris" role="tab">@redirectUrisDisplay</a>
+    <a class="nav-item nav-link" id="@(properties)tab" data-toggle="tab" href="#@properties" role="tab">@propertiesDisplay</a>
 }
 
 @section Basesettings{
@@ -216,6 +220,10 @@
         RenderTabPanel(redirectUris,
             Model?.Data?.RedirectUris,
             new List<string> { "RedirectUri" });
+
+        RenderTabPanel(properties,
+            Model?.Data?.Properties,
+            new List<string> { "Value", "Key" });
     }
 }
 
