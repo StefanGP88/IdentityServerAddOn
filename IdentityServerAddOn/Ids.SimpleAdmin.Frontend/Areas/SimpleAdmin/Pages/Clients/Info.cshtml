@@ -6,40 +6,80 @@
 }
 @section Basesettings{
     <div class="form-group">
-        <label class="col-form-label">Name</label>
-        <input type="text" class="form-control" id="name" name="dto.Name" value="@Model?.Data?.Name">
-        <partial name="_ValidationNotification" model="@ModelState["dto.Name"]" />
+        <label class="col-form-label">Client id</label>
+        <input type="text" class="form-control" name="dto.ClientId" value="@Model?.Data?.ClientId">
+        <partial name="_ValidationNotification" model="@ModelState["dto.ClientId"]" />
     </div>
     <div class="form-group">
-        <label class="col-form-label">Display name</label>
-        <input type="text" class="form-control" id="displayName" name="dto.DisplayName" value="@Model?.Data?.DisplayName">
-        <partial name="_ValidationNotification" model="@ModelState["dto.DisplayName"]" />
+        <label class="col-form-label">Client name</label>
+        <input type="text" class="form-control" name="dto.ClientName" value="@Model?.Data?.ClientName">
+        <partial name="_ValidationNotification" model="@ModelState["dto.ClientName"]" />
     </div>
     <div class="form-group">
         <label class="col-form-label">Description</label>
-        <textarea class="form-control" id="description" name="dto.Description">@Model?.Data?.Description</textarea>
+        <textarea class="form-control" name="dto.Description">@Model?.Data?.Description</textarea>
         <partial name="_ValidationNotification" model="@ModelState["dto.Description"]" />
     </div>
-    <fieldset class="form-group">
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="enabled" name="dto.Enabled" value="True" @Model?.Data?.Enabled.IsChecked() />
-            <label class="form-check-label">Is enabled</label>
-        </div>
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="nonEditable" name="dto.Required" value="True" @Model?.Data?.Required.IsChecked() />
-            <label class="form-check-label">Is required</label>
-        </div>
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="nonEditable" name="dto.Emphasize" value="True" @Model?.Data?.Emphasize.IsChecked() />
-            <label class="form-check-label">Emphasize</label>
-        </div>
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="showInDiscovery" name="dto.ShowInDiscoveryDocument" value="True" @Model?.Data?.ShowInDiscoveryDocument.IsChecked() />
-            <label class="form-check-label">Show in discovery document</label>
-        </div>
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="nonEditable" name="dto.NonEditable" value="True" @Model?.Data?.NonEditable.IsChecked() />
-            <label class="form-check-label">Is non-editable</label>
-        </div>
-    </fieldset>
+    <div class="form-group">
+        <label class="col-form-label">Client uri</label>
+        <input type="text" class="form-control" id="name" name="dto.ClientUri" value="@Model?.Data?.ClientUri">
+        <partial name="_ValidationNotification" model="@ModelState["dto.ClientUri"]" />
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Client claims prefix</label>put this in claims tab eventually
+        <input type="text" class="form-control" id="name" name="dto.ClientClaimsPrefix" value="@Model?.Data?.ClientClaimsPrefix">
+        <partial name="_ValidationNotification" model="@ModelState["dto.ClientClaimsPrefix"]" />
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Logo uri</label>
+        <input type="text" class="form-control" id="name" name="dto.LogoUri" value="@Model?.Data?.LogoUri">
+        <partial name="_ValidationNotification" model="@ModelState["dto.LogoUri"]" />
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Protocol type</label>
+        <input type="text" class="form-control" id="name" name="dto.ProtocolType" value="@Model?.Data?.ProtocolType">
+        <partial name="_ValidationNotification" model="@ModelState["dto.ProtocolType"]" />
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Front channel logout uri</label>
+        <input type="text" class="form-control" id="name" name="dto.FrontChannelLogoutUri" value="@Model?.Data?.FrontChannelLogoutUri">
+        <partial name="_ValidationNotification" model="@ModelState["dto.FrontChannelLogoutUri"]" />
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Back channel logout uri</label>
+        <input type="text" class="form-control" id="name" name="dto.BackChannelLogoutUri" value="@Model?.Data?.BackChannelLogoutUri">
+        <partial name="_ValidationNotification" model="@ModelState["dto.BackChannelLogoutUri"]" />
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Allowed identity token signing algorithms</label>
+        <textarea class="form-control" name="dto.AllowedIdentityTokenSigningAlgorithms">@Model?.Data?.AllowedIdentityTokenSigningAlgorithms</textarea>
+        <partial name="_ValidationNotification" model="@ModelState["dto.AllowedIdentityTokenSigningAlgorithms"]" />
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Pair wise subject salt</label>
+        <input type="text" class="form-control" id="name" name="dto.PairWiseSubjectSalt" value="@Model?.Data?.PairWiseSubjectSalt">
+        <partial name="_ValidationNotification" model="@ModelState["dto.PairWiseSubjectSalt"]" />
+    </div>
+    @*<fieldset class="form-group">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="enabled" name="dto.Enabled" value="True" @Model?.Data?.Enabled.IsChecked() />
+                <label class="form-check-label">Is enabled</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="nonEditable" name="dto.Required" value="True" @Model?.Data?.Req.IsChecked() />
+                <label class="form-check-label">Is required</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="nonEditable" name="dto.Emphasize" value="True" @Model?.Data?.Emphasize.IsChecked() />
+                <label class="form-check-label">Emphasize</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="showInDiscovery" name="dto.ShowInDiscoveryDocument" value="True" @Model?.Data?.ShowInDiscoveryDocument.IsChecked() />
+                <label class="form-check-label">Show in discovery document</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="nonEditable" name="dto.NonEditable" value="True" @Model?.Data?.NonEditable.IsChecked() />
+                <label class="form-check-label">Is non-editable</label>
+            </div>
+        </fieldset>*@
 }

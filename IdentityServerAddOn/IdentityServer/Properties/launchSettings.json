@@ -18,7 +18,7 @@
     "IdentityServer": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "simpleadmin/identityresources",
+      "launchUrl": "simpleadmin/clients/info",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

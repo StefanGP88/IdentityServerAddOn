@@ -15,6 +15,7 @@ namespace Ids.SimpleAdmin.Backend
             sc.AddScoped<IHandler<ApiResourceContract, int?>, ApiResourceHandler>();
             sc.AddScoped<IHandler<ApiScopeContract, int?>, ApiScopeHandler>();
             sc.AddScoped<IHandler<IdentityResourceContract, int?>, IdentityResourceHandler>();
+            sc.AddScoped<IHandler<ClientsContract, int?>, ClientHandler>();
 
             //validators
             sc.AddTransient<IValidator<ApiResourceContract>, ApiResourceValidator>();

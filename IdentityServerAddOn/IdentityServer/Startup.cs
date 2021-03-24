@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using IdentityServer.Data;
 using Ids.SimpleAdmin.Backend;
 using Ids.SimpleAdmin.Frontend;
+using IdentityModel;
 
 namespace IdentityServer
 {
