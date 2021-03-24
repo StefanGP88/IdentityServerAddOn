@@ -20,6 +20,9 @@
 
     var idPRestrictionsDisplay = "Id PRestrictions";
     var idPRestrictions = idPRestrictionsDisplay.ToLowerNoSpaces();
+
+    var grantTypesDisplay = "Grant Types";
+    var grantTypes = grantTypesDisplay.ToLowerNoSpaces();
 }
 
 @section NavTabs{
@@ -29,6 +32,7 @@
     <a class="nav-item nav-link" id="@(properties)tab" data-toggle="tab" href="#@properties" role="tab">@propertiesDisplay</a>
     <a class="nav-item nav-link" id="@(postLogoutRedirectUris)tab" data-toggle="tab" href="#@postLogoutRedirectUris" role="tab">@postLogoutRedirectUrisDisplay</a>
     <a class="nav-item nav-link" id="@(idPRestrictions)tab" data-toggle="tab" href="#@idPRestrictions" role="tab">@idPRestrictionsDisplay</a>
+    <a class="nav-item nav-link" id="@(grantTypes)tab" data-toggle="tab" href="#@grantTypes" role="tab">@grantTypesDisplay</a>
 }
 
 @section Basesettings{
@@ -240,6 +244,10 @@
         RenderTabPanel(idPRestrictions,
             Model?.Data?.IdPRestrictions,
             new List<string> { "Provider" });
+
+        RenderTabPanel(grantTypes,
+            Model?.Data?.GrantTypes,
+            new List<string> { "Grant type" });
 
     }
 }

@@ -32,5 +32,9 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Clients
         {
             return OnGetPartial("IdPRestrictions", model);
         }
+        public PartialViewResult OnGetGrantTypes(ClientGrantTypesContract model)
+        {
+            return OnGetPartial("GrantTypes", model);
+        }
     }
 }
