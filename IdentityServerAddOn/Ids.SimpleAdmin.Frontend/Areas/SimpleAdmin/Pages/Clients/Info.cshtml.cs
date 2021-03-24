@@ -28,5 +28,9 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Clients
         {
             return OnGetPartial("PostLogoutRedirectUris", model);
         }
+        public PartialViewResult OnGetIdPRestrictions(ClientIdPRestrictionsContract model)
+        {
+            return OnGetPartial("IdPRestrictions", model);
+        }
     }
 }
