@@ -142,7 +142,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 .Where(x => x.Id == null)
                 .ToList();
 
-            var toAddRoleClaimsConverted = dto.RoleClaims.ConvertAll(x =>
+            var toAddRoleClaimsConverted = toAddRoleClaims.ConvertAll(x =>
             {
                 var converted = x.Adapt<IdentityRoleClaim<string>>();
                 converted.RoleId = roleId;
