@@ -9,7 +9,7 @@ namespace Ids.SimpleAdmin.Contracts
         public string Concurrencystamp { get; set; }
         public List<RoleClaimsContract> RoleClaims { get; set; }
     }
-    public class RoleClaimsContract : Identifyable<string>
+    public class RoleClaimsContract : Identifyable<int?>
     {
         public string RoleId { get; set; }
         public string ClainType { get; set; }

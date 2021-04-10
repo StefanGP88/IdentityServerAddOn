@@ -1,7 +1,12 @@
 ﻿using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
 using Ids.SimpleAdmin.Contracts;
+using Mapster;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,29 +19,165 @@ namespace Ids.SimpleAdmin.Backend.Handlers
         {
             _dbContext = identityDbContext;
         }
-        public Task<RolesContract> Create(RolesContract dto, CancellationToken cancel)
+        public async Task<RolesContract> Create(RolesContract dto, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var model = dto.Adapt<IdentityRole>();
+            model.Id = Guid.NewGuid().ToString();
+            var roleClaims = dto.RoleClaims.ConvertAll(x =>
+            {
+                var converted = x.Adapt<IdentityRoleClaim<string>>();
+                converted.RoleId = model.Id;
+                return converted;
+            });
+
+            _ = await _dbContext.Roles.AddAsync(model, cancel).ConfigureAwait(false);
+            await _dbContext.RoleClaims.AddRangeAsync(roleClaims, cancel).ConfigureAwait(false);
+
+            _ = await _dbContext.SaveChangesAsync(cancel).ConfigureAwait(false);
+
+            return await Get(model.Id, cancel).ConfigureAwait(false);
         }
 
-        public Task<ListDto<RolesContract>> Delete(string id, int page, int pageSize, CancellationToken cancel)
+        public async Task<ListDto<RolesContract>> Delete(string id, int page, int pageSize, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var model = await _dbContext.Roles
+                .FirstOrDefaultAsync(x => x.Id == id, cancel)
+                .ConfigureAwait(false);
+            var roleClaims = await _dbContext.RoleClaims
+                .Where(x => x.RoleId == id)
+                .ToListAsync(cancel)
+                .ConfigureAwait(false);
+
+            _dbContext.Roles.Remove(model);
+            _dbContext.RoleClaims.RemoveRange(roleClaims);
+
+            await _dbContext.SaveChangesAsync(cancel).ConfigureAwait(false);
+            return await GetAll(page, pageSize, cancel).ConfigureAwait(false);
         }
 
-        public Task<RolesContract> Get(string id, CancellationToken cancel)
+        public async Task<RolesContract> Get(string id, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var model = await _dbContext.Roles
+                .AsNoTracking()
+                .ProjectToType<RolesContract>()
+                .FirstOrDefaultAsync(x => x.Id == id, cancel)
+                .ConfigureAwait(false);
+
+            model.RoleClaims = await _dbContext.RoleClaims
+                .AsNoTracking()
+                .Where(x => x.RoleId == id)
+                .ProjectToType<RoleClaimsContract>()
+                .ToListAsync(cancel)
+                .ConfigureAwait(false);
+
+            return model;
         }
 
-        public Task<ListDto<RolesContract>> GetAll(int page, int pageSize, CancellationToken cancel)
+        public async Task<ListDto<RolesContract>> GetAll(int page, int pageSize, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var roles = await _dbContext.Roles
+                .AsNoTracking()
+                .Skip(page * pageSize)
+                .Take(pageSize)
+                .ProjectToType<RolesContract>()
+                .ToListAsync(cancel)
+                .ConfigureAwait(false);
+
+            var roleIds = roles.Select(x => x.Id);
+
+            var roleClaims = await _dbContext.RoleClaims
+                .AsNoTracking()
+                .Where(x => roleIds.Contains(x.RoleId))
+                .ProjectToType<RoleClaimsContract>()
+                .ToListAsync(cancel)
+                .ConfigureAwait(false);
+
+            return new ListDto<RolesContract>
+            {
+                Page = page,
+                PageSize = pageSize,
+                TotalItems = roles.Count,
+                Items = roles.ConvertAll(x =>
+                {
+                    x.RoleClaims = roleClaims
+                        .Where(y => y.RoleId == x.Id)
+                        .ToList();
+                    return x;
+                })
+            };
         }
 
-        public Task<RolesContract> Update(RolesContract dto, CancellationToken cancel)
+        public async Task<RolesContract> Update(RolesContract dto, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var model = await _dbContext.Roles
+                .FirstOrDefaultAsync(x => x.Id == dto.Id, cancel)
+                .ConfigureAwait(false);
+
+            dto.Adapt(model);
+            _dbContext.Roles.Update(model);
+
+            var roleClaims = await _dbContext.RoleClaims
+                 .Where(x => x.RoleId == dto.Id)
+                 .ToListAsync(cancel)
+                 .ConfigureAwait(false);
+
+            RemoveClaims(dto, roleClaims);
+            UpdateClaims(dto, roleClaims);
+            await AddClaims(dto, cancel).ConfigureAwait(false);
+
+            await _dbContext.SaveChangesAsync(cancel).ConfigureAwait(false);
+
+            return await Get(model.Id, cancel).ConfigureAwait(false);
+        }
+
+        private async Task AddClaims(RolesContract dto, CancellationToken cancel)
+        {
+            var toAddRoleClaims = dto.RoleClaims
+                .Where(x => x.Id == null)
+                .Select(x => x.Adapt<IdentityRoleClaim<string>>())
+                .ToList();
+
+            await _dbContext.RoleClaims
+                .AddRangeAsync(toAddRoleClaims, cancel)
+                .ConfigureAwait(false);
+        }
+
+        private void RemoveClaims(RolesContract dto, List<IdentityRoleClaim<string>> roleClaims)
+        {
+            var toRemoveRoleClaims = FindClaimsToRemove(roleClaims, dto.RoleClaims);
+            _dbContext.RoleClaims.RemoveRange(toRemoveRoleClaims);
+        }
+
+        private void UpdateClaims(RolesContract dto, List<IdentityRoleClaim<string>> roleClaims)
+        {
+            var toUpdateRoleClaims = FindClaimsToUpdate(roleClaims, dto.RoleClaims);
+            toUpdateRoleClaims = toUpdateRoleClaims.ConvertAll(x =>
+            {
+                var contract = dto.RoleClaims.Find(y => y.Id == x.Id);
+                x.Adapt(contract);
+                return x;
+            });
+            _dbContext.RoleClaims.UpdateRange(toUpdateRoleClaims);
+        }
+
+        private static List<IdentityRoleClaim<string>> FindClaimsToRemove(
+            List<IdentityRoleClaim<string>> dbList,
+            List<RoleClaimsContract> dtoList)
+        {
+            var dtoIds = dtoList.Select(x => x.Id);
+            return dbList
+                .Where(x => !dtoIds.Contains(x.Id))
+                .ToList();
+        }
+
+        private static List<IdentityRoleClaim<string>> FindClaimsToUpdate(
+            List<IdentityRoleClaim<string>> dbList,
+            List<RoleClaimsContract> dtoList)
+        {
+            var dtoIds = dtoList.Select(x => x.Id);
+            return dbList
+                .Where(x => dtoIds.Contains(x.Id))
+                .ToList();
         }
     }
 }
