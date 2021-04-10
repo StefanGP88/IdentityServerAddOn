@@ -1,6 +1,7 @@
 ﻿@page "{id?}"
 @model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Roles.InfoModel
 @{
+    Layout = "_NestedInfoLayout";
     var claimsDisplay = "Role Claims";
     var claims = claimsDisplay.ToLowerNoSpaces();
 }
@@ -11,6 +12,8 @@
 
 
 @section Basesettings{
+    <input type="hidden" name="dto.ConcurrencyStamp" value="@Model?.Data?.ConcurrencyStamp" />
+    <input type="hidden" name="dto.Id" value="@Model?.Data?.Id" />
     <div class="form-group">
         <label class="col-form-label">Name</label>
         <input type="text" class="form-control" name="dto.Name" value="@Model?.Data?.Name">
@@ -29,7 +32,7 @@
     @{
         RenderTabPanel(claims,
             Model?.Data?.RoleClaims,
-            new List<string> { "Clain type", "Claim value" });
+            new List<string> { "Claim type", "Claim value" });
     }
 }
 

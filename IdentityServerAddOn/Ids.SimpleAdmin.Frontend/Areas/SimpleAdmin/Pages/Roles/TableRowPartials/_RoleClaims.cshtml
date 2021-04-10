@@ -17,8 +17,8 @@
         <input type="hidden" name="dto.RoleClaims[@idx].Id" value="@Model?.Id" />
         <input type="hidden" name="dto.RoleClaims[@idx].RoleId" value="@Model?.RoleId" />
         <input type="text"
-               name="dto.RoleClaims[@idx].ClainType"
-               value="@Model?.ClainType"
+               name="dto.RoleClaims[@idx].ClaimType"
+               value="@Model?.ClaimType"
                class="form-control @disabledClass" @disabled />
         <partial name="_ValidationNotificationPartial" model="@validationResult["ClainType"]" />
     </td>
