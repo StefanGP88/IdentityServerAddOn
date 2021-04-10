@@ -23,7 +23,7 @@
     {
         <div class="form-group">
             <label class="col-form-label">Normalized name</label>
-            <input type="text" class="form-control" name="dto.Name" value="@Model?.Data?.NormalizedName">
+            <input type="text" class="form-control" name="dto.Name" value="@Model?.Data?.NormalizedName" disabled>
             <partial name="_ValidationNotification" model="@ModelState["dto.NormalizedName"]" />
         </div>
     }
