@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,17 +22,14 @@ namespace Ids.SimpleAdmin.Backend.Handlers
         }
         public async Task<RolesContract> Create(RolesContract dto, CancellationToken cancel)
         {
-            var model = dto.Adapt<IdentityRole>();
-            model.Id = Guid.NewGuid().ToString();
-            var roleClaims = dto.RoleClaims.ConvertAll(x =>
-            {
-                var converted = x.Adapt<IdentityRoleClaim<string>>();
-                converted.RoleId = model.Id;
-                return converted;
-            });
+            dto.NormalizedName = dto.Name.ToUpperInvariant();
+            dto.ConcurrencyStamp = Guid.NewGuid().ToString();
+            dto.Id = Guid.NewGuid().ToString();
 
+            var model = dto.Adapt<IdentityRole>();
             _ = await _dbContext.Roles.AddAsync(model, cancel).ConfigureAwait(false);
-            await _dbContext.RoleClaims.AddRangeAsync(roleClaims, cancel).ConfigureAwait(false);
+
+            await AddClaims(dto, model.Id, cancel).ConfigureAwait(false);
 
             _ = await _dbContext.SaveChangesAsync(cancel).ConfigureAwait(false);
 
@@ -63,12 +61,15 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 .FirstOrDefaultAsync(x => x.Id == id, cancel)
                 .ConfigureAwait(false);
 
-            model.RoleClaims = await _dbContext.RoleClaims
-                .AsNoTracking()
-                .Where(x => x.RoleId == id)
-                .ProjectToType<RoleClaimsContract>()
-                .ToListAsync(cancel)
-                .ConfigureAwait(false);
+            if (!string.IsNullOrWhiteSpace(id))
+            {
+                model.RoleClaims = await _dbContext.RoleClaims
+                    .AsNoTracking()
+                    .Where(x => x.RoleId == id)
+                    .ProjectToType<RoleClaimsContract>()
+                    .ToListAsync(cancel)
+                    .ConfigureAwait(false);
+            }
 
             return model;
         }
@@ -113,6 +114,11 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 .FirstOrDefaultAsync(x => x.Id == dto.Id, cancel)
                 .ConfigureAwait(false);
 
+            if (model.ConcurrencyStamp != dto.ConcurrencyStamp) throw new Exception("Concurrencystamp outdated"); //TODO: should propbly be in the validation class as a validation rule
+
+            dto.NormalizedName = dto.Name.ToUpperInvariant();
+            dto.ConcurrencyStamp = Guid.NewGuid().ToString();
+
             dto.Adapt(model);
             _dbContext.Roles.Update(model);
 
@@ -123,22 +129,28 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
             RemoveClaims(dto, roleClaims);
             UpdateClaims(dto, roleClaims);
-            await AddClaims(dto, cancel).ConfigureAwait(false);
+            await AddClaims(dto, model.Id, cancel).ConfigureAwait(false);
 
             await _dbContext.SaveChangesAsync(cancel).ConfigureAwait(false);
 
             return await Get(model.Id, cancel).ConfigureAwait(false);
         }
 
-        private async Task AddClaims(RolesContract dto, CancellationToken cancel)
+        private async Task AddClaims(RolesContract dto, string roleId, CancellationToken cancel)
         {
             var toAddRoleClaims = dto.RoleClaims
                 .Where(x => x.Id == null)
-                .Select(x => x.Adapt<IdentityRoleClaim<string>>())
                 .ToList();
 
+            var toAddRoleClaimsConverted = dto.RoleClaims.ConvertAll(x =>
+            {
+                var converted = x.Adapt<IdentityRoleClaim<string>>();
+                converted.RoleId = roleId;
+                return converted;
+            });
+
             await _dbContext.RoleClaims
-                .AddRangeAsync(toAddRoleClaims, cancel)
+                .AddRangeAsync(toAddRoleClaimsConverted, cancel)
                 .ConfigureAwait(false);
         }
 
@@ -154,7 +166,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             toUpdateRoleClaims = toUpdateRoleClaims.ConvertAll(x =>
             {
                 var contract = dto.RoleClaims.Find(y => y.Id == x.Id);
-                x.Adapt(contract);
+                contract.Adapt(x);
                 return x;
             });
             _dbContext.RoleClaims.UpdateRange(toUpdateRoleClaims);
