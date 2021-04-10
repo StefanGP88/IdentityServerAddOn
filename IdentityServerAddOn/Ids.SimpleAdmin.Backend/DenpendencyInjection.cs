@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
+﻿using FluentValidation;
 using Ids.SimpleAdmin.Backend.Handlers;
-using Ids.SimpleAdmin.Contracts;
-using FluentValidation;
+using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
 using Ids.SimpleAdmin.Backend.Validators;
+using Ids.SimpleAdmin.Contracts;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Ids.SimpleAdmin.Backend
 {
