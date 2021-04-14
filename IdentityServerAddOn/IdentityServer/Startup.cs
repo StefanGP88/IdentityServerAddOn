@@ -1,15 +1,19 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System.Reflection;
-using Microsoft.EntityFrameworkCore;
 using IdentityServer.Data;
 using Ids.SimpleAdmin.Backend;
 using Ids.SimpleAdmin.Frontend;
-using IdentityModel;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Diagnostics;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace IdentityServer
 {
@@ -48,6 +52,7 @@ namespace IdentityServer
 
             services.AddRazorPages().AddRazorPagesForSimpleAdmin();
             services.AddIdentityServerAddOn();
+            services.AddTransient<DemystifyMiddleWare>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +62,7 @@ namespace IdentityServer
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+            app.UseMiddleware<DemystifyMiddleWare>();
             }
             else
             {
@@ -64,6 +70,7 @@ namespace IdentityServer
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -90,6 +97,31 @@ namespace IdentityServer
 
             var IdsPgContext = serviceScope.ServiceProvider.GetRequiredService<IdentityServer4.EntityFramework.DbContexts.PersistedGrantDbContext>();
             IdsPgContext.Database.Migrate();
+        }
+    }
+
+    public class DemystifyMiddleWare : IMiddleware
+    {
+        private readonly ILogger<DemystifyMiddleWare> _log;
+        public DemystifyMiddleWare(ILogger<DemystifyMiddleWare> logger)
+        {
+            _log = logger;
+        }
+        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
+        {
+            try
+            {
+                await next.Invoke(context).ConfigureAwait(false);
+
+            }
+            catch(Exception e)
+            {
+                _log.LogError(e, "orginal");
+                e.Demystify();
+                _log.LogError(e, "demystified");
+
+                throw;
+            }
         }
     }
 }
