@@ -42,6 +42,8 @@ namespace Ids.SimpleAdmin.Backend
             sc.AddTransient<IValidator<ClientClaimsContract>, ClientClaimsValidator>();
             sc.AddTransient<IValidator<RolesContract>, RolesValidator>();
             sc.AddTransient<IValidator<RoleClaimsContract>, RoleClaimsValidator>();
+            sc.AddTransient<IValidator<UserContract>, UserValidator>();
+            sc.AddTransient<IValidator<UserClaimsContract>, UserClaimsValidator>();
             sc.AddTransient<ValidationFactory>();
         }
     }

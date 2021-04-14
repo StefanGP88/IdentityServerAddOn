@@ -11,7 +11,7 @@ namespace Ids.SimpleAdmin.Contracts
         public string NormalizedEmail { get; set; }
         public bool EmailConfirmed { get; set; }
         public string ReplacePassword { get; set; }
-        public string ConcurrencyStampo { get; set; }
+        public string ConcurrencyStamp { get; set; }
         public string  PhoneNumber { get; set; }
         public bool PhoneNumberConfirmed { get; set; }
         public bool TwoFactorEnabled { get; set; }
