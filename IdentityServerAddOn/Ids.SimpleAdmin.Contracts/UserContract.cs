@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Ids.SimpleAdmin.Contracts
 {
@@ -17,5 +18,13 @@ namespace Ids.SimpleAdmin.Contracts
         public DateTime LockoutEnd { get; set; }
         public bool LockoutEnabled { get; set; }
         public bool ResetAccessFailedCount { get; set; }
+        public List<Guid> UserRoles { get; set;}
+        public List<UserClaimsContract> UserClaims { get; set; }
+    }
+    public class UserClaimsContract : Identifyable<string>
+    {
+        public string UserId { get; set; }
+        public string ClaimType { get; set; }
+        public string ClaimValue { get; set; }
     }
 }
