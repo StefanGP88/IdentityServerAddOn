@@ -3,6 +3,7 @@ using Ids.SimpleAdmin.Contracts;
 using Mapster;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,17 +63,11 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             CheckIfFound(user);
             var dto = user.Adapt<UserContract>();
 
-            var claims = await _userManger.GetClaimsAsync(user).ConfigureAwait(false);
-            var userClaims = claims.ToList();
-            dto.UserClaims = userClaims.ConvertAll(x =>
-            {
-                return new UserClaimsContract
-                {
-                    UserId = id,
-                    Type = x.Type,
-                    Value = x.Value
-                };
-            });
+            dto.UserClaims = await _identityContext.UserClaims
+                .Where(x => x.UserId == id)
+                .ProjectToType<UserClaimsContract>()
+                .ToListAsync(cancel)
+                .ConfigureAwait(false);
 
             dto.UserRoles = (List<Guid>)await _userManger.GetRolesAsync(user).ConfigureAwait(false);
             return dto;
@@ -80,7 +75,45 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
         public async Task<ListDto<UserContract>> GetAll(int page, int pageSize, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var users = await _userManger.Users
+                .Skip(page * pageSize)
+                .Take(pageSize)
+                .ProjectToType<UserContract>()
+                .ToListAsync(cancel)
+                .ConfigureAwait(false);
+
+            var userIds = users.Select(x => x.Id);
+
+            var userRoles = await _identityContext.UserRoles
+                  .Where(x => userIds.Contains(x.UserId))
+                  .ToListAsync(cancel)
+                  .ConfigureAwait(false);
+
+            var userClaims = await _identityContext.UserClaims
+                  .Where(x => userIds.Contains(x.UserId))
+                  .ProjectToType<UserClaimsContract>()
+                  .ToListAsync(cancel)
+                  .ConfigureAwait(false);
+
+            users.ForEach(x =>
+            {
+                x.UserRoles = userRoles
+                    .Where(y => y.UserId == x.Id)
+                    .Select(x => Guid.Parse(x.RoleId))
+                    .ToList();
+
+                x.UserClaims = userClaims
+                    .Where(y => y.UserId == x.Id)
+                    .ToList();
+            });
+
+            return new ListDto<UserContract>
+            {
+                Items = users,
+                Page = page,
+                PageSize = pageSize,
+                TotalItems = users.Count
+            };
         }
 
         public async Task<UserContract> Update(UserContract dto, CancellationToken cancel)

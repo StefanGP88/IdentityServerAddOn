@@ -21,7 +21,7 @@ namespace Ids.SimpleAdmin.Contracts
         public List<Guid> UserRoles { get; set;}
         public List<UserClaimsContract> UserClaims { get; set; }
     }
-    public class UserClaimsContract
+    public class UserClaimsContract : Identifyable<string>
     {
         public string UserId { get; set; }
         public string Type { get; set; }
