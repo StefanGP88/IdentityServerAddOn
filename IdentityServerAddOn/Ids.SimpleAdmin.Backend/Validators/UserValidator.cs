@@ -1,10 +1,17 @@
 ﻿using FluentValidation;
+using FluentValidation.Validators;
 using Ids.SimpleAdmin.Contracts;
+using Microsoft.AspNet.Identity;
+using System.Threading.Tasks;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Ids.SimpleAdmin.Backend.Validators
 {
     public class UserValidator : AbstractValidator<UserContract>
     {
+
+        private readonly IIdentityValidator<string> _identityValidator;
         public UserValidator()
         {
             RuleFor(x => x.UserName).MaximumLength(256);
@@ -20,7 +27,29 @@ namespace Ids.SimpleAdmin.Backend.Validators
             RuleFor(x => x.LockoutEnabled).NotNull();
             RuleFor(x => x.ResetAccessFailedCount).NotNull();
             RuleFor(x => x.UserRoles);
+            RuleFor(x => x.ReplacePassword).Custom((x, context) => PasswordValidatorAsync(x, context).Wait());
             RuleForEach(x => x.UserClaims).SetValidator(new UserClaimsValidator());
+        }
+
+        private async Task<bool> PasswordValidatorAsync(string password, CustomContext context)
+        {
+            if (string.IsNullOrWhiteSpace(password))
+                return true;
+
+            var result = await _identityValidator.ValidateAsync(password).ConfigureAwait(false);
+            if (!result.Succeeded)
+            {
+                AddError(context, result.Errors);
+            }
+            return result.Succeeded;
+        }
+
+        private static void AddError(CustomContext context, IEnumerable<string> errors)
+        {
+            foreach (var item in errors)
+            {
+                context.AddFailure(item);
+            }
         }
     }
     public class UserClaimsValidator : AbstractValidator<UserClaimsContract>
