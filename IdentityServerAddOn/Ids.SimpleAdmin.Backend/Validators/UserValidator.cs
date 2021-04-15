@@ -57,8 +57,8 @@ namespace Ids.SimpleAdmin.Backend.Validators
         public UserClaimsValidator()
         {
             RuleFor(x => x.UserId).MaximumLength(450).NotNull();
-            RuleFor(x => x.ClaimType);
-            RuleFor(x => x.ClaimValue);
+            RuleFor(x => x.Type);
+            RuleFor(x => x.Value);
         }
     }
 }
