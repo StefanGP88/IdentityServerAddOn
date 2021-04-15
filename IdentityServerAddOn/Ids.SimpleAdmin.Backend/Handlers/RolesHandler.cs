@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,6 +14,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 {
     public class RolesHandler : IHandler<RolesContract, string>
     {
+        //TODO: replace with role manager
         private readonly IdentityDbContext _dbContext;
         public RolesHandler(IdentityDbContext identityDbContext)
         {
