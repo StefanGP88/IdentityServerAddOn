@@ -69,7 +69,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 .ToListAsync(cancel)
                 .ConfigureAwait(false);
 
-            dto.UserRoles = (List<Guid>)await _userManger.GetRolesAsync(user).ConfigureAwait(false);
+            dto.UserRoles = (await _userManger.GetRolesAsync(user).ConfigureAwait(false)).ToList();
             return dto;
         }
 
@@ -99,7 +99,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             {
                 x.UserRoles = userRoles
                     .Where(y => y.UserId == x.Id)
-                    .Select(x => Guid.Parse(x.RoleId))
+                    .Select(x => x.RoleId)
                     .ToList();
 
                 x.UserClaims = userClaims
@@ -118,8 +118,76 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
         public async Task<UserContract> Update(UserContract dto, CancellationToken cancel)
         {
-            throw new NotImplementedException();
+            var roleBackuser = await _userManger.FindByIdAsync(dto.Id).ConfigureAwait(false);
+
+
+            var user = await _userManger.FindByIdAsync(dto.Id).ConfigureAwait(false);
+            CheckIfFound(user);
+
+            await UpdateRoles(dto, cancel).ConfigureAwait(false);
+            await UpdateClaims(dto, cancel).ConfigureAwait(false);
+
+            await _identityContext.SaveChangesAsync(cancel).ConfigureAwait(false);
+
+            return await Get(dto.Id, cancel).ConfigureAwait(false);
         }
+
+        private async Task UpdateClaims(UserContract dto, CancellationToken cancel)
+        {
+            var userClaims = await _identityContext.UserClaims
+                .Where(x => x.UserId == dto.Id)
+                .ToListAsync(cancel)
+                .ConfigureAwait(false);
+
+            var claimsToAdd = dto.UserClaims
+                .Where(x => x.Id is null)
+                .Select(x => new IdentityUserClaim<string>
+                {
+                    ClaimType = x.Type,
+                    ClaimValue = x.Value,
+                    UserId = dto.Id
+                })
+                .ToList();
+            await _identityContext.UserClaims.AddRangeAsync(claimsToAdd, cancel).ConfigureAwait(false);
+
+            var claimsToRemove = userClaims
+                .Where(x => !dto.UserClaims.Any(y => y.Id == x.Id))
+                .ToList();
+            _identityContext.RemoveRange(claimsToRemove);
+
+            var claimsToUpdate = userClaims
+                .Where(x => dto.UserClaims.Any(y => y.Id == x.Id))
+                .Select(x =>
+                {
+                    var update = dto.UserClaims.Find(x => x.Id == x.Id);
+                    update.Adapt(x);
+                    return x;
+                })
+                .ToList();
+            _identityContext.UserClaims.UpdateRange(claimsToUpdate);
+        }
+
+        private async Task UpdateRoles(UserContract dto, CancellationToken cancel)
+        {
+            var userRoles = await _identityContext.UserRoles
+                .Where(x => x.UserId == dto.Id)
+                .ToListAsync(cancel)
+                .ConfigureAwait(false);
+
+            var rolesToAdd = dto.UserRoles
+                .Where(x => !userRoles.Any(y => y.RoleId == x))
+                .Select(x=> new IdentityUserRole<string>
+                {
+                    RoleId = x,
+                    UserId = dto.Id
+                })
+                .ToList();
+            var rolesToDelete = userRoles.Where(x => !dto.UserRoles.Contains(x.RoleId)).ToList();
+
+            await _identityContext.UserRoles.AddRangeAsync(rolesToAdd, cancel).ConfigureAwait(false);
+            _identityContext.UserRoles.RemoveRange(rolesToDelete);
+        }
+
         private static void CheckIfFound(IdentityUser user)
         {
             if (user is null) throw new Exception("User not found");

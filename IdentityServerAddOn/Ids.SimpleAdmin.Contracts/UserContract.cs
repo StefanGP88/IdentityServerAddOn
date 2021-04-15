@@ -18,10 +18,10 @@ namespace Ids.SimpleAdmin.Contracts
         public DateTime LockoutEnd { get; set; }
         public bool LockoutEnabled { get; set; }
         public bool ResetAccessFailedCount { get; set; }
-        public List<Guid> UserRoles { get; set;}
+        public List<string> UserRoles { get; set;}
         public List<UserClaimsContract> UserClaims { get; set; }
     }
-    public class UserClaimsContract : Identifyable<string>
+    public class UserClaimsContract : Identifyable<int?>
     {
         public string UserId { get; set; }
         public string Type { get; set; }

@@ -13,7 +13,7 @@ namespace Ids.SimpleAdmin.Contracts
     public class Identifyable<T>
     {
 #nullable enable
-        public T? Id { get; set; }
+        public T? Id { get; set; } //TODO: the nullable declaration can properbly be removed
 #nullable disable
     }
 }
