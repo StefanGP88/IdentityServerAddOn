@@ -26,9 +26,5 @@
     <ProjectReference Include="..\Ids.SimpleAdmin.Contracts\Ids.SimpleAdmin.Contracts.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Areas\SimpleAdmin\Pages\IdentityUser\" />
-  </ItemGroup>
-
 
 </Project>

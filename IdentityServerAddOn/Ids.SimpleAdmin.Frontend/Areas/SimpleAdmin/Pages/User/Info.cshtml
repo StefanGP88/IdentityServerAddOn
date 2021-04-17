@@ -1,0 +1,86 @@
+﻿@page "{id?}"
+@model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.User.InfoModel
+@{
+    Layout = "_NestedInfoLayout";
+    var claimsDisplay = "User Claims";
+    var claims = claimsDisplay.ToLowerNoSpaces();
+
+    var rolesDisplay = "User Roles";
+    var roles = rolesDisplay.ToLowerNoSpaces();
+}
+
+@section NavTabs{
+    <a class="nav-item nav-link" id="@(roles)tab" data-toggle="tab" href="#@roles" role="tab">@rolesDisplay</a>
+    <a class="nav-item nav-link" id="@(claims)tab" data-toggle="tab" href="#@claims" role="tab">@claimsDisplay</a>
+}
+
+
+
+
+@section Basesettings{
+    <input type="hidden" name="dto.ConcurrencyStamp" value="@Model?.Data?.ConcurrencyStamp" />
+    <input type="hidden" name="dto.Id" value="@Model?.Data?.Id" />
+    <div class="form-group">
+        <label class="col-form-label">Name</label>
+        <input type="text" class="form-control" name="dto.UserName" value="@Model?.Data?.UserName">
+        <partial name="_ValidationNotification" model="@ModelState["dto.UserName"]" />
+    </div>
+    @if (!string.IsNullOrWhiteSpace(Model?.Data?.NormalizedUserName))
+    {
+        <div class="form-group">
+            <label class="col-form-label">Normalized name</label>
+            <input type="text" class="form-control" name="dto.NormalizedUserName" value="@Model?.Data?.NormalizedUserName" disabled>
+            <partial name="_ValidationNotification" model="@ModelState["dto.NormalizedUserName"]" />
+        </div>
+    }
+}
+
+
+@section ResourceProperties{
+    @{
+        RenderTabPanel(claims,
+            Model?.Data?.UserClaims,
+            new List<string> { "Claim type", "Claim value" });
+    }
+    <div class="tab-pane fade" id="@roles" role="tabpanel">
+        <fieldset class="form-group">
+            @{
+                foreach (var item in Model?.Roles?.Items)
+                {
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="enabled" name="dto.UserRoles['@item.Id']" value="True" @(Model.Data.UserRoles.Any(x=>x == item.Id).IsChecked()) />
+                        <label class="form-check-label">@item.Name</label>
+                    </div>
+                }
+            }
+        </fieldset>
+    </div>
+}
+
+@functions {
+    void RenderTableBody<T>(string name, List<T> list)
+    {
+        <tbody id="@name.AsTableBody()">
+            @if (list != null)
+            {
+                foreach (var item in list)
+                {
+                    Html.RenderPartialAsync("TableRowPartials/_" + name.FirstLetterToUpper(), item);
+                }
+            }
+        </tbody>
+    }
+    void RenderTabPanel<T>(string name, List<T> list, List<string> columns)
+    {
+        <div class="tab-pane fade" id="@name" role="tabpanel">
+            <br />
+            <table class="table table-striped border border-dark">
+                @{
+                    Html.RenderPartialAsync("_Tableheader", columns);
+                    RenderTableBody(name, list);
+                }
+            </table>
+            <button type="button" class="btn btn-primary" onclick="AppendTableRow(this, '@name', '@name.AsTableBody()')"></button>
+        </div>
+    }
+}
