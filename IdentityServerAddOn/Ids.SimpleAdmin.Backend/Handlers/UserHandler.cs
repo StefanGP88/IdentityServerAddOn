@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
@@ -15,44 +14,34 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 {
     public class UserHandler : IHandler<UserContract, string>
     {
-        private readonly UserManager<IdentityUser> _userManger;
 
         private readonly IdentityDbContext _identityContext;
-        public UserHandler(UserManager<IdentityUser> userManger)
+
+        private readonly TestManager _userManger;
+
+        
+        public UserHandler(IdentityDbContext identityDbContext, TestManager testManager)
         {
-            _userManger = userManger;
+            _userManger = testManager;
+            _identityContext = identityDbContext;
         }
 
         public async Task<UserContract> Create(UserContract dto, CancellationToken cancel)
         {
-            dto.NormalizedUserName = _userManger.NormalizeName(dto.UserName);
-            dto.NormalizedEmail = _userManger.NormalizeEmail(dto.Email);
+            var user = new IdentityUser();
+            await _userManger.CreateAsync(user).ConfigureAwait(false);
+            await _identityContext.SaveChangesAsync(cancel).ConfigureAwait(false);
 
-            var user = dto.Adapt<IdentityUser>();
-
-            var userResult = await _userManger.CreateAsync(user, dto.ReplacePassword).ConfigureAwait(false);
-            var createErrors = userResult.CheckResult("CreateUserError");
-            if (createErrors is not null) throw createErrors;
-
-            var roles = dto.UserRoles.ConvertAll(x => x.ToString());
-            var roleResult = await _userManger.AddToRolesAsync(user, roles).ConfigureAwait(false);
-            var roleErrors = roleResult.CheckResult("AddRolesError");
-            await DeleteUserIfErrorThenThrow(roleErrors, user.Id, cancel).ConfigureAwait(false);
-
-            var userClaims = dto.UserClaims.ConvertAll(x => new Claim(x.Type, x.Value));
-            var claimResult = await _userManger.AddClaimsAsync(user, userClaims).ConfigureAwait(false);
-            var claimError = claimResult.CheckResult("AddClaimsError");
-            await DeleteUserIfErrorThenThrow(claimError, user.Id, cancel).ConfigureAwait(false);
+            await UpdateUser(user, dto, cancel).ConfigureAwait(false);
 
             return await Get(user.Id, cancel).ConfigureAwait(false);
         }
         public async Task<ListDto<UserContract>> Delete(string id, int page, int pageSize, CancellationToken cancel)
         {
             var user = await _userManger.FindByIdAsync(id).ConfigureAwait(false);
-            CheckIfFound(user);
 
-            var deleteResult = await _userManger.DeleteAsync(user).ConfigureAwait(false);
-            deleteResult.CheckResult("DeleteUserError");
+            _= await _userManger.DeleteAsync(user).ConfigureAwait(false);
+            _ = await _identityContext.SaveChangesAsync(cancel).ConfigureAwait(false);
 
             return await GetAll(page, pageSize, cancel).ConfigureAwait(false);
         }
@@ -60,7 +49,6 @@ namespace Ids.SimpleAdmin.Backend.Handlers
         public async Task<UserContract> Get(string id, CancellationToken cancel)
         {
             var user = await _userManger.FindByIdAsync(id).ConfigureAwait(false);
-            CheckIfFound(user);
             var dto = user.Adapt<UserContract>();
 
             dto.UserClaims = await _identityContext.UserClaims
@@ -69,7 +57,11 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 .ToListAsync(cancel)
                 .ConfigureAwait(false);
 
-            dto.UserRoles = (await _userManger.GetRolesAsync(user).ConfigureAwait(false)).ToList();
+            dto.UserRoles = await _identityContext.UserRoles
+                .Where(x=> x.UserId == id)
+                .Select(x=>x.RoleId)
+                .ToListAsync(cancel)
+                .ConfigureAwait(false);
             return dto;
         }
 
@@ -118,21 +110,35 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
         public async Task<UserContract> Update(UserContract dto, CancellationToken cancel)
         {
-            var roleBackuser = await _userManger.FindByIdAsync(dto.Id).ConfigureAwait(false);
-
-
             var user = await _userManger.FindByIdAsync(dto.Id).ConfigureAwait(false);
-            CheckIfFound(user);
 
-            await UpdateRoles(dto, cancel).ConfigureAwait(false);
-            await UpdateClaims(dto, cancel).ConfigureAwait(false);
-
-            await _identityContext.SaveChangesAsync(cancel).ConfigureAwait(false);
+            await UpdateUser(user, dto, cancel).ConfigureAwait(false);
 
             return await Get(dto.Id, cancel).ConfigureAwait(false);
         }
 
-        private async Task UpdateClaims(UserContract dto, CancellationToken cancel)
+        private async Task<bool> UpdateUser(IdentityUser user, UserContract dto, CancellationToken cancel)
+        {
+            dto.NormalizedUserName = _userManger.NormalizeName(dto.UserName);
+            dto.NormalizedEmail = _userManger.NormalizeEmail(dto.Email);
+            dto.Adapt(user);
+
+            var updateResult = await _userManger.UpdateAsync(user).ConfigureAwait(false);
+
+            if (!string.IsNullOrWhiteSpace(dto.ReplacePassword))
+            {
+                await _userManger.AddPasswordAsync(user, dto.ReplacePassword);
+            }
+
+            await UpdateRoles(user, dto, cancel).ConfigureAwait(false);
+            await UpdateClaims(user, dto, cancel).ConfigureAwait(false);
+
+            await _identityContext.SaveChangesAsync(cancel).ConfigureAwait(false);
+
+            return updateResult.Succeeded;
+        }
+
+        private async Task UpdateClaims(IdentityUser user, UserContract dto, CancellationToken cancel)
         {
             var userClaims = await _identityContext.UserClaims
                 .Where(x => x.UserId == dto.Id)
@@ -141,14 +147,9 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
             var claimsToAdd = dto.UserClaims
                 .Where(x => x.Id is null)
-                .Select(x => new IdentityUserClaim<string>
-                {
-                    ClaimType = x.Type,
-                    ClaimValue = x.Value,
-                    UserId = dto.Id
-                })
+                .Select(x => new Claim(x.Type,x.Value))
                 .ToList();
-            await _identityContext.UserClaims.AddRangeAsync(claimsToAdd, cancel).ConfigureAwait(false);
+            await _userManger.AddClaimsAsync(user, claimsToAdd).ConfigureAwait(false);
 
             var claimsToRemove = userClaims
                 .Where(x => !dto.UserClaims.Any(y => y.Id == x.Id))
@@ -167,10 +168,10 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             _identityContext.UserClaims.UpdateRange(claimsToUpdate);
         }
 
-        private async Task UpdateRoles(UserContract dto, CancellationToken cancel)
+        private async Task UpdateRoles(IdentityUser user, UserContract dto, CancellationToken cancel)
         {
             var userRoles = await _identityContext.UserRoles
-                .Where(x => x.UserId == dto.Id)
+                .Where(x => x.UserId == user.Id)
                 .ToListAsync(cancel)
                 .ConfigureAwait(false);
 
@@ -186,19 +187,6 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
             await _identityContext.UserRoles.AddRangeAsync(rolesToAdd, cancel).ConfigureAwait(false);
             _identityContext.UserRoles.RemoveRange(rolesToDelete);
-        }
-
-        private static void CheckIfFound(IdentityUser user)
-        {
-            if (user is null) throw new Exception("User not found");
-        }
-        private async Task DeleteUserIfErrorThenThrow(AggregateException aggregateException, string userId, CancellationToken cancel)
-        {
-            if (aggregateException is not null)
-            {
-                _ = await Delete(userId, 0, 0, cancel).ConfigureAwait(false);
-                throw aggregateException;
-            }
         }
     }
 }

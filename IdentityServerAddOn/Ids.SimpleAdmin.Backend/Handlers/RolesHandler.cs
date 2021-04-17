@@ -16,7 +16,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
     {
         //TODO: replace with role manager
         private readonly IdentityDbContext _dbContext;
-        public RolesHandler(IdentityDbContext identityDbContext)
+        public RolesHandler(IdentityDbContext identityDbContext, TestManager testManager)
         {
             _dbContext = identityDbContext;
         }
