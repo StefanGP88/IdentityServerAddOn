@@ -48,6 +48,9 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
         public async Task<UserContract> Get(string id, CancellationToken cancel)
         {
+            if (string.IsNullOrWhiteSpace(id))
+                return null;
+
             var user = await _userManger.FindByIdAsync(id).ConfigureAwait(false);
             var dto = user.Adapt<UserContract>();
 
@@ -125,9 +128,9 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
             var updateResult = await _userManger.UpdateAsync(user).ConfigureAwait(false);
 
-            if (!string.IsNullOrWhiteSpace(dto.ReplacePassword))
+            if (!string.IsNullOrWhiteSpace(dto.SetPassword))
             {
-                await _userManger.AddPasswordAsync(user, dto.ReplacePassword);
+                await _userManger.AddPasswordAsync(user, dto.SetPassword);
             }
 
             await UpdateRoles(user, dto, cancel).ConfigureAwait(false);

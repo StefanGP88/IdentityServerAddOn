@@ -23,6 +23,7 @@ namespace Ids.SimpleAdmin.Backend
             sc.AddScoped<IHandler<IdentityResourceContract, int?>, IdentityResourceHandler>();
             sc.AddScoped<IHandler<ClientsContract, int?>, ClientHandler>();
             sc.AddScoped<IHandler<RolesContract, string>, RolesHandler>();
+            sc.AddScoped<IHandler<UserContract, string>, UserHandler>();
 
             //validators
             sc.AddTransient<IValidator<ApiResourceContract>, ApiResourceValidator>();
@@ -61,6 +62,7 @@ namespace Ids.SimpleAdmin.Backend
             IEnumerable<IUserValidator<IdentityUser>> userValidators, IEnumerable<IPasswordValidator<IdentityUser>> passwordValidators,
             ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, IServiceProvider services, ILogger<UserManager<IdentityUser>> logger)
             : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger)
+        
         {
             var type = store.GetType();
             var autosave = type.GetProperty("AutoSaveChanges");

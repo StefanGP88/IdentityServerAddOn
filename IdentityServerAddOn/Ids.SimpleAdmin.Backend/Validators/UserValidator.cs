@@ -23,7 +23,7 @@ namespace Ids.SimpleAdmin.Backend.Validators
             RuleFor(x => x.TwoFactorEnabled).NotNull();
             RuleFor(x => x.LockoutEnd);
             RuleFor(x => x.LockoutEnabled).NotNull();
-            RuleFor(x => x.ResetAccessFailedCount).NotNull();
+            RuleFor(x => x.AccessFailedCount).NotNull();
             RuleFor(x => x.UserRoles);
             //RuleFor(x => x.ReplacePassword).Custom((x, context) => PasswordValidatorAsync(x, context).Wait());
             RuleForEach(x => x.UserClaims).SetValidator(new UserClaimsValidator());
@@ -54,7 +54,7 @@ namespace Ids.SimpleAdmin.Backend.Validators
     {
         public UserClaimsValidator()
         {
-            RuleFor(x => x.UserId).MaximumLength(450).NotNull();
+            RuleFor(x => x.UserId).MaximumLength(450);
             RuleFor(x => x.Type);
             RuleFor(x => x.Value);
         }
