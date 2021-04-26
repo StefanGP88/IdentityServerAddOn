@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
@@ -14,182 +15,175 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 {
     public class UserHandler : IHandler<UserContract, string>
     {
-
         private readonly IdentityDbContext _identityContext;
 
-        private readonly TestManager _userManger;
-
-        
-        public UserHandler(IdentityDbContext identityDbContext, TestManager testManager)
+        public UserHandler(IdentityDbContext identityDbContext)
         {
-            _userManger = testManager;
             _identityContext = identityDbContext;
-        }
-
-        public async Task<UserContract> Create(UserContract dto, CancellationToken cancel)
-        {
-            var user = new IdentityUser();
-            await _userManger.CreateAsync(user).ConfigureAwait(false);
-            await _identityContext.SaveChangesAsync(cancel).ConfigureAwait(false);
-
-            await UpdateUser(user, dto, cancel).ConfigureAwait(false);
-
-            return await Get(user.Id, cancel).ConfigureAwait(false);
-        }
-        public async Task<ListDto<UserContract>> Delete(string id, int page, int pageSize, CancellationToken cancel)
-        {
-            var user = await _userManger.FindByIdAsync(id).ConfigureAwait(false);
-
-            _= await _userManger.DeleteAsync(user).ConfigureAwait(false);
-            _ = await _identityContext.SaveChangesAsync(cancel).ConfigureAwait(false);
-
-            return await GetAll(page, pageSize, cancel).ConfigureAwait(false);
-        }
-
-        public async Task<UserContract> Get(string id, CancellationToken cancel)
-        {
-            if (string.IsNullOrWhiteSpace(id))
-                return null;
-
-            var user = await _userManger.FindByIdAsync(id).ConfigureAwait(false);
-            var dto = user.Adapt<UserContract>();
-
-            dto.UserClaims = await _identityContext.UserClaims
-                .Where(x => x.UserId == id)
-                .ProjectToType<UserClaimsContract>()
-                .ToListAsync(cancel)
-                .ConfigureAwait(false);
-
-            dto.UserRoles = await _identityContext.UserRoles
-                .Where(x=> x.UserId == id)
-                .Select(x=>x.RoleId)
-                .ToListAsync(cancel)
-                .ConfigureAwait(false);
-            return dto;
         }
 
         public async Task<ListDto<UserContract>> GetAll(int page, int pageSize, CancellationToken cancel)
         {
-            var users = await _userManger.Users
+            var list = await _identityContext.Users
                 .Skip(page * pageSize)
                 .Take(pageSize)
                 .ProjectToType<UserContract>()
                 .ToListAsync(cancel)
                 .ConfigureAwait(false);
 
-            var userIds = users.Select(x => x.Id);
-
+            var userIds = list.Select(x => x.Id);
             var userRoles = await _identityContext.UserRoles
-                  .Where(x => userIds.Contains(x.UserId))
-                  .ToListAsync(cancel)
-                  .ConfigureAwait(false);
-
+                .Where(x => userIds.Contains(x.UserId))
+                .ToListAsync(cancel)
+                .ConfigureAwait(false);
             var userClaims = await _identityContext.UserClaims
-                  .Where(x => userIds.Contains(x.UserId))
-                  .ProjectToType<UserClaimsContract>()
-                  .ToListAsync(cancel)
-                  .ConfigureAwait(false);
+                .Where(x => userIds.Contains(x.UserId))
+                .ToListAsync(cancel)
+                .ConfigureAwait(false);
 
-            users.ForEach(x =>
+            return new ListDto<UserContract>()
             {
-                x.UserRoles = userRoles
-                    .Where(y => y.UserId == x.Id)
-                    .Select(x => x.RoleId)
-                    .ToList();
-
-                x.UserClaims = userClaims
-                    .Where(y => y.UserId == x.Id)
-                    .ToList();
-            });
-
-            return new ListDto<UserContract>
-            {
-                Items = users,
+                Items = list.ConvertAll(x =>
+                {
+                    x.UserRoles = userRoles
+                        .Where(y => y.UserId == x.Id)
+                        .Select(x => x.RoleId)
+                        .ToList();
+                    x.UserClaims = userClaims
+                        .Where(y => y.UserId == x.Id)
+                        .Select(x => x.Adapt<UserClaimsContract>())
+                        .ToList();
+                    return x;
+                }),
                 Page = page,
                 PageSize = pageSize,
-                TotalItems = users.Count
+                TotalItems = await _identityContext.Users
+                    .CountAsync(cancel)
+                    .ConfigureAwait(false)
             };
+        }
+
+        public async Task<UserContract> Get(string id, CancellationToken cancel)
+        {
+            var user = await _identityContext.Users
+                .ProjectToType<UserContract>()
+                .SingleAsync(x => x.Id == id, cancel)
+                .ConfigureAwait(false);
+
+            user.UserRoles = await _identityContext.UserRoles
+                .Where(x => x.UserId == user.Id)
+                .Select(x => x.RoleId)
+                .ToListAsync(cancel)
+                .ConfigureAwait(false);
+
+            user.UserClaims = await _identityContext.UserClaims
+                .Where(x => x.UserId == user.Id)
+                .ProjectToType<UserClaimsContract>()
+                .ToListAsync(cancel)
+                .ConfigureAwait(false);
+
+            return user;
+        }
+
+        public async Task<ListDto<UserContract>> Delete(string id, int page, int pageSize, CancellationToken cancel)
+        {
+            var user = await _identityContext.Users
+                .SingleAsync(x => x.Id == id, cancel)
+                .ConfigureAwait(false);
+
+            var userRoles = await _identityContext.UserRoles
+                .Where(x => x.UserId == id)
+                .ToListAsync(cancel)
+                .ConfigureAwait(false);
+
+            var userClaims = await _identityContext.UserClaims
+                .Where(x => x.UserId == id)
+                .ToListAsync(cancel)
+                .ConfigureAwait(false);
+
+            _identityContext.Users.Remove(user);
+            _identityContext.UserRoles.RemoveRange(userRoles);
+            _identityContext.UserClaims.RemoveRange(userClaims);
+
+            await _identityContext.SaveChangesAsync(cancel).ConfigureAwait(false);
+
+            return await GetAll(page, pageSize, cancel).ConfigureAwait(false);
+        }
+
+        public async Task<UserContract> Create(UserContract dto, CancellationToken cancel)
+        {
         }
 
         public async Task<UserContract> Update(UserContract dto, CancellationToken cancel)
         {
-            var user = await _userManger.FindByIdAsync(dto.Id).ConfigureAwait(false);
+            var user = await _identityContext.Users
+                .SingleAsync(x => x.Id == dto.Id, cancel)
+                .ConfigureAwait(false);
 
-            await UpdateUser(user, dto, cancel).ConfigureAwait(false);
+            var userRoles = await _identityContext.UserRoles
+                .Where(x => x.UserId == dto.Id)
+                .ToListAsync(cancel)
+                .ConfigureAwait(false);
 
-            return await Get(dto.Id, cancel).ConfigureAwait(false);
-        }
-
-        private async Task<bool> UpdateUser(IdentityUser user, UserContract dto, CancellationToken cancel)
-        {
-            dto.NormalizedUserName = _userManger.NormalizeName(dto.UserName);
-            dto.NormalizedEmail = _userManger.NormalizeEmail(dto.Email);
-            dto.Adapt(user);
-
-            var updateResult = await _userManger.UpdateAsync(user).ConfigureAwait(false);
-
-            if (!string.IsNullOrWhiteSpace(dto.SetPassword))
-            {
-                await _userManger.AddPasswordAsync(user, dto.SetPassword);
-            }
-
-            await UpdateRoles(user, dto, cancel).ConfigureAwait(false);
-            await UpdateClaims(user, dto, cancel).ConfigureAwait(false);
-
-            await _identityContext.SaveChangesAsync(cancel).ConfigureAwait(false);
-
-            return updateResult.Succeeded;
-        }
-
-        private async Task UpdateClaims(IdentityUser user, UserContract dto, CancellationToken cancel)
-        {
             var userClaims = await _identityContext.UserClaims
                 .Where(x => x.UserId == dto.Id)
                 .ToListAsync(cancel)
                 .ConfigureAwait(false);
 
-            var claimsToAdd = dto.UserClaims
-                .Where(x => x.Id is null)
-                .Select(x => new Claim(x.Type,x.Value))
-                .ToList();
-            await _userManger.AddClaimsAsync(user, claimsToAdd).ConfigureAwait(false);
+            dto.Adapt(user);
+            await _identityContext.Users.AddAsync(user, cancel).ConfigureAwait(false);
 
-            var claimsToRemove = userClaims
-                .Where(x => !dto.UserClaims.Any(y => y.Id == x.Id))
-                .ToList();
-            _identityContext.RemoveRange(claimsToRemove);
+            await UpdateRoles(dto, cancel, userRoles).ConfigureAwait(false);
+            await UpdateClaims(dto, cancel, userClaims).ConfigureAwait(false);
 
-            var claimsToUpdate = userClaims
-                .Where(x => dto.UserClaims.Any(y => y.Id == x.Id))
-                .Select(x =>
-                {
-                    var update = dto.UserClaims.Find(x => x.Id == x.Id);
-                    update.Adapt(x);
-                    return x;
-                })
-                .ToList();
-            _identityContext.UserClaims.UpdateRange(claimsToUpdate);
+            await _identityContext.SaveChangesAsync(cancel).ConfigureAwait(false);
+            return await Get(dto.Id, cancel).ConfigureAwait(false);
         }
 
-        private async Task UpdateRoles(IdentityUser user, UserContract dto, CancellationToken cancel)
+        private async Task UpdateRoles(UserContract dto, CancellationToken cancel,
+            IReadOnlyCollection<IdentityUserRole<string>> userRoles)
         {
-            var userRoles = await _identityContext.UserRoles
-                .Where(x => x.UserId == user.Id)
-                .ToListAsync(cancel)
-                .ConfigureAwait(false);
-
             var rolesToAdd = dto.UserRoles
-                .Where(x => !userRoles.Any(y => y.RoleId == x))
-                .Select(x=> new IdentityUserRole<string>
-                {
-                    RoleId = x,
-                    UserId = dto.Id
-                })
+                .Where(item => userRoles.All(x => x.RoleId != item))
+                .Select(item => new IdentityUserRole<string> {RoleId = item, UserId = dto.Id})
                 .ToList();
-            var rolesToDelete = userRoles.Where(x => !dto.UserRoles.Contains(x.RoleId)).ToList();
-
             await _identityContext.UserRoles.AddRangeAsync(rolesToAdd, cancel).ConfigureAwait(false);
-            _identityContext.UserRoles.RemoveRange(rolesToDelete);
+
+            var rolesToRemove = userRoles
+                .Where(item => !dto.UserRoles.Contains(item.RoleId))
+                .ToList();
+            _identityContext.UserRoles.RemoveRange(rolesToRemove);
+        }
+
+        private async Task UpdateClaims(UserContract dto, CancellationToken cancel,
+            IReadOnlyCollection<IdentityUserClaim<string>> userClaims)
+        {
+            var claimsToRemove = new List<IdentityUserClaim<string>>();
+            var claimsToUpdate = new List<IdentityUserClaim<string>>();
+            foreach (var item in userClaims)
+            {
+                var claim = dto.UserClaims.SingleOrDefault(x => x.Id != item.Id);
+                if (claim is null)
+                {
+                    claimsToRemove.Add(item);
+                }
+                else
+                {
+                    item.Adapt(claim);
+                    claimsToUpdate.Add(item);
+                }
+            }
+
+            _identityContext.UserClaims.RemoveRange(claimsToRemove);
+            _identityContext.UserClaims.UpdateRange(claimsToUpdate);
+
+            var claimsToAdd = dto.UserClaims
+                .Where(item => userClaims.All(x => x.Id != item.Id))
+                .Select(item => item.Adapt<IdentityUserClaim<string>>())
+                .ToList();
+            await _identityContext.UserClaims
+                .AddRangeAsync(claimsToAdd, cancel)
+                .ConfigureAwait(false);
         }
     }
 }

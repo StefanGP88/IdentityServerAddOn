@@ -16,14 +16,14 @@
         <input type="hidden" name="dto.UserClaims[@idx].UserId" value="@Model?.UserId" />
         <input type="text"
                name="dto.UserClaims[@idx].Type"
-               value="@Model?.Type"
+               value="@Model?.ClaimType"
                class="form-control @disabledClass" @disabled />
         <partial name="_ValidationNotificationPartial" model="@validationResult["Type"]" />
     </td>
     <td>
         <input type="text"
                name="dto.UserClaims[@idx].Value"
-               value="@Model?.Value"
+               value="@Model?.ClaimValue"
                class="form-control @disabledClass" @disabled />
         <partial name="_ValidationNotificationPartial" model="@validationResult["Value"]" />
     </td>

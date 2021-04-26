@@ -4,16 +4,17 @@ using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
 using Ids.SimpleAdmin.Backend.Validators;
 using Ids.SimpleAdmin.Contracts;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ids.SimpleAdmin.Backend
 {
-    public static class DenpendencyInjection
+    public static class DependencyInjection
     {
         public static void AddIdentityServerAddOn(this IServiceCollection sc)
         {
@@ -53,20 +54,6 @@ namespace Ids.SimpleAdmin.Backend
             sc.AddTransient<IValidator<UserClaimsContract>, UserClaimsValidator>();
             sc.AddTransient<ValidationFactory>();
 
-            sc.AddScoped<TestManager>();
-        }
-    }
-    public class TestManager : UserManager<IdentityUser>
-    {
-        public TestManager(IUserStore<IdentityUser> store, IOptions<IdentityOptions> optionsAccessor, IPasswordHasher<IdentityUser> passwordHasher,
-            IEnumerable<IUserValidator<IdentityUser>> userValidators, IEnumerable<IPasswordValidator<IdentityUser>> passwordValidators,
-            ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, IServiceProvider services, ILogger<UserManager<IdentityUser>> logger)
-            : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger)
-        
-        {
-            var type = store.GetType();
-            var autosave = type.GetProperty("AutoSaveChanges");
-            autosave.SetValue(store, false);
         }
     }
 }
