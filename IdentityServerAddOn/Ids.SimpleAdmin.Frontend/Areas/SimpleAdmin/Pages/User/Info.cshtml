@@ -97,7 +97,8 @@
                 foreach (var item in Model?.Roles?.Items)
                 {
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="enabled" name="dto.UserRoles['@item.Id']" value="@item.Id" @(Model?.Data?.UserRoles?.Any(x => x == item.Id).IsChecked()) />
+                        <input type="hidden" name="dto.UserRoles.index" value="@item.Id"/>
+                        <input type="checkbox" class="form-check-input" name="dto.UserRoles[@item.Id]" value="@item.Id" @(Model?.Data?.UserRoles?.Any(x => x == item.Id).IsChecked())/>
                         <label class="form-check-label">@item.Name</label>
                     </div>
                 }

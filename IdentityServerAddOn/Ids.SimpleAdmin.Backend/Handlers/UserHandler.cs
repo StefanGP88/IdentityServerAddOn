@@ -122,7 +122,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             await _identityContext.Users.AddAsync(user, cancel).ConfigureAwait(false);
 
             await UpdateRoles(dto, cancel, new List<IdentityUserRole<string>>()).ConfigureAwait(false);
-            await UpdateClaims(dto, cancel, new List<IdentityUserClaim<string>>()).ConfigureAwait(false);
+            await UpdateClaims(dto, cancel, new List<IdentityUserClaim<string>>(), user.Id).ConfigureAwait(false);
 
             await _identityContext.SaveChangesAsync(cancel).ConfigureAwait(false);
             return await Get(dto.Id, cancel).ConfigureAwait(false);
@@ -145,10 +145,10 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 .ConfigureAwait(false);
 
             dto.Adapt(user);
-            await _identityContext.Users.AddAsync(user, cancel).ConfigureAwait(false);
+             _identityContext.Users.Update(user);
 
             await UpdateRoles(dto, cancel, userRoles).ConfigureAwait(false);
-            await UpdateClaims(dto, cancel, userClaims).ConfigureAwait(false);
+            await UpdateClaims(dto, cancel, userClaims, user.Id).ConfigureAwait(false);
 
             await _identityContext.SaveChangesAsync(cancel).ConfigureAwait(false);
             return await Get(dto.Id, cancel).ConfigureAwait(false);
@@ -170,7 +170,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
         }
 
         private async Task UpdateClaims(UserContract dto, CancellationToken cancel,
-            IReadOnlyCollection<IdentityUserClaim<string>> userClaims)
+            IReadOnlyCollection<IdentityUserClaim<string>> userClaims, string userId)
         {
             var claimsToRemove = new List<IdentityUserClaim<string>>();
             var claimsToUpdate = new List<IdentityUserClaim<string>>();
@@ -193,7 +193,13 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
             var claimsToAdd = dto.UserClaims
                 .Where(item => userClaims.All(x => x.Id != item.Id))
-                .Select(item => item.Adapt<IdentityUserClaim<string>>())
+                .Select(item =>
+                {
+                    var claim = new IdentityUserClaim<string>();
+                     item.Adapt(claim);
+                     claim.UserId = userId;
+                    return claim;
+                })
                 .ToList();
             await _identityContext.UserClaims
                 .AddRangeAsync(claimsToAdd, cancel)

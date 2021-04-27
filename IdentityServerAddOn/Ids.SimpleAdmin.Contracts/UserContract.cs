@@ -18,7 +18,7 @@ namespace Ids.SimpleAdmin.Contracts
         public DateTimeOffset? LockoutEnd { get; set; }
         public bool LockoutEnabled { get; set; }
         public int AccessFailedCount { get; set; }
-        public List<string> UserRoles { get; set; } = new();
+        public List<string> UserRoles { get; set; }
         public List<UserClaimsContract> UserClaims { get; set; }= new();
     }
     public class UserClaimsContract : Identifyable<int?>
