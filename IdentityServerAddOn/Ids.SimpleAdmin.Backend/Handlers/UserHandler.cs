@@ -67,20 +67,23 @@ namespace Ids.SimpleAdmin.Backend.Handlers
         {
             var user = await _identityContext.Users
                 .ProjectToType<UserContract>()
-                .SingleAsync(x => x.Id == id, cancel)
+                .FirstOrDefaultAsync(x => x.Id == id, cancel)
                 .ConfigureAwait(false);
 
-            user.UserRoles = await _identityContext.UserRoles
-                .Where(x => x.UserId == user.Id)
-                .Select(x => x.RoleId)
-                .ToListAsync(cancel)
-                .ConfigureAwait(false);
+            if (!string.IsNullOrWhiteSpace(id))
+            {
+                user.UserRoles = await _identityContext.UserRoles
+                    .Where(x => x.UserId == user.Id)
+                    .Select(x => x.RoleId)
+                    .ToListAsync(cancel)
+                    .ConfigureAwait(false);
 
-            user.UserClaims = await _identityContext.UserClaims
-                .Where(x => x.UserId == user.Id)
-                .ProjectToType<UserClaimsContract>()
-                .ToListAsync(cancel)
-                .ConfigureAwait(false);
+                user.UserClaims = await _identityContext.UserClaims
+                    .Where(x => x.UserId == user.Id)
+                    .ProjectToType<UserClaimsContract>()
+                    .ToListAsync(cancel)
+                    .ConfigureAwait(false);
+            }
 
             return user;
         }
@@ -88,7 +91,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
         public async Task<ListDto<UserContract>> Delete(string id, int page, int pageSize, CancellationToken cancel)
         {
             var user = await _identityContext.Users
-                .SingleAsync(x => x.Id == id, cancel)
+                .FirstOrDefaultAsync(x => x.Id == id, cancel)
                 .ConfigureAwait(false);
 
             var userRoles = await _identityContext.UserRoles
@@ -112,12 +115,23 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
         public async Task<UserContract> Create(UserContract dto, CancellationToken cancel)
         {
+            var user = new IdentityUser();
+            dto.Id = user.Id;
+            dto.Adapt(user);
+
+            await _identityContext.Users.AddAsync(user, cancel).ConfigureAwait(false);
+
+            await UpdateRoles(dto, cancel, new List<IdentityUserRole<string>>()).ConfigureAwait(false);
+            await UpdateClaims(dto, cancel, new List<IdentityUserClaim<string>>()).ConfigureAwait(false);
+
+            await _identityContext.SaveChangesAsync(cancel).ConfigureAwait(false);
+            return await Get(dto.Id, cancel).ConfigureAwait(false);
         }
 
         public async Task<UserContract> Update(UserContract dto, CancellationToken cancel)
         {
             var user = await _identityContext.Users
-                .SingleAsync(x => x.Id == dto.Id, cancel)
+                .FirstOrDefaultAsync(x => x.Id == dto.Id, cancel)
                 .ConfigureAwait(false);
 
             var userRoles = await _identityContext.UserRoles
@@ -162,7 +176,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             var claimsToUpdate = new List<IdentityUserClaim<string>>();
             foreach (var item in userClaims)
             {
-                var claim = dto.UserClaims.SingleOrDefault(x => x.Id != item.Id);
+                var claim = dto.UserClaims.FirstOrDefault(x => x.Id != item.Id);
                 if (claim is null)
                 {
                     claimsToRemove.Add(item);
