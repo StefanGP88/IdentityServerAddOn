@@ -1,17 +1,24 @@
 ﻿using FluentValidation;
 using FluentValidation.Validators;
 using Ids.SimpleAdmin.Contracts;
-using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 
 namespace Ids.SimpleAdmin.Backend.Validators
 {
     public class UserValidator : AbstractValidator<UserContract>
     {
+        private readonly IdentityErrorDescriber _errorDescriber;
+        private readonly IdentityOptions _options;
 
-        //private readonly IIdentityValidator<string> _identityValidator;
-        public UserValidator()
+        public UserValidator(IdentityErrorDescriber errorsDescriber,
+            IOptions<IdentityOptions> options)
         {
+            _errorDescriber = errorsDescriber;
+            _options = options.Value;
+
             RuleFor(x => x.UserName).MaximumLength(256);
             RuleFor(x => x.NormalizedUserName).MaximumLength(256);
             RuleFor(x => x.Email).MaximumLength(256);
@@ -25,24 +32,36 @@ namespace Ids.SimpleAdmin.Backend.Validators
             RuleFor(x => x.LockoutEnabled).NotNull();
             RuleFor(x => x.AccessFailedCount);
             RuleFor(x => x.UserRoles);
-            //RuleFor(x => x.ReplacePassword).Custom((x, context) => PasswordValidatorAsync(x, context).Wait());
+            RuleFor(x => x.SetPassword).Custom(CheckPassword);
             RuleForEach(x => x.UserClaims).SetValidator(new UserClaimsValidator());
         }
 
-        //private async Task<bool> PasswordValidatorAsync(string password, CustomContext context)
-        //{
-        //    if (string.IsNullOrWhiteSpace(password))
-        //        return true;
+        private void CheckPassword(string password, CustomContext context)
+        {
+            if (string.IsNullOrWhiteSpace(password))
+                return ;
 
-        //    var result = await _identityValidator.ValidateAsync(password).ConfigureAwait(false);
-        //    if (!result.Succeeded)
-        //    {
-        //        AddError(context, result.Errors);
-        //    }
-        //    return result.Succeeded;
-        //}
+            if (_options.Password.RequireDigit && !password.Any(char.IsDigit))
+                context.AddFailure(_errorDescriber.PasswordRequiresDigit().Description);
 
-        private static void AddError(CustomContext context, IEnumerable<string> errors)
+            if (_options.Password.RequireLowercase && !password.Any(char.IsLower))
+                context.AddFailure(_errorDescriber.PasswordRequiresLower().Description);
+
+            if (_options.Password.RequireUppercase && !password.Any(char.IsUpper))
+                context.AddFailure(_errorDescriber.PasswordRequiresUpper().Description);
+
+            if (_options.Password.RequireNonAlphanumeric && password.All(char.IsLetterOrDigit))
+                context.AddFailure(_errorDescriber.PasswordRequiresNonAlphanumeric().Description);
+
+            if (password.Length < _options.Password.RequiredLength)
+                context.AddFailure(_errorDescriber.PasswordTooShort(_options.Password.RequiredLength).Description);
+
+            if (password.Distinct().Count() < _options.Password.RequiredUniqueChars)
+                context.AddFailure(_errorDescriber.PasswordRequiresUniqueChars(_options.Password.RequiredUniqueChars)
+                    .Description);
+        }
+
+        private void AddError(CustomContext context, IEnumerable<string> errors)
         {
             foreach (var item in errors)
             {
@@ -50,6 +69,7 @@ namespace Ids.SimpleAdmin.Backend.Validators
             }
         }
     }
+
     public class UserClaimsValidator : AbstractValidator<UserClaimsContract>
     {
         public UserClaimsValidator()
