@@ -2,7 +2,7 @@
 
 namespace Ids.SimpleAdmin.Contracts
 {
-    public class ApiScopeContract : Identifyable<int?>
+    public class ApiScopeContract : Identifiable<int?>
     {
         public bool Enabled { get; set; }
         public string Name { get; set; }
@@ -14,12 +14,12 @@ namespace Ids.SimpleAdmin.Contracts
         public List<ApiScopeClaimsContract> UserClaims { get; set; }
         public List<ApiScopePropertiesContract> Properties { get; set; }
     }
-    public class ApiScopeClaimsContract : Identifyable<int?>
+    public class ApiScopeClaimsContract : Identifiable<int?>
     {
         public string Type { get; set; }
         public int? ApiScopeId { get; set; }
     }
-    public class ApiScopePropertiesContract : Identifyable<int?>
+    public class ApiScopePropertiesContract : Identifiable<int?>
     {
         public string Key { get; set; }
         public string Value { get; set; }

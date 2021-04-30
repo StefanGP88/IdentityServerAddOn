@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ids.SimpleAdmin.Contracts
 {
-    public class ClientsContract : Identifyable<int?>
+    public class ClientsContract : Identifiable<int?>
     {
         public bool Enabled { get; set; }
         public string ClientId { get; set; }
@@ -58,12 +58,12 @@ namespace Ids.SimpleAdmin.Contracts
         public List<ClientCorsOriginsContract> CorsOrigins { get; set;}
         public List<ClientClaimsContract> Claims { get; set; }
     }
-    public class ClientScopeContract : Identifyable<int?>
+    public class ClientScopeContract : Identifiable<int?>
     {
         public int? ClientId { get; set; }
         public string Scope { get; set; }
     }
-    public class ClientSecretsContract : Identifyable<int?>
+    public class ClientSecretsContract : Identifiable<int?>
     {
         public int? ClientId { get; set; }
         public string Description { get; set; }
@@ -72,38 +72,38 @@ namespace Ids.SimpleAdmin.Contracts
         public string Type { get; set; }
         public DateTime Created { get; set; }
     }
-    public class ClientRedirectUriContract : Identifyable<int?>
+    public class ClientRedirectUriContract : Identifiable<int?>
     {
         public int? ClientId { get; set; }
         public string RedirectUri { get; set; }
     }
-    public class ClientPropertiesContract : Identifyable<int?>
+    public class ClientPropertiesContract : Identifiable<int?>
     {
         public int? ClientId { get; set; }
         public string Key { get; set; }
         public string Value { get; set; }
     }
-    public class ClientPostLogoutRedirectUrisContract : Identifyable<int?>
+    public class ClientPostLogoutRedirectUrisContract : Identifiable<int?>
     {
         public int? ClientId { get; set; }
         public string PostLogoutRedirectUri { get; set; }
     }
-    public class ClientIdPRestrictionsContract : Identifyable<int?>
+    public class ClientIdPRestrictionsContract : Identifiable<int?>
     {
         public int? ClientId { get; set; }
         public string Provider { get; set; }
     }
-    public class ClientGrantTypesContract : Identifyable<int?>
+    public class ClientGrantTypesContract : Identifiable<int?>
     {
         public int? ClientId { get; set; }
         public string GrantType { get; set; }
     }
-    public class ClientCorsOriginsContract : Identifyable<int?>
+    public class ClientCorsOriginsContract : Identifiable<int?>
     {
         public int? ClientId { get; set; }
         public string Origin { get; set; }
     }
-    public class ClientClaimsContract : Identifyable<int?>
+    public class ClientClaimsContract : Identifiable<int?>
     {
         public int? ClientId { get; set; }
         public string Type { get; set; }

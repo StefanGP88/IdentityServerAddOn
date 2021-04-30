@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ids.SimpleAdmin.Contracts
 {
-    public class ApiResourceContract: Identifyable<int?>
+    public class ApiResourceContract: Identifiable<int?>
     {
         public string Name { get; set; }
         public string DisplayName { get; set; }
@@ -20,23 +20,23 @@ namespace Ids.SimpleAdmin.Contracts
         public List<ApiResourceScopesContract> Scopes { get; set; }
         public List<ApiResourceSecretsContract> Secrets { get; set; }
     }
-    public class ApiResourceClaimsContract : Identifyable<int?>
+    public class ApiResourceClaimsContract : Identifiable<int?>
     {
         public string  Type { get; set; }
         public int? ApiResourceId { get; set; }
     }
-    public class ApiResourcePropertiesContract : Identifyable<int?>
+    public class ApiResourcePropertiesContract : Identifiable<int?>
     {
         public string Key { get; set; }
         public string Value { get; set; }
         public int? ApiResourceId { get; set; }
     }
-    public class ApiResourceScopesContract : Identifyable<int?>
+    public class ApiResourceScopesContract : Identifiable<int?>
     {
         public string Scope { get; set; }
         public int? ApiResourceId { get; set; }
     }
-    public class ApiResourceSecretsContract : Identifyable<int?>
+    public class ApiResourceSecretsContract : Identifiable<int?>
     {
         public string Description { get; set; }
         public string Value { get; set; }

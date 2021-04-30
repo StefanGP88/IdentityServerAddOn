@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ids.SimpleAdmin.Contracts
 {
-    public class UserContract : Identifyable<string>
+    public class UserContract : Identifiable<string>
     {
         public string UserName { get; set; }
         public string NormalizedUserName { get; set; }
@@ -21,7 +21,7 @@ namespace Ids.SimpleAdmin.Contracts
         public List<string> UserRoles { get; set; }
         public List<UserClaimsContract> UserClaims { get; set; }= new();
     }
-    public class UserClaimsContract : Identifyable<int?>
+    public class UserClaimsContract : Identifiable<int?>
     {
         public string UserId { get; set; }
         public string ClaimType { get; set; }

@@ -60,8 +60,7 @@ namespace IdentityServer
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
-            app.UseMiddleware<DemystifyMiddleWare>();
+                app.UseMiddleware<DemystifyMiddleWare>();
             }
             else
             {

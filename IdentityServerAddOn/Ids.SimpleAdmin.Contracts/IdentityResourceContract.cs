@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ids.SimpleAdmin.Contracts
 {
-    public class IdentityResourceContract : Identifyable<int?>
+    public class IdentityResourceContract : Identifiable<int?>
     {
         public bool Enabled { get; set; }
         public string Name { get; set; }
@@ -21,13 +21,13 @@ namespace Ids.SimpleAdmin.Contracts
         public List<IdentityResourceClaimsContract> UserClaims { get; set; }
         public List<IdentityResourcePropertiesContract> Properties { get; set; }
     }
-    public class IdentityResourcePropertiesContract : Identifyable<int?>
+    public class IdentityResourcePropertiesContract : Identifiable<int?>
     {
         public int? IdentityResourceId { get; set; }
         public string Key { get; set; }
         public string Value { get; set; }
     }
-    public class IdentityResourceClaimsContract : Identifyable<int?>
+    public class IdentityResourceClaimsContract : Identifiable<int?>
     {
         public int? IdentityResourceId { get; set; }
         public string Type { get; set; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared
 {
-    public class BaseInfoPage<TData, TIdentifier> : BasePage<TData, TIdentifier> where TData : Identifyable<TIdentifier>
+    public class BaseInfoPage<TData, TIdentifier> : BasePage<TData, TIdentifier> where TData : Identifiable<TIdentifier>
     {
         public TData Data { get; set; }
         public BaseInfoPage(IHandler<TData, TIdentifier> handler) : base(handler) { }
