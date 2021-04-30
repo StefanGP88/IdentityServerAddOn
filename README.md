@@ -6,7 +6,7 @@
   - [x] Remove the need to know the typename of the used identity db context
   - [x] General simplifications
 - [ ] Create automatic tests
-- [ ] Fix known javascript bug
+- [x] Fix known javascript bug
 - [x] Fix TODOs
   
 ### Roadmap to version 1.1
