@@ -1,5 +1,4 @@
 using IdentityServer.Data;
-using Ids.SimpleAdmin.Backend;
 using Ids.SimpleAdmin.Frontend;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
