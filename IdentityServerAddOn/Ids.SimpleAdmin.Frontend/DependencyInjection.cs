@@ -24,30 +24,33 @@ namespace Ids.SimpleAdmin.Frontend
             
             var assembly = Assembly.GetExecutingAssembly().GetName().Name;
             builder.AddApplicationPart(Assembly.Load(assembly));
-
+            
+            
+            
             /*************************/
             //TODO: MOVE TO SOMEWHERE MORE SENSIBLE
             //TODO TODO REWRITE TO NOT KNOW APPDBCONTEXT NAME
+            
             var entryAsm = Assembly.GetEntryAssembly(); //can this be called from anywhere and still get Identityserver project
                                                         //var callingAssembly = Assembly.GetCallingAssembly();
-
+            
             var scEnumirator = builder.Services.GetEnumerator();
             while (scEnumirator.MoveNext())
             {
                 var current = scEnumirator.Current;
                 var serviceType = current.ServiceType;
-
+            
                 if (serviceType.BaseType is not null)
                 {
-                    if (serviceType.Name == "AppDbContext")
+                    if (serviceType.BaseType.Name == nameof(IdentityDbContext))
                     {
                         //var appDbCtx = callingAssembly.GetType(serviceType.FullName);
                         var appDbCtx = entryAsm.GetType(serviceType.FullName);
                         //System.Console.WriteLine(appDbCtx);
                         var baseDbCtx = appDbCtx.BaseType;
-
+            
                         builder.Services.AddScoped(baseDbCtx, appDbCtx);
-
+            
                         var abc = 2; //this is where we can find adcontext type
                         break;
                     }
@@ -56,17 +59,18 @@ namespace Ids.SimpleAdmin.Frontend
                         //System.Console.WriteLine(serviceType.Name);
                     }
                 }
-
-
+            
+            
             }
+            
             /*********************************************/
             
-            builder.Services.AddScoped(typeof(DbContext), typeof(IdentityDbContext));
+            //builder.Services.AddScoped(typeof(DbContext), typeof(IdentityDbContext));
         }
         public static void UseSimpleAdmin(this IApplicationBuilder app)
         {
-            app.UseEndpoints(endpoints => endpoints.MapRazorPages());
             app.UseMiddleware<PageSizeMiddleware>();
+            app.UseEndpoints(endpoints => endpoints.MapRazorPages());
         }
     }
 }
