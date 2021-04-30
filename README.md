@@ -7,7 +7,7 @@
   - [x] General simplifications
 - [ ] Create automatic tests
 - [ ] Fix known javascript bug
-- [ ] Fix TODOs
+- [x] Fix TODOs
   
 ### Roadmap to version 1.1
 
