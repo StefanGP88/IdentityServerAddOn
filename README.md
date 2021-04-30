@@ -2,9 +2,9 @@
 ### Roadmap to version 1
 
 - [x] Expand user validator
-- [ ] Simplify adding the SimpleAdmin to a project
-  - [ ] Remove the need to know the typename of the used identity db context
-  - [ ] General simplifications
+- [x] Simplify adding the SimpleAdmin to a project
+  - [x] Remove the need to know the typename of the used identity db context
+  - [x] General simplifications
 - [ ] Create automatic tests
 - [ ] Fix known javascript bug
 - [ ] Fix TODOs
