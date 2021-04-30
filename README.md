@@ -4,7 +4,7 @@
 - [x] Expand user validator
 - [ ] Simplify adding the SimpleAdmin to a project
   - [ ] Remove the need to know the typename of the used identity db context
-  - [ ] General simplifications
+  - [ ] General simplifications34
 - [ ] Create automatic tests
 - [ ] Fix known javascript bug
 - [ ] Fix TODOs
