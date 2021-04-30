@@ -84,16 +84,16 @@ namespace IdentityServer
 
         private void EnsureMigrations(IApplicationBuilder app)
         {
-            using var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
+            using var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>()?.CreateScope();
 
-            var identityContext = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
-            identityContext.Database.Migrate();
+            var identityContext = serviceScope?.ServiceProvider.GetRequiredService<AppDbContext>();
+            identityContext?.Database.Migrate();
 
-            var IdsCfgContext = serviceScope.ServiceProvider.GetRequiredService<IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext>();
-            IdsCfgContext.Database.Migrate();
+            var idsCfgContext = serviceScope?.ServiceProvider.GetRequiredService<IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext>();
+            idsCfgContext?.Database.Migrate();
 
-            var IdsPgContext = serviceScope.ServiceProvider.GetRequiredService<IdentityServer4.EntityFramework.DbContexts.PersistedGrantDbContext>();
-            IdsPgContext.Database.Migrate();
+            var idsPgContext = serviceScope?.ServiceProvider.GetRequiredService<IdentityServer4.EntityFramework.DbContexts.PersistedGrantDbContext>();
+            idsPgContext?.Database.Migrate();
         }
     }
 
