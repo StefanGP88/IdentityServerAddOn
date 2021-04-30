@@ -15,16 +15,15 @@ namespace Ids.SimpleAdmin.Frontend
     {
         private static void AddSimpleAdminDependencyInjection(this IServiceCollection services)
         {
-            services.AddIdentityServerAddOn();
+            services.AddSimpleAdminBackend();
             services.AddScoped<PageSizeMiddleware>();
-
             services.AddHttpContextAccessor();
-
-
-
         }
-        public static IMvcBuilder AddRazorPagesForSimpleAdmin(this IMvcBuilder builder)
+        public static IMvcBuilder AddSimpleAdmin(this IMvcBuilder builder)
         {
+            
+            builder.Services.AddSimpleAdminBackend();
+            
             builder.Services.AddSimpleAdminDependencyInjection();
             builder.AddFluentValidation();
             var assembly = Assembly.GetExecutingAssembly().GetName().Name;
@@ -147,9 +146,6 @@ namespace Ids.SimpleAdmin.Frontend
 
         public static IApplicationBuilder UseSimpleAdmin(this IApplicationBuilder app)
         {
-      
-
-
             app.UseMiddleware<PageSizeMiddleware>();
             return app;
         }

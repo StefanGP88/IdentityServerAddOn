@@ -50,8 +50,7 @@ namespace IdentityServer
                 .AddConfigurationStore(connectionString, migrationAssembly)
                 .AddOperationalStore(connectionString, migrationAssembly);
 
-            services.AddRazorPages().AddRazorPagesForSimpleAdmin();
-            services.AddIdentityServerAddOn();
+            services.AddRazorPages().AddSimpleAdmin();
             services.AddTransient<DemystifyMiddleWare>();
         }
 

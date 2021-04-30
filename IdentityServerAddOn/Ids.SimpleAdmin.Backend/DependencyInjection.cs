@@ -16,7 +16,7 @@ namespace Ids.SimpleAdmin.Backend
 {
     public static class DependencyInjection
     {
-        public static void AddIdentityServerAddOn(this IServiceCollection sc)
+        public static void AddSimpleAdminBackend(this IServiceCollection sc)
         {
             //handlers
             sc.AddScoped<IHandler<ApiResourceContract, int?>, ApiResourceHandler>();
