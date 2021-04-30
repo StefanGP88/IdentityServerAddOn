@@ -30,7 +30,7 @@ namespace Ids.SimpleAdmin.Backend.Validators
             RuleFor(x => x.Email).MaximumLength(256).Custom(CheckEmail);
             RuleFor(x => x.NormalizedEmail).MaximumLength(256);
             RuleFor(x => x.EmailConfirmed).NotNull();
-            RuleFor(x => x.ConcurrencyStamp);
+            RuleFor(x => x.ConcurrencyStamp).Custom(CheckConcurrencyStamp);
             RuleFor(x => x.PhoneNumber);
             RuleFor(x => x.PhoneNumberConfirmed).NotNull();
             RuleFor(x => x.TwoFactorEnabled).NotNull();
@@ -80,7 +80,6 @@ namespace Ids.SimpleAdmin.Backend.Validators
             if (restrictedChars.Any())
                 context.AddFailure(_errorDescriber.InvalidUserName(user).Description);
         }
-
         private void CheckEmail(string email, CustomContext context )
         {
             if (!_options.User.RequireUniqueEmail) return;
@@ -90,6 +89,15 @@ namespace Ids.SimpleAdmin.Backend.Validators
             
             if(isEmailTaken)
                 context.AddFailure(_errorDescriber.DuplicateEmail(email).Description);
+        }
+        private void CheckConcurrencyStamp(string concurrencyStamp, CustomContext context)
+        {
+            var user = (UserContract)context.InstanceToValidate;
+            var isStampTheSame =  _identityDbContext.Users
+                .Any(x => x.Id == user.Id && x.ConcurrencyStamp == user.ConcurrencyStamp);
+            
+            if(!isStampTheSame)
+                context.AddFailure(_errorDescriber.ConcurrencyFailure().Description);
         }
     }
 

@@ -113,8 +113,6 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 .FirstOrDefaultAsync(x => x.Id == dto.Id, cancel)
                 .ConfigureAwait(false);
 
-            if (model.ConcurrencyStamp != dto.ConcurrencyStamp) throw new Exception("Concurrencystamp outdated"); //TODO: should propbly be in the validation class as a validation rule
-
             dto.NormalizedName = dto.Name.ToUpperInvariant();
             dto.ConcurrencyStamp = Guid.NewGuid().ToString();
 

@@ -1,10 +1,11 @@
 ﻿@{
     Layout = "_Layout";
 }
-<partial name="_SharedStyling" />
+<partial name="_SharedStyling"/>
 <div class="container">
+    <partial name="_ValidationNotification" model="@Model.ModelState["dto.UserName"]"/>
     <form id="form" method="post" asp-route-pageNumber="@Model.PageNumber" asp-route-pageSize="@Model.PageSize">
-        <input type="hidden" id="resourceId" name="dto.Id" value="@Model?.Data?.Id" />
+        <input type="hidden" id="resourceId" name="dto.Id" value="@Model?.Data?.Id"/>
         @Html.AntiForgeryToken()
         @if (IsSectionDefined("Navtabs"))
         {
@@ -14,7 +15,7 @@
                     @RenderSection("Navtabs", required: false)
                 </div>
             </nav>
-            <br />
+            <br/>
         }
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="basesettings" role="tabpanel">
@@ -38,12 +39,13 @@
 <template id="abandonModalBody">
     <div class="alert alert-warning" role="alert">
         Are you sure you want to leave this page?
-        <br />
+        <br/>
         All changes will be lost.
     </div>
 </template>
-<partial name="_Modal" />
+<partial name="_Modal"/>
+
 @section Scripts{
-    <partial name="_SharedScripts" />
+    <partial name="_SharedScripts"/>
     @RenderSection("Scripts", required: false)
 }
