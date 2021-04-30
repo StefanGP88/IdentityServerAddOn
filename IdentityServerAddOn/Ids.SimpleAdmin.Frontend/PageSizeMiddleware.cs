@@ -9,7 +9,6 @@ namespace Ids.SimpleAdmin.Frontend
 {
     public class PageSizeMiddleware : IMiddleware
     {
-        //TODO: make configuratble
         private readonly string defaultPageSize = "10";
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
