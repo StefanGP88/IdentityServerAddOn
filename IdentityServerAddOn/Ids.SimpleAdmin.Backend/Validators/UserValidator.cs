@@ -1,9 +1,12 @@
 ﻿using FluentValidation;
 using FluentValidation.Validators;
 using Ids.SimpleAdmin.Contracts;
-using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace Ids.SimpleAdmin.Backend.Validators
@@ -12,16 +15,19 @@ namespace Ids.SimpleAdmin.Backend.Validators
     {
         private readonly IdentityErrorDescriber _errorDescriber;
         private readonly IdentityOptions _options;
+        private readonly IdentityDbContext _identityDbContext;
 
         public UserValidator(IdentityErrorDescriber errorsDescriber,
-            IOptions<IdentityOptions> options)
+            IOptions<IdentityOptions> options,
+            IdentityDbContext identityDbContext)
         {
             _errorDescriber = errorsDescriber;
             _options = options.Value;
+            _identityDbContext = identityDbContext;
 
-            RuleFor(x => x.UserName).MaximumLength(256);
+            RuleFor(x => x.UserName).NotNull().MaximumLength(256).Custom(CheckUser);
             RuleFor(x => x.NormalizedUserName).MaximumLength(256);
-            RuleFor(x => x.Email).MaximumLength(256);
+            RuleFor(x => x.Email).MaximumLength(256).Custom(CheckEmail);
             RuleFor(x => x.NormalizedEmail).MaximumLength(256);
             RuleFor(x => x.EmailConfirmed).NotNull();
             RuleFor(x => x.ConcurrencyStamp);
@@ -60,13 +66,30 @@ namespace Ids.SimpleAdmin.Backend.Validators
                 context.AddFailure(_errorDescriber.PasswordRequiresUniqueChars(_options.Password.RequiredUniqueChars)
                     .Description);
         }
-
-        private void AddError(CustomContext context, IEnumerable<string> errors)
+        private void CheckUser(string user, CustomContext context)
         {
-            foreach (var item in errors)
+            if (string.IsNullOrWhiteSpace(user)) return;
+            
+            var restrictedChars = user.Distinct().Aggregate(string.Empty, (characters, x) =>
             {
-                context.AddFailure(item);
-            }
+                if (!_options.User.AllowedUserNameCharacters.Contains(x))
+                    characters += x;
+                return characters;
+            });
+
+            if (restrictedChars.Any())
+                context.AddFailure(_errorDescriber.InvalidUserName(user).Description);
+        }
+
+        private void CheckEmail(string email, CustomContext context )
+        {
+            if (!_options.User.RequireUniqueEmail) return;
+            var user = (UserContract)context.InstanceToValidate;
+            var isEmailTaken =  _identityDbContext.Users
+                .Any(x => x.Id != user.Id && x.Email == user.Email);
+            
+            if(isEmailTaken)
+                context.AddFailure(_errorDescriber.DuplicateEmail(email).Description);
         }
     }
 

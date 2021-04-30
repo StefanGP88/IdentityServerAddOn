@@ -4,5 +4,9 @@
     foreach (var item in Model)
     {
         <span class="text-danger font-weight-light font-italic">@item.Replace("'", "")</span>
+        if (Model.Last() != item)
+        {
+            <br>
+        }
     }
 }

@@ -157,7 +157,9 @@ namespace Ids.SimpleAdmin.Backend.Handlers
         private async Task UpdateRoles(UserContract dto, CancellationToken cancel,
             IReadOnlyCollection<IdentityUserRole<string>> userRoles)
         {
+            
             var rolesToAdd = dto.UserRoles
+                .Where(item => item is not null)
                 .Where(item => userRoles.All(x => x.RoleId != item))
                 .Select(item => new IdentityUserRole<string> {RoleId = item, UserId = dto.Id})
                 .ToList();

@@ -4,5 +4,9 @@
     foreach (var item in Model.Errors)
     {
         <span class="text-danger font-weight-light font-italic">@item.ErrorMessage.Replace("'","")</span>
+        if (Model.Errors.Last() != item)
+        {
+            <br>
+        }
     }
 }
