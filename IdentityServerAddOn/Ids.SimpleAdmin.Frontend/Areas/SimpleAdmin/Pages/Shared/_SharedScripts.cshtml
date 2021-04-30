@@ -2,6 +2,7 @@
     function SetRemoveModal(element, nameofobject) {
         var template = $('#removeModalBody').html();
         var ConfirmRemove = function () {
+            DisableEditButtons(element, false);
             $(element).closest('tr').remove();
             CancelModal();
         };
