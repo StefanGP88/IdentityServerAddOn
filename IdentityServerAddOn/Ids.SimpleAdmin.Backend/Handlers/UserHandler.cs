@@ -16,10 +16,12 @@ namespace Ids.SimpleAdmin.Backend.Handlers
     public class UserHandler : IHandler<UserContract, string>
     {
         private readonly IdentityDbContext _identityContext;
+        private readonly IPasswordHasher<IdentityUser> _pwHasher;
 
-        public UserHandler(IdentityDbContext identityDbContext)
+        public UserHandler(IdentityDbContext identityDbContext, IPasswordHasher<IdentityUser> pwHasher)
         {
             _identityContext = identityDbContext;
+            _pwHasher = pwHasher;
         }
 
         public async Task<ListDto<UserContract>> GetAll(int page, int pageSize, CancellationToken cancel)
@@ -118,6 +120,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             var user = new IdentityUser();
             dto.Id = user.Id;
             dto.Adapt(user);
+            UpdatePassword(dto, user);
 
             await _identityContext.Users.AddAsync(user, cancel).ConfigureAwait(false);
 
@@ -145,7 +148,8 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 .ConfigureAwait(false);
 
             dto.Adapt(user);
-             _identityContext.Users.Update(user);
+            UpdatePassword(dto, user);
+            _identityContext.Users.Update(user);
 
             await UpdateRoles(dto, cancel, userRoles).ConfigureAwait(false);
             await UpdateClaims(dto, cancel, userClaims, user.Id).ConfigureAwait(false);
@@ -154,10 +158,15 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             return await Get(dto.Id, cancel).ConfigureAwait(false);
         }
 
+        private void UpdatePassword(UserContract dto, IdentityUser user)
+        {
+            if (string.IsNullOrWhiteSpace(dto.SetPassword)) return;
+            user.PasswordHash = _pwHasher.HashPassword(user, dto.SetPassword);
+        }
+
         private async Task UpdateRoles(UserContract dto, CancellationToken cancel,
             IReadOnlyCollection<IdentityUserRole<string>> userRoles)
         {
-            
             var rolesToAdd = dto.UserRoles
                 .Where(item => item is not null)
                 .Where(item => userRoles.All(x => x.RoleId != item))
@@ -198,8 +207,8 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 .Select(item =>
                 {
                     var claim = new IdentityUserClaim<string>();
-                     item.Adapt(claim);
-                     claim.UserId = userId;
+                    item.Adapt(claim);
+                    claim.UserId = userId;
                     return claim;
                 })
                 .ToList();
