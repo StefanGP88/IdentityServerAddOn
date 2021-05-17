@@ -1,6 +1,7 @@
 ﻿using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Entities;
 using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
+using Ids.SimpleAdmin.Backend.Mappers.Interfaces;
 using Ids.SimpleAdmin.Contracts;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
@@ -14,11 +15,14 @@ namespace Ids.SimpleAdmin.Backend.Handlers
     {
         private readonly ConfigurationDbContext _confContext;
 
-        public ClientHandler(ConfigurationDbContext configurationDbContext)
+        private readonly IMapper<ClientsContract, Client> _mapper;
+        public ClientHandler(ConfigurationDbContext configurationDbContext,
+            IMapper<ClientsContract, Client> mapper)
         {
             _confContext = configurationDbContext;
+            _mapper = mapper;
         }
-        public async  Task<ClientsContract> Create(ClientsContract dto, CancellationToken cancel)
+        public async Task<ClientsContract> Create(ClientsContract dto, CancellationToken cancel)
         {
             var model = dto.Adapt<Client>();
             await _confContext.Clients.AddAsync(model, cancel).ConfigureAwait(false);
@@ -100,22 +104,24 @@ namespace Ids.SimpleAdmin.Backend.Handlers
         {
             var model = await _confContext.Clients
                 .Where(x => x.Id == dto.Id)
-                .Include(x=>x.IdentityProviderRestrictions)
-                .Include(x=>x.Claims)
-                .Include(x=>x.AllowedCorsOrigins)
-                .Include(x=>x.Properties)
-                .Include(x=>x.AllowedScopes)
-                .Include(x=>x.ClientSecrets)
-                .Include(x=>x.AllowedGrantTypes)
-                .Include(x=>x.RedirectUris)
-                .Include(x=>x.PostLogoutRedirectUris)
+                .Include(x => x.IdentityProviderRestrictions)
+                .Include(x => x.Claims)
+                .Include(x => x.AllowedCorsOrigins)
+                .Include(x => x.Properties)
+                .Include(x => x.AllowedScopes)
+                .Include(x => x.ClientSecrets)
+                .Include(x => x.AllowedGrantTypes)
+                .Include(x => x.RedirectUris)
+                .Include(x => x.PostLogoutRedirectUris)
                 .FirstOrDefaultAsync(cancel)
                 .ConfigureAwait(false);
-            
+
             dto.Adapt(model);
             _confContext.Clients.Update(model);
             await _confContext.SaveChangesAsync(cancel).ConfigureAwait(false);
             return model.Adapt<ClientsContract>();
         }
     }
+
+
 }

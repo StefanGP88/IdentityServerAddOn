@@ -74,7 +74,7 @@ namespace Ids.SimpleAdmin.Backend.Validators
         {
             RuleFor(x => x.Description).MaximumLength(2000).NotNull();
             RuleFor(x => x.Value).MaximumLength(4000).NotNull();
-            RuleFor(x => x.Type).MaximumLength(250).NotNull();
+            RuleFor(x => x.Type).NotNull();
         }
     }
     public class ClientRedirectUrisValidator : AbstractValidator<ClientRedirectUriContract>

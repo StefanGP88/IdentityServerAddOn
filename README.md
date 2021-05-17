@@ -8,6 +8,8 @@
 - [ ] Create automatic tests
 - [x] Fix known javascript bug
 - [x] Fix TODOs
+- [ ] figure out client secrets logic / fix secret not being saved bug
+- [ ] Reduce the need for dependencies
   
 ### Roadmap to version 1.1
 
@@ -16,9 +18,8 @@
 - [ ] Clean up Ids.SimpleAdmin.Backend.IdentityHelpers.cs
 - [ ] Add Support for configuration if needed
 
-### Roadmap to version 1.2
 
-- [ ] Reduce the need for dependencies
+
 
 ### Nice to have but not a priority
 
