@@ -7,7 +7,7 @@
   - [x] General simplifications
 - [ ] Create automatic tests
 - [x] Fix known javascript bug
-- [x] Fix TODOs
+- [ ] Fix TODOs
 - [ ] figure out client secrets logic / fix secret not being saved bug
 - [ ] Reduce the need for dependencies
   

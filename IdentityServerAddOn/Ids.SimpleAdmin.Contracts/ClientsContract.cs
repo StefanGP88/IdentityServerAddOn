@@ -15,13 +15,13 @@ namespace Ids.SimpleAdmin.Contracts
         public string LogoUri { get; set; }
         public bool RequireConsent { get; set; }
         public bool AllowRememberConsent { get; set; }
-        public bool AlwaysIncludeUserClaimsInToken { get; set; }
+        public bool AlwaysIncludeUserClaimsInToken { get; set; }//TODO: rename to 'AlwaysIncludeUserClaimsInIdToken'
         public bool RequirePkce { get; set; }
         public bool AllowPlainTextPkce { get; set; }
         public bool RequireRequestObject { get; set; }
         public bool AllowAccessTokensViaBrowser { get; set; }
         public string FrontChannelLogoutUri { get; set; }
-        public bool FrontChannelSessionRequired { get; set; }
+        public bool FrontChannelSessionRequired { get; set; }//TODO: rename to 'FrontChannelLogoutSessionRequired'
         public string BackChannelLogoutUri { get; set; }
         public bool BackChannelLogoutSessionRequired { get; set; }
         public bool AllowOfflineAccess { get; set; }
@@ -29,33 +29,33 @@ namespace Ids.SimpleAdmin.Contracts
         public string AllowedIdentityTokenSigningAlgorithms { get; set; }
         public int AccessTokenLifetime { get; set; }
         public int AuthorizationCodeLifeTime { get; set; }
-        public int ConsentLifetime { get; set; }
+        public int? ConsentLifetime { get; set; }//TODO: make sure nulalble is not causing trouble in validators
         public int AbsoluteRefreshTokenLifetime { get; set; }
         public int SlidingRefreshTokenLifetime { get; set; }
         public int RefreshTokenUsage { get; set; }
         public bool UpdateAccessTokenClaimsOnRefresh { get; set; }
         public int RefreshTokenExpiration { get; set; }
         public int AccessTokenType { get; set; }
-        public bool EnabledLocalLogin { get; set; }
+        public bool EnabledLocalLogin { get; set; }//TODO: rename to 'EnableLocalLogin'
         public bool IncludeJwtId { get; set; }
         public bool AlwaysSendClientClaims { get; set; }
         public string ClientClaimsPrefix { get; set; }
         public string PairWiseSubjectSalt { get; set; }
         public DateTime Created { get; set; }
-        public DateTime Updated { get; set; }
-        public DateTime LastAccessed { get; set; }
-        public int UserSsoLifetime { get; set; }
+        public DateTime? Updated { get; set; } //TODO: make sure nulalble is not causing trouble in validators
+        public DateTime? LastAccessed { get; set; } //TODO: make sure nulalble is not causing trouble in validators
+        public int? UserSsoLifetime { get; set; }//TODO: make sure nulalble is not causing trouble in validators
         public string UserCodeType { get; set; }
         public int DeviceCodeLifetime { get; set; }
         public bool NonEditable { get; set; }
-        public List<ClientScopeContract> Scopes { get; set; }
-        public List<ClientSecretsContract> Secrets { get; set; }
+        public List<ClientScopeContract> Scopes { get; set; }//TODO: rename to 'AllowedScopes'
+        public List<ClientSecretsContract> Secrets { get; set; } // TODO: rename to 'ClientSecrets'
         public List<ClientRedirectUriContract> RedirectUris { get; set; }
         public List<ClientPropertiesContract> Properties { get; set; }
         public List<ClientPostLogoutRedirectUrisContract> PostLogoutRedirectUris { get; set; }
-        public List<ClientIdPRestrictionsContract> IdPRestrictions { get; set; }
-        public List<ClientGrantTypesContract> GrantTypes { get; set; }
-        public List<ClientCorsOriginsContract> CorsOrigins { get; set; }
+        public List<ClientIdPRestrictionsContract> IdPRestrictions { get; set; } //TODO: rename to 'IdentityProviderRestrictions
+        public List<ClientGrantTypesContract> GrantTypes { get; set; } //TODO: rename to 'AllowedGrantTypes'
+        public List<ClientCorsOriginsContract> CorsOrigins { get; set; } //TODO: rename to  'AllowedCorsOrigins'
         public List<ClientClaimsContract> Claims { get; set; }
     }
     public class ClientScopeContract : Identifiable<int?>
