@@ -1,10 +1,11 @@
 ﻿using IdentityServer4.EntityFramework.Entities;
 using Ids.SimpleAdmin.Backend.Mappers.Interfaces;
 using Ids.SimpleAdmin.Contracts;
+using System.Linq;
 
 namespace Ids.SimpleAdmin.Backend.Mappers
 {
-    public class ClientMapper : IMapper<ClientsContract, Client>
+    public class ClientMapper : AbstractMapper<ClientsContract, Client>
     {
         private readonly IMapper<ClientIdPRestrictionsContract, ClientIdPRestriction> _idPRestriction;
         private readonly IMapper<ClientClaimsContract, ClientClaim> _claim;
@@ -38,282 +39,357 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             _postLogoutUri = postLogoutUri;
         }
 
-        public ClientsContract ToContract(Client m)
+        public override ClientsContract ToContract(Client model)
         {
-            if (m is null) return null;
+            if (model is null) return null;
             return new ClientsContract
             {
-                AbsoluteRefreshTokenLifetime = m.AbsoluteRefreshTokenLifetime,
-                AccessTokenLifetime = m.AccessTokenLifetime,
-                AccessTokenType = m.AccessTokenType,
-                AllowAccessTokensViaBrowser = m.AllowAccessTokensViaBrowser,
-                AllowedIdentityTokenSigningAlgorithms = m.AllowedIdentityTokenSigningAlgorithms,
-                AllowOfflineAccess = m.AllowOfflineAccess,
-                AllowPlainTextPkce = m.AllowPlainTextPkce,
-                AllowRememberConsent = m.AllowRememberConsent,
-                AlwaysIncludeUserClaimsInToken = m.AlwaysIncludeUserClaimsInIdToken,
-                AlwaysSendClientClaims = m.AlwaysSendClientClaims,
-                AuthorizationCodeLifeTime = m.AuthorizationCodeLifetime,
-                BackChannelLogoutSessionRequired = m.BackChannelLogoutSessionRequired,
-                BackChannelLogoutUri = m.BackChannelLogoutUri,
-                ClientClaimsPrefix = m.ClientClaimsPrefix,
-                ClientId = m.ClientId,
-                ClientName = m.ClientName,
-                ClientUri = m.ClientUri,
-                ConsentLifetime = m.ConsentLifetime,
-                Created = m.Created,
-                Description = m.Description,
-                DeviceCodeLifetime = m.DeviceCodeLifetime,
-                Enabled = m.Enabled,
-                EnabledLocalLogin = m.EnableLocalLogin,
-                FrontChannelLogoutUri = m.FrontChannelLogoutUri,
-                FrontChannelSessionRequired = m.FrontChannelLogoutSessionRequired,
-                Id = m.Id,
-                IdentityTokenLifetime = m.IdentityTokenLifetime,
-                IncludeJwtId = m.IncludeJwtId,
-                LastAccessed = m.LastAccessed,
-                LogoUri = m.LogoUri,
-                NonEditable = m.NonEditable,
-                PairWiseSubjectSalt = m.PairWiseSubjectSalt,
-                ProtocolType = m.ProtocolType,
-                RefreshTokenExpiration = m.RefreshTokenExpiration,
-                RefreshTokenUsage = m.RefreshTokenUsage,
-                RequireClientSecret = m.RequireClientSecret,
-                RequireConsent = m.RequireConsent,
-                RequirePkce = m.RequirePkce,
-                RequireRequestObject = m.RequireRequestObject,
-                SlidingRefreshTokenLifetime = m.SlidingRefreshTokenLifetime,
-                UpdateAccessTokenClaimsOnRefresh = m.UpdateAccessTokenClaimsOnRefresh,
-                Updated = m.Updated,
-                UserCodeType = m.UserCodeType,
-                UserSsoLifetime = m.UserSsoLifetime,
-                Claims = m.Claims?.ConvertAll(x => _claim.ToContract(x)),
-                CorsOrigins = m.AllowedCorsOrigins?.ConvertAll(x => _corsOrigin.ToContract(x)),
-                GrantTypes = m.AllowedGrantTypes?.ConvertAll(x => _grantType.ToContract(x)),
-                IdPRestrictions = m.IdentityProviderRestrictions?.ConvertAll(x => _idPRestriction.ToContract(x)),
-                PostLogoutRedirectUris = m.PostLogoutRedirectUris?.ConvertAll(x => _postLogoutUri.ToContract(x)),
-                Properties = m.Properties?.ConvertAll(x => _property.ToContract(x)),
-                RedirectUris = m.RedirectUris?.ConvertAll(x => _redirectUri.ToContract(x)),
-                Scopes = m.AllowedScopes?.ConvertAll(x => _scope.ToContract(x)),
-                Secrets = m.ClientSecrets?.ConvertAll(x => _secret.ToContract(x)) //TODO: Consider making overload of ConvertAll that takes null list into account i.e. ConvertAllOrDefault or something
+                AbsoluteRefreshTokenLifetime = model.AbsoluteRefreshTokenLifetime,
+                AccessTokenLifetime = model.AccessTokenLifetime,
+                AccessTokenType = model.AccessTokenType,
+                AllowAccessTokensViaBrowser = model.AllowAccessTokensViaBrowser,
+                AllowedIdentityTokenSigningAlgorithms = model.AllowedIdentityTokenSigningAlgorithms,
+                AllowOfflineAccess = model.AllowOfflineAccess,
+                AllowPlainTextPkce = model.AllowPlainTextPkce,
+                AllowRememberConsent = model.AllowRememberConsent,
+                AlwaysIncludeUserClaimsInToken = model.AlwaysIncludeUserClaimsInIdToken,
+                AlwaysSendClientClaims = model.AlwaysSendClientClaims,
+                AuthorizationCodeLifeTime = model.AuthorizationCodeLifetime,
+                BackChannelLogoutSessionRequired = model.BackChannelLogoutSessionRequired,
+                BackChannelLogoutUri = model.BackChannelLogoutUri,
+                ClientClaimsPrefix = model.ClientClaimsPrefix,
+                ClientId = model.ClientId,
+                ClientName = model.ClientName,
+                ClientUri = model.ClientUri,
+                ConsentLifetime = model.ConsentLifetime,
+                Created = model.Created,
+                Description = model.Description,
+                DeviceCodeLifetime = model.DeviceCodeLifetime,
+                Enabled = model.Enabled,
+                EnabledLocalLogin = model.EnableLocalLogin,
+                FrontChannelLogoutUri = model.FrontChannelLogoutUri,
+                FrontChannelSessionRequired = model.FrontChannelLogoutSessionRequired,
+                Id = model.Id,
+                IdentityTokenLifetime = model.IdentityTokenLifetime,
+                IncludeJwtId = model.IncludeJwtId,
+                LastAccessed = model.LastAccessed,
+                LogoUri = model.LogoUri,
+                NonEditable = model.NonEditable,
+                PairWiseSubjectSalt = model.PairWiseSubjectSalt,
+                ProtocolType = model.ProtocolType,
+                RefreshTokenExpiration = model.RefreshTokenExpiration,
+                RefreshTokenUsage = model.RefreshTokenUsage,
+                RequireClientSecret = model.RequireClientSecret,
+                RequireConsent = model.RequireConsent,
+                RequirePkce = model.RequirePkce,
+                RequireRequestObject = model.RequireRequestObject,
+                SlidingRefreshTokenLifetime = model.SlidingRefreshTokenLifetime,
+                UpdateAccessTokenClaimsOnRefresh = model.UpdateAccessTokenClaimsOnRefresh,
+                Updated = model.Updated,
+                UserCodeType = model.UserCodeType,
+                UserSsoLifetime = model.UserSsoLifetime,
+                Claims = model.Claims?.ConvertAll(x => _claim.ToContract(x)),
+                CorsOrigins = model.AllowedCorsOrigins?.ConvertAll(x => _corsOrigin.ToContract(x)),
+                GrantTypes = model.AllowedGrantTypes?.ConvertAll(x => _grantType.ToContract(x)),
+                IdPRestrictions = model.IdentityProviderRestrictions?.ConvertAll(x => _idPRestriction.ToContract(x)),
+                PostLogoutRedirectUris = model.PostLogoutRedirectUris?.ConvertAll(x => _postLogoutUri.ToContract(x)),
+                Properties = model.Properties?.ConvertAll(x => _property.ToContract(x)),
+                RedirectUris = model.RedirectUris?.ConvertAll(x => _redirectUri.ToContract(x)),
+                Scopes = model.AllowedScopes?.ConvertAll(x => _scope.ToContract(x)),
+                Secrets = model.ClientSecrets?.ConvertAll(x => _secret.ToContract(x)) //TODO: Consider making overload of ConvertAll that takes null list into account i.e. ConvertAllOrDefault or something
             };
         }
 
-        public Client ToModel(ClientsContract dto)
+        public override Client ToModel(ClientsContract contract)
         {
-            if (dto == null) return null;
+            if (contract == null) return null;
             return new Client
             {
 
-                AbsoluteRefreshTokenLifetime = dto.AbsoluteRefreshTokenLifetime,
-                AccessTokenLifetime = dto.AccessTokenLifetime,
-                AccessTokenType = dto.AccessTokenType,
-                AllowAccessTokensViaBrowser = dto.AllowAccessTokensViaBrowser,
-                AllowedIdentityTokenSigningAlgorithms = dto.AllowedIdentityTokenSigningAlgorithms,
-                AllowOfflineAccess = dto.AllowOfflineAccess,
-                AllowPlainTextPkce = dto.AllowPlainTextPkce,
-                AllowRememberConsent = dto.AllowRememberConsent,
-                AlwaysIncludeUserClaimsInIdToken = dto.AlwaysIncludeUserClaimsInToken,
-                AlwaysSendClientClaims = dto.AlwaysSendClientClaims,
-                AuthorizationCodeLifetime = dto.AuthorizationCodeLifeTime,
-                BackChannelLogoutSessionRequired = dto.BackChannelLogoutSessionRequired,
-                BackChannelLogoutUri = dto.BackChannelLogoutUri,
-                ClientClaimsPrefix = dto.ClientClaimsPrefix,
-                ClientId = dto.ClientId,
-                ClientName = dto.ClientName,
-                ClientUri = dto.ClientUri,
-                ConsentLifetime = dto.ConsentLifetime,
-                Created = dto.Created,
-                Description = dto.Description,
-                DeviceCodeLifetime = dto.DeviceCodeLifetime,
-                Enabled = dto.Enabled,
-                EnableLocalLogin = dto.EnabledLocalLogin,
-                FrontChannelLogoutUri = dto.FrontChannelLogoutUri,
-                FrontChannelLogoutSessionRequired = dto.FrontChannelSessionRequired,
-                IdentityTokenLifetime = dto.IdentityTokenLifetime,
-                IncludeJwtId = dto.IncludeJwtId,
-                LastAccessed = dto.LastAccessed,
-                LogoUri = dto.LogoUri,
-                NonEditable = dto.NonEditable,
-                PairWiseSubjectSalt = dto.PairWiseSubjectSalt,
-                ProtocolType = dto.ProtocolType,
-                RefreshTokenExpiration = dto.RefreshTokenExpiration,
-                RefreshTokenUsage = dto.RefreshTokenUsage,
-                RequireClientSecret = dto.RequireClientSecret,
-                RequireConsent = dto.RequireConsent,
-                RequirePkce = dto.RequirePkce,
-                RequireRequestObject = dto.RequireRequestObject,
-                SlidingRefreshTokenLifetime = dto.SlidingRefreshTokenLifetime,
-                UpdateAccessTokenClaimsOnRefresh = dto.UpdateAccessTokenClaimsOnRefresh,
-                Updated = dto.Updated,
-                UserCodeType = dto.UserCodeType,
-                UserSsoLifetime = dto.UserSsoLifetime,
-                Claims = dto.Claims?.ConvertAll(x => _claim.ToModel(x)),
-                AllowedCorsOrigins = dto.CorsOrigins?.ConvertAll(x => _corsOrigin.ToModel(x)),
-                AllowedGrantTypes = dto.GrantTypes?.ConvertAll(x => _grantType.ToModel(x)),
-                IdentityProviderRestrictions = dto.IdPRestrictions?.ConvertAll(x => _idPRestriction.ToModel(x)),
-                PostLogoutRedirectUris = dto.PostLogoutRedirectUris?.ConvertAll(x => _postLogoutUri.ToModel(x)),
-                Properties = dto.Properties?.ConvertAll(x => _property.ToModel(x)),
-                RedirectUris = dto.RedirectUris?.ConvertAll(x => _redirectUri.ToModel(x)),
-                AllowedScopes = dto.Scopes?.ConvertAll(x => _scope.ToModel(x)),
-                ClientSecrets = dto.Secrets?.ConvertAll(x => _secret.ToModel(x))
+                AbsoluteRefreshTokenLifetime = contract.AbsoluteRefreshTokenLifetime,
+                AccessTokenLifetime = contract.AccessTokenLifetime,
+                AccessTokenType = contract.AccessTokenType,
+                AllowAccessTokensViaBrowser = contract.AllowAccessTokensViaBrowser,
+                AllowedIdentityTokenSigningAlgorithms = contract.AllowedIdentityTokenSigningAlgorithms,
+                AllowOfflineAccess = contract.AllowOfflineAccess,
+                AllowPlainTextPkce = contract.AllowPlainTextPkce,
+                AllowRememberConsent = contract.AllowRememberConsent,
+                AlwaysIncludeUserClaimsInIdToken = contract.AlwaysIncludeUserClaimsInToken,
+                AlwaysSendClientClaims = contract.AlwaysSendClientClaims,
+                AuthorizationCodeLifetime = contract.AuthorizationCodeLifeTime,
+                BackChannelLogoutSessionRequired = contract.BackChannelLogoutSessionRequired,
+                BackChannelLogoutUri = contract.BackChannelLogoutUri,
+                ClientClaimsPrefix = contract.ClientClaimsPrefix,
+                ClientId = contract.ClientId,
+                ClientName = contract.ClientName,
+                ClientUri = contract.ClientUri,
+                ConsentLifetime = contract.ConsentLifetime,
+                Created = contract.Created,
+                Description = contract.Description,
+                DeviceCodeLifetime = contract.DeviceCodeLifetime,
+                Enabled = contract.Enabled,
+                EnableLocalLogin = contract.EnabledLocalLogin,
+                FrontChannelLogoutUri = contract.FrontChannelLogoutUri,
+                FrontChannelLogoutSessionRequired = contract.FrontChannelSessionRequired,
+                IdentityTokenLifetime = contract.IdentityTokenLifetime,
+                IncludeJwtId = contract.IncludeJwtId,
+                LastAccessed = contract.LastAccessed,
+                LogoUri = contract.LogoUri,
+                NonEditable = contract.NonEditable,
+                PairWiseSubjectSalt = contract.PairWiseSubjectSalt,
+                ProtocolType = contract.ProtocolType,
+                RefreshTokenExpiration = contract.RefreshTokenExpiration,
+                RefreshTokenUsage = contract.RefreshTokenUsage,
+                RequireClientSecret = contract.RequireClientSecret,
+                RequireConsent = contract.RequireConsent,
+                RequirePkce = contract.RequirePkce,
+                RequireRequestObject = contract.RequireRequestObject,
+                SlidingRefreshTokenLifetime = contract.SlidingRefreshTokenLifetime,
+                UpdateAccessTokenClaimsOnRefresh = contract.UpdateAccessTokenClaimsOnRefresh,
+                Updated = contract.Updated,
+                UserCodeType = contract.UserCodeType,
+                UserSsoLifetime = contract.UserSsoLifetime,
+                Claims = contract.Claims?.ConvertAll(x => _claim.ToModel(x)),
+                AllowedCorsOrigins = contract.CorsOrigins?.ConvertAll(x => _corsOrigin.ToModel(x)),
+                AllowedGrantTypes = contract.GrantTypes?.ConvertAll(x => _grantType.ToModel(x)),
+                IdentityProviderRestrictions = contract.IdPRestrictions?.ConvertAll(x => _idPRestriction.ToModel(x)),
+                PostLogoutRedirectUris = contract.PostLogoutRedirectUris?.ConvertAll(x => _postLogoutUri.ToModel(x)),
+                Properties = contract.Properties?.ConvertAll(x => _property.ToModel(x)),
+                RedirectUris = contract.RedirectUris?.ConvertAll(x => _redirectUri.ToModel(x)),
+                AllowedScopes = contract.Scopes?.ConvertAll(x => _scope.ToModel(x)),
+                ClientSecrets = contract.Secrets?.ConvertAll(x => _secret.ToModel(x))
             };
         }
 
-        public Client UpdateModel(Client model, ClientsContract contract)
+        public override Client UpdateModel(Client model, ClientsContract contract)
+        {
+            if (model is null && contract is null) return null;
+            if (model is null) return ToModel(contract);
+            if (contract is null) return model;
+
+            model.AbsoluteRefreshTokenLifetime = contract.AbsoluteRefreshTokenLifetime;
+            model.AccessTokenLifetime = contract.AccessTokenLifetime;
+            model.AccessTokenType = contract.AccessTokenType;
+            model.AllowAccessTokensViaBrowser = contract.AllowAccessTokensViaBrowser;
+            model.AllowedIdentityTokenSigningAlgorithms = contract.AllowedIdentityTokenSigningAlgorithms;
+            model.AllowOfflineAccess = contract.AllowOfflineAccess;
+            model.AllowPlainTextPkce = contract.AllowPlainTextPkce;
+            model.AllowRememberConsent = contract.AllowRememberConsent;
+            model.AlwaysIncludeUserClaimsInIdToken = contract.AlwaysIncludeUserClaimsInToken;
+            model.AlwaysSendClientClaims = contract.AlwaysSendClientClaims;
+            model.AuthorizationCodeLifetime = contract.AuthorizationCodeLifeTime;
+            model.BackChannelLogoutSessionRequired = contract.BackChannelLogoutSessionRequired;
+            model.BackChannelLogoutUri = contract.BackChannelLogoutUri;
+            model.ClientClaimsPrefix = contract.ClientClaimsPrefix;
+            model.ClientId = contract.ClientId;
+            model.ClientName = contract.ClientName;
+            model.ClientUri = contract.ClientUri;
+            model.ConsentLifetime = contract.ConsentLifetime;
+            model.Created = contract.Created;
+            model.Description = contract.Description;
+            model.DeviceCodeLifetime = contract.DeviceCodeLifetime;
+            model.Enabled = contract.Enabled;
+            model.EnableLocalLogin = contract.EnabledLocalLogin;
+            model.FrontChannelLogoutUri = contract.FrontChannelLogoutUri;
+            model.FrontChannelLogoutSessionRequired = contract.FrontChannelSessionRequired;
+            model.IdentityTokenLifetime = contract.IdentityTokenLifetime;
+            model.IncludeJwtId = contract.IncludeJwtId;
+            model.LastAccessed = contract.LastAccessed;
+            model.LogoUri = contract.LogoUri;
+            model.NonEditable = contract.NonEditable;
+            model.PairWiseSubjectSalt = contract.PairWiseSubjectSalt;
+            model.ProtocolType = contract.ProtocolType;
+            model.RefreshTokenExpiration = contract.RefreshTokenExpiration;
+            model.RefreshTokenUsage = contract.RefreshTokenUsage;
+            model.RequireClientSecret = contract.RequireClientSecret;
+            model.RequireConsent = contract.RequireConsent;
+            model.RequirePkce = contract.RequirePkce;
+            model.RequireRequestObject = contract.RequireRequestObject;
+            model.SlidingRefreshTokenLifetime = contract.SlidingRefreshTokenLifetime;
+            model.UpdateAccessTokenClaimsOnRefresh = contract.UpdateAccessTokenClaimsOnRefresh;
+            model.Updated = contract.Updated;
+            model.UserCodeType = contract.UserCodeType;
+            model.UserSsoLifetime = contract.UserSsoLifetime;
+
+            model.Claims = contract.Claims?
+                .ConvertAll(c => _claim.AddOrUpdateToList(c, model.Claims, m => m.Id == c.Id));
+
+            model.AllowedCorsOrigins = contract.CorsOrigins?
+                .ConvertAll(c => _corsOrigin.AddOrUpdateToList(c, model.AllowedCorsOrigins, m => m.Id == c.Id));
+
+            model.AllowedGrantTypes = contract.GrantTypes?
+                .ConvertAll(c => _grantType.AddOrUpdateToList(c, model.AllowedGrantTypes, m => m.Id == c.Id));
+
+            model.IdentityProviderRestrictions = contract.IdPRestrictions?
+                .ConvertAll(c => _idPRestriction.AddOrUpdateToList(c, model.IdentityProviderRestrictions, m => m.Id == c.Id));
+
+            model.PostLogoutRedirectUris = contract.PostLogoutRedirectUris?
+                .ConvertAll(c => _postLogoutUri.AddOrUpdateToList(c, model.PostLogoutRedirectUris, m => m.Id == c.Id));
+
+            model.Properties = contract.Properties?
+                .ConvertAll(c => _property.AddOrUpdateToList(c, model.Properties, m => m.Id == c.Id));
+
+            model.RedirectUris = contract.RedirectUris?
+                .ConvertAll(c => _redirectUri.AddOrUpdateToList(c, model.RedirectUris, m => m.Id == c.Id));
+
+            model.AllowedScopes = contract.Scopes?
+                .ConvertAll(c => _scope.AddOrUpdateToList(c, model.AllowedScopes, m => m.Id == c.Id));
+
+            model.ClientSecrets = contract.Secrets?
+                .ConvertAll(c => _secret.AddOrUpdateToList(c, model.ClientSecrets, m => m.Id == c.Id));
+
+            return model;
+        }
+    }
+    public class IdPRestrictionMapper : AbstractMapper<ClientIdPRestrictionsContract, ClientIdPRestriction>
+    {
+        public override ClientIdPRestrictionsContract ToContract(ClientIdPRestriction model)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override ClientIdPRestriction ToModel(ClientIdPRestrictionsContract dto)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override ClientIdPRestriction UpdateModel(ClientIdPRestriction model, ClientIdPRestrictionsContract contract)
         {
             throw new System.NotImplementedException();
         }
     }
-    public class IdPRestrictionMapper : IMapper<ClientIdPRestrictionsContract, ClientIdPRestriction>
+    public class ClientClaimMapper : AbstractMapper<ClientClaimsContract, ClientClaim>
     {
-        public ClientIdPRestrictionsContract ToContract(ClientIdPRestriction model)
+        public override ClientClaimsContract ToContract(ClientClaim model)
         {
             throw new System.NotImplementedException();
         }
 
-        public ClientIdPRestriction ToModel(ClientIdPRestrictionsContract dto)
+        public override ClientClaim ToModel(ClientClaimsContract dto)
         {
             throw new System.NotImplementedException();
         }
 
-        public ClientIdPRestriction UpdateModel(ClientIdPRestriction model, ClientIdPRestrictionsContract contract)
+        public override ClientClaim UpdateModel(ClientClaim model, ClientClaimsContract contract)
         {
             throw new System.NotImplementedException();
         }
     }
-    public class ClientClaimMapper : IMapper<ClientClaimsContract, ClientClaim>
+    public class CorsOriginMapper : AbstractMapper<ClientCorsOriginsContract, ClientCorsOrigin>
     {
-        public ClientClaimsContract ToContract(ClientClaim model)
+        public override ClientCorsOriginsContract ToContract(ClientCorsOrigin model)
         {
             throw new System.NotImplementedException();
         }
 
-        public ClientClaim ToModel(ClientClaimsContract dto)
+        public override ClientCorsOrigin ToModel(ClientCorsOriginsContract dto)
         {
             throw new System.NotImplementedException();
         }
 
-        public ClientClaim UpdateModel(ClientClaim model, ClientClaimsContract contract)
+        public override ClientCorsOrigin UpdateModel(ClientCorsOrigin model, ClientCorsOriginsContract contract)
         {
             throw new System.NotImplementedException();
         }
     }
-    public class CorsOriginMapper : IMapper<ClientCorsOriginsContract, ClientCorsOrigin>
+    public class ClientPropertyMapper : AbstractMapper<ClientPropertiesContract, ClientProperty>
     {
-        public ClientCorsOriginsContract ToContract(ClientCorsOrigin model)
+        public override ClientPropertiesContract ToContract(ClientProperty model)
         {
             throw new System.NotImplementedException();
         }
 
-        public ClientCorsOrigin ToModel(ClientCorsOriginsContract dto)
+        public override ClientProperty ToModel(ClientPropertiesContract dto)
         {
             throw new System.NotImplementedException();
         }
 
-        public ClientCorsOrigin UpdateModel(ClientCorsOrigin model, ClientCorsOriginsContract contract)
+        public override ClientProperty UpdateModel(ClientProperty model, ClientPropertiesContract contract)
         {
             throw new System.NotImplementedException();
         }
     }
-    public class ClientPropertyMapper : IMapper<ClientPropertiesContract, ClientProperty>
+    public class ClientScopeMapper : AbstractMapper<ClientScopeContract, ClientScope>
     {
-        public ClientPropertiesContract ToContract(ClientProperty model)
+        public override ClientScopeContract ToContract(ClientScope model)
         {
             throw new System.NotImplementedException();
         }
 
-        public ClientProperty ToModel(ClientPropertiesContract dto)
+        public override ClientScope ToModel(ClientScopeContract dto)
         {
             throw new System.NotImplementedException();
         }
 
-        public ClientProperty UpdateModel(ClientProperty model, ClientPropertiesContract contract)
+        public override ClientScope UpdateModel(ClientScope model, ClientScopeContract contract)
         {
             throw new System.NotImplementedException();
         }
     }
-    public class ClientScopeMapper : IMapper<ClientScopeContract, ClientScope>
+    public class ClientSecretsMapper : AbstractMapper<ClientSecretsContract, ClientSecret>
     {
-        public ClientScopeContract ToContract(ClientScope model)
+        public override ClientSecretsContract ToContract(ClientSecret model)
         {
             throw new System.NotImplementedException();
         }
 
-        public ClientScope ToModel(ClientScopeContract dto)
+        public override ClientSecret ToModel(ClientSecretsContract dto)
         {
             throw new System.NotImplementedException();
         }
 
-        public ClientScope UpdateModel(ClientScope model, ClientScopeContract contract)
+        public override ClientSecret UpdateModel(ClientSecret model, ClientSecretsContract contract)
         {
             throw new System.NotImplementedException();
         }
     }
-    public class ClientSecretsMapper : IMapper<ClientSecretsContract, ClientSecret>
+    public class GrantTypeMapper : AbstractMapper<ClientGrantTypesContract, ClientGrantType>
     {
-        public ClientSecretsContract ToContract(ClientSecret model)
+        public override ClientGrantTypesContract ToContract(ClientGrantType model)
         {
             throw new System.NotImplementedException();
         }
 
-        public ClientSecret ToModel(ClientSecretsContract dto)
+        public override ClientGrantType ToModel(ClientGrantTypesContract dto)
         {
             throw new System.NotImplementedException();
         }
 
-        public ClientSecret UpdateModel(ClientSecret model, ClientSecretsContract contract)
+        public override ClientGrantType UpdateModel(ClientGrantType model, ClientGrantTypesContract contract)
         {
             throw new System.NotImplementedException();
         }
     }
-    public class GrantTypeMapper : IMapper<ClientGrantTypesContract, ClientGrantType>
+    public class RedirectUriMapper : AbstractMapper<ClientRedirectUriContract, ClientRedirectUri>
     {
-        public ClientGrantTypesContract ToContract(ClientGrantType model)
+        public override ClientRedirectUriContract ToContract(ClientRedirectUri model)
         {
             throw new System.NotImplementedException();
         }
 
-        public ClientGrantType ToModel(ClientGrantTypesContract dto)
+        public override ClientRedirectUri ToModel(ClientRedirectUriContract dto)
         {
             throw new System.NotImplementedException();
         }
 
-        public ClientGrantType UpdateModel(ClientGrantType model, ClientGrantTypesContract contract)
+        public override ClientRedirectUri UpdateModel(ClientRedirectUri model, ClientRedirectUriContract contract)
         {
             throw new System.NotImplementedException();
         }
     }
-    public class RedirectUriMapper : IMapper<ClientRedirectUriContract, ClientRedirectUri>
+    public class PostLogoutRedirectUri : AbstractMapper<ClientPostLogoutRedirectUrisContract, ClientPostLogoutRedirectUri>
     {
-        public ClientRedirectUriContract ToContract(ClientRedirectUri model)
+        public override ClientPostLogoutRedirectUrisContract ToContract(ClientPostLogoutRedirectUri model)
         {
             throw new System.NotImplementedException();
         }
 
-        public ClientRedirectUri ToModel(ClientRedirectUriContract dto)
+        public override ClientPostLogoutRedirectUri ToModel(ClientPostLogoutRedirectUrisContract dto)
         {
             throw new System.NotImplementedException();
         }
 
-        public ClientRedirectUri UpdateModel(ClientRedirectUri model, ClientRedirectUriContract contract)
-        {
-            throw new System.NotImplementedException();
-        }
-    }
-    public class PostLogoutRedirectUri : IMapper<ClientPostLogoutRedirectUrisContract, ClientPostLogoutRedirectUri>
-    {
-        public ClientPostLogoutRedirectUrisContract ToContract(ClientPostLogoutRedirectUri model)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public ClientPostLogoutRedirectUri ToModel(ClientPostLogoutRedirectUrisContract dto)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public ClientPostLogoutRedirectUri UpdateModel(ClientPostLogoutRedirectUri model, ClientPostLogoutRedirectUrisContract contract)
+        public override ClientPostLogoutRedirectUri UpdateModel(ClientPostLogoutRedirectUri model, ClientPostLogoutRedirectUrisContract contract)
         {
             throw new System.NotImplementedException();
         }
