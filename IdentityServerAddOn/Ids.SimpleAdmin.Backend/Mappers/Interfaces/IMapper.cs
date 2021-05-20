@@ -8,6 +8,6 @@ namespace Ids.SimpleAdmin.Backend.Mappers.Interfaces
         TContract ToContract(TModel model);
         TModel ToModel(TContract dto);
         TModel UpdateModel(TModel model, TContract contract);
-        TModel AddOrUpdateToList(TContract contract, List<TModel> modelList, Func<TModel, bool> predicate);
+        List<TModel> UpdateList(List<TModel> modelList, List<TContract> contractList);
     }
 }

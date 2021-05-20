@@ -1,7 +1,6 @@
 ﻿using IdentityServer4.EntityFramework.Entities;
 using Ids.SimpleAdmin.Backend.Mappers.Interfaces;
 using Ids.SimpleAdmin.Contracts;
-using System.Linq;
 
 namespace Ids.SimpleAdmin.Backend.Mappers
 {
@@ -211,32 +210,15 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             model.UserCodeType = contract.UserCodeType;
             model.UserSsoLifetime = contract.UserSsoLifetime;
 
-            model.Claims = contract.Claims?
-                .ConvertAll(c => _claim.AddOrUpdateToList(c, model.Claims, m => m.Id == c.Id));
-
-            model.AllowedCorsOrigins = contract.CorsOrigins?
-                .ConvertAll(c => _corsOrigin.AddOrUpdateToList(c, model.AllowedCorsOrigins, m => m.Id == c.Id));
-
-            model.AllowedGrantTypes = contract.GrantTypes?
-                .ConvertAll(c => _grantType.AddOrUpdateToList(c, model.AllowedGrantTypes, m => m.Id == c.Id));
-
-            model.IdentityProviderRestrictions = contract.IdPRestrictions?
-                .ConvertAll(c => _idPRestriction.AddOrUpdateToList(c, model.IdentityProviderRestrictions, m => m.Id == c.Id));
-
-            model.PostLogoutRedirectUris = contract.PostLogoutRedirectUris?
-                .ConvertAll(c => _postLogoutUri.AddOrUpdateToList(c, model.PostLogoutRedirectUris, m => m.Id == c.Id));
-
-            model.Properties = contract.Properties?
-                .ConvertAll(c => _property.AddOrUpdateToList(c, model.Properties, m => m.Id == c.Id));
-
-            model.RedirectUris = contract.RedirectUris?
-                .ConvertAll(c => _redirectUri.AddOrUpdateToList(c, model.RedirectUris, m => m.Id == c.Id));
-
-            model.AllowedScopes = contract.Scopes?
-                .ConvertAll(c => _scope.AddOrUpdateToList(c, model.AllowedScopes, m => m.Id == c.Id));
-
-            model.ClientSecrets = contract.Secrets?
-                .ConvertAll(c => _secret.AddOrUpdateToList(c, model.ClientSecrets, m => m.Id == c.Id));
+            model.Claims =  _claim.UpdateList(model.Claims, contract.Claims);
+            model.AllowedCorsOrigins = _corsOrigin.UpdateList(model.AllowedCorsOrigins , contract.CorsOrigins);
+            model.AllowedGrantTypes = _grantType.UpdateList(model.AllowedGrantTypes , contract.GrantTypes);
+            model.IdentityProviderRestrictions = _idPRestriction.UpdateList(model.IdentityProviderRestrictions ,contract.IdPRestrictions);
+            model.PostLogoutRedirectUris = _postLogoutUri.UpdateList(model.PostLogoutRedirectUris , contract.PostLogoutRedirectUris);
+            model.Properties = _property.UpdateList(model.Properties , contract.Properties);
+            model.RedirectUris = _redirectUri.UpdateList(model.RedirectUris , contract.RedirectUris);
+            model.AllowedScopes = _scope.UpdateList(model.AllowedScopes ,contract.Scopes);
+            model.ClientSecrets = _secret.UpdateList(model.ClientSecrets , contract.Secrets);
 
             return model;
         }

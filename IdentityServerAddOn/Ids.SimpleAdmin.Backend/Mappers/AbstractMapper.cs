@@ -10,12 +10,26 @@ namespace Ids.SimpleAdmin.Backend.Mappers
         public abstract TContract ToContract(TModel model);
         public abstract TModel ToModel(TContract dto);
         public abstract TModel UpdateModel(TModel model, TContract contract);
-        public TModel AddOrUpdateToList( TContract contract,List<TModel> modelList, Func< TModel,  bool> predicate)
+        public List<TModel> UpdateList(List<TModel> modelList, List<TContract> contractList)
         {
-                var m = modelList.SingleOrDefault(predicate);
-                if (m is null)
-                    return ToModel(contract);
-                return UpdateModel(m, contract);
+            var contractProperty = typeof(TContract).GetProperty("Id");
+            if (contractProperty is null) throw new Exception("property Id not found");
+
+            var modelProperty = typeof(TModel).GetProperty("Id");
+            if (modelProperty is null) throw new Exception("property Id not found");
+
+            return contractList?.ConvertAll(c =>
+            {
+                var contractId = contractProperty.GetValue(c);
+                var model = modelList.SingleOrDefault(m =>
+                {
+                    var modelId = modelProperty.GetValue(m);
+                    return modelId.Equals(contractId);
+                });
+                if (model is null)
+                    return ToModel(c);
+                return UpdateModel(model, c);
+            });
         }
     }
 }
