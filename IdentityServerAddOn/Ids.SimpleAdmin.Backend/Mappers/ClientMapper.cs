@@ -227,34 +227,66 @@ namespace Ids.SimpleAdmin.Backend.Mappers
     {
         public override ClientIdPRestrictionsContract ToContract(ClientIdPRestriction model)
         {
-            throw new System.NotImplementedException();
+            if (model == null) return null;
+            return new ClientIdPRestrictionsContract
+            {
+                ClientId = model.Id,
+                Id = model.Id,
+                Provider = model.Provider
+            };
         }
 
         public override ClientIdPRestriction ToModel(ClientIdPRestrictionsContract dto)
         {
-            throw new System.NotImplementedException();
+            if (dto== null) return null;
+            return new ClientIdPRestriction
+            {
+                //ClientId = dto.ClientId.Value, //TODO figure out how to ensure this is always set? does it even need to be set?
+                Provider = dto.Provider
+            };
         }
 
         public override ClientIdPRestriction UpdateModel(ClientIdPRestriction model, ClientIdPRestrictionsContract contract)
         {
-            throw new System.NotImplementedException();
+            if (model is null && contract is null) return null;
+            if (model is null) return ToModel(contract);
+            if (contract is null) return model;
+            model.Provider = contract.Provider;
+            return model;
         }
     }
     public class ClientClaimMapper : AbstractMapper<ClientClaimsContract, ClientClaim>
     {
         public override ClientClaimsContract ToContract(ClientClaim model)
         {
-            throw new System.NotImplementedException();
+            if (model == null) return null;
+            return new ClientClaimsContract
+            {
+                Type = model.Type,
+                ClientId = model.ClientId,
+                Id = model.Id,
+                Value = model.Value
+            };
         }
 
         public override ClientClaim ToModel(ClientClaimsContract dto)
         {
-            throw new System.NotImplementedException();
+            if (dto == null) return null;
+            return new ClientClaim
+            {
+                Value = dto.Value,
+                Type = dto.Type
+            };
         }
 
         public override ClientClaim UpdateModel(ClientClaim model, ClientClaimsContract contract)
         {
-            throw new System.NotImplementedException();
+            if (model is null && contract is null) return null;
+            if (model is null) return ToModel(contract);
+            if (contract is null) return model;
+            model.Type = contract.Type;
+            model.Value = contract.Value;
+            return model;
         }
     }
     public class CorsOriginMapper : AbstractMapper<ClientCorsOriginsContract, ClientCorsOrigin>
