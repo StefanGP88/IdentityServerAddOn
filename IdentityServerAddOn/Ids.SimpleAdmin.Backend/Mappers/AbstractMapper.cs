@@ -36,10 +36,9 @@ namespace Ids.SimpleAdmin.Backend.Mappers
 
         internal TModel WithNullCheck(TModel model, TContract contract, Action<TModel, TContract> f)
         {
-
             if (model is null && contract is null) return null;
-            if (model is null) return ToModel(contract);
-            if (contract is null) return model;
+            if (model is null) return ToModel(contract); //TODO: does this even make sens ?
+            if (contract is null) return model;//TODO: does this even make sens ?
             f(model, contract);
             return model;
         }

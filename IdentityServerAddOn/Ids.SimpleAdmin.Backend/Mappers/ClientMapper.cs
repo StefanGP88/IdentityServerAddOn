@@ -312,17 +312,33 @@ namespace Ids.SimpleAdmin.Backend.Mappers
     {
         public override ClientPropertiesContract ToContract(ClientProperty model)
         {
-            throw new System.NotImplementedException();
+            if (model is null) return null;
+            return new ClientPropertiesContract
+            {
+                Key = model.Key,
+                Value = model.Value,
+                ClientId = model.ClientId,
+                Id = model.Id
+            };
         }
 
         public override ClientProperty ToModel(ClientPropertiesContract dto)
         {
-            throw new System.NotImplementedException();
+            if (dto is null) return null;
+            return new ClientProperty
+            {
+                Key = dto.Key,
+                Value = dto.Value
+            };
         }
 
         public override ClientProperty UpdateModel(ClientProperty model, ClientPropertiesContract contract)
         {
-            throw new System.NotImplementedException();
+            return WithNullCheck(model, contract, (_, __) =>
+            {
+                model.Key = contract.Key;
+                model.Value = contract.Value;
+            });
         }
     }
     public class ClientScopeMapper : AbstractMapper<ClientScopeContract, ClientScope>
