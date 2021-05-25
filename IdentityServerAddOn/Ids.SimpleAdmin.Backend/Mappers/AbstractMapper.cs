@@ -6,6 +6,8 @@ using System.Linq;
 namespace Ids.SimpleAdmin.Backend.Mappers
 {
     public abstract class AbstractMapper<TContract, TModel> : IMapper<TContract, TModel>
+        where TContract : class
+        where TModel : class
     {
         public abstract TContract ToContract(TModel model);
         public abstract TModel ToModel(TContract dto);
@@ -31,5 +33,16 @@ namespace Ids.SimpleAdmin.Backend.Mappers
                 return UpdateModel(model, c);
             });
         }
+
+        internal TModel WithNullCheck(TModel model, TContract contract, Action<TModel, TContract> f)
+        {
+
+            if (model is null && contract is null) return null;
+            if (model is null) return ToModel(contract);
+            if (contract is null) return model;
+            f(model, contract);
+            return model;
+        }
+
     }
 }
