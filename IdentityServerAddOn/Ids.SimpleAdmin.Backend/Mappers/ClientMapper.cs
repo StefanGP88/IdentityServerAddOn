@@ -1,6 +1,7 @@
 ﻿using IdentityServer4.EntityFramework.Entities;
 using Ids.SimpleAdmin.Backend.Mappers.Interfaces;
 using Ids.SimpleAdmin.Contracts;
+using System;
 
 namespace Ids.SimpleAdmin.Backend.Mappers
 {
@@ -15,7 +16,6 @@ namespace Ids.SimpleAdmin.Backend.Mappers
         private readonly IMapper<ClientGrantTypesContract, ClientGrantType> _grantType;
         private readonly IMapper<ClientRedirectUriContract, ClientRedirectUri> _redirectUri;
         private readonly IMapper<ClientPostLogoutRedirectUrisContract, ClientPostLogoutRedirectUri> _postLogoutUri;
-
 
         public ClientMapper(IMapper<ClientIdPRestrictionsContract, ClientIdPRestriction> idPRestriction,
           IMapper<ClientClaimsContract, ClientClaim> claim,
@@ -40,7 +40,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
 
         public override ClientsContract ToContract(Client model)
         {
-            if (model is null) return null;
+            this.ThrowIfNull(model);
             return new ClientsContract
             {
                 AbsoluteRefreshTokenLifetime = model.AbsoluteRefreshTokenLifetime,
@@ -101,130 +101,73 @@ namespace Ids.SimpleAdmin.Backend.Mappers
 
         public override Client ToModel(ClientsContract contract)
         {
-            if (contract == null) return null;
-            return new Client
-            {
-
-                AbsoluteRefreshTokenLifetime = contract.AbsoluteRefreshTokenLifetime,
-                AccessTokenLifetime = contract.AccessTokenLifetime,
-                AccessTokenType = contract.AccessTokenType,
-                AllowAccessTokensViaBrowser = contract.AllowAccessTokensViaBrowser,
-                AllowedIdentityTokenSigningAlgorithms = contract.AllowedIdentityTokenSigningAlgorithms,
-                AllowOfflineAccess = contract.AllowOfflineAccess,
-                AllowPlainTextPkce = contract.AllowPlainTextPkce,
-                AllowRememberConsent = contract.AllowRememberConsent,
-                AlwaysIncludeUserClaimsInIdToken = contract.AlwaysIncludeUserClaimsInToken,
-                AlwaysSendClientClaims = contract.AlwaysSendClientClaims,
-                AuthorizationCodeLifetime = contract.AuthorizationCodeLifeTime,
-                BackChannelLogoutSessionRequired = contract.BackChannelLogoutSessionRequired,
-                BackChannelLogoutUri = contract.BackChannelLogoutUri,
-                ClientClaimsPrefix = contract.ClientClaimsPrefix,
-                ClientId = contract.ClientId,
-                ClientName = contract.ClientName,
-                ClientUri = contract.ClientUri,
-                ConsentLifetime = contract.ConsentLifetime,
-                Created = contract.Created,
-                Description = contract.Description,
-                DeviceCodeLifetime = contract.DeviceCodeLifetime,
-                Enabled = contract.Enabled,
-                EnableLocalLogin = contract.EnabledLocalLogin,
-                FrontChannelLogoutUri = contract.FrontChannelLogoutUri,
-                FrontChannelLogoutSessionRequired = contract.FrontChannelSessionRequired,
-                IdentityTokenLifetime = contract.IdentityTokenLifetime,
-                IncludeJwtId = contract.IncludeJwtId,
-                LastAccessed = contract.LastAccessed,
-                LogoUri = contract.LogoUri,
-                NonEditable = contract.NonEditable,
-                PairWiseSubjectSalt = contract.PairWiseSubjectSalt,
-                ProtocolType = contract.ProtocolType,
-                RefreshTokenExpiration = contract.RefreshTokenExpiration,
-                RefreshTokenUsage = contract.RefreshTokenUsage,
-                RequireClientSecret = contract.RequireClientSecret,
-                RequireConsent = contract.RequireConsent,
-                RequirePkce = contract.RequirePkce,
-                RequireRequestObject = contract.RequireRequestObject,
-                SlidingRefreshTokenLifetime = contract.SlidingRefreshTokenLifetime,
-                UpdateAccessTokenClaimsOnRefresh = contract.UpdateAccessTokenClaimsOnRefresh,
-                Updated = contract.Updated,
-                UserCodeType = contract.UserCodeType,
-                UserSsoLifetime = contract.UserSsoLifetime,
-                Claims = contract.Claims?.ConvertAll(x => _claim.ToModel(x)),
-                AllowedCorsOrigins = contract.CorsOrigins?.ConvertAll(x => _corsOrigin.ToModel(x)),
-                AllowedGrantTypes = contract.GrantTypes?.ConvertAll(x => _grantType.ToModel(x)),
-                IdentityProviderRestrictions = contract.IdPRestrictions?.ConvertAll(x => _idPRestriction.ToModel(x)),
-                PostLogoutRedirectUris = contract.PostLogoutRedirectUris?.ConvertAll(x => _postLogoutUri.ToModel(x)),
-                Properties = contract.Properties?.ConvertAll(x => _property.ToModel(x)),
-                RedirectUris = contract.RedirectUris?.ConvertAll(x => _redirectUri.ToModel(x)),
-                AllowedScopes = contract.Scopes?.ConvertAll(x => _scope.ToModel(x)),
-                ClientSecrets = contract.Secrets?.ConvertAll(x => _secret.ToModel(x))
-            };
+            return UpdateModel(new Client(), contract);
         }
 
         public override Client UpdateModel(Client model, ClientsContract contract)
         {
-            return WithNullCheck(model, contract, (_, _) =>
-            {
-                model.AbsoluteRefreshTokenLifetime = contract.AbsoluteRefreshTokenLifetime;
-                model.AccessTokenLifetime = contract.AccessTokenLifetime;
-                model.AccessTokenType = contract.AccessTokenType;
-                model.AllowAccessTokensViaBrowser = contract.AllowAccessTokensViaBrowser;
-                model.AllowedIdentityTokenSigningAlgorithms = contract.AllowedIdentityTokenSigningAlgorithms;
-                model.AllowOfflineAccess = contract.AllowOfflineAccess;
-                model.AllowPlainTextPkce = contract.AllowPlainTextPkce;
-                model.AllowRememberConsent = contract.AllowRememberConsent;
-                model.AlwaysIncludeUserClaimsInIdToken = contract.AlwaysIncludeUserClaimsInToken;
-                model.AlwaysSendClientClaims = contract.AlwaysSendClientClaims;
-                model.AuthorizationCodeLifetime = contract.AuthorizationCodeLifeTime;
-                model.BackChannelLogoutSessionRequired = contract.BackChannelLogoutSessionRequired;
-                model.BackChannelLogoutUri = contract.BackChannelLogoutUri;
-                model.ClientClaimsPrefix = contract.ClientClaimsPrefix;
-                model.ClientId = contract.ClientId;
-                model.ClientName = contract.ClientName;
-                model.ClientUri = contract.ClientUri;
-                model.ConsentLifetime = contract.ConsentLifetime;
-                model.Created = contract.Created;
-                model.Description = contract.Description;
-                model.DeviceCodeLifetime = contract.DeviceCodeLifetime;
-                model.Enabled = contract.Enabled;
-                model.EnableLocalLogin = contract.EnabledLocalLogin;
-                model.FrontChannelLogoutUri = contract.FrontChannelLogoutUri;
-                model.FrontChannelLogoutSessionRequired = contract.FrontChannelSessionRequired;
-                model.IdentityTokenLifetime = contract.IdentityTokenLifetime;
-                model.IncludeJwtId = contract.IncludeJwtId;
-                model.LastAccessed = contract.LastAccessed;
-                model.LogoUri = contract.LogoUri;
-                model.NonEditable = contract.NonEditable;
-                model.PairWiseSubjectSalt = contract.PairWiseSubjectSalt;
-                model.ProtocolType = contract.ProtocolType;
-                model.RefreshTokenExpiration = contract.RefreshTokenExpiration;
-                model.RefreshTokenUsage = contract.RefreshTokenUsage;
-                model.RequireClientSecret = contract.RequireClientSecret;
-                model.RequireConsent = contract.RequireConsent;
-                model.RequirePkce = contract.RequirePkce;
-                model.RequireRequestObject = contract.RequireRequestObject;
-                model.SlidingRefreshTokenLifetime = contract.SlidingRefreshTokenLifetime;
-                model.UpdateAccessTokenClaimsOnRefresh = contract.UpdateAccessTokenClaimsOnRefresh;
-                model.Updated = contract.Updated;
-                model.UserCodeType = contract.UserCodeType;
-                model.UserSsoLifetime = contract.UserSsoLifetime;
+            this.ThrowIfNull(model, contract);
+            model.AbsoluteRefreshTokenLifetime = contract.AbsoluteRefreshTokenLifetime;
+            model.AccessTokenLifetime = contract.AccessTokenLifetime;
+            model.AccessTokenType = contract.AccessTokenType;
+            model.AllowAccessTokensViaBrowser = contract.AllowAccessTokensViaBrowser;
+            model.AllowedIdentityTokenSigningAlgorithms = contract.AllowedIdentityTokenSigningAlgorithms;
+            model.AllowOfflineAccess = contract.AllowOfflineAccess;
+            model.AllowPlainTextPkce = contract.AllowPlainTextPkce;
+            model.AllowRememberConsent = contract.AllowRememberConsent;
+            model.AlwaysIncludeUserClaimsInIdToken = contract.AlwaysIncludeUserClaimsInToken;
+            model.AlwaysSendClientClaims = contract.AlwaysSendClientClaims;
+            model.AuthorizationCodeLifetime = contract.AuthorizationCodeLifeTime;
+            model.BackChannelLogoutSessionRequired = contract.BackChannelLogoutSessionRequired;
+            model.BackChannelLogoutUri = contract.BackChannelLogoutUri;
+            model.ClientClaimsPrefix = contract.ClientClaimsPrefix;
+            model.ClientId = contract.ClientId;
+            model.ClientName = contract.ClientName;
+            model.ClientUri = contract.ClientUri;
+            model.ConsentLifetime = contract.ConsentLifetime;
+            model.Created = contract.Created;
+            model.Description = contract.Description;
+            model.DeviceCodeLifetime = contract.DeviceCodeLifetime;
+            model.Enabled = contract.Enabled;
+            model.EnableLocalLogin = contract.EnabledLocalLogin;
+            model.FrontChannelLogoutUri = contract.FrontChannelLogoutUri;
+            model.FrontChannelLogoutSessionRequired = contract.FrontChannelSessionRequired;
+            model.IdentityTokenLifetime = contract.IdentityTokenLifetime;
+            model.IncludeJwtId = contract.IncludeJwtId;
+            model.LastAccessed = contract.LastAccessed;
+            model.LogoUri = contract.LogoUri;
+            model.NonEditable = contract.NonEditable;
+            model.PairWiseSubjectSalt = contract.PairWiseSubjectSalt;
+            model.ProtocolType = contract.ProtocolType;
+            model.RefreshTokenExpiration = contract.RefreshTokenExpiration;
+            model.RefreshTokenUsage = contract.RefreshTokenUsage;
+            model.RequireClientSecret = contract.RequireClientSecret;
+            model.RequireConsent = contract.RequireConsent;
+            model.RequirePkce = contract.RequirePkce;
+            model.RequireRequestObject = contract.RequireRequestObject;
+            model.SlidingRefreshTokenLifetime = contract.SlidingRefreshTokenLifetime;
+            model.UpdateAccessTokenClaimsOnRefresh = contract.UpdateAccessTokenClaimsOnRefresh;
+            model.Updated = contract.Updated;
+            model.UserCodeType = contract.UserCodeType;
+            model.UserSsoLifetime = contract.UserSsoLifetime;
 
-                model.Claims = _claim.UpdateList(model.Claims, contract.Claims);
-                model.AllowedCorsOrigins = _corsOrigin.UpdateList(model.AllowedCorsOrigins, contract.CorsOrigins);
-                model.AllowedGrantTypes = _grantType.UpdateList(model.AllowedGrantTypes, contract.GrantTypes);
-                model.IdentityProviderRestrictions = _idPRestriction.UpdateList(model.IdentityProviderRestrictions, contract.IdPRestrictions);
-                model.PostLogoutRedirectUris = _postLogoutUri.UpdateList(model.PostLogoutRedirectUris, contract.PostLogoutRedirectUris);
-                model.Properties = _property.UpdateList(model.Properties, contract.Properties);
-                model.RedirectUris = _redirectUri.UpdateList(model.RedirectUris, contract.RedirectUris);
-                model.AllowedScopes = _scope.UpdateList(model.AllowedScopes, contract.Scopes);
-                model.ClientSecrets = _secret.UpdateList(model.ClientSecrets, contract.Secrets);
-            });
+            model.Claims = _claim.UpdateList(model.Claims, contract.Claims);
+            model.AllowedCorsOrigins = _corsOrigin.UpdateList(model.AllowedCorsOrigins, contract.CorsOrigins);
+            model.AllowedGrantTypes = _grantType.UpdateList(model.AllowedGrantTypes, contract.GrantTypes);
+            model.IdentityProviderRestrictions = _idPRestriction.UpdateList(model.IdentityProviderRestrictions, contract.IdPRestrictions);
+            model.PostLogoutRedirectUris = _postLogoutUri.UpdateList(model.PostLogoutRedirectUris, contract.PostLogoutRedirectUris);
+            model.Properties = _property.UpdateList(model.Properties, contract.Properties);
+            model.RedirectUris = _redirectUri.UpdateList(model.RedirectUris, contract.RedirectUris);
+            model.AllowedScopes = _scope.UpdateList(model.AllowedScopes, contract.Scopes);
+            model.ClientSecrets = _secret.UpdateList(model.ClientSecrets, contract.Secrets);
+            return model;
         }
     }
     public class IdPRestrictionMapper : AbstractMapper<ClientIdPRestrictionsContract, ClientIdPRestriction>
     {
         public override ClientIdPRestrictionsContract ToContract(ClientIdPRestriction model)
         {
-            if (model == null) return null;
+            this.ThrowIfNull(model);
             return new ClientIdPRestrictionsContract
             {
                 ClientId = model.Id,
@@ -233,26 +176,27 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             };
         }
 
-        public override ClientIdPRestriction ToModel(ClientIdPRestrictionsContract dto)
+        public override ClientIdPRestriction ToModel(ClientIdPRestrictionsContract contract)
         {
-            if (dto == null) return null;
+            this.ThrowIfNull(contract);
             return new ClientIdPRestriction
             {
-                //ClientId = dto.ClientId.Value, //TODO figure out how to ensure this is always set? does it even need to be set?
-                Provider = dto.Provider
+                Provider = contract.Provider
             };
         }
 
         public override ClientIdPRestriction UpdateModel(ClientIdPRestriction model, ClientIdPRestrictionsContract contract)
         {
-            return WithNullCheck(model, contract, (_, _) => model.Provider = contract.Provider);
+            this.ThrowIfNull(model, contract);
+            model.Provider = contract.Provider;
+            return model;
         }
     }
     public class ClientClaimMapper : AbstractMapper<ClientClaimsContract, ClientClaim>
     {
         public override ClientClaimsContract ToContract(ClientClaim model)
         {
-            if (model == null) return null;
+            this.ThrowIfNull(model);
             return new ClientClaimsContract
             {
                 Type = model.Type,
@@ -262,30 +206,29 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             };
         }
 
-        public override ClientClaim ToModel(ClientClaimsContract dto)
+        public override ClientClaim ToModel(ClientClaimsContract contract)
         {
-            if (dto == null) return null;
+            this.ThrowIfNull(contract);
             return new ClientClaim
             {
-                Value = dto.Value,
-                Type = dto.Type
+                Value = contract.Value,
+                Type = contract.Type
             };
         }
 
         public override ClientClaim UpdateModel(ClientClaim model, ClientClaimsContract contract)
         {
-            return WithNullCheck(model, contract, (_, _) =>
-            {
-                model.Type = contract.Type;
-                model.Value = contract.Value;
-            });
+            this.ThrowIfNull(model, contract);
+            model.Type = contract.Type;
+            model.Value = contract.Value;
+            return model;
         }
     }
     public class CorsOriginMapper : AbstractMapper<ClientCorsOriginsContract, ClientCorsOrigin>
     {
         public override ClientCorsOriginsContract ToContract(ClientCorsOrigin model)
         {
-            if (model is null) return null;
+            this.ThrowIfNull(model);
             return new ClientCorsOriginsContract
             {
                 ClientId = model.ClientId,
@@ -294,25 +237,27 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             };
         }
 
-        public override ClientCorsOrigin ToModel(ClientCorsOriginsContract dto)
+        public override ClientCorsOrigin ToModel(ClientCorsOriginsContract contract)
         {
-            if (dto is null) return null;
+            this.ThrowIfNull(contract);
             return new ClientCorsOrigin
             {
-                Origin = dto.Origin
+                Origin = contract.Origin
             };
         }
 
         public override ClientCorsOrigin UpdateModel(ClientCorsOrigin model, ClientCorsOriginsContract contract)
         {
-            return WithNullCheck(model, contract, (_, _) => model.Origin = contract.Origin);
+            this.ThrowIfNull(model, contract);
+            model.Origin = contract.Origin;
+            return model;
         }
     }
     public class ClientPropertyMapper : AbstractMapper<ClientPropertiesContract, ClientProperty>
     {
         public override ClientPropertiesContract ToContract(ClientProperty model)
         {
-            if (model is null) return null;
+            this.ThrowIfNull(model);
             return new ClientPropertiesContract
             {
                 Key = model.Key,
@@ -322,57 +267,81 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             };
         }
 
-        public override ClientProperty ToModel(ClientPropertiesContract dto)
+        public override ClientProperty ToModel(ClientPropertiesContract contract)
         {
-            if (dto is null) return null;
+            this.ThrowIfNull(contract);
             return new ClientProperty
             {
-                Key = dto.Key,
-                Value = dto.Value
+                Key = contract.Key,
+                Value = contract.Value
             };
         }
 
         public override ClientProperty UpdateModel(ClientProperty model, ClientPropertiesContract contract)
         {
-            return WithNullCheck(model, contract, (_, __) =>
-            {
-                model.Key = contract.Key;
-                model.Value = contract.Value;
-            });
+            this.ThrowIfNull(model, contract);
+            model.Key = contract.Key;
+            model.Value = contract.Value;
+            return model;
         }
     }
     public class ClientScopeMapper : AbstractMapper<ClientScopeContract, ClientScope>
     {
         public override ClientScopeContract ToContract(ClientScope model)
         {
-            throw new System.NotImplementedException();
+            this.ThrowIfNull(model);
+            return new ClientScopeContract
+            {
+                Scope = model.Scope,
+                ClientId = model.ClientId,
+                Id = model.Id
+            };
         }
 
-        public override ClientScope ToModel(ClientScopeContract dto)
+        public override ClientScope ToModel(ClientScopeContract contract)
         {
-            throw new System.NotImplementedException();
+            return UpdateModel(new(), contract);
         }
 
         public override ClientScope UpdateModel(ClientScope model, ClientScopeContract contract)
         {
-            throw new System.NotImplementedException();
+            this.ThrowIfNull(model, contract);
+            model.Scope = contract.Scope;
+            return model;
         }
     }
     public class ClientSecretsMapper : AbstractMapper<ClientSecretsContract, ClientSecret>
     {
         public override ClientSecretsContract ToContract(ClientSecret model)
         {
-            throw new System.NotImplementedException();
+            this.ThrowIfNull(model);
+            return new ClientSecretsContract
+            {
+                Id = model.Id,
+                ClientId = model.ClientId,
+                Created = model.Created,
+                Description = model.Description,
+                Expiration = model.Expiration,
+                Type = model.Type,
+                Value = model.Value
+            };
         }
 
-        public override ClientSecret ToModel(ClientSecretsContract dto)
+        public override ClientSecret ToModel(ClientSecretsContract contract)
         {
-            throw new System.NotImplementedException();
+            var model = UpdateModel(new(), contract);
+            model.Created = DateTime.UtcNow;
         }
 
         public override ClientSecret UpdateModel(ClientSecret model, ClientSecretsContract contract)
         {
-            throw new System.NotImplementedException();
+            this.ThrowIfNull(model, contract);
+            model.Created = contract.Created;
+            model.Description = contract.Description;
+            model.Expiration = contract.Expiration;
+            model.Type = contract.Type;
+            model.Value = contract.Value;
+            return model;
         }
     }
     public class GrantTypeMapper : AbstractMapper<ClientGrantTypesContract, ClientGrantType>
@@ -382,7 +351,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             throw new System.NotImplementedException();
         }
 
-        public override ClientGrantType ToModel(ClientGrantTypesContract dto)
+        public override ClientGrantType ToModel(ClientGrantTypesContract contract)
         {
             throw new System.NotImplementedException();
         }
@@ -399,7 +368,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             throw new System.NotImplementedException();
         }
 
-        public override ClientRedirectUri ToModel(ClientRedirectUriContract dto)
+        public override ClientRedirectUri ToModel(ClientRedirectUriContract contract)
         {
             throw new System.NotImplementedException();
         }
@@ -416,7 +385,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             throw new System.NotImplementedException();
         }
 
-        public override ClientPostLogoutRedirectUri ToModel(ClientPostLogoutRedirectUrisContract dto)
+        public override ClientPostLogoutRedirectUri ToModel(ClientPostLogoutRedirectUrisContract contract)
         {
             throw new System.NotImplementedException();
         }

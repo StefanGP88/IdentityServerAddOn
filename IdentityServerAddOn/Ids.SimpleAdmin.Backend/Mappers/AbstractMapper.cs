@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Ids.SimpleAdmin.Backend.Mappers
 {
@@ -10,7 +11,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
         where TModel : class
     {
         public abstract TContract ToContract(TModel model);
-        public abstract TModel ToModel(TContract dto);
+        public abstract TModel ToModel(TContract contract);
         public abstract TModel UpdateModel(TModel model, TContract contract);
         public List<TModel> UpdateList(List<TModel> modelList, List<TContract> contractList)
         {
@@ -33,15 +34,5 @@ namespace Ids.SimpleAdmin.Backend.Mappers
                 return UpdateModel(model, c);
             });
         }
-
-        internal TModel WithNullCheck(TModel model, TContract contract, Action<TModel, TContract> f)
-        {
-            if (model is null && contract is null) return null;
-            if (model is null) return ToModel(contract); //TODO: does this even make sens ?
-            if (contract is null) return model;//TODO: does this even make sens ?
-            f(model, contract);
-            return model;
-        }
-
     }
 }

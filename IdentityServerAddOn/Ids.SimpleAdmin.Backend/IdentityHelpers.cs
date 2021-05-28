@@ -15,5 +15,13 @@ namespace Ids.SimpleAdmin.Backend
                 .ToArray();
             return new AggregateException(errorMessage, errors);
         }
+        public static void ThrowIfNull(this object _, params object[] objs)
+        {
+            if (objs is null) throw new ArgumentNullException(nameof(objs));
+            foreach (var item in objs)
+            {
+                if (item is null) throw new ArgumentNullException(item.GetType().Name);
+            }
+        }
     }
 }

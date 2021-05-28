@@ -68,7 +68,7 @@ namespace Ids.SimpleAdmin.Contracts
         public int? ClientId { get; set; }
         public string Description { get; set; }
         public string Value { get; set; }
-        public DateTime Expiration { get; set; }
+        public DateTime? Expiration { get; set; }//TODO: make sure nulalble is not causing trouble in validators
         public SecretTypes Type { get; set; }
         public DateTime Created { get; set; }
     }
