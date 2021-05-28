@@ -348,51 +348,76 @@ namespace Ids.SimpleAdmin.Backend.Mappers
     {
         public override ClientGrantTypesContract ToContract(ClientGrantType model)
         {
-            throw new System.NotImplementedException();
+            this.ThrowIfNull(model);
+            return new ClientGrantTypesContract
+            {
+                ClientId = model.ClientId,
+                GrantType = model.GrantType,
+                Id = model.Id
+            };
         }
 
         public override ClientGrantType ToModel(ClientGrantTypesContract contract)
         {
-            throw new System.NotImplementedException();
+            return UpdateModel(new(), contract);
         }
 
         public override ClientGrantType UpdateModel(ClientGrantType model, ClientGrantTypesContract contract)
         {
-            throw new System.NotImplementedException();
+            this.ThrowIfNull(model, contract);
+            model.GrantType = contract.GrantType;
+            return model;
         }
     }
     public class RedirectUriMapper : AbstractMapper<ClientRedirectUriContract, ClientRedirectUri>
     {
         public override ClientRedirectUriContract ToContract(ClientRedirectUri model)
         {
-            throw new System.NotImplementedException();
+            this.ThrowIfNull(model);
+            return new ClientRedirectUriContract
+            {
+                ClientId = model.ClientId,
+                Id = model.Id,
+                RedirectUri = model.RedirectUri
+            };
         }
 
         public override ClientRedirectUri ToModel(ClientRedirectUriContract contract)
         {
-            throw new System.NotImplementedException();
+            return UpdateModel(new(), contract);
         }
 
         public override ClientRedirectUri UpdateModel(ClientRedirectUri model, ClientRedirectUriContract contract)
         {
-            throw new System.NotImplementedException();
+            this.ThrowIfNull(model, contract);
+            model.RedirectUri = contract.RedirectUri;
+            return model;
         }
     }
     public class PostLogoutRedirectUri : AbstractMapper<ClientPostLogoutRedirectUrisContract, ClientPostLogoutRedirectUri>
     {
         public override ClientPostLogoutRedirectUrisContract ToContract(ClientPostLogoutRedirectUri model)
         {
-            throw new System.NotImplementedException();
+            this.ThrowIfNull(model);
+            return new ClientPostLogoutRedirectUrisContract
+            {
+                Id = model.Id,
+                ClientId = model.ClientId,
+                PostLogoutRedirectUri = model.PostLogoutRedirectUri
+            };
         }
 
         public override ClientPostLogoutRedirectUri ToModel(ClientPostLogoutRedirectUrisContract contract)
         {
-            throw new System.NotImplementedException();
+            return UpdateModel(new(), contract);
         }
 
         public override ClientPostLogoutRedirectUri UpdateModel(ClientPostLogoutRedirectUri model, ClientPostLogoutRedirectUrisContract contract)
         {
-            throw new System.NotImplementedException();
+            this.ThrowIfNull(model, contract);
+            model.PostLogoutRedirectUri = contract.PostLogoutRedirectUri;
+            return model;
         }
+
     }
 }
