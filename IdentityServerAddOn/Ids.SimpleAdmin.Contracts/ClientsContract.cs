@@ -69,7 +69,7 @@ namespace Ids.SimpleAdmin.Contracts
         public string Description { get; set; }
         public string Value { get; set; }
         public DateTime? Expiration { get; set; }//TODO: make sure nulalble is not causing trouble in validators
-        public SecretTypes Type { get; set; }
+        public SecretTypeEnum Type { get; set; }
         public DateTime Created { get; set; }
     }
     public class ClientRedirectUriContract : Identifiable<int?>
@@ -113,21 +113,23 @@ namespace Ids.SimpleAdmin.Contracts
     //TODO: Should properbly not be here
     public static class SecretConstants
     {
-        public static readonly Dictionary<SecretTypes, string> SecretTypes = new()
+        public static readonly Dictionary<SecretTypeEnum, string> SecretTypeNames = new()
         {
-            { Contracts.SecretTypes.SharedSecretSha256, "SharedSecret (Sha256)" },
-            { Contracts.SecretTypes.SharedSecretSha512, "SharedSecret (Sha512)" },
-            { Contracts.SecretTypes.X509CertificateBase64, "X509CertificateBase64" },
-            { Contracts.SecretTypes.X509Name, "X509Name" },
-            { Contracts.SecretTypes.X509Thumbprint, "X509Thumbprint" }
+            { SecretTypeEnum.SharedSecretSha256, "SharedSecret (Sha256)" },
+            { SecretTypeEnum.SharedSecretSha512, "SharedSecret (Sha512)" },
+            { SecretTypeEnum.X509Base64, "X509Certificate (Base64)" },
+            { SecretTypeEnum.X509Name, "X509Certificate (Name)" },
+            { SecretTypeEnum.X509Thumbprint, "X509Certificate (Thumbprint)" }
         };
+
+
     }
-    public enum SecretTypes
+    public enum SecretTypeEnum
     {
         SharedSecretSha256,
         SharedSecretSha512,
         X509Thumbprint,
         X509Name,
-        X509CertificateBase64
+        X509Base64
     }
 }

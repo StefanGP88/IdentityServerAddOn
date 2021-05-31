@@ -1,14 +1,18 @@
-﻿using IdentityServer4.EntityFramework.Entities;
+﻿using IdentityServer4;
+using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.Entities;
+using IdentityServer4.Models;
 using Ids.SimpleAdmin.Backend.Mappers.Interfaces;
 using Ids.SimpleAdmin.Contracts;
 using System;
+using System.Linq;
 
 namespace Ids.SimpleAdmin.Backend.Mappers
 {
-    public class ClientMapper : AbstractMapper<ClientsContract, Client>
+    public class ClientMapper : AbstractMapper<ClientsContract, IdentityServer4.EntityFramework.Entities.Client>
     {
         private readonly IMapper<ClientIdPRestrictionsContract, ClientIdPRestriction> _idPRestriction;
-        private readonly IMapper<ClientClaimsContract, ClientClaim> _claim;
+        private readonly IMapper<ClientClaimsContract, IdentityServer4.EntityFramework.Entities.ClientClaim> _claim;
         private readonly IMapper<ClientCorsOriginsContract, ClientCorsOrigin> _corsOrigin;
         private readonly IMapper<ClientPropertiesContract, ClientProperty> _property;
         private readonly IMapper<ClientScopeContract, ClientScope> _scope;
@@ -18,7 +22,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
         private readonly IMapper<ClientPostLogoutRedirectUrisContract, ClientPostLogoutRedirectUri> _postLogoutUri;
 
         public ClientMapper(IMapper<ClientIdPRestrictionsContract, ClientIdPRestriction> idPRestriction,
-          IMapper<ClientClaimsContract, ClientClaim> claim,
+          IMapper<ClientClaimsContract, IdentityServer4.EntityFramework.Entities.ClientClaim> claim,
           IMapper<ClientCorsOriginsContract, ClientCorsOrigin> corsOrigin,
           IMapper<ClientPropertiesContract, ClientProperty> property,
           IMapper<ClientScopeContract, ClientScope> scope,
@@ -38,7 +42,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             _postLogoutUri = postLogoutUri;
         }
 
-        public override ClientsContract ToContract(Client model)
+        public override ClientsContract ToContract(IdentityServer4.EntityFramework.Entities.Client model)
         {
             this.ThrowIfNull(model);
             return new ClientsContract
@@ -99,12 +103,12 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             };
         }
 
-        public override Client ToModel(ClientsContract contract)
+        public override IdentityServer4.EntityFramework.Entities.Client ToModel(ClientsContract contract)
         {
-            return UpdateModel(new Client(), contract);
+            return UpdateModel(new IdentityServer4.EntityFramework.Entities.Client(), contract);
         }
 
-        public override Client UpdateModel(Client model, ClientsContract contract)
+        public override IdentityServer4.EntityFramework.Entities.Client UpdateModel(IdentityServer4.EntityFramework.Entities.Client model, ClientsContract contract)
         {
             this.ThrowIfNull(model, contract);
             model.AbsoluteRefreshTokenLifetime = contract.AbsoluteRefreshTokenLifetime;
@@ -192,9 +196,9 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             return model;
         }
     }
-    public class ClientClaimMapper : AbstractMapper<ClientClaimsContract, ClientClaim>
+    public class ClientClaimMapper : AbstractMapper<ClientClaimsContract, IdentityServer4.EntityFramework.Entities.ClientClaim>
     {
-        public override ClientClaimsContract ToContract(ClientClaim model)
+        public override ClientClaimsContract ToContract(IdentityServer4.EntityFramework.Entities.ClientClaim model)
         {
             this.ThrowIfNull(model);
             return new ClientClaimsContract
@@ -206,17 +210,17 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             };
         }
 
-        public override ClientClaim ToModel(ClientClaimsContract contract)
+        public override IdentityServer4.EntityFramework.Entities.ClientClaim ToModel(ClientClaimsContract contract)
         {
             this.ThrowIfNull(contract);
-            return new ClientClaim
+            return new IdentityServer4.EntityFramework.Entities.ClientClaim
             {
                 Value = contract.Value,
                 Type = contract.Type
             };
         }
 
-        public override ClientClaim UpdateModel(ClientClaim model, ClientClaimsContract contract)
+        public override IdentityServer4.EntityFramework.Entities.ClientClaim UpdateModel(IdentityServer4.EntityFramework.Entities.ClientClaim model, ClientClaimsContract contract)
         {
             this.ThrowIfNull(model, contract);
             model.Type = contract.Type;
@@ -312,6 +316,11 @@ namespace Ids.SimpleAdmin.Backend.Mappers
     }
     public class ClientSecretsMapper : AbstractMapper<ClientSecretsContract, ClientSecret>
     {
+        private readonly ConfigurationDbContext _confContext;
+        public ClientSecretsMapper(ConfigurationDbContext configurationDbContext)
+        {
+            _confContext = configurationDbContext;
+        }
         public override ClientSecretsContract ToContract(ClientSecret model)
         {
             this.ThrowIfNull(model);
@@ -322,7 +331,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
                 Created = model.Created,
                 Description = model.Description,
                 Expiration = model.Expiration,
-                Type = model.Type,
+                Type = GetSecretTypeEnum(model),
                 Value = model.Value
             };
         }
@@ -331,18 +340,69 @@ namespace Ids.SimpleAdmin.Backend.Mappers
         {
             var model = UpdateModel(new(), contract);
             model.Created = DateTime.UtcNow;
+            return model;
         }
 
         public override ClientSecret UpdateModel(ClientSecret model, ClientSecretsContract contract)
         {
             this.ThrowIfNull(model, contract);
-            model.Created = contract.Created;
             model.Description = contract.Description;
             model.Expiration = contract.Expiration;
-            model.Type = contract.Type;
-            model.Value = contract.Value;
+            model = UpdateSecretType(model, contract);
+            model = UpdateSecretValue(model, contract);
             return model;
         }
+
+        private static SecretTypeEnum GetSecretTypeEnum(ClientSecret model)
+        {
+            const int sha256Length = 44;
+            const int sha512Length = 88;
+            return model.Type switch
+            {
+                IdentityServerConstants.SecretTypes.X509CertificateBase64 => SecretTypeEnum.X509Base64,
+                IdentityServerConstants.SecretTypes.X509CertificateName => SecretTypeEnum.X509Name,
+                IdentityServerConstants.SecretTypes.X509CertificateThumbprint => SecretTypeEnum.X509Thumbprint,
+                IdentityServerConstants.SecretTypes.SharedSecret when model.Value.Length == sha256Length => SecretTypeEnum.SharedSecretSha256,
+                IdentityServerConstants.SecretTypes.SharedSecret when model.Value.Length == sha512Length => SecretTypeEnum.SharedSecretSha512,
+                _ => throw new Exception("SecretType not defined")
+            };
+        }
+
+        private static ClientSecret UpdateSecretType(ClientSecret model, ClientSecretsContract contract)
+        {
+            model.Type = contract.Type switch
+            {
+                SecretTypeEnum.X509Base64 => IdentityServerConstants.SecretTypes.X509CertificateBase64,
+                SecretTypeEnum.X509Name => IdentityServerConstants.SecretTypes.X509CertificateName,
+                SecretTypeEnum.X509Thumbprint => IdentityServerConstants.SecretTypes.X509CertificateThumbprint,
+                SecretTypeEnum.SharedSecretSha256 => IdentityServerConstants.SecretTypes.SharedSecret,
+                SecretTypeEnum.SharedSecretSha512 => IdentityServerConstants.SecretTypes.SharedSecret,
+                _ => throw new Exception("SecretType not defined")
+            };
+            return model;
+        }
+
+        private ClientSecret UpdateSecretValue(ClientSecret model, ClientSecretsContract contract)
+        {
+            if (!string.IsNullOrWhiteSpace(contract.Value)) return model;
+            if (contract.Id is not null)
+            {
+                var isChanged = _confContext.Clients
+                    .Where(x => x.ClientSecrets.Any(y => y.Id == contract.Id && y.Value == contract.Value))
+                    .Any();
+                if (!isChanged) return model;
+            }
+
+            model.Value = contract.Type switch
+            {
+                SecretTypeEnum.SharedSecretSha256 => contract.Value.Sha256(),
+                SecretTypeEnum.SharedSecretSha512 => contract.Value.Sha512(),
+                _ => contract.Value
+            };
+
+            return model;
+        }
+
     }
     public class GrantTypeMapper : AbstractMapper<ClientGrantTypesContract, ClientGrantType>
     {
