@@ -1,5 +1,6 @@
 ﻿using Ids.SimpleAdmin.Backend.Validators;
 using Ids.SimpleAdmin.Contracts;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -59,6 +60,11 @@ namespace Ids.SimpleAdmin.Frontend
         public static bool IsNull(this object o)
         {
             return o is null;
+        }
+        public static TEnum[] ToArray<TEnum>()
+        {
+            var enu = typeof(TEnum);
+            return (TEnum[])Enum.GetValues(enu);
         }
     }
 }
