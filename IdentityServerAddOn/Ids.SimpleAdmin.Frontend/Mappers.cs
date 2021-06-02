@@ -1,9 +1,6 @@
-﻿using Ids.SimpleAdmin.Backend.Validators;
-using Ids.SimpleAdmin.Contracts;
+﻿using Ids.SimpleAdmin.Contracts;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 
 namespace Ids.SimpleAdmin.Frontend
 {
