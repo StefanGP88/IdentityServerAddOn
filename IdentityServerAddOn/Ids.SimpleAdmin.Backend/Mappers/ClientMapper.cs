@@ -370,14 +370,6 @@ namespace Ids.SimpleAdmin.Backend.Mappers
 
         private static ClientSecret UpdateSecretType(ClientSecret model, ClientSecretsContract contract)
         {
-            var b = IdentityServer4.Models.AccessTokenType.Jwt;
-            var c = IdentityServer4.Models.AuthorizationError.AccessDenied;
-            var d = IdentityServer4.Models.CspLevel.One;
-            var e = IdentityServer4.Models.SubjectTypes.Global;
-            var f = IdentityServer4.Models.TokenExpiration.Absolute;
-            var g = IdentityServer4.Models.TokenRequestErrors.InvalidClient;
-            var a = IdentityServer4.Models.TokenUsage.OneTimeOnly;
-
             model.Type = contract.Type switch
             {
                 SecretTypeEnum.X509Base64 => IdentityServerConstants.SecretTypes.X509CertificateBase64,
