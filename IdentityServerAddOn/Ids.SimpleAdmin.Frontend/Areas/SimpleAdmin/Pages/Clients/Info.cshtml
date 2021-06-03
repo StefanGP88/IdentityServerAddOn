@@ -108,16 +108,40 @@
     <div class="form-group">
         <label class="col-form-label">Refresh token usage</label>
         <input type="number" class="form-control" name="dto.RefreshTokenUsage" value="@Model?.Data?.RefreshTokenUsage">
+        <select class="form-control" name="dto.RefreshTokenUsage">
+            @foreach (var item in Mappers.ToArray<TokenUsage>())
+            {
+                if ((int)item == Model?.Data?.RefreshTokenUsage)
+                {
+                    <option value="@((int)item)" selected>@(item.ToString())</option>
+                }
+                else
+                {
+                    <option value="@((int)item)">@(item.ToString())</option>
+                }
+            }
+        </select>
         <partial name="_ValidationNotification" model="@ModelState["dto.RefreshTokenUsage"]" />
     </div>
     <div class="form-group">
         <label class="col-form-label">Refresh token expiration</label>
-        <input type="number" class="form-control" name="dto.RefreshTokenExpiration" value="@Model?.Data?.RefreshTokenExpiration">
+        <select class="form-control" name="dto.RefreshTokenExpiration">
+            @foreach (var item in Mappers.ToArray<TokenExpiration>())
+            {
+                if ((int)item == Model?.Data?.RefreshTokenExpiration)
+                {
+                    <option value="@((int)item)" selected>@(item.ToString())</option>
+                }
+                else
+                {
+                    <option value="@((int)item)">@(item.ToString())</option>
+                }
+            }
+        </select>
         <partial name="_ValidationNotification" model="@ModelState["dto.RefreshTokenExpiration"]" />
     </div>
     <div class="form-group">
         <label class="col-form-label">Access token type</label>
-        @*<input type="number" class="form-control" name="dto.AccessTokenType" value="@Model?.Data?.AccessTokenType">*@
         <select class="form-control" name="dto.AccessTokenType">
             @foreach (var item in Mappers.ToArray<AccessTokenType>())
             {
