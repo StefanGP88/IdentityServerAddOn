@@ -105,7 +105,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
 
         public override IdentityServer4.EntityFramework.Entities.Client ToModel(ClientsContract contract)
         {
-            return UpdateModel(new IdentityServer4.EntityFramework.Entities.Client(), contract);
+            return UpdateModel(new IdentityServer4.EntityFramework.Entities.Client(), contract); //TODO: check that create date is set on this and all the other to model methods in this file
         }
 
         public override IdentityServer4.EntityFramework.Entities.Client UpdateModel(IdentityServer4.EntityFramework.Entities.Client model, ClientsContract contract)

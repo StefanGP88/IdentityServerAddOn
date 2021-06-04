@@ -10,8 +10,8 @@ namespace Ids.SimpleAdmin.Contracts
         public string Description { get; set; }
         public string AllowedAccessTokenSigningAlgorithms { get; set; }
         public DateTime Created { get; set; }
-        public DateTime Updated { get; set; }
-        public DateTime LastAccessed { get; set; }
+        public DateTime? Updated { get; set; }//TODO: make sure nulalble is not causing trouble in validators
+        public DateTime? LastAccessed { get; set; }//TODO: make sure nulalble is not causing trouble in validators
         public bool Enabled { get; set; }
         public bool NonEditable { get; set; }
         public bool ShowInDiscoveryDocument { get; set; }
@@ -40,7 +40,7 @@ namespace Ids.SimpleAdmin.Contracts
     {
         public string Description { get; set; }
         public string Value { get; set; }
-        public DateTime Expiration { get; set; }
+        public DateTime? Expiration { get; set; }//TODO: make sure nulalble is not causing trouble in validators
         public string Type { get; set; }
         public DateTime Created { get; set; }
         public int? ApiResourceId { get; set; }
