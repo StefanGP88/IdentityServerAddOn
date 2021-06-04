@@ -72,56 +72,91 @@ namespace Ids.SimpleAdmin.Backend.Mappers
         }
     }
 
-    public class ApiResourceClaimsMapper : AbstractMapper<ApiResourceClaim, ApiResourceClaimsContract>
+    public class ApiResourceClaimsMapper : AbstractMapper<ApiResourceClaimsContract, ApiResourceClaim>
     {
-        public override ApiResourceClaim ToContract(ApiResourceClaimsContract model)
+        public override ApiResourceClaimsContract ToContract(ApiResourceClaim model)
         {
-            throw new System.NotImplementedException();
+            this.ThrowIfNull(model);
+            return new ApiResourceClaimsContract
+            {
+                Type = model.Type,
+                ApiResourceId = model.ApiResourceId,
+                Id = model.Id
+            };
         }
-        public override ApiResourceClaimsContract ToModel(ApiResourceClaim contract)
+
+        public override ApiResourceClaim ToModel(ApiResourceClaimsContract contract)
         {
-            throw new System.NotImplementedException();
+            this.ThrowIfNull(contract);
+            return UpdateModel(new(), contract);
         }
-        public override ApiResourceClaimsContract UpdateModel(ApiResourceClaimsContract model, ApiResourceClaim contract)
+
+        public override ApiResourceClaim UpdateModel(ApiResourceClaim model, ApiResourceClaimsContract contract)
         {
-            throw new System.NotImplementedException();
+            this.ThrowIfNull(model, contract);
+            model.Type = contract.Type;
+            return model;
         }
     }
 
-    public class ApiResourcePropertiesMapper : AbstractMapper<ApiResourceProperty, ApiResourcePropertiesContract>
+    public class ApiResourcePropertiesMapper : AbstractMapper<ApiResourcePropertiesContract, ApiResourceProperty>
     {
-        public override ApiResourceProperty ToContract(ApiResourcePropertiesContract model)
+        public override ApiResourcePropertiesContract ToContract(ApiResourceProperty model)
         {
-            throw new System.NotImplementedException();
+            this.ThrowIfNull(model);
+            return new ApiResourcePropertiesContract
+            {
+                Value = model.Value,
+                Key = model.Key,
+                Id = model.Id,
+                ApiResourceId = model.ApiResourceId
+            };
         }
-        public override ApiResourcePropertiesContract ToModel(ApiResourceProperty contract)
+
+        public override ApiResourceProperty ToModel(ApiResourcePropertiesContract contract)
         {
-            throw new System.NotImplementedException();
+            this.ThrowIfNull(contract);
+            return UpdateModel(new(), contract);
         }
-        public override ApiResourcePropertiesContract UpdateModel(ApiResourcePropertiesContract model, ApiResourceProperty contract)
+
+        public override ApiResourceProperty UpdateModel(ApiResourceProperty model, ApiResourcePropertiesContract contract)
         {
-            throw new System.NotImplementedException();
+            this.ThrowIfNull(model, contract);
+            model.Key = contract.Key;
+            model.Value = contract.Value;
+            return model;
         }
     }
 
-    public class ApiResourceScopesMapper : AbstractMapper<ApiResourceScope, ApiResourceScopesContract>
+    public class ApiResourceScopesMapper : AbstractMapper<ApiResourceScopesContract, ApiResourceScope>
     {
-        public override ApiResourceScope ToContract(ApiResourceScopesContract model)
+        public override ApiResourceScopesContract ToContract(ApiResourceScope model)
         {
-            throw new System.NotImplementedException();
+            this.ThrowIfNull(model);
+            return new ApiResourceScopesContract
+            {
+                Scope = model.Scope,
+                ApiResourceId = model.ApiResourceId,
+                Id = model.Id
+            };
         }
-        public override ApiResourceScopesContract ToModel(ApiResourceScope contract)
+
+        public override ApiResourceScope ToModel(ApiResourceScopesContract contract)
         {
-            throw new System.NotImplementedException();
+            this.ThrowIfNull(contract);
+            return UpdateModel(new(), contract);
         }
-        public override ApiResourceScopesContract UpdateModel(ApiResourceScopesContract model, ApiResourceScope contract)
+
+        public override ApiResourceScope UpdateModel(ApiResourceScope model, ApiResourceScopesContract contract)
         {
-            throw new System.NotImplementedException();
+            this.ThrowIfNull(model, contract);
+            model.Scope = contract.Scope;
+            return model;
         }
     }
 
     public class ApiResourceSecretsMapper : AbstractMapper<ApiResourceSecretsContract, ApiResourceSecret>
-    {
+    { //TODO: implement hashing of secrets if needed
         public override ApiResourceSecretsContract ToContract(ApiResourceSecret model)
         {
             this.ThrowIfNull(model);
