@@ -72,6 +72,11 @@ namespace Ids.SimpleAdmin.Backend
             services.TryAddScoped<IMapper<ClientGrantTypesContract, ClientGrantType>, GrantTypeMapper>();
             services.TryAddScoped<IMapper<ClientRedirectUriContract, ClientRedirectUri>, RedirectUriMapper>();
             services.TryAddScoped<IMapper<ClientPostLogoutRedirectUrisContract, ClientPostLogoutRedirectUri>, PostLogoutRedirectUri>();
+            services.TryAddScoped<IMapper<ApiResourceContract, ApiResource>, ApiResourceMapper>();
+            services.TryAddScoped<IMapper<ApiResourceClaim, ApiResourceClaimsContract>, ApiResourceClaimsMapper>();
+            services.TryAddScoped<IMapper<ApiResourceProperty, ApiResourcePropertiesContract>, ApiResourcePropertiesMapper>();
+            services.TryAddScoped<IMapper<ApiResourceScope, ApiResourceScopesContract>, ApiResourceScopesMapper>();
+            services.TryAddScoped<IMapper<ApiResourceSecret, ApiResourceSecretsContract>, ApiResourceSecretsMapper>();
             //services.TryAddScoped<,>();
         }
     }
