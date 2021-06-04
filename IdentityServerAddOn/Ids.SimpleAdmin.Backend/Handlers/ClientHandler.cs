@@ -24,7 +24,8 @@ namespace Ids.SimpleAdmin.Backend.Handlers
         }
         public async Task<ClientsContract> Create(ClientsContract dto, CancellationToken cancel)
         {
-            var model = dto.Adapt<Client>();
+
+            var model = _mapper.ToModel(dto);
             await _confContext.Clients.AddAsync(model, cancel).ConfigureAwait(false);
             await _confContext.SaveChangesAsync(cancel).ConfigureAwait(false);
             return model.Adapt<ClientsContract>();
@@ -55,7 +56,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
         public async Task<ClientsContract> Get(int? id, CancellationToken cancel)
         {
-            return await _confContext.Clients
+            var model = await _confContext.Clients
                 .AsNoTracking()
                 .Where(x => x.Id == id)
                 .Include(x => x.IdentityProviderRestrictions)
@@ -67,9 +68,9 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 .Include(x => x.AllowedGrantTypes)
                 .Include(x => x.RedirectUris)
                 .Include(x => x.PostLogoutRedirectUris)
-                .ProjectToType<ClientsContract>()
                 .FirstOrDefaultAsync(cancel)
                 .ConfigureAwait(false);
+            return _mapper.ToContract(model);
         }
 
         public async Task<ListDto<ClientsContract>> GetAll(int page, int pageSize, CancellationToken cancel)
@@ -87,13 +88,12 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 .Include(x => x.AllowedGrantTypes)
                 .Include(x => x.RedirectUris)
                 .Include(x => x.PostLogoutRedirectUris)
-                .ProjectToType<ClientsContract>()
                 .ToListAsync(cancel)
                 .ConfigureAwait(false);
 
             return new ListDto<ClientsContract>()
             {
-                Items = list,
+                Items = list.ConvertAll(_mapper.ToContract),
                 Page = page,
                 PageSize = pageSize,
                 TotalItems = list.Count
@@ -116,7 +116,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 .FirstOrDefaultAsync(cancel)
                 .ConfigureAwait(false);
 
-            dto.Adapt(model);
+            model = _mapper.UpdateModel(model, dto);
             _confContext.Clients.Update(model);
             await _confContext.SaveChangesAsync(cancel).ConfigureAwait(false);
             return model.Adapt<ClientsContract>();
