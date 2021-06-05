@@ -41,7 +41,7 @@ namespace Ids.SimpleAdmin.Contracts
         public string Description { get; set; }
         public string Value { get; set; }
         public DateTime? Expiration { get; set; }//TODO: make sure nulalble is not causing trouble in validators
-        public string Type { get; set; }
+        public SecretTypeEnum Type { get; set; }//TODO: make sure enum instead of int is not causing trouble in validators
         public DateTime Created { get; set; }
         public int? ApiResourceId { get; set; }
     }

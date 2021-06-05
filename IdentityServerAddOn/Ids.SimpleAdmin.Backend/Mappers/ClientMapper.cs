@@ -331,7 +331,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
                 Created = model.Created,
                 Description = model.Description,
                 Expiration = model.Expiration,
-                Type = GetSecretTypeEnum(model),
+                Type = SecretHelpers.GetSecretTypeEnum(model.Type, model.Value),
                 Value = model.Value
             };
         }
@@ -348,37 +348,8 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             this.ThrowIfNull(model, contract);
             model.Description = contract.Description;
             model.Expiration = contract.Expiration;
-            model = UpdateSecretType(model, contract);
+            model.Type = SecretHelpers.ConvertSecretTypeToString(contract.Type);
             model = UpdateSecretValue(model, contract);
-            return model;
-        }
-
-        private static SecretTypeEnum GetSecretTypeEnum(ClientSecret model)
-        {
-            const int sha256Length = 44;
-            const int sha512Length = 88;
-            return model.Type switch
-            {
-                IdentityServerConstants.SecretTypes.X509CertificateBase64 => SecretTypeEnum.X509Base64,
-                IdentityServerConstants.SecretTypes.X509CertificateName => SecretTypeEnum.X509Name,
-                IdentityServerConstants.SecretTypes.X509CertificateThumbprint => SecretTypeEnum.X509Thumbprint,
-                IdentityServerConstants.SecretTypes.SharedSecret when model.Value.Length == sha256Length => SecretTypeEnum.SharedSecretSha256,
-                IdentityServerConstants.SecretTypes.SharedSecret when model.Value.Length == sha512Length => SecretTypeEnum.SharedSecretSha512,
-                _ => throw new Exception("SecretType not defined")
-            };
-        }
-
-        private static ClientSecret UpdateSecretType(ClientSecret model, ClientSecretsContract contract)
-        {
-            model.Type = contract.Type switch
-            {
-                SecretTypeEnum.X509Base64 => IdentityServerConstants.SecretTypes.X509CertificateBase64,
-                SecretTypeEnum.X509Name => IdentityServerConstants.SecretTypes.X509CertificateName,
-                SecretTypeEnum.X509Thumbprint => IdentityServerConstants.SecretTypes.X509CertificateThumbprint,
-                SecretTypeEnum.SharedSecretSha256 => IdentityServerConstants.SecretTypes.SharedSecret,
-                SecretTypeEnum.SharedSecretSha512 => IdentityServerConstants.SecretTypes.SharedSecret,
-                _ => throw new Exception("SecretType not defined")
-            };
             return model;
         }
 
@@ -393,12 +364,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
                 if (!isChanged) return model;
             }
 
-            model.Value = contract.Type switch
-            {
-                SecretTypeEnum.SharedSecretSha256 => contract.Value.Sha256(),
-                SecretTypeEnum.SharedSecretSha512 => contract.Value.Sha512(),
-                _ => contract.Value
-            };
+            model.Value = SecretHelpers.GetHashedSecret(contract.Type, contract.Value);
 
             return model;
         }

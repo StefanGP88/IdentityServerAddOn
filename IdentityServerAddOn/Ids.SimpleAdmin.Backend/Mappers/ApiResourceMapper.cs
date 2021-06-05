@@ -1,7 +1,9 @@
-﻿using IdentityServer4.EntityFramework.Entities;
+﻿using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.Entities;
 using Ids.SimpleAdmin.Backend.Mappers.Interfaces;
 using Ids.SimpleAdmin.Contracts;
 using System;
+using System.Linq;
 
 namespace Ids.SimpleAdmin.Backend.Mappers
 {
@@ -156,7 +158,14 @@ namespace Ids.SimpleAdmin.Backend.Mappers
     }
 
     public class ApiResourceSecretsMapper : AbstractMapper<ApiResourceSecretsContract, ApiResourceSecret>
-    { //TODO: implement hashing of secrets if needed
+    {
+
+        private readonly ConfigurationDbContext _confContext;
+        public ApiResourceSecretsMapper(ConfigurationDbContext confContext)
+        {
+            _confContext = confContext;
+        }
+
         public override ApiResourceSecretsContract ToContract(ApiResourceSecret model)
         {
             this.ThrowIfNull(model);
@@ -167,7 +176,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
                 Description = model.Description,
                 Expiration = model.Expiration,
                 Id = model.Id,
-                Type = model.Type,
+                Type = SecretHelpers.GetSecretTypeEnum(model.Type, model.Value),
                 Value = model.Value
             };
         }
@@ -183,8 +192,23 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             this.ThrowIfNull(model, contract);
             model.Description = contract.Description;
             model.Expiration = contract.Expiration;
-            model.Type = contract.Type;
-            model.Value = contract.Value;
+            model.Type = SecretHelpers.ConvertSecretTypeToString(contract.Type);
+            model = UpdateSecretValue(model, contract);
+            return model;
+        }
+        private ApiResourceSecret UpdateSecretValue(ApiResourceSecret model, ApiResourceSecretsContract contract)
+        {
+            if (!string.IsNullOrWhiteSpace(contract.Value)) return model;
+            if (contract.Id is not null)
+            {
+                var isChanged = _confContext.ApiResources
+                    .Where(x => x.Secrets.Any(y => y.Id == contract.Id && y.Value == contract.Value))
+                    .Any();
+                if (!isChanged) return model;
+            }
+
+            model.Value = SecretHelpers.GetHashedSecret(contract.Type, contract.Value);
+
             return model;
         }
     }
