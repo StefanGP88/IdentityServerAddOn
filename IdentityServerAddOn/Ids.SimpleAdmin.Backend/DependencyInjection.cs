@@ -73,10 +73,10 @@ namespace Ids.SimpleAdmin.Backend
             services.TryAddScoped<IMapper<ClientRedirectUriContract, ClientRedirectUri>, RedirectUriMapper>();
             services.TryAddScoped<IMapper<ClientPostLogoutRedirectUrisContract, ClientPostLogoutRedirectUri>, PostLogoutRedirectUri>();
             services.TryAddScoped<IMapper<ApiResourceContract, ApiResource>, ApiResourceMapper>();
-            services.TryAddScoped<IMapper<ApiResourceClaim, ApiResourceClaimsContract>, ApiResourceClaimsMapper>();
-            services.TryAddScoped<IMapper<ApiResourceProperty, ApiResourcePropertiesContract>, ApiResourcePropertiesMapper>();
-            services.TryAddScoped<IMapper<ApiResourceScope, ApiResourceScopesContract>, ApiResourceScopesMapper>();
-            services.TryAddScoped<IMapper<ApiResourceSecret, ApiResourceSecretsContract>, ApiResourceSecretsMapper>();
+            services.TryAddScoped<IMapper<ApiResourceClaimsContract,ApiResourceClaim>, ApiResourceClaimsMapper>();
+            services.TryAddScoped<IMapper<ApiResourcePropertiesContract,ApiResourceProperty>, ApiResourcePropertiesMapper>();
+            services.TryAddScoped<IMapper<ApiResourceScopesContract,ApiResourceScope>, ApiResourceScopesMapper>();
+            services.TryAddScoped<IMapper<ApiResourceSecretsContract,ApiResourceSecret>, ApiResourceSecretsMapper>();
             //services.TryAddScoped<,>();
         }
     }

@@ -48,7 +48,7 @@ namespace Ids.SimpleAdmin.Backend.Validators
         {
             RuleFor(x => x.Description).MaximumLength(1000);
             RuleFor(x => x.Value).MaximumLength(4000).NotNull();
-            RuleFor(x => x.Type).MaximumLength(250).NotNull();
+            RuleFor(x => x.Type).NotNull();
             RuleFor(x => x.Created).NotNull();
         }
     }

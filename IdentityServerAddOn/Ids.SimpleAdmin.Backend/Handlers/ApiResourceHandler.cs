@@ -1,8 +1,8 @@
 ﻿using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Entities;
 using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
+using Ids.SimpleAdmin.Backend.Mappers.Interfaces;
 using Ids.SimpleAdmin.Contracts;
-using Mapster;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -14,10 +14,13 @@ namespace Ids.SimpleAdmin.Backend.Handlers
     public class ApiResourceHandler : IHandler<ApiResourceContract, int?>
     {
         private readonly ConfigurationDbContext _confContext;
+        private readonly IMapper<ApiResourceContract, ApiResource> _mapper;
 
-        public ApiResourceHandler(ConfigurationDbContext configurationDbContext)
+        public ApiResourceHandler(ConfigurationDbContext configurationDbContext,
+            IMapper<ApiResourceContract, ApiResource> mapper)
         {
             _confContext = configurationDbContext;
+            _mapper = mapper;
         }
 
         public async Task<ListDto<ApiResourceContract>> GetAll(int page, int pageSize, CancellationToken cancel)
@@ -30,13 +33,12 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 .Include(x => x.Properties)
                 .Include(x => x.Scopes)
                 .Include(x => x.Secrets)
-                .ProjectToType<ApiResourceContract>()
                 .ToListAsync(cancel)
                 .ConfigureAwait(false);
 
             return new ListDto<ApiResourceContract>()
             {
-                Items = list,
+                Items = list.ConvertAll(_mapper.ToContract),
                 Page = page,
                 PageSize = pageSize,
                 TotalItems = list.Count
@@ -45,16 +47,16 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
         public async Task<ApiResourceContract> Get(int? id, CancellationToken cancel)
         {
-            return await _confContext.ApiResources
+            var model = await _confContext.ApiResources
                 .AsNoTracking()
                 .Where(x => x.Id == id)
                 .Include(x => x.UserClaims)
                 .Include(x => x.Properties)
                 .Include(x => x.Scopes)
                 .Include(x => x.Secrets)
-                .ProjectToType<ApiResourceContract>()
                 .FirstOrDefaultAsync(cancel)
                 .ConfigureAwait(false);
+            return _mapper.ToContract(model);
         }
 
         public async Task<ListDto<ApiResourceContract>> Delete(int? id, int page, int pageSize, CancellationToken cancel)
@@ -73,13 +75,13 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
         public async Task<ApiResourceContract> Create(ApiResourceContract dto, CancellationToken cancel)
         {
-            var model = dto.Adapt<ApiResource>();
+            var model = _mapper.ToModel(dto);
             model.Created = DateTime.UtcNow;
 
             await _confContext.ApiResources.AddAsync(model, cancel).ConfigureAwait(false);
             await _confContext.SaveChangesAsync(cancel).ConfigureAwait(false);
 
-            return model.Adapt<ApiResourceContract>();
+            return _mapper.ToContract(model);
         }
 
         public async Task<ApiResourceContract> Update(ApiResourceContract dto, CancellationToken cancel)
@@ -93,13 +95,11 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 .FirstOrDefaultAsync(cancel)
                 .ConfigureAwait(false);
 
-            dto.Adapt(model);
-            model.Updated = DateTime.UtcNow;
-
+            model = _mapper.UpdateModel(model, dto);
             _confContext.ApiResources.Update(model);
             await _confContext.SaveChangesAsync(cancel).ConfigureAwait(false);
 
-            return model.Adapt<ApiResourceContract>();
+            return _mapper.ToContract(model);
         }
     }
 }
