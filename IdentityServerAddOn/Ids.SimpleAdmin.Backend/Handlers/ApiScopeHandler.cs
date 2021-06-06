@@ -1,8 +1,8 @@
 ﻿using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Entities;
 using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
+using Ids.SimpleAdmin.Backend.Mappers.Interfaces;
 using Ids.SimpleAdmin.Contracts;
-using Mapster;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading;
@@ -13,17 +13,20 @@ namespace Ids.SimpleAdmin.Backend.Handlers
     public class ApiScopeHandler : IHandler<ApiScopeContract, int?>
     {
         private readonly ConfigurationDbContext _confContext;
+        private readonly IMapper<ApiScopeContract, ApiScope> _mapper;
 
-        public ApiScopeHandler(ConfigurationDbContext configurationDbContext)
+        public ApiScopeHandler(ConfigurationDbContext configurationDbContext,
+            IMapper<ApiScopeContract, ApiScope> mapper)
         {
             _confContext = configurationDbContext;
+            _mapper = mapper;
         }
         public async Task<ApiScopeContract> Create(ApiScopeContract dto, CancellationToken cancel)
         {
-            var model = dto.Adapt<ApiScope>();
+            var model = _mapper.ToModel(dto);
             await _confContext.ApiScopes.AddAsync(model, cancel).ConfigureAwait(false);
             await _confContext.SaveChangesAsync(cancel).ConfigureAwait(false);
-            return model.Adapt<ApiScopeContract>();
+            return _mapper.ToContract(model);
         }
 
         public async Task<ListDto<ApiScopeContract>> Delete(int? id, int page, int pageSize, CancellationToken cancel)
@@ -42,14 +45,14 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
         public async Task<ApiScopeContract> Get(int? id, CancellationToken cancel)
         {
-            return await _confContext.ApiScopes
+            var model = await _confContext.ApiScopes
                 .AsNoTracking()
                 .Where(x => x.Id == id)
                 .Include(x => x.UserClaims)
                 .Include(x => x.Properties)
-                .ProjectToType<ApiScopeContract>()
                 .FirstOrDefaultAsync(cancel)
                 .ConfigureAwait(false);
+            return _mapper.ToContract(model);
         }
 
         public async Task<ListDto<ApiScopeContract>> GetAll(int page, int pageSize, CancellationToken cancel)
@@ -60,13 +63,12 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 .Take(pageSize)
                 .Include(x => x.UserClaims)
                 .Include(x => x.Properties)
-                .ProjectToType<ApiScopeContract>()
                 .ToListAsync(cancel)
                 .ConfigureAwait(false);
 
             return new ListDto<ApiScopeContract>()
             {
-                Items = list,
+                Items = list?.ConvertAll(_mapper.ToContract),
                 Page = page,
                 PageSize = pageSize,
                 TotalItems = list.Count
@@ -82,10 +84,10 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 .FirstOrDefaultAsync(cancel)
                 .ConfigureAwait(false);
 
-            dto.Adapt(model);
+            model = _mapper.UpdateModel(model, dto);
             _confContext.ApiScopes.Update(model);
             await _confContext.SaveChangesAsync(cancel).ConfigureAwait(false);
-            return model.Adapt<ApiScopeContract>();
+            return _mapper.ToContract(model);
         }
     }
 }

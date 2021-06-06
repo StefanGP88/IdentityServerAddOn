@@ -49,7 +49,6 @@ namespace Ids.SimpleAdmin.Backend.Mappers
         }
         public override ApiResource ToModel(ApiResourceContract contract)
         {
-            this.ThrowIfNull(contract);
             var model = UpdateModel(new(), contract);
             model.Created = DateTime.UtcNow;
             return model;
@@ -89,7 +88,6 @@ namespace Ids.SimpleAdmin.Backend.Mappers
 
         public override ApiResourceClaim ToModel(ApiResourceClaimsContract contract)
         {
-            this.ThrowIfNull(contract);
             return UpdateModel(new(), contract);
         }
 
@@ -117,7 +115,6 @@ namespace Ids.SimpleAdmin.Backend.Mappers
 
         public override ApiResourceProperty ToModel(ApiResourcePropertiesContract contract)
         {
-            this.ThrowIfNull(contract);
             return UpdateModel(new(), contract);
         }
 
@@ -145,7 +142,6 @@ namespace Ids.SimpleAdmin.Backend.Mappers
 
         public override ApiResourceScope ToModel(ApiResourceScopesContract contract)
         {
-            this.ThrowIfNull(contract);
             return UpdateModel(new(), contract);
         }
 
@@ -182,7 +178,6 @@ namespace Ids.SimpleAdmin.Backend.Mappers
         }
         public override ApiResourceSecret ToModel(ApiResourceSecretsContract contract)
         {
-            this.ThrowIfNull(contract);
             var model = UpdateModel(new(), contract);
             model.Created = DateTime.UtcNow;
             return model;

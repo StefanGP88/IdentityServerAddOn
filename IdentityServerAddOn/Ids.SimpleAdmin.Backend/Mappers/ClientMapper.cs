@@ -182,11 +182,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
 
         public override ClientIdPRestriction ToModel(ClientIdPRestrictionsContract contract)
         {
-            this.ThrowIfNull(contract);
-            return new ClientIdPRestriction
-            {
-                Provider = contract.Provider
-            };
+            return UpdateModel(new(), contract);
         }
 
         public override ClientIdPRestriction UpdateModel(ClientIdPRestriction model, ClientIdPRestrictionsContract contract)
@@ -212,12 +208,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
 
         public override IdentityServer4.EntityFramework.Entities.ClientClaim ToModel(ClientClaimsContract contract)
         {
-            this.ThrowIfNull(contract);
-            return new IdentityServer4.EntityFramework.Entities.ClientClaim
-            {
-                Value = contract.Value,
-                Type = contract.Type
-            };
+            return UpdateModel(new(), contract);
         }
 
         public override IdentityServer4.EntityFramework.Entities.ClientClaim UpdateModel(IdentityServer4.EntityFramework.Entities.ClientClaim model, ClientClaimsContract contract)
@@ -243,11 +234,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
 
         public override ClientCorsOrigin ToModel(ClientCorsOriginsContract contract)
         {
-            this.ThrowIfNull(contract);
-            return new ClientCorsOrigin
-            {
-                Origin = contract.Origin
-            };
+            return UpdateModel(new(), contract);
         }
 
         public override ClientCorsOrigin UpdateModel(ClientCorsOrigin model, ClientCorsOriginsContract contract)
@@ -273,12 +260,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
 
         public override ClientProperty ToModel(ClientPropertiesContract contract)
         {
-            this.ThrowIfNull(contract);
-            return new ClientProperty
-            {
-                Key = contract.Key,
-                Value = contract.Value
-            };
+            return UpdateModel(new(), contract);
         }
 
         public override ClientProperty UpdateModel(ClientProperty model, ClientPropertiesContract contract)
