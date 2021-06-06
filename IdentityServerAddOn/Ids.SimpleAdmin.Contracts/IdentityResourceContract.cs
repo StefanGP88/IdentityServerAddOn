@@ -16,7 +16,7 @@ namespace Ids.SimpleAdmin.Contracts
         public bool Emphasize { get; set; }
         public bool ShowInDiscoveryDocument { get; set; }
         public DateTime Created { get; set; }
-        public DateTime Updated { get; set; }
+        public DateTime? Updated { get; set; }//TODO: make sure nullable does not mess with validators
         public bool NonEditable { get; set; }
         public List<IdentityResourceClaimsContract> UserClaims { get; set; }
         public List<IdentityResourcePropertiesContract> Properties { get; set; }

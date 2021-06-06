@@ -80,6 +80,9 @@ namespace Ids.SimpleAdmin.Backend
             services.TryAddScoped<IMapper<ApiScopeContract, ApiScope>, ApiScopeMapper>();
             services.TryAddScoped<IMapper<ApiScopeClaimsContract, ApiScopeClaim>, ApiScopeClaimMapper>();
             services.TryAddScoped<IMapper<ApiScopePropertiesContract, ApiScopeProperty>, ApiScopePropertyMapper>();
+            services.TryAddScoped<IMapper<IdentityResourceContract, IdentityResource>, IdentityResourceMapper>();
+            services.TryAddScoped<IMapper<IdentityResourceClaimsContract, IdentityResourceClaim>, IdentityResourceClaimMapper>();
+            services.TryAddScoped<IMapper<IdentityResourcePropertiesContract, IdentityResourceProperty>, IdentityResourcePropertyMapper>();
             //services.TryAddScoped<IMapper<>, >();
         }
     }
