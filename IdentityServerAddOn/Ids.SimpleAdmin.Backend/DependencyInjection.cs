@@ -86,7 +86,8 @@ namespace Ids.SimpleAdmin.Backend
             services.TryAddScoped<IMapper<IdentityResourcePropertiesContract, IdentityResourceProperty>, IdentityResourcePropertyMapper>();
             services.TryAddScoped<IMapper<RolesContract, IdentityRole>, RolesMapper>();
             services.TryAddScoped<IMapper<RoleClaimsContract, IdentityRoleClaim<string>>, IdentityRoleClaimMapper>();
-            //services.TryAddScoped<IMapper<>, >();
+            services.TryAddScoped<IMapper<UserContract, IdentityUser>, UserMapper>();
+            services.TryAddScoped<IMapper<UserClaimsContract, IdentityUserClaim<string>>, UserClaimsmapper>();
         }
     }
 }

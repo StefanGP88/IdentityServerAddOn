@@ -1,13 +1,12 @@
 ﻿using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
+using Ids.SimpleAdmin.Backend.Mappers.Interfaces;
 using Ids.SimpleAdmin.Contracts;
-using Mapster;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,13 +14,17 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 {
     public class UserHandler : IHandler<UserContract, string>
     {
+        private readonly IMapper<UserClaimsContract, IdentityUserClaim<string>> _claimsMapper;
+        private readonly IMapper<UserContract, IdentityUser> _userMapper;
         private readonly IdentityDbContext _identityContext;
-        private readonly IPasswordHasher<IdentityUser> _pwHasher;
 
-        public UserHandler(IdentityDbContext identityDbContext, IPasswordHasher<IdentityUser> pwHasher)
+        public UserHandler(IdentityDbContext identityDbContext,
+            IMapper<UserContract, IdentityUser> userMapper,
+            IMapper<UserClaimsContract, IdentityUserClaim<string>> claimsMapper)
         {
             _identityContext = identityDbContext;
-            _pwHasher = pwHasher;
+            _userMapper = userMapper;
+            _claimsMapper = claimsMapper;
         }
 
         public async Task<ListDto<UserContract>> GetAll(int page, int pageSize, CancellationToken cancel)
@@ -29,7 +32,6 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             var list = await _identityContext.Users
                 .Skip(page * pageSize)
                 .Take(pageSize)
-                .ProjectToType<UserContract>()
                 .ToListAsync(cancel)
                 .ConfigureAwait(false);
 
@@ -47,15 +49,16 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             {
                 Items = list.ConvertAll(x =>
                 {
-                    x.UserRoles = userRoles
+                    var contract = _userMapper.ToContract(x);
+                    contract.UserRoles = userRoles
                         .Where(y => y.UserId == x.Id)
                         .Select(x => x.RoleId)
                         .ToList();
-                    x.UserClaims = userClaims
+                    contract.UserClaims = userClaims
                         .Where(y => y.UserId == x.Id)
-                        .Select(x => x.Adapt<UserClaimsContract>())
+                        .Select(_claimsMapper.ToContract)
                         .ToList();
-                    return x;
+                    return contract;
                 }),
                 Page = page,
                 PageSize = pageSize,
@@ -67,27 +70,27 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
         public async Task<UserContract> Get(string id, CancellationToken cancel)
         {
-            var user = await _identityContext.Users
-                .ProjectToType<UserContract>()
+            var model = await _identityContext.Users
                 .FirstOrDefaultAsync(x => x.Id == id, cancel)
                 .ConfigureAwait(false);
+            var contract = _userMapper.ToContract(model);
 
             if (!string.IsNullOrWhiteSpace(id))
             {
-                user.UserRoles = await _identityContext.UserRoles
-                    .Where(x => x.UserId == user.Id)
+                contract.UserRoles = await _identityContext.UserRoles
+                    .Where(x => x.UserId == model.Id)
                     .Select(x => x.RoleId)
                     .ToListAsync(cancel)
                     .ConfigureAwait(false);
 
-                user.UserClaims = await _identityContext.UserClaims
-                    .Where(x => x.UserId == user.Id)
-                    .ProjectToType<UserClaimsContract>()
+                var claimsModels = await _identityContext.UserClaims
+                    .Where(x => x.UserId == model.Id)
                     .ToListAsync(cancel)
                     .ConfigureAwait(false);
+                contract.UserClaims = claimsModels?.ConvertAll(_claimsMapper.ToContract);
             }
 
-            return user;
+            return contract;
         }
 
         public async Task<ListDto<UserContract>> Delete(string id, int page, int pageSize, CancellationToken cancel)
@@ -117,10 +120,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
         public async Task<UserContract> Create(UserContract dto, CancellationToken cancel)
         {
-            var user = new IdentityUser();
-            dto.Id = user.Id;
-            dto.Adapt(user);
-            UpdatePassword(dto, user);
+            var user = _userMapper.ToModel(dto);
 
             await _identityContext.Users.AddAsync(user, cancel).ConfigureAwait(false);
 
@@ -147,8 +147,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 .ToListAsync(cancel)
                 .ConfigureAwait(false);
 
-            dto.Adapt(user);
-            UpdatePassword(dto, user);
+            user = _userMapper.UpdateModel(user, dto);
             _identityContext.Users.Update(user);
 
             await UpdateRoles(dto, cancel, userRoles).ConfigureAwait(false);
@@ -158,19 +157,14 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             return await Get(dto.Id, cancel).ConfigureAwait(false);
         }
 
-        private void UpdatePassword(UserContract dto, IdentityUser user)
-        {
-            if (string.IsNullOrWhiteSpace(dto.SetPassword)) return;
-            user.PasswordHash = _pwHasher.HashPassword(user, dto.SetPassword);
-        }
+
 
         private async Task UpdateRoles(UserContract dto, CancellationToken cancel,
             IReadOnlyCollection<IdentityUserRole<string>> userRoles)
         {
             var rolesToAdd = dto.UserRoles
-                .Where(item => item is not null)
-                .Where(item => userRoles.All(x => x.RoleId != item))
-                .Select(item => new IdentityUserRole<string> {RoleId = item, UserId = dto.Id})
+                .Where(item => item is not null && userRoles.All(x => x.RoleId != item))
+                .Select(item => new IdentityUserRole<string> { RoleId = item, UserId = dto.Id })
                 .ToList();
             await _identityContext.UserRoles.AddRangeAsync(rolesToAdd, cancel).ConfigureAwait(false);
 
@@ -181,21 +175,22 @@ namespace Ids.SimpleAdmin.Backend.Handlers
         }
 
         private async Task UpdateClaims(UserContract dto, CancellationToken cancel,
-            IReadOnlyCollection<IdentityUserClaim<string>> userClaims, string userId)
+            List<IdentityUserClaim<string>> userClaims, string userId)
         {
             var claimsToRemove = new List<IdentityUserClaim<string>>();
             var claimsToUpdate = new List<IdentityUserClaim<string>>();
-            foreach (var item in userClaims)
+
+            for (int i = 0; i < userClaims.Count; i++)
             {
-                var claim = dto.UserClaims.FirstOrDefault(x => x.Id != item.Id);
+                var claim = dto.UserClaims.FirstOrDefault(x => x.Id != userClaims[i].Id);
                 if (claim is null)
                 {
-                    claimsToRemove.Add(item);
+                    claimsToRemove.Add(userClaims[i]);
                 }
                 else
                 {
-                    item.Adapt(claim);
-                    claimsToUpdate.Add(item);
+                    userClaims[i] = _claimsMapper.UpdateModel(userClaims[i], claim);
+                    claimsToUpdate.Add(userClaims[i]);
                 }
             }
 
@@ -206,8 +201,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 .Where(item => userClaims.All(x => x.Id != item.Id))
                 .Select(item =>
                 {
-                    var claim = new IdentityUserClaim<string>();
-                    item.Adapt(claim);
+                    var claim = _claimsMapper.ToModel(item);
                     claim.UserId = userId;
                     return claim;
                 })
