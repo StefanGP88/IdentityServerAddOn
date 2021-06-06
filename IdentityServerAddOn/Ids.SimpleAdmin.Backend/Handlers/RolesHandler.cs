@@ -1,6 +1,6 @@
 ﻿using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
+using Ids.SimpleAdmin.Backend.Mappers.Interfaces;
 using Ids.SimpleAdmin.Contracts;
-using Mapster;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -14,18 +14,21 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 {
     public class RolesHandler : IHandler<RolesContract, string>
     {
+        private readonly IMapper<RoleClaimsContract, IdentityRoleClaim<string>> _claimsMapper;
+        private readonly IMapper<RolesContract, IdentityRole> _rolesMapper;
         private readonly IdentityDbContext _dbContext;
-        public RolesHandler(IdentityDbContext identityDbContext)
+        public RolesHandler(IdentityDbContext identityDbContext,
+            IMapper<RolesContract, IdentityRole> rolesMapper,
+            IMapper<RoleClaimsContract, IdentityRoleClaim<string>> claimsMapper)
         {
             _dbContext = identityDbContext;
+            _rolesMapper = rolesMapper;
+            _claimsMapper = claimsMapper;
         }
         public async Task<RolesContract> Create(RolesContract dto, CancellationToken cancel)
         {
-            dto.NormalizedName = dto.Name.ToUpperInvariant();
-            dto.ConcurrencyStamp = Guid.NewGuid().ToString();
-            dto.Id = Guid.NewGuid().ToString();
 
-            var model = dto.Adapt<IdentityRole>();
+            var model = _rolesMapper.ToModel(dto);
             _ = await _dbContext.Roles.AddAsync(model, cancel).ConfigureAwait(false);
 
             await AddClaims(dto, model.Id, cancel).ConfigureAwait(false);
@@ -56,39 +59,37 @@ namespace Ids.SimpleAdmin.Backend.Handlers
         {
             var model = await _dbContext.Roles
                 .AsNoTracking()
-                .ProjectToType<RolesContract>()
                 .FirstOrDefaultAsync(x => x.Id == id, cancel)
                 .ConfigureAwait(false);
+            var contract = _rolesMapper.ToContract(model);
 
             if (!string.IsNullOrWhiteSpace(id))
             {
-                model.RoleClaims = await _dbContext.RoleClaims
+                var claimModels = await _dbContext.RoleClaims
                     .AsNoTracking()
                     .Where(x => x.RoleId == id)
-                    .ProjectToType<RoleClaimsContract>()
                     .ToListAsync(cancel)
                     .ConfigureAwait(false);
+                contract.RoleClaims = claimModels?.ConvertAll(_claimsMapper.ToContract);
             }
 
-            return model;
+            return contract;
         }
 
         public async Task<ListDto<RolesContract>> GetAll(int page, int pageSize, CancellationToken cancel)
         {
-            var roles = await _dbContext.Roles
+            var roleModel = await _dbContext.Roles
                 .AsNoTracking()
                 .Skip(page * pageSize)
                 .Take(pageSize)
-                .ProjectToType<RolesContract>()
                 .ToListAsync(cancel)
                 .ConfigureAwait(false);
 
-            var roleIds = roles.Select(x => x.Id);
+            var roleIds = roleModel.Select(x => x.Id);
 
-            var roleClaims = await _dbContext.RoleClaims
+            var roleClaimsModel = await _dbContext.RoleClaims
                 .AsNoTracking()
                 .Where(x => roleIds.Contains(x.RoleId))
-                .ProjectToType<RoleClaimsContract>()
                 .ToListAsync(cancel)
                 .ConfigureAwait(false);
 
@@ -96,13 +97,15 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             {
                 Page = page,
                 PageSize = pageSize,
-                TotalItems = roles.Count,
-                Items = roles.ConvertAll(x =>
+                TotalItems = roleModel.Count,
+                Items = roleModel.ConvertAll(x =>
                 {
-                    x.RoleClaims = roleClaims
-                        .Where(y => y.RoleId == x.Id)
+                    var contract = _rolesMapper.ToContract(x);
+                    contract.RoleClaims = roleClaimsModel
+                        .Where(y => y.RoleId == x.Id)//DODO: why did I include this where ? is it still needed?
+                        .Select(_claimsMapper.ToContract)
                         .ToList();
-                    return x;
+                    return contract;
                 })
             };
         }
@@ -112,11 +115,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             var model = await _dbContext.Roles
                 .FirstOrDefaultAsync(x => x.Id == dto.Id, cancel)
                 .ConfigureAwait(false);
-
-            dto.NormalizedName = dto.Name.ToUpperInvariant();
-            dto.ConcurrencyStamp = Guid.NewGuid().ToString();
-
-            dto.Adapt(model);
+            model = _rolesMapper.UpdateModel(model, dto);
             _dbContext.Roles.Update(model);
 
             var roleClaims = await _dbContext.RoleClaims
@@ -141,7 +140,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
             var toAddRoleClaimsConverted = toAddRoleClaims.ConvertAll(x =>
             {
-                var converted = x.Adapt<IdentityRoleClaim<string>>();
+                var converted = _claimsMapper.ToModel(x);
                 converted.RoleId = roleId;
                 return converted;
             });
@@ -163,8 +162,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             toUpdateRoleClaims = toUpdateRoleClaims.ConvertAll(x =>
             {
                 var contract = dto.RoleClaims.Find(y => y.Id == x.Id);
-                contract.Adapt(x);
-                return x;
+                return _claimsMapper.ToModel(contract);
             });
             _dbContext.RoleClaims.UpdateRange(toUpdateRoleClaims);
         }

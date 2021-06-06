@@ -6,6 +6,7 @@ using Ids.SimpleAdmin.Backend.Mappers;
 using Ids.SimpleAdmin.Backend.Mappers.Interfaces;
 using Ids.SimpleAdmin.Backend.Validators;
 using Ids.SimpleAdmin.Contracts;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -83,6 +84,8 @@ namespace Ids.SimpleAdmin.Backend
             services.TryAddScoped<IMapper<IdentityResourceContract, IdentityResource>, IdentityResourceMapper>();
             services.TryAddScoped<IMapper<IdentityResourceClaimsContract, IdentityResourceClaim>, IdentityResourceClaimMapper>();
             services.TryAddScoped<IMapper<IdentityResourcePropertiesContract, IdentityResourceProperty>, IdentityResourcePropertyMapper>();
+            services.TryAddScoped<IMapper<RolesContract, IdentityRole>, RolesMapper>();
+            services.TryAddScoped<IMapper<RoleClaimsContract, IdentityRoleClaim<string>>, IdentityRoleClaimMapper>();
             //services.TryAddScoped<IMapper<>, >();
         }
     }
