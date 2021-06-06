@@ -74,7 +74,7 @@
     </fieldset>
     <div class="form-group">
         <label class="col-form-label">Lockout end</label>
-        <input type="datetime-local" class="form-control" name="dto.LockoutEnd" value="@Model?.Data?.LockoutEnd">
+        <input type="datetime-local" class="form-control" name="dto.LockoutEnd" value="@Model?.Data?.LockoutEnd.Value.ToString("s")">
         <partial name="_ValidationNotification" model="@ModelState["dto.LockoutEnd"]" />
     </div>
     <div class="form-group">

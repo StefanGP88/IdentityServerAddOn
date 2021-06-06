@@ -13,7 +13,10 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared
 
         public virtual async Task<IActionResult> OnGet(TIdentifier id, CancellationToken cancel = default)
         {
-            Data = await _handler.Get(id, cancel).ConfigureAwait(false);
+            if (id == null)
+                Data = default;
+            else
+                Data = await _handler.Get(id, cancel).ConfigureAwait(false);
             return Page();
         }
 

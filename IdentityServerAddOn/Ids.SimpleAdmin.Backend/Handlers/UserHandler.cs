@@ -73,6 +73,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             var model = await _identityContext.Users
                 .FirstOrDefaultAsync(x => x.Id == id, cancel)
                 .ConfigureAwait(false);
+
             var contract = _userMapper.ToContract(model);
 
             if (!string.IsNullOrWhiteSpace(id))
@@ -124,11 +125,11 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
             await _identityContext.Users.AddAsync(user, cancel).ConfigureAwait(false);
 
-            await UpdateRoles(dto, cancel, new List<IdentityUserRole<string>>()).ConfigureAwait(false);
+            await UpdateRoles(dto, cancel, new List<IdentityUserRole<string>>(), user.Id).ConfigureAwait(false);
             await UpdateClaims(dto, cancel, new List<IdentityUserClaim<string>>(), user.Id).ConfigureAwait(false);
 
             await _identityContext.SaveChangesAsync(cancel).ConfigureAwait(false);
-            return await Get(dto.Id, cancel).ConfigureAwait(false);
+            return await Get(user.Id, cancel).ConfigureAwait(false);
         }
 
         public async Task<UserContract> Update(UserContract dto, CancellationToken cancel)
@@ -150,7 +151,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             user = _userMapper.UpdateModel(user, dto);
             _identityContext.Users.Update(user);
 
-            await UpdateRoles(dto, cancel, userRoles).ConfigureAwait(false);
+            await UpdateRoles(dto, cancel, userRoles, user.Id).ConfigureAwait(false);
             await UpdateClaims(dto, cancel, userClaims, user.Id).ConfigureAwait(false);
 
             await _identityContext.SaveChangesAsync(cancel).ConfigureAwait(false);
@@ -160,11 +161,11 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
 
         private async Task UpdateRoles(UserContract dto, CancellationToken cancel,
-            IReadOnlyCollection<IdentityUserRole<string>> userRoles)
+            List<IdentityUserRole<string>> userRoles, string userId)
         {
             var rolesToAdd = dto.UserRoles
                 .Where(item => item is not null && userRoles.All(x => x.RoleId != item))
-                .Select(item => new IdentityUserRole<string> { RoleId = item, UserId = dto.Id })
+                .Select(item => new IdentityUserRole<string> { RoleId = item, UserId = userId })
                 .ToList();
             await _identityContext.UserRoles.AddRangeAsync(rolesToAdd, cancel).ConfigureAwait(false);
 

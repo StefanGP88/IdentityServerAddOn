@@ -40,8 +40,10 @@ namespace Ids.SimpleAdmin.Backend.Mappers
         public override IdentityUser UpdateModel(IdentityUser model, UserContract contract)
         {
             this.ThrowIfNull(model, contract);
-            if (model.ConcurrencyStamp != contract.ConcurrencyStamp)
-                throw new Exception("Concurrencystamp not matching");
+
+            if (!string.IsNullOrWhiteSpace(contract.SetPassword))
+                model.PasswordHash = _pwHasher.HashPassword(model, contract.SetPassword);
+
             model.ConcurrencyStamp = Guid.NewGuid().ToString();
             model.AccessFailedCount = contract.AccessFailedCount;
             model.Email = contract.Email;
@@ -51,7 +53,6 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             model.NormalizedEmail = contract.Email.ToUpperInvariant();
             model.NormalizedUserName = contract.UserName.ToUpperInvariant();
             model.SecurityStamp = Guid.NewGuid().ToString();
-            model.PasswordHash = _pwHasher.HashPassword(model, contract.SetPassword);
             model.PhoneNumber = contract.PhoneNumber;
             model.PhoneNumberConfirmed = contract.PhoneNumberConfirmed;
             model.TwoFactorEnabled = contract.TwoFactorEnabled;

@@ -96,7 +96,7 @@ namespace Ids.SimpleAdmin.Backend.Validators
             var isStampTheSame =  _identityDbContext.Users
                 .Any(x => x.Id == user.Id && x.ConcurrencyStamp == user.ConcurrencyStamp);
             
-            if(!isStampTheSame)
+            if(!isStampTheSame && !string.IsNullOrWhiteSpace(user.ConcurrencyStamp))
                 context.AddFailure(_errorDescriber.ConcurrencyFailure().Description);
         }
     }
