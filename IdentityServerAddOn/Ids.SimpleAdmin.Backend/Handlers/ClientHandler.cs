@@ -3,7 +3,6 @@ using IdentityServer4.EntityFramework.Entities;
 using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
 using Ids.SimpleAdmin.Backend.Mappers.Interfaces;
 using Ids.SimpleAdmin.Contracts;
-using Mapster;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading;
@@ -28,7 +27,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             var model = _mapper.ToModel(dto);
             await _confContext.Clients.AddAsync(model, cancel).ConfigureAwait(false);
             await _confContext.SaveChangesAsync(cancel).ConfigureAwait(false);
-            return model.Adapt<ClientsContract>();
+            return _mapper.ToContract(model);
         }
 
         public async Task<ListDto<ClientsContract>> Delete(int? id, int page, int pageSize, CancellationToken cancel)
@@ -119,7 +118,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             model = _mapper.UpdateModel(model, dto);
             _confContext.Clients.Update(model);
             await _confContext.SaveChangesAsync(cancel).ConfigureAwait(false);
-            return model.Adapt<ClientsContract>();
+            return _mapper.ToContract(model);
         }
     }
 
