@@ -93,6 +93,7 @@ namespace Ids.SimpleAdmin.Backend.Validators
         private void CheckConcurrencyStamp(string concurrencyStamp, CustomContext context)
         {
             var user = (UserContract)context.InstanceToValidate;
+            if (user.Id is null) return;
             var isStampTheSame =  _identityDbContext.Users
                 .Any(x => x.Id == user.Id && x.ConcurrencyStamp == user.ConcurrencyStamp);
             

@@ -1,10 +1,9 @@
-﻿using System.Linq;
-using System.Security.Cryptography;
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.Validators;
 using Ids.SimpleAdmin.Contracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System.Linq;
 
 namespace Ids.SimpleAdmin.Backend.Validators
 {
@@ -25,9 +24,10 @@ namespace Ids.SimpleAdmin.Backend.Validators
         }
         private void CheckConcurrencyStamp(string concurrencyStamp, CustomContext context)
         {
-            var user = (UserContract)context.InstanceToValidate;
+            var role = (RolesContract)context.InstanceToValidate;
+            if (role.Id is null) return;
             var isStampTheSame =  _identityDbContext.Roles
-                .Any(x => x.Id == user.Id && x.ConcurrencyStamp == user.ConcurrencyStamp);
+                .Any(x => x.Id == role.Id && x.ConcurrencyStamp == role.ConcurrencyStamp);
             
             if(!isStampTheSame)
                 context.AddFailure(_errorDescriber.ConcurrencyFailure().Description);

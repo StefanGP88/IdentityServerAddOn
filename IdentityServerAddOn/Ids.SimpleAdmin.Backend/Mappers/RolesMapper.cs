@@ -26,11 +26,9 @@ namespace Ids.SimpleAdmin.Backend.Mappers
         public override IdentityRole UpdateModel(IdentityRole model, RolesContract contract)
         {
             this.ThrowIfNull(model, contract);
-            if (model.ConcurrencyStamp != contract.ConcurrencyStamp)
-                throw new Exception("Concurrencystamp not matching");
             model.ConcurrencyStamp = Guid.NewGuid().ToString();
             model.Name = contract.Name;
-            model.NormalizedName = contract.NormalizedName.ToUpperInvariant();
+            model.NormalizedName = contract.Name.ToUpperInvariant();
             return model;
         }
     }

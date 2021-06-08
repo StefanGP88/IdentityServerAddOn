@@ -134,11 +134,13 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
         private async Task AddClaims(RolesContract dto, string roleId, CancellationToken cancel)
         {
-            var toAddRoleClaims = dto.RoleClaims
+            if (dto.RoleClaims is null) return;
+
+            var toAddRoleClaims = dto.RoleClaims?
                 .Where(x => x.Id == null)
                 .ToList();
 
-            var toAddRoleClaimsConverted = toAddRoleClaims.ConvertAll(x =>
+            var toAddRoleClaimsConverted = toAddRoleClaims?.ConvertAll(x =>
             {
                 var converted = _claimsMapper.ToModel(x);
                 converted.RoleId = roleId;
@@ -161,17 +163,20 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             var toUpdateRoleClaims = FindClaimsToUpdate(roleClaims, dto.RoleClaims);
             toUpdateRoleClaims = toUpdateRoleClaims.ConvertAll(x =>
             {
-                var contract = dto.RoleClaims.Find(y => y.Id == x.Id);
+                var contract = dto.RoleClaims?.Find(y => y.Id == x.Id);
+                if (contract is null) return null;
                 return _claimsMapper.ToModel(contract);
             });
-            _dbContext.RoleClaims.UpdateRange(toUpdateRoleClaims);
+            _dbContext.RoleClaims.UpdateRange(toUpdateRoleClaims.Where(x=> x is not null));
         }
 
         private static List<IdentityRoleClaim<string>> FindClaimsToRemove(
             List<IdentityRoleClaim<string>> dbList,
             List<RoleClaimsContract> dtoList)
         {
-            var dtoIds = dtoList.Select(x => x.Id);
+            var dtoIds = dtoList?.Select(x => x.Id);
+            if (dtoIds is null) return dbList;
+
             return dbList
                 .Where(x => !dtoIds.Contains(x.Id))
                 .ToList();
@@ -181,7 +186,8 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             List<IdentityRoleClaim<string>> dbList,
             List<RoleClaimsContract> dtoList)
         {
-            var dtoIds = dtoList.Select(x => x.Id);
+            var dtoIds = dtoList?.Select(x => x.Id);
+            if (dtoIds is null) return dbList;
             return dbList
                 .Where(x => dtoIds.Contains(x.Id))
                 .ToList();
