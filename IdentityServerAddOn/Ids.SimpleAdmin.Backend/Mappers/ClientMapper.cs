@@ -337,13 +337,13 @@ namespace Ids.SimpleAdmin.Backend.Mappers
 
         private ClientSecret UpdateSecretValue(ClientSecret model, ClientSecretsContract contract)
         {
-            if (!string.IsNullOrWhiteSpace(contract.Value)) return model;
+            if (string.IsNullOrWhiteSpace(contract.Value)) return model;
             if (contract.Id is not null)
             {
-                var isChanged = _confContext.Clients
-                    .Where(x => x.ClientSecrets.Any(y => y.Id == contract.Id && y.Value == contract.Value))
+                var isSame = _confContext.Clients
+                    .Where(x => x.ClientSecrets.Any(y => y.Id == contract.Id && y.Value == contract.Value && y.Type == model.Type))
                     .Any();
-                if (!isChanged) return model;
+                if (isSame) return model;
             }
 
             model.Value = SecretHelpers.GetHashedSecret(contract.Type, contract.Value);

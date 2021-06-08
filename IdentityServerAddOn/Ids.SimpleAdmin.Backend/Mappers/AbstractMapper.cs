@@ -23,7 +23,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             return contractList?.ConvertAll(c =>
             {
                 var contractId = contractProperty.GetValue(c);
-                var model = modelList.SingleOrDefault(m =>
+                var model = modelList?.SingleOrDefault(m =>
                 {
                     var modelId = modelProperty.GetValue(m);
                     return modelId.Equals(contractId);
