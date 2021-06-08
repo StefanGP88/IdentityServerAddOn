@@ -183,7 +183,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
             for (int i = 0; i < userClaims.Count; i++)
             {
-                var claim = dto.UserClaims.FirstOrDefault(x => x.Id != userClaims[i].Id);
+                var claim = dto.UserClaims.Find(x => x.Id == userClaims[i].Id);
                 if (claim is null)
                 {
                     claimsToRemove.Add(userClaims[i]);
@@ -199,7 +199,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             _identityContext.UserClaims.UpdateRange(claimsToUpdate);
 
             var claimsToAdd = dto.UserClaims
-                .Where(item => userClaims.All(x => x.Id != item.Id))
+                .Where(item => item.Id is null)
                 .Select(item =>
                 {
                     var claim = _claimsMapper.ToModel(item);
