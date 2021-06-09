@@ -65,10 +65,10 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             model.NonEditable = contract.NonEditable;
             model.ShowInDiscoveryDocument = contract.ShowInDiscoveryDocument;
             model.Updated = DateTime.UtcNow;
-            model.Properties = contract.Properties?.ConvertAll(_property.ToModel);
-            model.Scopes = contract.Scopes?.ConvertAll(_scope.ToModel);
-            model.Secrets = contract.Secrets?.ConvertAll(_secret.ToModel);
-            model.UserClaims = contract.UserClaims?.ConvertAll(_claim.ToModel);
+            model.Properties = _property.UpdateList(model.Properties, contract.Properties);
+            model.Scopes = _scope.UpdateList(model.Scopes, contract.Scopes);
+            model.Secrets = _secret.UpdateList(model.Secrets, contract.Secrets);
+            model.UserClaims = _claim.UpdateList(model.UserClaims, contract.UserClaims);
             return model;
         }
     }
@@ -193,13 +193,13 @@ namespace Ids.SimpleAdmin.Backend.Mappers
         }
         private ApiResourceSecret UpdateSecretValue(ApiResourceSecret model, ApiResourceSecretsContract contract)
         {
-            if (!string.IsNullOrWhiteSpace(contract.Value)) return model;
+            if (string.IsNullOrWhiteSpace(contract.Value)) return model;
             if (contract.Id is not null)
             {
-                var isChanged = _confContext.ApiResources
-                    .Where(x => x.Secrets.Any(y => y.Id == contract.Id && y.Value == contract.Value))
+                var isSame = _confContext.ApiResources
+                    .Where(x => x.Secrets.Any(y => y.Id == contract.Id && y.Value == contract.Value && y.Type == model.Type))
                     .Any();
-                if (!isChanged) return model;
+                if (isSame) return model;
             }
 
             model.Value = SecretHelpers.GetHashedSecret(contract.Type, contract.Value);
