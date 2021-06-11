@@ -40,6 +40,7 @@ namespace IdentityServer
                     options.Password.RequireNonAlphanumeric = false;
                 })
                 .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultUI()
                 .AddDefaultTokenProviders();
 
 
@@ -50,7 +51,6 @@ namespace IdentityServer
                 .AddOperationalStore(connectionString, migrationAssembly);
 
             services.AddRazorPages().AddSimpleAdmin();
-            services.AddTransient<DemystifyMiddleWare>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,7 +59,6 @@ namespace IdentityServer
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseMiddleware<DemystifyMiddleWare>();
             }
             else
             {
@@ -94,31 +93,6 @@ namespace IdentityServer
 
             var idsPgContext = serviceScope?.ServiceProvider.GetRequiredService<IdentityServer4.EntityFramework.DbContexts.PersistedGrantDbContext>();
             idsPgContext?.Database.Migrate();
-        }
-    }
-
-    public class DemystifyMiddleWare : IMiddleware
-    {
-        private readonly ILogger<DemystifyMiddleWare> _log;
-        public DemystifyMiddleWare(ILogger<DemystifyMiddleWare> logger)
-        {
-            _log = logger;
-        }
-        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
-        {
-            try
-            {
-                await next.Invoke(context).ConfigureAwait(false);
-
-            }
-            catch(Exception e)
-            {
-                _log.LogError(e, "orginal");
-                e.Demystify();
-                _log.LogError(e, "demystified");
-
-                throw;
-            }
         }
     }
 }

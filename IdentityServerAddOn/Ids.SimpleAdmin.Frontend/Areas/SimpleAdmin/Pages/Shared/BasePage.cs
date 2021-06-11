@@ -1,9 +1,11 @@
 ﻿using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared
 {
+    [Authorize]
     public class BasePage<TData, TIdentifier> : PageModel
     {
         internal readonly IHandler<TData, TIdentifier> _handler;
