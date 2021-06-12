@@ -5,36 +5,64 @@
 }
 
 @section TableHead {
-    <tr>
-        <th scope="col"></th>
-        <th scope="col">Client Id</th>
-        <th scope="col">Client Name</th>
-        <th scope="col">Description</th>
-        <th scope="col"></th>
-    </tr>
+    @*<tr>
+            <th scope="col"></th>
+            <th scope="col">Client Id</th>
+            <th scope="col">Client Name</th>
+            <th scope="col">Description</th>
+            <th scope="col"></th>
+        </tr>*@
+    <h5 class="mb-1">User management</h5>
+    @*<p class="card-text"><small class="text-muted">Select area to manage</small></p>*@
 }
 @section TableBody{
     @foreach (var item in Model.List.Items)
     {
-        <tr>
-            <td>
-                <a asp-page="Info" asp-route-id="@item.Id" class="btn btn-info btn-block"></a>
-            </td>
-            <td class="align-middle">
-                @item.ClientId
-            </td>
-            <td class="align-middle">
-                @item.ClientName
-            </td>
-            <td class="align-middle">
-                @item.Description
-            </td>
-            <td>
-                <button type="button" class="btn btn-outline-danger btn-block float-right"
+        
+        <div class="row" style="margin-top:8px;">
+            <div class="col">
+                <a asp-page="Info" asp-route-id="@item.Id" class="btn btn-outline-primary btn-block">
+                    <div class="row">
+                        <div class="col">
+                            1 of 3
+                        </div>
+                        <div class="col">
+                            2 of 3
+                        </div>
+                        <div class="col">
+                            3 of 3
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-2">
+                <button type="button" class="btn btn-outline-danger btn-block"
                         onclick="SetDeleteModal(@item.Id, '@item.ClientName')">
+                    delete
                 </button>
-            </td>
-        </tr>
+            </div>
+        </div>
+
+        @*<a asp-area="SimpleAdmin" asp-page="/Clients/Index" class="btn btn-outline-primary btn-lg btn-block text-left">Clients</a>*@
+        @*<tr>
+                <td>
+                    <a asp-page="Info" asp-route-id="@item.Id" class="btn btn-info btn-block"></a>
+                </td>
+                <td class="align-middle">
+                    @item.ClientId
+                </td>
+                <td class="align-middle">
+                    @item.ClientName
+                </td>
+                <td class="align-middle">
+                    @item.Description
+                </td>
+                <td>
+                    <button type="button" class="btn btn-outline-danger btn-block float-right"
+                            onclick="SetDeleteModal(@item.Id, '@item.ClientName')">
+                    </button>
+                </td>
+            </tr>*@
     }
 }
 @section Pagenation{
