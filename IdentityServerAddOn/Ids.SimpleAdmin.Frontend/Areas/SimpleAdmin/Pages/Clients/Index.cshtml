@@ -16,21 +16,40 @@
     @*<p class="card-text"><small class="text-muted">Select area to manage</small></p>*@
 }
 @section TableBody{
+
+    @*<div class="row" style="margin-top:8px;">
+        <div class="col">*@
+    <div class="row text-left" style="padding: .375rem .75rem;">
+        <div class="col">
+            Client Id
+        </div>
+        <div class="col">
+            Client Name
+        </div>
+        <div class="col">
+            Description
+        </div>
+        <div class="col-2"></div>
+    </div>
+    @*</div>
+            
+        </div>*@
+
     @foreach (var item in Model.List.Items)
     {
-        
-        <div class="row" style="margin-top:8px;">
+
+        <div class="row" style="margin-bottom:8px;">
             <div class="col">
                 <a asp-page="Info" asp-route-id="@item.Id" class="btn btn-outline-primary btn-block">
-                    <div class="row">
+                    <div class="row text-left">
                         <div class="col">
-                            1 of 3
+                            @item.ClientId
                         </div>
                         <div class="col">
-                            2 of 3
+                            @item.ClientName
                         </div>
                         <div class="col">
-                            3 of 3
+                            @item.Description
                         </div>
                     </div>
                 </a>
@@ -42,27 +61,6 @@
                 </button>
             </div>
         </div>
-
-        @*<a asp-area="SimpleAdmin" asp-page="/Clients/Index" class="btn btn-outline-primary btn-lg btn-block text-left">Clients</a>*@
-        @*<tr>
-                <td>
-                    <a asp-page="Info" asp-route-id="@item.Id" class="btn btn-info btn-block"></a>
-                </td>
-                <td class="align-middle">
-                    @item.ClientId
-                </td>
-                <td class="align-middle">
-                    @item.ClientName
-                </td>
-                <td class="align-middle">
-                    @item.Description
-                </td>
-                <td>
-                    <button type="button" class="btn btn-outline-danger btn-block float-right"
-                            onclick="SetDeleteModal(@item.Id, '@item.ClientName')">
-                    </button>
-                </td>
-            </tr>*@
     }
 }
 @section Pagenation{
