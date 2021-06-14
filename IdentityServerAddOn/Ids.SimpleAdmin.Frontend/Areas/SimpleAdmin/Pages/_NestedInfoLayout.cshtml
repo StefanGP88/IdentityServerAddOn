@@ -7,39 +7,37 @@
         @Html.AntiForgeryToken()
         <input type="hidden" id="resourceId" name="dto.Id" value="@Model?.Data?.Id" />
         <div class="card">
-            <div class="card-header">
-                <h5 class="mb-1">User management</h5>
-                <p class="card-text"><small class="text-muted">Select area to manage</small></p>
-                @RenderSection("Navtabs", required: false)
-            </div>
+            @await Component.InvokeAsync("Header")
             <div class="card-body">
-                @RenderSection("Basesettings", required: true)
+
+                @if (IsSectionDefined("Navtabs"))
+                {
+                    <nav>
+                        <div class="nav nav-pills nav-fill" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="basesettingstab" data-toggle="tab" href="#basesettings" role="tab">Base Settings</a>
+                            @RenderSection("Navtabs", required: false)
+                        </div>
+                    </nav>
+                    <br />
+                }
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="basesettings" role="tabpanel">
+                        @RenderSection("Basesettings", required: true)
+                        <div class="form-group">
+                            <button type="submit" form="form" class="btn btn-success form-control"></button>
+                            <partial name="_ValidationNotification" model="@Model.ModelState["dto.ConcurrencyStamp"]" />
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-outline-warning form-control" onclick="SetAbandonModal();"></button>
+                        </div>
+                    </div>
+                    @RenderSection("ResourceProperties", required: false)
+                </div>
+
+
             </div>
         </div>
-      @*  @if (IsSectionDefined("Navtabs"))
-        {
-            <nav>
-                <div class="nav nav-pills nav-fill" id="nav-tab" role="tablist">
-                    <a class="nav-item nav-link active" id="basesettingstab" data-toggle="tab" href="#basesettings" role="tab">Base Settings</a>
-                    @RenderSection("Navtabs", required: false)
-                </div>
-            </nav>
-            <br />
-        }
-        <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="basesettings" role="tabpanel">
-                @RenderSection("Basesettings", required: true)
-                <div class="form-group">
-                    <button type="submit" form="form" class="btn btn-success form-control"></button>
-                    <partial name="_ValidationNotification" model="@Model.ModelState["dto.ConcurrencyStamp"]" />
-                </div>
-                <div class="form-group">
-                    <button type="button" class="btn btn-outline-warning form-control" onclick="SetAbandonModal();"></button>
-                </div>
-            </div>
-            @RenderSection("ResourceProperties", required: false)
-        </div>
-          *@
+
     </form>
 </div>
 <template id="removeModalBody">
