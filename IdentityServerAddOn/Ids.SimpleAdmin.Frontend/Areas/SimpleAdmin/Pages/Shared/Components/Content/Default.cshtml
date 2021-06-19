@@ -12,8 +12,17 @@
         </a>
     </div>
 </div>
-<div class="row collapse"  id="@Model.Title.Replace(' ','-').ToLowerInvariant()">
-    <div class="col">
+<div class="row collapse my-2" id="@Model.Title.Replace(' ','-').ToLowerInvariant()">
+    <div class="col-12">
         <!--Body-->
+    </div>
+    <div class="col-12">
+        <a class="btn btn-light btn-block border-dark text-center collapsed"
+           data-toggle="collapse"
+           href="#@Model.Title.Replace(' ','-').ToLowerInvariant()"
+           role="button" aria-expanded="false"
+           aria-controls="@Model.Title.Replace(' ','-').ToLowerInvariant()">
+            Close
+        </a>
     </div>
 </div>

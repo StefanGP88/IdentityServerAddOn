@@ -313,7 +313,7 @@
         <div class="tab-pane fade" id="@claims" role="tabpanel">
             <div class="form-group">
                 <label class="col-form-label">Client claims prefix</label>
-                <input type="text" class="form-control" id="name" name="dto.ClientClaimsPrefix" value="@Model?.Data?.ClientClaimsPrefix">
+                <input type="text" class="form-control" id="name" name="dto.ClientClaimsPrefix" value="@Model?.Data?.ClientClaimsPrefix" onkeyup="console.log('looool')">
                 <partial name="_ValidationNotification" model="@ModelState["dto.ClientClaimsPrefix"]" />
             </div>
             <br />
