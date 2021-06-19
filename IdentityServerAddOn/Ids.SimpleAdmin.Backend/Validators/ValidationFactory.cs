@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.Linq;
-using FluentValidation.Results;
 
 namespace Ids.SimpleAdmin.Backend.Validators
 {
@@ -14,7 +13,8 @@ namespace Ids.SimpleAdmin.Backend.Validators
         {
             _contextAccessor = httpContextAccessor;
         }
-
+        //TODO: creaTE A CHACHED REPOSITORY FOR THE VALIDATION RESULTS
+        //THE CACGHE should be scoped
 
         public ValidationResult Validate<T>( T model)
         {
