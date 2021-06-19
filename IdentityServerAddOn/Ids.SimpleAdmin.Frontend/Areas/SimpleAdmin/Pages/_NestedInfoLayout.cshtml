@@ -7,7 +7,7 @@
         @Html.AntiForgeryToken()
         <input type="hidden" id="resourceId" name="dto.Id" value="@Model?.Data?.Id" />
         <div class="card">
-            @await Component.InvokeAsync("Header")
+            @await Component.InvokeAsync("Header").ConfigureAwait(false)
             <div class="card-body">
 
                 @if (IsSectionDefined("Navtabs"))

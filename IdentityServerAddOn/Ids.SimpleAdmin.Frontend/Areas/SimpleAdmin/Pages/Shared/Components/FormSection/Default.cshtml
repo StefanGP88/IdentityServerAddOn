@@ -1,11 +1,9 @@
-﻿@model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared.Components.FormSection.ComponentData
-@{
-    string title = Model.Title;
-}
+﻿@model string
+@using Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared.Components.Content
 
-<a href="#collapseExample" data-toggle="collapse" aria-expanded="false" class="btn btn-outline-primary btn-block text-left">@title</a>
+<a href="#collapseExample" data-toggle="collapse" aria-expanded="false" class="btn btn-outline-primary btn-block text-left">@Model</a>
 <div class="collapse row" id="collapseExample">
     <div class="col">
-       saasas
+        @Model
     </div>
 </div>

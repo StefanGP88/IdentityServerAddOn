@@ -8,6 +8,7 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared
 {
     public class BaseInfoPage<TData, TIdentifier> : BasePage<TData, TIdentifier> where TData : Identifiable<TIdentifier>
     {
+
         public TData Data { get; set; }
         public BaseInfoPage(IHandler<TData, TIdentifier> handler) : base(handler) { }
 
@@ -17,6 +18,8 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared
                 Data = default;
             else
                 Data = await _handler.Get(id, cancel).ConfigureAwait(false);
+
+
             return Page();
         }
 

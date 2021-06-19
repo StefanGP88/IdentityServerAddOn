@@ -6,14 +6,9 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared.Components.For
 {
     public class FormSectionViewComponent : ViewComponent
     {
-        public async Task<IViewComponentResult> InvokeAsync(ComponentData data)
+        public async Task<IViewComponentResult> InvokeAsync(string data)
         {
             return View(data);
         }
-    }
-    public class ComponentData
-    {
-        public string Title;
-        public Action Action;
     }
 }

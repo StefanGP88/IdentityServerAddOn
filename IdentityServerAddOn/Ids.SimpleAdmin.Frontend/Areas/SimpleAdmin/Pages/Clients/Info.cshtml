@@ -1,5 +1,4 @@
 ﻿@page "{id:int?}"
-@using Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared.Components.FormSection;
 @model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Clients.InfoModel
 @{
     Layout = "_NestedInfoLayout";
@@ -35,6 +34,7 @@
 
     var lifetimesDisplay = "Lifetimes";
     var lifetimes = lifetimesDisplay.ToLowerNoSpaces();
+
 }
 
 @section NavTabs{
@@ -51,7 +51,7 @@
 
 @section Basesettings{
 
-    @await Component.InvokeAsync("FormSection", new ComponentData { Action = TestFunction, Title = "woop" })
+    <Collapsable>janic</Collapsable>
 
     <div class="form-group">
         <label class="col-form-label">Client id</label>
@@ -412,6 +412,9 @@
 
     void TestFunction()
     {
-                        <div>bobobob</div>
+        <div class="form-group">
+            <label class="col-form-label">User sso lifetime</label>
+            <input type="number" class="form-control" name="dto.UserSsoLifetime" value="@Model?.Data?.UserSsoLifetime">
+        </div>
     }
 }
