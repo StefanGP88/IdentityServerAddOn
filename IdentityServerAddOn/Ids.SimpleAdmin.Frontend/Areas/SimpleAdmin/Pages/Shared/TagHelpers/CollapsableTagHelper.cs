@@ -22,15 +22,27 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared.TagHelpers
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
+            output.Content.Clear();
+
+
             var asstring = await _reader.ReadAsString("Content", Title, ViewContext).ConfigureAwait(false);
 
             var cc = await output.GetChildContentAsync().ConfigureAwait(false);
            var teetetetteteet= cc.GetContent();
 
-
             asstring = asstring.Replace("<!--Body-->", teetetetteteet);
-            output.TagName = Title.Replace(" ", "");
-            output.Content.AppendHtml(asstring);
+
+            var a = output.IsContentModified;
+            output.TagMode = TagMode.StartTagAndEndTag;
+            output.TagName = Title.Replace(" ", "").ToLowerInvariant();
+
+            output.Content.SetHtmlContent(asstring);
+           
+
+        }
+        public override void Init(TagHelperContext context)
+        {
+            context.Reinitialize(context.Items, context.UniqueId);
         }
     }
 }

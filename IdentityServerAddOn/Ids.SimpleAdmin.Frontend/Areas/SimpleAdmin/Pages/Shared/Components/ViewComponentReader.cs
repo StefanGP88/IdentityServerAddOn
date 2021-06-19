@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Buffers;
 using System.IO;
 using System.Text.Encodings.Web;
@@ -16,24 +14,17 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared.Components
         private readonly IViewComponentSelector _selector;
         private readonly IViewComponentInvokerFactory _factory;
         private readonly IViewBufferScope _bufferScope;
-        private readonly StringWriter _stringWriter;
-        private readonly HtmlEncoder _htmlEncoder;
-        private readonly IHtmlHelper _htmlHelper;
 
         public ViewComponentReader(
             IViewComponentDescriptorCollectionProvider descriptorCollectionProvider,
             IViewComponentSelector selector,
             IViewComponentInvokerFactory factory,
-            IViewBufferScope bufferScope,
-            IHtmlHelper htmlHelper)
+            IViewBufferScope bufferScope)
         {
             _descriptorCollectionProvider = descriptorCollectionProvider;
             _selector = selector;
             _factory = factory;
             _bufferScope = bufferScope;
-            _htmlHelper = htmlHelper;
-            _stringWriter = new StringWriter();
-            _htmlEncoder = HtmlEncoder.Default;
 
         }
 
@@ -62,8 +53,9 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared.Components
         }
         private string WriteToString(IHtmlContent htmlContent)
         {
-            htmlContent.WriteTo(_stringWriter, _htmlEncoder);
-            return _stringWriter.ToString();
+            var stringWriter = new StringWriter();
+            htmlContent.WriteTo(stringWriter, HtmlEncoder.Default);
+            return stringWriter.ToString();
         }
         private DefaultViewComponentHelper GetComponentHelper(ViewContext viewContext)
         {
