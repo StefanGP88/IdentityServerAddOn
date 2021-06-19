@@ -5,9 +5,16 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared.Components.Con
 {
     public class ContentViewComponent : ViewComponent
     {
-      public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(string title)
         {
-            return View();
+            return View(new ContentData
+            {
+                Title = title
+            });
         }
+    }
+    public class ContentData
+    {
+        public string Title { get; set; }
     }
 }

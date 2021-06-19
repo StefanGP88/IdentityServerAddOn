@@ -45,7 +45,7 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared.Components
 
         public async Task<string> ReadAsString(string componentName, object argument, ViewContext viewContext)
         {
-            var content = await ReadHtmlContent(componentName, viewContext).ConfigureAwait(false);
+            var content = await ReadHtmlContent(componentName, argument, viewContext).ConfigureAwait(false);
             return WriteToString(content);
         }
 
