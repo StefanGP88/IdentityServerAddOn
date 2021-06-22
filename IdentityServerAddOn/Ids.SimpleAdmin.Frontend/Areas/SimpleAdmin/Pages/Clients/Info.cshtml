@@ -214,11 +214,290 @@
                 <label class="form-check-label">Is non-editable</label>
             </div>
         </fieldset>
-    
+
     </Collapsable>
 
-    <collapsable title="Test tille">
-        some test content
+    <collapsable title="Secrets">
+        @*<div class="d-flex text-left" style="padding: .375rem .75rem;" onclick="alert('sdfg')">
+                <div class="flex-fill">
+                    Type
+                </div>
+                <div class="flex-fill">
+                    Value
+                </div>
+                <div class="flex-fill">
+                    Description
+                </div>
+                <div class="flex-fill">
+                    Expiration
+                </div>
+                <div class="flex-fill">
+                    &nbsp;
+                </div>
+            </div>
+
+            @foreach (var item in Model?.Data?.Secrets)
+            {
+                var idx = Guid.NewGuid();
+
+                <div class="d-flex text-left" style="padding: .375rem .75rem;">
+                    <div class="flex-fill">
+                        <div class="form-group">
+                            <input type="hidden" name="dto.Secrets.index" value="@idx" />
+                            <input type="hidden" name="dto.Secrets[@idx].Id" value="@item?.Id" />
+                            <input type="hidden" name="dto.Secrets[@idx].ClientId" value="@item?.ClientId" />
+                            <select name="dto.Secrets[@idx].Type" class="form-control">
+                                @foreach (var secretName in SecretConstants.SecretTypeNames)
+                                {
+                                    if (secretName.Key == item?.Type)
+                                    {
+                                        <option value="@secretName.Key" selected>@secretName.Value</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@secretName.Key">@secretName.Value</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex-fill">
+                        <div class="form-group">
+                            <input type="text"
+                                   name="dto.Secrets[@idx].Value"
+                                   value="@item?.Value"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                    <div class="flex-fill">
+                        <div class="form-group">
+                            <textarea name="dto.Secrets[@idx].Description"
+                                      class="form-control"
+                                      rows="1" onfocus="SetRowCount(this, 5);" onblur="SetRowCount(this, 1);"
+                                      style="resize: none;">@item?.Description</textarea>
+                        </div>
+                    </div>
+                    <div class="flex-fill">
+                        <div class="form-group">
+                            <input type="date"
+                                   name="dto.Secrets[@idx].Expiration"
+                                   value="@item?.Expiration.GetValueOrDefault(DateTime.Today).ToString("s")"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                    <div class="flex-fill">
+                        <button type="button"
+                                class="btn btn-outline-danger btn-block float-right"
+                                onclick="SetRemoveModal(this, 'dto.Secrets[@idx].Type');"
+                                data-toggle="modal" data-target="#removeRowModal">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            }*@
+        @*måske brug col-auto istedet for col nogle steder*@
+
+        @*Type Value Description Expiration &nbsp*@
+
+        <table class="w-100">
+            <tbody class="w-100">
+                <tr>
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td>
+                        Type
+                    </td>
+                    <td>
+                        Value
+                    </td>
+                    <td>
+                        Description
+                    </td>
+                    <td>
+                        Expiration
+                    </td>
+                    <td>
+                        &nbsp;
+                    </td>
+                </tr>
+
+
+                @foreach (var item in Model?.Data?.Secrets)
+                {
+                    var idx = Guid.NewGuid();
+                    <tr>
+                        <td>
+                            <button type="button"
+                                    class="btn btn-outline-danger btn-sm"
+                                    onclick="SetRemoveModal(this, 'dto.Secrets[@idx].Type');"
+                                    data-toggle="modal" data-target="#removeRowModal">
+                                Edit
+                            </button>
+                        </td>
+                        <td>
+                            @item?.Type
+                        </td>
+                        <td>
+                            <button type="button"
+                                    class="btn btn-outline-danger btn-sm"
+                                    onclick="SetRemoveModal(this, 'dto.Secrets[@idx].Type');"
+                                    data-toggle="modal" data-target="#removeRowModal">
+                                View
+                            </button>
+                        </td>
+                        <td>
+                            @item?.Description
+                        </td>
+                        <td>
+                            @item?.Expiration.GetValueOrDefault(DateTime.Today).ToString("s")
+                        </td>
+                        <td class="float-right">
+                            <button type="button"
+                                    class="btn btn-outline-danger btn-sm"
+                                    onclick="SetRemoveModal(this, 'dto.Secrets[@idx].Type');"
+                                    data-toggle="modal" data-target="#removeRowModal">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+
+
+        @foreach (var item in Model?.Data?.Secrets)
+        {
+            var idx = Guid.NewGuid();
+
+            <div class="row  bg-light bg-light m-1 p-1 border">
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <input type="hidden" name="dto.Secrets.index" value="@idx" />
+                                <input type="hidden" name="dto.Secrets[@idx].Id" value="@item?.Id" />
+                                <input type="hidden" name="dto.Secrets[@idx].ClientId" value="@item?.ClientId" />
+                                <label class="col-form-label">Type</label>
+                                <select name="dto.Secrets[@idx].Type" class="form-control">
+                                    @foreach (var secretName in SecretConstants.SecretTypeNames)
+                                    {
+                                        if (secretName.Key == item?.Type)
+                                        {
+                                            <option value="@secretName.Key" selected>@secretName.Value</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@secretName.Key">@secretName.Value</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="col-form-label">Expiration</label>
+                                <input type="date"
+                                       name="dto.Secrets[@idx].Expiration"
+                                       value="@item?.Expiration.GetValueOrDefault(DateTime.Today).ToString("s")"
+                                       class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="col-form-label">Value</label>
+                                <input type="text"
+                                       name="dto.Secrets[@idx].Value"
+                                       value="@item?.Value"
+                                       class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col d-flex flex-column">
+                    <div class="row flex-grow-1 d-flex flex-column">
+                        <div class="col flex-grow-1 d-flex flex-column">
+                            <div class="form-group flex-grow-1 d-flex flex-column">
+                                <label class="col-form-label">Description</label>
+                                <textarea name="dto.Secrets[@idx].Description"
+                                          class="form-control flex-grow-1">@item?.Description</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <div class="row">
+                        <div class="col">
+                            <button type="button"
+                                    class="btn btn-outline-danger btn-block float-right"
+                                    onclick="SetRemoveModal(this, 'dto.Secrets[@idx].Type');"
+                                    data-toggle="modal" data-target="#removeRowModal">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*<div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <input type="hidden" name="dto.Secrets.index" value="@idx" />
+                            <input type="hidden" name="dto.Secrets[@idx].Id" value="@item?.Id" />
+                            <input type="hidden" name="dto.Secrets[@idx].ClientId" value="@item?.ClientId" />
+                            <select name="dto.Secrets[@idx].Type" class="form-control">
+                                @foreach (var secretName in SecretConstants.SecretTypeNames)
+                                {
+                                    if (secretName.Key == item?.Type)
+                                    {
+                                        <option value="@secretName.Key" selected>@secretName.Value</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@secretName.Key">@secretName.Value</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <input type="text"
+                                   name="dto.Secrets[@idx].Value"
+                                   value="@item?.Value"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <textarea name="dto.Secrets[@idx].Description"
+                                      class="form-control"
+                                      rows="1" onfocus="SetRowCount(this, 5);" onblur="SetRowCount(this, 1);"
+                                      style="resize: none;">@item?.Description</textarea>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <input type="date"
+                                   name="dto.Secrets[@idx].Expiration"
+                                   value="@item?.Expiration.GetValueOrDefault(DateTime.Today).ToString("s")"
+                                   class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <button type="button"
+                                class="btn btn-outline-danger btn-block float-right"
+                                onclick="SetRemoveModal(this, 'dto.Secrets[@idx].Type');"
+                                data-toggle="modal" data-target="#removeRowModal">
+                            Delete
+                        </button>
+                    </div>
+                </div>*@
+        }
+
     </collapsable>
 
 }
