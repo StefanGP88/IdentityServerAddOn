@@ -326,7 +326,7 @@
                 @foreach (var item in Model?.Data?.Secrets)
                 {
                     var idx = Guid.NewGuid();
-                    <tr class="border">
+                    <tr class="border-top border-bottom bg-light">
                         <td>
                             <button type="button"
                                     class="btn btn-outline-danger btn-sm m-1"
@@ -361,7 +361,7 @@
                             </button>
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="border-bottom">
                         <td colspan="6">
                             <div class="row">
                                 <div class="col">
