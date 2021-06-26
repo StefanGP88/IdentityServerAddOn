@@ -27,7 +27,7 @@ namespace Ids.SimpleAdmin.Backend
             services.TryAddTransient<IValidator<ApiResourceClaimsContract>, ApiResourceClaimsValidator>();
             services.TryAddTransient<IValidator<ApiResourceScopesContract>, ApiResourceScopesValidator>();
             services.TryAddTransient<IValidator<ApiResourceSecretsContract>, ApiResourceSecretsValidator>();
-            services.TryAddTransient<IValidator<ApiResourcePropertiesContract>, ApiResourcePropertiesValidator>();
+            services.TryAddTransient<IValidator<PropertyContract>, ApiResourcePropertiesValidator>();
             services.TryAddTransient<IValidator<ApiScopeContract>, ApiScopeValidator>();
             services.TryAddTransient<IValidator<ApiScopeClaimsContract>, ApiScopeClaimsValidator>();
             services.TryAddTransient<IValidator<ApiScopePropertiesContract>, ApiScopePropertiesValidator>();
@@ -75,7 +75,7 @@ namespace Ids.SimpleAdmin.Backend
             services.TryAddScoped<IMapper<ClientPostLogoutRedirectUrisContract, ClientPostLogoutRedirectUri>, PostLogoutRedirectUri>();
             services.TryAddScoped<IMapper<ApiResourceContract, ApiResource>, ApiResourceMapper>();
             services.TryAddScoped<IMapper<ApiResourceClaimsContract,ApiResourceClaim>, ApiResourceClaimsMapper>();
-            services.TryAddScoped<IMapper<ApiResourcePropertiesContract,ApiResourceProperty>, ApiResourcePropertiesMapper>();
+            services.TryAddScoped<IMapper<PropertyContract,ApiResourceProperty>, ApiResourcePropertiesMapper>();
             services.TryAddScoped<IMapper<ApiResourceScopesContract,ApiResourceScope>, ApiResourceScopesMapper>();
             services.TryAddScoped<IMapper<ApiResourceSecretsContract,ApiResourceSecret>, ApiResourceSecretsMapper>();
             services.TryAddScoped<IMapper<ApiScopeContract, ApiScope>, ApiScopeMapper>();

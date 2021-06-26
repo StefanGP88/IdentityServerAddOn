@@ -51,7 +51,7 @@ namespace Ids.SimpleAdmin.Contracts
         public List<ClientScopeContract> Scopes { get; set; }//TODO: rename to 'AllowedScopes'
         public List<ClientSecretsContract> Secrets { get; set; } // TODO: rename to 'ClientSecrets'
         public List<ClientRedirectUriContract> RedirectUris { get; set; }
-        public List<ClientPropertiesContract> Properties { get; set; }
+        public List<PropertyContract> Properties { get; set; }
         public List<ClientPostLogoutRedirectUrisContract> PostLogoutRedirectUris { get; set; }
         public List<ClientIdPRestrictionsContract> IdPRestrictions { get; set; } //TODO: rename to 'IdentityProviderRestrictions
         public List<ClientGrantTypesContract> GrantTypes { get; set; } //TODO: rename to 'AllowedGrantTypes'
@@ -76,12 +76,6 @@ namespace Ids.SimpleAdmin.Contracts
     {
         public int? ClientId { get; set; }
         public string RedirectUri { get; set; }
-    }
-    public class ClientPropertiesContract : Identifiable<int?>
-    {
-        public int? ClientId { get; set; }
-        public string Key { get; set; }
-        public string Value { get; set; }
     }
     public class ClientPostLogoutRedirectUrisContract : Identifiable<int?>
     {

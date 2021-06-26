@@ -25,7 +25,7 @@ namespace Ids.SimpleAdmin.Backend.Validators
         }
     }
 
-    public class ApiResourcePropertiesValidator : AbstractValidator<ApiResourcePropertiesContract>
+    public class ApiResourcePropertiesValidator : AbstractValidator<PropertyContract>
     {
         public ApiResourcePropertiesValidator()
         {

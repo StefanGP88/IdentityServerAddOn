@@ -30,7 +30,7 @@ namespace Ids.SimpleAdmin.Backend.Validators
         public ApiScopePropertiesValidator()
         {
             RuleFor(x => x.Key).MaximumLength(250).NotNull();
-            RuleFor(x => x.Value).MaximumLength(1000).NotNull();
+            RuleFor(x => x.Value).MaximumLength(2000).NotNull();
         }
     }
 }

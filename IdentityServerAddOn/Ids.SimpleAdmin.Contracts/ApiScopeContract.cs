@@ -12,17 +12,11 @@ namespace Ids.SimpleAdmin.Contracts
         public bool Emphasize { get; set; }
         public bool ShowInDiscoveryDocument { get; set; }
         public List<ApiScopeClaimsContract> UserClaims { get; set; }
-        public List<ApiScopePropertiesContract> Properties { get; set; }
+        public List<PropertyContract> Properties { get; set; }
     }
     public class ApiScopeClaimsContract : Identifiable<int?>
     {
         public string Type { get; set; }
-        public int? ApiScopeId { get; set; }
-    }
-    public class ApiScopePropertiesContract : Identifiable<int?>
-    {
-        public string Key { get; set; }
-        public string Value { get; set; }
         public int? ApiScopeId { get; set; }
     }
 }

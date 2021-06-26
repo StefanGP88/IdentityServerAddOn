@@ -19,13 +19,7 @@ namespace Ids.SimpleAdmin.Contracts
         public DateTime? Updated { get; set; }//TODO: make sure nullable does not mess with validators
         public bool NonEditable { get; set; }
         public List<IdentityResourceClaimsContract> UserClaims { get; set; }
-        public List<IdentityResourcePropertiesContract> Properties { get; set; }
-    }
-    public class IdentityResourcePropertiesContract : Identifiable<int?>
-    {
-        public int? IdentityResourceId { get; set; }
-        public string Key { get; set; }
-        public string Value { get; set; }
+        public List<PropertyContract> Properties { get; set; }
     }
     public class IdentityResourceClaimsContract : Identifiable<int?>
     {

@@ -21,7 +21,7 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.ApiResources
         {
             return OnGetPartial("Userclaims", model);
         }
-        public PartialViewResult OnGetProperties(ApiResourcePropertiesContract model)
+        public PartialViewResult OnGetProperties(PropertyContract model)
         {
             return OnGetPartial("Properties", model);
         }

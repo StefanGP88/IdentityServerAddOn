@@ -11,12 +11,12 @@ namespace Ids.SimpleAdmin.Backend.Mappers
     {
 
         private readonly IMapper<ApiResourceClaimsContract, ApiResourceClaim> _claim;
-        private readonly IMapper<ApiResourcePropertiesContract, ApiResourceProperty> _property;
+        private readonly IMapper<PropertyContract, ApiResourceProperty> _property;
         private readonly IMapper<ApiResourceScopesContract, ApiResourceScope> _scope;
         private readonly IMapper<ApiResourceSecretsContract, ApiResourceSecret> _secret;
 
         public ApiResourceMapper(IMapper<ApiResourceClaimsContract, ApiResourceClaim> claimMapper,
-            IMapper<ApiResourcePropertiesContract, ApiResourceProperty> propertyMapper,
+            IMapper<PropertyContract, ApiResourceProperty> propertyMapper,
             IMapper<ApiResourceScopesContract, ApiResourceScope> scopeMapper,
             IMapper<ApiResourceSecretsContract, ApiResourceSecret> secretMapper)
         {
@@ -99,12 +99,12 @@ namespace Ids.SimpleAdmin.Backend.Mappers
         }
     }
 
-    public class ApiResourcePropertiesMapper : AbstractMapper<ApiResourcePropertiesContract, ApiResourceProperty>
+    public class ApiResourcePropertiesMapper : AbstractMapper<PropertyContract, ApiResourceProperty>
     {
-        public override ApiResourcePropertiesContract ToContract(ApiResourceProperty model)
+        public override PropertyContract ToContract(ApiResourceProperty model)
         {
             this.ThrowIfNull(model);
-            return new ApiResourcePropertiesContract
+            return new PropertyContract
             {
                 Value = model.Value,
                 Key = model.Key,
@@ -113,12 +113,12 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             };
         }
 
-        public override ApiResourceProperty ToModel(ApiResourcePropertiesContract contract)
+        public override ApiResourceProperty ToModel(PropertyContract contract)
         {
             return UpdateModel(new(), contract);
         }
 
-        public override ApiResourceProperty UpdateModel(ApiResourceProperty model, ApiResourcePropertiesContract contract)
+        public override ApiResourceProperty UpdateModel(ApiResourceProperty model, PropertyContract contract)
         {
             this.ThrowIfNull(model, contract);
             model.Key = contract.Key;
