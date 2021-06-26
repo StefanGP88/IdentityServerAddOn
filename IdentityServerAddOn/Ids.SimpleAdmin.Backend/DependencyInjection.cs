@@ -48,7 +48,7 @@ namespace Ids.SimpleAdmin.Backend
             services.TryAddTransient<IValidator<RoleClaimsContract>, RoleClaimsValidator>();
             services.TryAddTransient<IValidator<UserContract>, UserValidator>();
             services.TryAddTransient<IValidator<UserClaimsContract>, UserClaimsValidator>();
-            services.TryAddTransient<ValidationFactory>();
+            services.TryAddScoped<ValidationFactory>();
         }
 
         private static void RegisterHandlers(IServiceCollection services)
@@ -88,6 +88,7 @@ namespace Ids.SimpleAdmin.Backend
             services.TryAddScoped<IMapper<RoleClaimsContract, IdentityRoleClaim<string>>, IdentityRoleClaimMapper>();
             services.TryAddScoped<IMapper<UserContract, IdentityUser>, UserMapper>();
             services.TryAddScoped<IMapper<UserClaimsContract, IdentityUserClaim<string>>, UserClaimsmapper>();
+
         }
     }
 }

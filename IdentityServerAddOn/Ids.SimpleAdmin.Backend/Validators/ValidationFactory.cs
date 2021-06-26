@@ -9,17 +9,20 @@ namespace Ids.SimpleAdmin.Backend.Validators
     public class ValidationFactory
     {
         private readonly IHttpContextAccessor _contextAccessor;
+        private Dictionary<object, ValidationResult> _cache;
         public ValidationFactory(IHttpContextAccessor httpContextAccessor)
         {
             _contextAccessor = httpContextAccessor;
+            _cache = new Dictionary<object, ValidationResult>();
         }
-        //TODO: creaTE A CHACHED REPOSITORY FOR THE VALIDATION RESULTS
-        //THE CACGHE should be scoped
 
-        public ValidationResult Validate<T>( T model)
+        public ValidationResult Validate<T>(T model)
         {
             if (model == null)
                 return new ValidationResult();
+
+            if (_cache.ContainsKey(model))
+                return _cache[model];
 
             var validator = _contextAccessor.HttpContext.RequestServices.GetRequiredService<IValidator<T>>();
             var validationResult = validator.Validate(model);
@@ -34,7 +37,12 @@ namespace Ids.SimpleAdmin.Backend.Validators
                 dictionary[item.PropertyName].Add(message);
             }
 
-            return new ValidationResult(dictionary);
+            var result = new ValidationResult(dictionary);
+            return result;
+        }
+        public string this[params string[] s]
+        {
+            get { return ""; }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
 using Ids.SimpleAdmin.Contracts;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,7 +20,7 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared
                 Data = await _handler.Get(id, cancel).ConfigureAwait(false);
             return Page();
         }
-
+        ResultExecutingContext context;
         public virtual async Task<IActionResult> OnPost(TData dto, CancellationToken cancel = default)
         {
             Data = dto;
