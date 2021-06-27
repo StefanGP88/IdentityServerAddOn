@@ -10,14 +10,14 @@ namespace Ids.SimpleAdmin.Backend.Mappers
     public class ApiResourceMapper : AbstractMapper<ApiResourceContract, ApiResource>
     {
 
-        private readonly IMapper<ApiResourceClaimsContract, ApiResourceClaim> _claim;
-        private readonly IMapper<ApiResourcePropertiesContract, ApiResourceProperty> _property;
-        private readonly IMapper<ApiResourceScopesContract, ApiResourceScope> _scope;
+        private readonly IMapper<ClaimsContract, ApiResourceClaim> _claim;
+        private readonly IMapper<PropertyContract, ApiResourceProperty> _property;
+        private readonly IMapper<ScopeContract, ApiResourceScope> _scope;
         private readonly IMapper<ApiResourceSecretsContract, ApiResourceSecret> _secret;
 
-        public ApiResourceMapper(IMapper<ApiResourceClaimsContract, ApiResourceClaim> claimMapper,
-            IMapper<ApiResourcePropertiesContract, ApiResourceProperty> propertyMapper,
-            IMapper<ApiResourceScopesContract, ApiResourceScope> scopeMapper,
+        public ApiResourceMapper(IMapper<ClaimsContract, ApiResourceClaim> claimMapper,
+            IMapper<PropertyContract, ApiResourceProperty> propertyMapper,
+            IMapper<ScopeContract, ApiResourceScope> scopeMapper,
             IMapper<ApiResourceSecretsContract, ApiResourceSecret> secretMapper)
         {
             _claim = claimMapper;
@@ -73,25 +73,24 @@ namespace Ids.SimpleAdmin.Backend.Mappers
         }
     }
 
-    public class ApiResourceClaimsMapper : AbstractMapper<ApiResourceClaimsContract, ApiResourceClaim>
+    public class ApiResourceClaimsMapper : AbstractMapper<ClaimsContract, ApiResourceClaim>
     {
-        public override ApiResourceClaimsContract ToContract(ApiResourceClaim model)
+        public override ClaimsContract ToContract(ApiResourceClaim model)
         {
             this.ThrowIfNull(model);
-            return new ApiResourceClaimsContract
+            return new ClaimsContract
             {
                 Type = model.Type,
-                ApiResourceId = model.ApiResourceId,
                 Id = model.Id
             };
         }
 
-        public override ApiResourceClaim ToModel(ApiResourceClaimsContract contract)
+        public override ApiResourceClaim ToModel(ClaimsContract contract)
         {
             return UpdateModel(new(), contract);
         }
 
-        public override ApiResourceClaim UpdateModel(ApiResourceClaim model, ApiResourceClaimsContract contract)
+        public override ApiResourceClaim UpdateModel(ApiResourceClaim model, ClaimsContract contract)
         {
             this.ThrowIfNull(model, contract);
             model.Type = contract.Type;
@@ -99,26 +98,25 @@ namespace Ids.SimpleAdmin.Backend.Mappers
         }
     }
 
-    public class ApiResourcePropertiesMapper : AbstractMapper<ApiResourcePropertiesContract, ApiResourceProperty>
+    public class ApiResourcePropertiesMapper : AbstractMapper<PropertyContract, ApiResourceProperty>
     {
-        public override ApiResourcePropertiesContract ToContract(ApiResourceProperty model)
+        public override PropertyContract ToContract(ApiResourceProperty model)
         {
             this.ThrowIfNull(model);
-            return new ApiResourcePropertiesContract
+            return new PropertyContract
             {
                 Value = model.Value,
                 Key = model.Key,
-                Id = model.Id,
-                ApiResourceId = model.ApiResourceId
+                Id = model.Id
             };
         }
 
-        public override ApiResourceProperty ToModel(ApiResourcePropertiesContract contract)
+        public override ApiResourceProperty ToModel(PropertyContract contract)
         {
             return UpdateModel(new(), contract);
         }
 
-        public override ApiResourceProperty UpdateModel(ApiResourceProperty model, ApiResourcePropertiesContract contract)
+        public override ApiResourceProperty UpdateModel(ApiResourceProperty model, PropertyContract contract)
         {
             this.ThrowIfNull(model, contract);
             model.Key = contract.Key;
@@ -127,25 +125,24 @@ namespace Ids.SimpleAdmin.Backend.Mappers
         }
     }
 
-    public class ApiResourceScopesMapper : AbstractMapper<ApiResourceScopesContract, ApiResourceScope>
+    public class ApiResourceScopesMapper : AbstractMapper<ScopeContract, ApiResourceScope>
     {
-        public override ApiResourceScopesContract ToContract(ApiResourceScope model)
+        public override ScopeContract ToContract(ApiResourceScope model)
         {
             this.ThrowIfNull(model);
-            return new ApiResourceScopesContract
+            return new ScopeContract
             {
                 Scope = model.Scope,
-                ApiResourceId = model.ApiResourceId,
                 Id = model.Id
             };
         }
 
-        public override ApiResourceScope ToModel(ApiResourceScopesContract contract)
+        public override ApiResourceScope ToModel(ScopeContract contract)
         {
             return UpdateModel(new(), contract);
         }
 
-        public override ApiResourceScope UpdateModel(ApiResourceScope model, ApiResourceScopesContract contract)
+        public override ApiResourceScope UpdateModel(ApiResourceScope model, ScopeContract contract)
         {
             this.ThrowIfNull(model, contract);
             model.Scope = contract.Scope;
@@ -167,7 +164,6 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             this.ThrowIfNull(model);
             return new ApiResourceSecretsContract
             {
-                ApiResourceId = model.ApiResourceId,
                 Created = model.Created,
                 Description = model.Description,
                 Expiration = model.Expiration,

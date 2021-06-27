@@ -1,4 +1,4 @@
-﻿@model IdentityResourceClaimsContract
+﻿@model ClaimsContract
 @{
     var validationResult = _validator.Validate(Model);
     var idx = Guid.NewGuid();
@@ -13,7 +13,6 @@
     <td>
         <input type="hidden" name="dto.Userclaims.index" value="@idx" />
         <input type="hidden" name="dto.Userclaims[@idx].Id" value="@Model?.Id" />
-        <input type="hidden" name="dto.Userclaims[@idx].IdentityResourceId" value="@Model?.IdentityResourceId" />
         <input type="text"
                name="dto.Userclaims[@idx].Type"
                value="@Model?.Type"

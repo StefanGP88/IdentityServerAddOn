@@ -1,4 +1,4 @@
-﻿@model ApiResourcePropertiesContract
+﻿@model PropertyContract
 @{
     var validationResult = _validator.Validate(Model);
     var idx = Guid.NewGuid();
@@ -16,7 +16,6 @@
     <td>
         <input type="hidden" name="dto.Properties.index" value="@idx" />
         <input type="hidden" name="dto.Properties[@idx].Id" value="@Model?.Id" />
-        <input type="hidden" name="dto.Properties[@idx].ApiResourceId" value="@Model?.ApiResourceId" />
         <input type="text"
                name="dto.Properties[@idx].Value"
                value="@Model?.Value"

@@ -8,7 +8,7 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Clients
     public class InfoModel : BaseInfoPage<ClientsContract, int?>
     {
         public InfoModel(IHandler<ClientsContract, int?> handler) : base(handler) { }
-        public PartialViewResult OnGetScopes(ClientScopeContract model)
+        public PartialViewResult OnGetScopes(ScopeContract model)
         {
             return OnGetPartial("Scopes", model);
         }
@@ -20,7 +20,7 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Clients
         {
             return OnGetPartial("RedirectUris", model);
         }
-        public PartialViewResult OnGetProperties(ClientPropertiesContract model)
+        public PartialViewResult OnGetProperties(PropertyContract model)
         {
             return OnGetPartial("Properties", model);
         }

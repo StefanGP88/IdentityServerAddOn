@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ids.SimpleAdmin.Contracts
 {
@@ -18,18 +15,7 @@ namespace Ids.SimpleAdmin.Contracts
         public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }//TODO: make sure nullable does not mess with validators
         public bool NonEditable { get; set; }
-        public List<IdentityResourceClaimsContract> UserClaims { get; set; }
-        public List<IdentityResourcePropertiesContract> Properties { get; set; }
-    }
-    public class IdentityResourcePropertiesContract : Identifiable<int?>
-    {
-        public int? IdentityResourceId { get; set; }
-        public string Key { get; set; }
-        public string Value { get; set; }
-    }
-    public class IdentityResourceClaimsContract : Identifiable<int?>
-    {
-        public int? IdentityResourceId { get; set; }
-        public string Type { get; set; }
+        public List<ClaimsContract> UserClaims { get; set; }
+        public List<PropertyContract> Properties { get; set; }
     }
 }

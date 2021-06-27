@@ -14,8 +14,8 @@ namespace Ids.SimpleAdmin.Backend.Mappers
         private readonly IMapper<ClientIdPRestrictionsContract, ClientIdPRestriction> _idPRestriction;
         private readonly IMapper<ClientClaimsContract, IdentityServer4.EntityFramework.Entities.ClientClaim> _claim;
         private readonly IMapper<ClientCorsOriginsContract, ClientCorsOrigin> _corsOrigin;
-        private readonly IMapper<ClientPropertiesContract, ClientProperty> _property;
-        private readonly IMapper<ClientScopeContract, ClientScope> _scope;
+        private readonly IMapper<PropertyContract, ClientProperty> _property;
+        private readonly IMapper<ScopeContract, ClientScope> _scope;
         private readonly IMapper<ClientSecretsContract, ClientSecret> _secret;
         private readonly IMapper<ClientGrantTypesContract, ClientGrantType> _grantType;
         private readonly IMapper<ClientRedirectUriContract, ClientRedirectUri> _redirectUri;
@@ -24,8 +24,8 @@ namespace Ids.SimpleAdmin.Backend.Mappers
         public ClientMapper(IMapper<ClientIdPRestrictionsContract, ClientIdPRestriction> idPRestriction,
           IMapper<ClientClaimsContract, IdentityServer4.EntityFramework.Entities.ClientClaim> claim,
           IMapper<ClientCorsOriginsContract, ClientCorsOrigin> corsOrigin,
-          IMapper<ClientPropertiesContract, ClientProperty> property,
-          IMapper<ClientScopeContract, ClientScope> scope,
+          IMapper<PropertyContract, ClientProperty> property,
+          IMapper<ScopeContract, ClientScope> scope,
           IMapper<ClientSecretsContract, ClientSecret> secret,
           IMapper<ClientGrantTypesContract, ClientGrantType> grantType,
           IMapper<ClientRedirectUriContract, ClientRedirectUri> redirectUri,
@@ -200,7 +200,6 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             return new ClientClaimsContract
             {
                 Type = model.Type,
-                ClientId = model.ClientId,
                 Id = model.Id,
                 Value = model.Value
             };
@@ -244,26 +243,25 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             return model;
         }
     }
-    public class ClientPropertyMapper : AbstractMapper<ClientPropertiesContract, ClientProperty>
+    public class ClientPropertyMapper : AbstractMapper<PropertyContract, ClientProperty>
     {
-        public override ClientPropertiesContract ToContract(ClientProperty model)
+        public override PropertyContract ToContract(ClientProperty model)
         {
             this.ThrowIfNull(model);
-            return new ClientPropertiesContract
+            return new PropertyContract
             {
                 Key = model.Key,
                 Value = model.Value,
-                ClientId = model.ClientId,
                 Id = model.Id
             };
         }
 
-        public override ClientProperty ToModel(ClientPropertiesContract contract)
+        public override ClientProperty ToModel(PropertyContract contract)
         {
             return UpdateModel(new(), contract);
         }
 
-        public override ClientProperty UpdateModel(ClientProperty model, ClientPropertiesContract contract)
+        public override ClientProperty UpdateModel(ClientProperty model, PropertyContract contract)
         {
             this.ThrowIfNull(model, contract);
             model.Key = contract.Key;
@@ -271,25 +269,24 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             return model;
         }
     }
-    public class ClientScopeMapper : AbstractMapper<ClientScopeContract, ClientScope>
+    public class ClientScopeMapper : AbstractMapper<ScopeContract, ClientScope>
     {
-        public override ClientScopeContract ToContract(ClientScope model)
+        public override ScopeContract ToContract(ClientScope model)
         {
             this.ThrowIfNull(model);
-            return new ClientScopeContract
+            return new ScopeContract
             {
                 Scope = model.Scope,
-                ClientId = model.ClientId,
                 Id = model.Id
             };
         }
 
-        public override ClientScope ToModel(ClientScopeContract contract)
+        public override ClientScope ToModel(ScopeContract contract)
         {
             return UpdateModel(new(), contract);
         }
 
-        public override ClientScope UpdateModel(ClientScope model, ClientScopeContract contract)
+        public override ClientScope UpdateModel(ClientScope model, ScopeContract contract)
         {
             this.ThrowIfNull(model, contract);
             model.Scope = contract.Scope;

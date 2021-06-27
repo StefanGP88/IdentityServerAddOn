@@ -15,23 +15,8 @@ namespace Ids.SimpleAdmin.Backend.Validators
             RuleFor(x => x.Emphasize).NotNull();
             RuleFor(x => x.ShowInDiscoveryDocument).NotNull();
             RuleFor(x => x.NonEditable).NotNull();
-            RuleForEach(x => x.UserClaims).SetValidator(new IdentityResourceClaimsValidator());
-            RuleForEach(x => x.Properties).SetValidator(new IdentityResourcePropertiesValidator());
-        }
-    }
-    public class IdentityResourceClaimsValidator : AbstractValidator<IdentityResourceClaimsContract>
-    {
-        public IdentityResourceClaimsValidator()
-        {
-            RuleFor(x => x.Type).MaximumLength(200).NotNull();
-        }
-    }
-    public class IdentityResourcePropertiesValidator : AbstractValidator<IdentityResourcePropertiesContract>
-    {
-        public IdentityResourcePropertiesValidator()
-        {
-            RuleFor(x => x.Key).MaximumLength(250).NotNull();
-            RuleFor(x => x.Value).MaximumLength(2000).NotNull();
+            RuleForEach(x => x.UserClaims).SetValidator(new ClaimValidator());
+            RuleForEach(x => x.Properties).SetValidator(new PropertyValidator());
         }
     }
 }

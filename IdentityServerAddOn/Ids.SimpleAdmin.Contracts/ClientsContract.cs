@@ -48,40 +48,20 @@ namespace Ids.SimpleAdmin.Contracts
         public string UserCodeType { get; set; }
         public int DeviceCodeLifetime { get; set; }
         public bool NonEditable { get; set; }
-        public List<ClientScopeContract> Scopes { get; set; }//TODO: rename to 'AllowedScopes'
+        public List<ScopeContract> Scopes { get; set; }//TODO: rename to 'AllowedScopes'
         public List<ClientSecretsContract> Secrets { get; set; } // TODO: rename to 'ClientSecrets'
         public List<ClientRedirectUriContract> RedirectUris { get; set; }
-        public List<ClientPropertiesContract> Properties { get; set; }
+        public List<PropertyContract> Properties { get; set; }
         public List<ClientPostLogoutRedirectUrisContract> PostLogoutRedirectUris { get; set; }
         public List<ClientIdPRestrictionsContract> IdPRestrictions { get; set; } //TODO: rename to 'IdentityProviderRestrictions
         public List<ClientGrantTypesContract> GrantTypes { get; set; } //TODO: rename to 'AllowedGrantTypes'
         public List<ClientCorsOriginsContract> CorsOrigins { get; set; } //TODO: rename to  'AllowedCorsOrigins'
         public List<ClientClaimsContract> Claims { get; set; }
     }
-    public class ClientScopeContract : Identifiable<int?>
-    {
-        public int? ClientId { get; set; }
-        public string Scope { get; set; }
-    }
-    public class ClientSecretsContract : Identifiable<int?>
-    {
-        public int? ClientId { get; set; }
-        public string Description { get; set; }
-        public string Value { get; set; }
-        public DateTime? Expiration { get; set; }//TODO: make sure nulalble is not causing trouble in validators
-        public SecretTypeEnum Type { get; set; }//TODO: make sure enum instead of int is not causing trouble in validators
-        public DateTime Created { get; set; }
-    }
     public class ClientRedirectUriContract : Identifiable<int?>
     {
         public int? ClientId { get; set; }
         public string RedirectUri { get; set; }
-    }
-    public class ClientPropertiesContract : Identifiable<int?>
-    {
-        public int? ClientId { get; set; }
-        public string Key { get; set; }
-        public string Value { get; set; }
     }
     public class ClientPostLogoutRedirectUrisContract : Identifiable<int?>
     {
@@ -102,12 +82,6 @@ namespace Ids.SimpleAdmin.Contracts
     {
         public int? ClientId { get; set; }
         public string Origin { get; set; }
-    }
-    public class ClientClaimsContract : Identifiable<int?>
-    {
-        public int? ClientId { get; set; }
-        public string Type { get; set; }
-        public string Value { get; set; }
     }
 
     //TODO: Should properbly not be here

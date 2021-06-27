@@ -11,10 +11,10 @@ namespace Ids.SimpleAdmin.Backend.Mappers
 {
     public class IdentityResourceMapper : AbstractMapper<IdentityResourceContract, IdentityResource>
     {
-        private readonly IMapper<IdentityResourceClaimsContract, IdentityResourceClaim> _claim;
-        private readonly IMapper<IdentityResourcePropertiesContract, IdentityResourceProperty> _property;
-        public IdentityResourceMapper(IMapper<IdentityResourcePropertiesContract, IdentityResourceProperty> propertyMapper,
-            IMapper<IdentityResourceClaimsContract, IdentityResourceClaim> claimsMapper)
+        private readonly IMapper<ClaimsContract, IdentityResourceClaim> _claim;
+        private readonly IMapper<PropertyContract, IdentityResourceProperty> _property;
+        public IdentityResourceMapper(IMapper<PropertyContract, IdentityResourceProperty> propertyMapper,
+            IMapper<ClaimsContract, IdentityResourceClaim> claimsMapper)
         {
             _property = propertyMapper;
             _claim = claimsMapper;
@@ -64,47 +64,45 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             return model;
         }
     }
-    public class IdentityResourceClaimMapper : AbstractMapper<IdentityResourceClaimsContract, IdentityResourceClaim>
+    public class IdentityResourceClaimMapper : AbstractMapper<ClaimsContract, IdentityResourceClaim>
     {
-        public override IdentityResourceClaimsContract ToContract(IdentityResourceClaim model)
+        public override ClaimsContract ToContract(IdentityResourceClaim model)
         {
             this.ThrowIfNull(model);
-            return new IdentityResourceClaimsContract
+            return new ClaimsContract
             {
                 Type = model.Type,
-                IdentityResourceId = model.IdentityResourceId,
                 Id = model.Id
             };
         }
-        public override IdentityResourceClaim ToModel(IdentityResourceClaimsContract contract)
+        public override IdentityResourceClaim ToModel(ClaimsContract contract)
         {
             return UpdateModel(new(), contract);
         }
-        public override IdentityResourceClaim UpdateModel(IdentityResourceClaim model, IdentityResourceClaimsContract contract)
+        public override IdentityResourceClaim UpdateModel(IdentityResourceClaim model, ClaimsContract contract)
         {
             this.ThrowIfNull(model, contract);
             model.Type = contract.Type;
             return model;
         }
     }
-    public class IdentityResourcePropertyMapper : AbstractMapper<IdentityResourcePropertiesContract, IdentityResourceProperty>
+    public class IdentityResourcePropertyMapper : AbstractMapper<PropertyContract, IdentityResourceProperty>
     {
-        public override IdentityResourcePropertiesContract ToContract(IdentityResourceProperty model)
+        public override PropertyContract ToContract(IdentityResourceProperty model)
         {
             this.ThrowIfNull(model);
-            return new IdentityResourcePropertiesContract
+            return new PropertyContract
             {
                 Key = model.Key,
                 Value = model.Value,
-                Id = model.Id,
-                IdentityResourceId = model.IdentityResourceId
+                Id = model.Id
             };
         }
-        public override IdentityResourceProperty ToModel(IdentityResourcePropertiesContract contract)
+        public override IdentityResourceProperty ToModel(PropertyContract contract)
         {
             return UpdateModel(new(), contract);
         }
-        public override IdentityResourceProperty UpdateModel(IdentityResourceProperty model, IdentityResourcePropertiesContract contract)
+        public override IdentityResourceProperty UpdateModel(IdentityResourceProperty model, PropertyContract contract)
         {
             this.ThrowIfNull(model, contract);
             model.Value = contract.Value;

@@ -1,5 +1,5 @@
 ﻿@using Ids.SimpleAdmin.Contracts 
-@model ApiResourceClaimsContract
+@model ClaimsContract
 @{
     var validationResult = _validator.Validate(Model);
     var idx = Guid.NewGuid();
@@ -16,7 +16,6 @@
     <td>
         <input type="hidden" name="dto.UserClaims.index" value="@idx" />
         <input type="hidden" name="dto.UserClaims[@idx].Id" value="@Model?.Id" />
-        <input type="hidden" name="dto.UserClaims[@idx].ApiResourceId" value="@Model?.ApiResourceId" />
         <input type="text"
                name="dto.UserClaims[@idx].Type"
                value="@Model?.Type"
