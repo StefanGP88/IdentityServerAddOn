@@ -1,4 +1,4 @@
-﻿@model UserClaimsContract
+﻿@model ValueClaimsContract
 @{
     var validationResult = _validator.Validate(Model);
     var idx = Guid.NewGuid();
@@ -13,24 +13,23 @@
     <td>
         <input type="hidden" name="dto.UserClaims.index" value="@idx" />
         <input type="hidden" name="dto.UserClaims[@idx].Id" value="@Model?.Id" />
-        <input type="hidden" name="dto.UserClaims[@idx].UserId" value="@Model?.UserId" />
         <input type="text"
-               name="dto.UserClaims[@idx].ClaimType"
-               value="@Model?.ClaimType"
+               name="dto.UserClaims[@idx].Type"
+               value="@Model?.Type"
                class="form-control @disabledClass" @disabled />
-        <partial name="_ValidationNotificationPartial" model="@validationResult["ClaimType"]" />
+        <partial name="_ValidationNotificationPartial" model="@validationResult["Type"]" />
     </td>
     <td>
         <input type="text"
-               name="dto.UserClaims[@idx].ClaimValue"
-               value="@Model?.ClaimValue"
+               name="dto.UserClaims[@idx].Value"
+               value="@Model?.Value"
                class="form-control @disabledClass" @disabled />
-        <partial name="_ValidationNotificationPartial" model="@validationResult["ClaimValue"]" />
+        <partial name="_ValidationNotificationPartial" model="@validationResult["Value"]" />
     </td>
     <td>
         <button type="button"
                 class="btn btn-outline-danger btn-block float-right"
-                onclick="SetRemoveModal(this, 'dto.UserClaims[@idx].ClaimType');"
+                onclick="SetRemoveModal(this, 'dto.UserClaims[@idx].Type');"
                 data-toggle="modal" data-target="#removeRowModal">
         </button>
     </td>

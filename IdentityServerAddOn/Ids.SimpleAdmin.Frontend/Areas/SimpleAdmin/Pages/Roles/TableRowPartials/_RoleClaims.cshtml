@@ -1,4 +1,4 @@
-﻿@model RoleClaimsContract
+﻿@model ValueClaimsContract
 @{
     var validationResult = _validator.Validate(Model);
     var idx = Guid.NewGuid();
@@ -15,19 +15,18 @@
     <td>
         <input type="hidden" name="dto.RoleClaims.index" value="@idx" />
         <input type="hidden" name="dto.RoleClaims[@idx].Id" value="@Model?.Id" />
-        <input type="hidden" name="dto.RoleClaims[@idx].RoleId" value="@Model?.RoleId" />
         <input type="text"
-               name="dto.RoleClaims[@idx].ClaimType"
-               value="@Model?.ClaimType"
+               name="dto.RoleClaims[@idx].Type"
+               value="@Model?.Type"
                class="form-control @disabledClass" @disabled />
-        <partial name="_ValidationNotificationPartial" model="@validationResult["ClainType"]" />
+        <partial name="_ValidationNotificationPartial" model="@validationResult["Type"]" />
     </td>
     <td>
         <input type="text"
-               name="dto.RoleClaims[@idx].ClaimValue"
-               value="@Model?.ClaimValue"
+               name="dto.RoleClaims[@idx].Value"
+               value="@Model?.Value"
                class="form-control @disabledClass" @disabled />
-        <partial name="_ValidationNotificationPartial" model="@validationResult["ClaimValue"]" />
+        <partial name="_ValidationNotificationPartial" model="@validationResult["Value"]" />
     </td>
     <td>
         <button type="button"
