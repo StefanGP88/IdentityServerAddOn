@@ -40,4 +40,8 @@ namespace Ids.SimpleAdmin.Backend.Validators
             RuleFor(x => x.Value).MaximumLength(2000).NotNull();
         }
     }
+
+    public class AspNetIdentityClaimValidator : AbstractValidator<AspNetIdentityClaimsContract>
+    {
+    }
 }
