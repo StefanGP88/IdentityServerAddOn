@@ -26,8 +26,9 @@ namespace Ids.SimpleAdmin.Contracts
     {
         public string Type { get; set; }
     }
-    public class ValueClaimsContract : ClaimsContract
+    public class ValueClaimsContract : Identifiable<int?>
     {
+        public string Type { get; set; }
         public string Value { get; set; }
     }
     public class ClientClaimsContract : ValueClaimsContract { }

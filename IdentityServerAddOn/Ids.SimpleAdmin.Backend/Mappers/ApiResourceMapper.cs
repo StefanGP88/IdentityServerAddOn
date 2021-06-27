@@ -108,8 +108,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             {
                 Value = model.Value,
                 Key = model.Key,
-                Id = model.Id,
-                ApiResourceId = model.ApiResourceId
+                Id = model.Id
             };
         }
 
@@ -167,7 +166,6 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             this.ThrowIfNull(model);
             return new ApiResourceSecretsContract
             {
-                ApiResourceId = model.ApiResourceId,
                 Created = model.Created,
                 Description = model.Description,
                 Expiration = model.Expiration,
