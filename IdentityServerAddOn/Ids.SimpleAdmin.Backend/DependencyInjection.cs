@@ -40,6 +40,7 @@ namespace Ids.SimpleAdmin.Backend
             services.TryAddTransient<IValidator<ScopeContract>, ScopeValidator>();
             services.TryAddTransient<IValidator<PropertyContract>, PropertyValidator>();
             services.TryAddTransient<IValidator<ValueClaimsContract>, ValueClaimValidator>();
+            services.TryAddTransient<IValidator<ClientClaimsContract>, ValueClaimValidator>();
             services.TryAddTransient<ValidationFactory>();
         }
 
