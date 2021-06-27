@@ -8,7 +8,7 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Roles
     public class InfoModel : BaseInfoPage<RolesContract, string>
     {
         public InfoModel(IHandler<RolesContract, string> handler) : base(handler) { }
-        public PartialViewResult OnGetRoleClaims(RoleClaimsContract model)
+        public PartialViewResult OnGetRoleClaims(AspNetIdentityClaimsContract model)
         {
             return OnGetPartial("RoleClaims", model);
         }

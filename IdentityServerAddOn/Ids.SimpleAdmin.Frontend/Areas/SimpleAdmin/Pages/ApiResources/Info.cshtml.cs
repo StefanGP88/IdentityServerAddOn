@@ -13,11 +13,11 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.ApiResources
         {
             return OnGetPartial("Secrets", model);
         }
-        public PartialViewResult OnGetScopes(ApiResourceScopesContract model )
+        public PartialViewResult OnGetScopes(PropertyContract model )
         {
             return OnGetPartial("Scopes", model);
         }
-        public PartialViewResult OnGetUserclaims(ApiResourceClaimsContract model )
+        public PartialViewResult OnGetUserclaims(ClaimsContract model )
         {
             return OnGetPartial("Userclaims", model);
         }
