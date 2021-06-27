@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ids.SimpleAdmin.Contracts
 {
-    public class ApiResourceContract: Identifiable<int?>
+    public class ApiResourceContract : Identifiable<int?>
     {
         public string Name { get; set; }
         public string DisplayName { get; set; }
@@ -19,16 +19,5 @@ namespace Ids.SimpleAdmin.Contracts
         public List<PropertyContract> Properties { get; set; }
         public List<ScopeContract> Scopes { get; set; }
         public List<ApiResourceSecretsContract> Secrets { get; set; }
-    }
-
-    
-    public class ApiResourceSecretsContract : Identifiable<int?>
-    {
-        public string Description { get; set; }
-        public string Value { get; set; }
-        public DateTime? Expiration { get; set; }//TODO: make sure nulalble is not causing trouble in validators
-        public SecretTypeEnum Type { get; set; }//TODO: make sure enum instead of int is not causing trouble in validators
-        public DateTime Created { get; set; }
-        public int? ApiResourceId { get; set; }
     }
 }

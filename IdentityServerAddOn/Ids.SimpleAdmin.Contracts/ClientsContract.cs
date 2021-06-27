@@ -58,15 +58,6 @@ namespace Ids.SimpleAdmin.Contracts
         public List<ClientCorsOriginsContract> CorsOrigins { get; set; } //TODO: rename to  'AllowedCorsOrigins'
         public List<ClientClaimsContract> Claims { get; set; }
     }
-    public class ClientSecretsContract : Identifiable<int?>
-    {
-        public int? ClientId { get; set; }
-        public string Description { get; set; }
-        public string Value { get; set; }
-        public DateTime? Expiration { get; set; }//TODO: make sure nulalble is not causing trouble in validators
-        public SecretTypeEnum Type { get; set; }//TODO: make sure enum instead of int is not causing trouble in validators
-        public DateTime Created { get; set; }
-    }
     public class ClientRedirectUriContract : Identifiable<int?>
     {
         public int? ClientId { get; set; }
