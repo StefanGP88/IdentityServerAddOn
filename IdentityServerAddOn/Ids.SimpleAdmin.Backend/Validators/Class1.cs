@@ -38,5 +38,11 @@ namespace Ids.SimpleAdmin.Backend.Validators
 
     public class ValueClaimValidator : AbstractValidator<ValueClaimsContract>
     {
+
+        public ValueClaimValidator()
+        {
+            RuleFor(x => x.Type).MaximumLength(250).When(x => x.GetType() == typeof(ClientClaimsContract)).NotNull().When(x => x.GetType() == typeof(ClientClaimsContract)); //TODO: check if this is the correct way of doing conditional validation with fluent validator
+            RuleFor(x => x.Value).MaximumLength(250).When(x => x.GetType() == typeof(ClientClaimsContract)).NotNull().When(x => x.GetType() == typeof(ClientClaimsContract));
+        }
     }
 }

@@ -58,7 +58,7 @@ namespace Ids.SimpleAdmin.Backend.Validators
             RuleForEach(x => x.IdPRestrictions).SetValidator(new ClientIdPRestrictionsValidator());
             RuleForEach(x => x.GrantTypes).SetValidator(new ClientGrantTypeValidator());
             RuleForEach(x => x.CorsOrigins).SetValidator(new ClientCorsOriginsValidator());
-            RuleForEach(x => x.Claims).SetValidator(new ClientClaimsValidator());
+            RuleForEach(x => x.Claims).SetValidator(new ValueClaimValidator());
         }
     }
     public class ClientSecretsValidator : AbstractValidator<ClientSecretsContract>
@@ -104,14 +104,6 @@ namespace Ids.SimpleAdmin.Backend.Validators
         public ClientCorsOriginsValidator()
         {
             RuleFor(x => x.Origin).MaximumLength(150).NotNull();
-        }
-    }
-    public class ClientClaimsValidator : AbstractValidator<ClientClaimsContract>
-    {
-        public ClientClaimsValidator()
-        {
-            RuleFor(x => x.Type).MaximumLength(250).NotNull();
-            RuleFor(x => x.Value).MaximumLength(250).NotNull();
         }
     }
 }

@@ -23,32 +23,24 @@ namespace Ids.SimpleAdmin.Backend
 
         private static void RegisterValidators(IServiceCollection services)
         {
-            //services.TryAddTransient<IValidator<ApiResourceContract>, ApiResourceValidator>();
-            //services.TryAddTransient<IValidator<ApiResourceClaimsContract>, ApiResourceClaimsValidator>();
-            //services.TryAddTransient<IValidator<ApiResourceScopesContract>, ApiResourceScopesValidator>();
-            //services.TryAddTransient<IValidator<ApiResourceSecretsContract>, ApiResourceSecretsValidator>();
-            //services.TryAddTransient<IValidator<PropertyContract>, ApiResourcePropertiesValidator>();
-            //services.TryAddTransient<IValidator<ApiScopeContract>, ApiScopeValidator>();
-            //services.TryAddTransient<IValidator<ApiScopeClaimsContract>, ApiScopeClaimsValidator>();
-            //services.TryAddTransient<IValidator<ApiScopePropertiesContract>, ApiScopePropertiesValidator>();
-            //services.TryAddTransient<IValidator<IdentityResourceContract>, IdentityResourceValidator>();
-            //services.TryAddTransient<IValidator<IdentityResourceClaimsContract>, IdentityResourceClaimsValidator>();
-            //services.TryAddTransient<IValidator<IdentityResourcePropertiesContract>, IdentityResourcePropertiesValidator>();
-            //services.TryAddTransient<IValidator<ClientsContract>, ClientValidator>();
-            //services.TryAddTransient<IValidator<ClientSecretsContract>, ClientSecretsValidator>();
-            //services.TryAddTransient<IValidator<ClientScopeContract>, ClientScopesValidator>();
-            //services.TryAddTransient<IValidator<ClientRedirectUriContract>, ClientRedirectUrisValidator>();
-            //services.TryAddTransient<IValidator<ClientPropertiesContract>, ClientPropertiesValidator>();
-            //services.TryAddTransient<IValidator<ClientPostLogoutRedirectUrisContract>, ClientPostLogoutRedirectUrisValidator>();
-            //services.TryAddTransient<IValidator<ClientIdPRestrictionsContract>, ClientIdPRestrictionsValidator>();
-            //services.TryAddTransient<IValidator<ClientGrantTypesContract>, ClientGrantTypeValidator>();
-            //services.TryAddTransient<IValidator<ClientCorsOriginsContract>, ClientCorsOriginsValidator>();
-            //services.TryAddTransient<IValidator<ClientClaimsContract>, ClientClaimsValidator>();
-            //services.TryAddTransient<IValidator<RolesContract>, RolesValidator>();
-            //services.TryAddTransient<IValidator<RoleClaimsContract>, RoleClaimsValidator>();
-            //services.TryAddTransient<IValidator<UserContract>, UserValidator>();
-            //services.TryAddTransient<IValidator<UserClaimsContract>, UserClaimsValidator>();
-            //services.TryAddTransient<ValidationFactory>();
+            services.TryAddTransient<IValidator<ApiResourceContract>, ApiResourceValidator>();
+            services.TryAddTransient<IValidator<ApiScopeContract>, ApiScopeValidator>();
+            services.TryAddTransient<IValidator<IdentityResourceContract>, IdentityResourceValidator>();
+            services.TryAddTransient<IValidator<ClientsContract>, ClientValidator>();
+            services.TryAddTransient<IValidator<ClientSecretsContract>, ClientSecretsValidator>();
+            services.TryAddTransient<IValidator<ClientRedirectUriContract>, ClientRedirectUrisValidator>();
+            services.TryAddTransient<IValidator<ClientPostLogoutRedirectUrisContract>, ClientPostLogoutRedirectUrisValidator>();
+            services.TryAddTransient<IValidator<ClientIdPRestrictionsContract>, ClientIdPRestrictionsValidator>();
+            services.TryAddTransient<IValidator<ClientGrantTypesContract>, ClientGrantTypeValidator>();
+            services.TryAddTransient<IValidator<ClientCorsOriginsContract>, ClientCorsOriginsValidator>();
+            services.TryAddTransient<IValidator<RolesContract>, RolesValidator>();
+            services.TryAddTransient<IValidator<UserContract>, UserValidator>();
+            services.TryAddTransient<IValidator<SecretsContract>, SecretValidator>();
+            services.TryAddTransient<IValidator<ClaimsContract>, ClaimValidator>();
+            services.TryAddTransient<IValidator<ScopeContract>, ScopeValidator>();
+            services.TryAddTransient<IValidator<PropertyContract>, PropertyValidator>();
+            services.TryAddTransient<IValidator<ValueClaimsContract>, ValueClaimValidator>();
+            services.TryAddTransient<ValidationFactory>();
         }
 
         private static void RegisterHandlers(IServiceCollection services)
