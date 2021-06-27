@@ -32,24 +32,24 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             return model;
         }
     }
-    public class IdentityRoleClaimMapper : AbstractMapper<AspNetIdentityClaimsContract, IdentityRoleClaim<string>>
+    public class IdentityRoleClaimMapper : AbstractMapper<ValueClaimsContract, IdentityRoleClaim<string>>
     {
-        public override AspNetIdentityClaimsContract ToContract(IdentityRoleClaim<string> model)
+        public override ValueClaimsContract ToContract(IdentityRoleClaim<string> model)
         {
             this.ThrowIfNull(model);
-            return new AspNetIdentityClaimsContract
+            return new ValueClaimsContract
             {
                 Value = model.ClaimValue,
                 Type = model.ClaimType
             };
         }
 
-        public override IdentityRoleClaim<string> ToModel(AspNetIdentityClaimsContract contract)
+        public override IdentityRoleClaim<string> ToModel(ValueClaimsContract contract)
         {
             return UpdateModel(new(), contract);
         }
 
-        public override IdentityRoleClaim<string> UpdateModel(IdentityRoleClaim<string> model, AspNetIdentityClaimsContract contract)
+        public override IdentityRoleClaim<string> UpdateModel(IdentityRoleClaim<string> model, ValueClaimsContract contract)
         {
             this.ThrowIfNull(model, contract);
             model.ClaimType = contract.Type;

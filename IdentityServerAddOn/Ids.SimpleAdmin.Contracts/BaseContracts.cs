@@ -32,7 +32,6 @@ namespace Ids.SimpleAdmin.Contracts
         public string Value { get; set; }
     }
     public class ClientClaimsContract : ValueClaimsContract { }
-    public class AspNetIdentityClaimsContract: ValueClaimsContract { }
 
     public class ScopeContract : Identifiable<int?>
     {

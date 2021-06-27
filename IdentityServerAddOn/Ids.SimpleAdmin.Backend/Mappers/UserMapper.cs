@@ -60,12 +60,12 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             return model;
         }
     }
-    public class UserClaimsmapper : AbstractMapper<AspNetIdentityClaimsContract, IdentityUserClaim<string>>
+    public class UserClaimsmapper : AbstractMapper<ValueClaimsContract, IdentityUserClaim<string>>
     {
-        public override AspNetIdentityClaimsContract ToContract(IdentityUserClaim<string> model)
+        public override ValueClaimsContract ToContract(IdentityUserClaim<string> model)
         {
             this.ThrowIfNull(model);
-            return new AspNetIdentityClaimsContract
+            return new ValueClaimsContract
             {
                 Type = model.ClaimType,
                 Value = model.ClaimValue,
@@ -73,12 +73,12 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             };
         }
 
-        public override IdentityUserClaim<string> ToModel(AspNetIdentityClaimsContract contract)
+        public override IdentityUserClaim<string> ToModel(ValueClaimsContract contract)
         {
             return UpdateModel(new(), contract);
         }
 
-        public override IdentityUserClaim<string> UpdateModel(IdentityUserClaim<string> model, AspNetIdentityClaimsContract contract)
+        public override IdentityUserClaim<string> UpdateModel(IdentityUserClaim<string> model, ValueClaimsContract contract)
         {
             this.ThrowIfNull(model, contract);
             model.ClaimType = contract.Type;

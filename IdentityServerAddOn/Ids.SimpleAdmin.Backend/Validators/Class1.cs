@@ -1,10 +1,5 @@
 ﻿using FluentValidation;
 using Ids.SimpleAdmin.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ids.SimpleAdmin.Backend.Validators
 {
@@ -41,7 +36,7 @@ namespace Ids.SimpleAdmin.Backend.Validators
         }
     }
 
-    public class AspNetIdentityClaimValidator : AbstractValidator<AspNetIdentityClaimsContract>
+    public class ValueClaimValidator : AbstractValidator<ValueClaimsContract>
     {
     }
 }

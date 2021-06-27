@@ -23,32 +23,32 @@ namespace Ids.SimpleAdmin.Backend
 
         private static void RegisterValidators(IServiceCollection services)
         {
-            services.TryAddTransient<IValidator<ApiResourceContract>, ApiResourceValidator>();
-            services.TryAddTransient<IValidator<ApiResourceClaimsContract>, ApiResourceClaimsValidator>();
-            services.TryAddTransient<IValidator<ApiResourceScopesContract>, ApiResourceScopesValidator>();
-            services.TryAddTransient<IValidator<ApiResourceSecretsContract>, ApiResourceSecretsValidator>();
-            services.TryAddTransient<IValidator<PropertyContract>, ApiResourcePropertiesValidator>();
-            services.TryAddTransient<IValidator<ApiScopeContract>, ApiScopeValidator>();
-            services.TryAddTransient<IValidator<ApiScopeClaimsContract>, ApiScopeClaimsValidator>();
-            services.TryAddTransient<IValidator<ApiScopePropertiesContract>, ApiScopePropertiesValidator>();
-            services.TryAddTransient<IValidator<IdentityResourceContract>, IdentityResourceValidator>();
-            services.TryAddTransient<IValidator<IdentityResourceClaimsContract>, IdentityResourceClaimsValidator>();
-            services.TryAddTransient<IValidator<IdentityResourcePropertiesContract>, IdentityResourcePropertiesValidator>();
-            services.TryAddTransient<IValidator<ClientsContract>, ClientValidator>();
-            services.TryAddTransient<IValidator<ClientSecretsContract>, ClientSecretsValidator>();
-            services.TryAddTransient<IValidator<ClientScopeContract>, ClientScopesValidator>();
-            services.TryAddTransient<IValidator<ClientRedirectUriContract>, ClientRedirectUrisValidator>();
-            services.TryAddTransient<IValidator<ClientPropertiesContract>, ClientPropertiesValidator>();
-            services.TryAddTransient<IValidator<ClientPostLogoutRedirectUrisContract>, ClientPostLogoutRedirectUrisValidator>();
-            services.TryAddTransient<IValidator<ClientIdPRestrictionsContract>, ClientIdPRestrictionsValidator>();
-            services.TryAddTransient<IValidator<ClientGrantTypesContract>, ClientGrantTypeValidator>();
-            services.TryAddTransient<IValidator<ClientCorsOriginsContract>, ClientCorsOriginsValidator>();
-            services.TryAddTransient<IValidator<ClientClaimsContract>, ClientClaimsValidator>();
-            services.TryAddTransient<IValidator<RolesContract>, RolesValidator>();
-            services.TryAddTransient<IValidator<RoleClaimsContract>, RoleClaimsValidator>();
-            services.TryAddTransient<IValidator<UserContract>, UserValidator>();
-            services.TryAddTransient<IValidator<UserClaimsContract>, UserClaimsValidator>();
-            services.TryAddTransient<ValidationFactory>();
+            //services.TryAddTransient<IValidator<ApiResourceContract>, ApiResourceValidator>();
+            //services.TryAddTransient<IValidator<ApiResourceClaimsContract>, ApiResourceClaimsValidator>();
+            //services.TryAddTransient<IValidator<ApiResourceScopesContract>, ApiResourceScopesValidator>();
+            //services.TryAddTransient<IValidator<ApiResourceSecretsContract>, ApiResourceSecretsValidator>();
+            //services.TryAddTransient<IValidator<PropertyContract>, ApiResourcePropertiesValidator>();
+            //services.TryAddTransient<IValidator<ApiScopeContract>, ApiScopeValidator>();
+            //services.TryAddTransient<IValidator<ApiScopeClaimsContract>, ApiScopeClaimsValidator>();
+            //services.TryAddTransient<IValidator<ApiScopePropertiesContract>, ApiScopePropertiesValidator>();
+            //services.TryAddTransient<IValidator<IdentityResourceContract>, IdentityResourceValidator>();
+            //services.TryAddTransient<IValidator<IdentityResourceClaimsContract>, IdentityResourceClaimsValidator>();
+            //services.TryAddTransient<IValidator<IdentityResourcePropertiesContract>, IdentityResourcePropertiesValidator>();
+            //services.TryAddTransient<IValidator<ClientsContract>, ClientValidator>();
+            //services.TryAddTransient<IValidator<ClientSecretsContract>, ClientSecretsValidator>();
+            //services.TryAddTransient<IValidator<ClientScopeContract>, ClientScopesValidator>();
+            //services.TryAddTransient<IValidator<ClientRedirectUriContract>, ClientRedirectUrisValidator>();
+            //services.TryAddTransient<IValidator<ClientPropertiesContract>, ClientPropertiesValidator>();
+            //services.TryAddTransient<IValidator<ClientPostLogoutRedirectUrisContract>, ClientPostLogoutRedirectUrisValidator>();
+            //services.TryAddTransient<IValidator<ClientIdPRestrictionsContract>, ClientIdPRestrictionsValidator>();
+            //services.TryAddTransient<IValidator<ClientGrantTypesContract>, ClientGrantTypeValidator>();
+            //services.TryAddTransient<IValidator<ClientCorsOriginsContract>, ClientCorsOriginsValidator>();
+            //services.TryAddTransient<IValidator<ClientClaimsContract>, ClientClaimsValidator>();
+            //services.TryAddTransient<IValidator<RolesContract>, RolesValidator>();
+            //services.TryAddTransient<IValidator<RoleClaimsContract>, RoleClaimsValidator>();
+            //services.TryAddTransient<IValidator<UserContract>, UserValidator>();
+            //services.TryAddTransient<IValidator<UserClaimsContract>, UserClaimsValidator>();
+            //services.TryAddTransient<ValidationFactory>();
         }
 
         private static void RegisterHandlers(IServiceCollection services)
@@ -67,27 +67,27 @@ namespace Ids.SimpleAdmin.Backend
             services.TryAddScoped<IMapper<ClientIdPRestrictionsContract, ClientIdPRestriction>, IdPRestrictionMapper>();
             services.TryAddScoped<IMapper<ClientClaimsContract, ClientClaim>, ClientClaimMapper>();
             services.TryAddScoped<IMapper<ClientCorsOriginsContract, ClientCorsOrigin>, CorsOriginMapper>();
-            services.TryAddScoped<IMapper<ClientPropertiesContract, ClientProperty>, ClientPropertyMapper>();
-            services.TryAddScoped<IMapper<ClientScopeContract, ClientScope>, ClientScopeMapper>();
+            services.TryAddScoped<IMapper<PropertyContract, ClientProperty>, ClientPropertyMapper>();
+            services.TryAddScoped<IMapper<ScopeContract, ClientScope>, ClientScopeMapper>();
             services.TryAddScoped<IMapper<ClientSecretsContract, ClientSecret>, ClientSecretsMapper>();
             services.TryAddScoped<IMapper<ClientGrantTypesContract, ClientGrantType>, GrantTypeMapper>();
             services.TryAddScoped<IMapper<ClientRedirectUriContract, ClientRedirectUri>, RedirectUriMapper>();
             services.TryAddScoped<IMapper<ClientPostLogoutRedirectUrisContract, ClientPostLogoutRedirectUri>, PostLogoutRedirectUri>();
             services.TryAddScoped<IMapper<ApiResourceContract, ApiResource>, ApiResourceMapper>();
-            services.TryAddScoped<IMapper<ApiResourceClaimsContract,ApiResourceClaim>, ApiResourceClaimsMapper>();
+            services.TryAddScoped<IMapper<ClaimsContract, ApiResourceClaim>, ApiResourceClaimsMapper>();
             services.TryAddScoped<IMapper<PropertyContract,ApiResourceProperty>, ApiResourcePropertiesMapper>();
-            services.TryAddScoped<IMapper<ApiResourceScopesContract,ApiResourceScope>, ApiResourceScopesMapper>();
+            services.TryAddScoped<IMapper<ScopeContract, ApiResourceScope>, ApiResourceScopesMapper>();
             services.TryAddScoped<IMapper<ApiResourceSecretsContract,ApiResourceSecret>, ApiResourceSecretsMapper>();
             services.TryAddScoped<IMapper<ApiScopeContract, ApiScope>, ApiScopeMapper>();
-            services.TryAddScoped<IMapper<ApiScopeClaimsContract, ApiScopeClaim>, ApiScopeClaimMapper>();
-            services.TryAddScoped<IMapper<ApiScopePropertiesContract, ApiScopeProperty>, ApiScopePropertyMapper>();
+            services.TryAddScoped<IMapper<ClaimsContract, ApiScopeClaim>, ApiScopeClaimMapper>();
+            services.TryAddScoped<IMapper<PropertyContract, ApiScopeProperty>, ApiScopePropertyMapper>();
             services.TryAddScoped<IMapper<IdentityResourceContract, IdentityResource>, IdentityResourceMapper>();
-            services.TryAddScoped<IMapper<IdentityResourceClaimsContract, IdentityResourceClaim>, IdentityResourceClaimMapper>();
-            services.TryAddScoped<IMapper<IdentityResourcePropertiesContract, IdentityResourceProperty>, IdentityResourcePropertyMapper>();
+            services.TryAddScoped<IMapper<ClaimsContract, IdentityResourceClaim>, IdentityResourceClaimMapper>();
+            services.TryAddScoped<IMapper<PropertyContract, IdentityResourceProperty>, IdentityResourcePropertyMapper>();
             services.TryAddScoped<IMapper<RolesContract, IdentityRole>, RolesMapper>();
-            services.TryAddScoped<IMapper<RoleClaimsContract, IdentityRoleClaim<string>>, IdentityRoleClaimMapper>();
+            services.TryAddScoped<IMapper<ValueClaimsContract, IdentityRoleClaim<string>>, IdentityRoleClaimMapper>();
             services.TryAddScoped<IMapper<UserContract, IdentityUser>, UserMapper>();
-            services.TryAddScoped<IMapper<UserClaimsContract, IdentityUserClaim<string>>, UserClaimsmapper>();
+            services.TryAddScoped<IMapper<ValueClaimsContract, IdentityUserClaim<string>>, UserClaimsmapper>();
         }
     }
 }
