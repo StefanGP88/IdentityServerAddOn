@@ -30,7 +30,7 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.User
         }
 
 
-        public PartialViewResult OnGetUserClaims(AspNetIdentityClaimsContract model)
+        public PartialViewResult OnGetUserClaims(ValueClaimsContract model)
         {
             return OnGetPartial("UserClaims", model);
         }
