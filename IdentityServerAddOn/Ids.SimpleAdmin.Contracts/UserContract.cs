@@ -19,12 +19,6 @@ namespace Ids.SimpleAdmin.Contracts
         public bool LockoutEnabled { get; set; }
         public int AccessFailedCount { get; set; }
         public List<string> UserRoles { get; set; }
-        public List<UserClaimsContract> UserClaims { get; set; }= new();
-    }
-    public class UserClaimsContract : Identifiable<int?>
-    {
-        public string UserId { get; set; }
-        public string ClaimType { get; set; }
-        public string ClaimValue { get; set; }
+        public List<AspNetIdentityClaimsContract> UserClaims { get; set; }= new();
     }
 }

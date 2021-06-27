@@ -14,4 +14,21 @@ namespace Ids.SimpleAdmin.Contracts
     {
         public T Id { get; set; }
     }
+
+
+    public class PropertyContract : Identifiable<int?>
+    {
+        public string Key { get; set; }
+        public string Value { get; set; }
+    }
+    public class ClaimsContract : Identifiable<int?>
+    {
+        public string Type { get; set; }
+    }
+    public class ValueClaimsContract : ClaimsContract
+    {
+        public string Value { get; set; }
+    }
+    public class ClientClaimsContract : ValueClaimsContract { }
+    public class AspNetIdentityClaimsContract: ValueClaimsContract { }
 }

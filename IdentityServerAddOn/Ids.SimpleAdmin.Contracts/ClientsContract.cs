@@ -97,12 +97,6 @@ namespace Ids.SimpleAdmin.Contracts
         public int? ClientId { get; set; }
         public string Origin { get; set; }
     }
-    public class ClientClaimsContract : Identifiable<int?>
-    {
-        public int? ClientId { get; set; }
-        public string Type { get; set; }
-        public string Value { get; set; }
-    }
 
     //TODO: Should properbly not be here
     public static class SecretConstants
