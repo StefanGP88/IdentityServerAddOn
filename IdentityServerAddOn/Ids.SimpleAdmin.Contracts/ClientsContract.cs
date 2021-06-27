@@ -48,7 +48,7 @@ namespace Ids.SimpleAdmin.Contracts
         public string UserCodeType { get; set; }
         public int DeviceCodeLifetime { get; set; }
         public bool NonEditable { get; set; }
-        public List<ClientScopeContract> Scopes { get; set; }//TODO: rename to 'AllowedScopes'
+        public List<ScopeContract> Scopes { get; set; }//TODO: rename to 'AllowedScopes'
         public List<ClientSecretsContract> Secrets { get; set; } // TODO: rename to 'ClientSecrets'
         public List<ClientRedirectUriContract> RedirectUris { get; set; }
         public List<PropertyContract> Properties { get; set; }
@@ -57,11 +57,6 @@ namespace Ids.SimpleAdmin.Contracts
         public List<ClientGrantTypesContract> GrantTypes { get; set; } //TODO: rename to 'AllowedGrantTypes'
         public List<ClientCorsOriginsContract> CorsOrigins { get; set; } //TODO: rename to  'AllowedCorsOrigins'
         public List<ClientClaimsContract> Claims { get; set; }
-    }
-    public class ClientScopeContract : Identifiable<int?>
-    {
-        public int? ClientId { get; set; }
-        public string Scope { get; set; }
     }
     public class ClientSecretsContract : Identifiable<int?>
     {
