@@ -7,10 +7,10 @@ namespace Ids.SimpleAdmin.Backend.Mappers
     public class ApiScopeMapper : AbstractMapper<ApiScopeContract, ApiScope>
     {
 
-        private readonly IMapper<ApiScopePropertiesContract, ApiScopeProperty> _property;
-        private readonly IMapper<ApiScopeClaimsContract, ApiScopeClaim> _claim;
-        public ApiScopeMapper(IMapper<ApiScopePropertiesContract, ApiScopeProperty> propertyMapper,
-            IMapper<ApiScopeClaimsContract, ApiScopeClaim> claimMapper)
+        private readonly IMapper<PropertyContract, ApiScopeProperty> _property;
+        private readonly IMapper<ClaimsContract, ApiScopeClaim> _claim;
+        public ApiScopeMapper(IMapper<PropertyContract, ApiScopeProperty> propertyMapper,
+            IMapper<ClaimsContract, ApiScopeClaim> claimMapper)
         {
             _property = propertyMapper;
             _claim = claimMapper;
@@ -53,49 +53,48 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             return model;
         }
     }
-    public class ApiScopeClaimMapper : AbstractMapper<ApiScopeClaimsContract, ApiScopeClaim>
+    public class ApiScopeClaimMapper : AbstractMapper<ClaimsContract, ApiScopeClaim>
     {
-        public override ApiScopeClaimsContract ToContract(ApiScopeClaim model)
+        public override ClaimsContract ToContract(ApiScopeClaim model)
         {
             this.ThrowIfNull(model);
-            return new ApiScopeClaimsContract
+            return new ClaimsContract
             {
-                ApiScopeId = model.ScopeId,
                 Id = model.Id,
                 Type = model.Type
             };
         }
 
-        public override ApiScopeClaim ToModel(ApiScopeClaimsContract contract)
+        public override ApiScopeClaim ToModel(ClaimsContract contract)
         {
             return UpdateModel(new(), contract);
         }
 
-        public override ApiScopeClaim UpdateModel(ApiScopeClaim model, ApiScopeClaimsContract contract)
+        public override ApiScopeClaim UpdateModel(ApiScopeClaim model, ClaimsContract contract)
         {
             this.ThrowIfNull(model, contract);
             model.Type = contract.Type;
             return model;
         }
     }
-    public class ApiScopePropertyMapper : AbstractMapper<ApiScopePropertiesContract, ApiScopeProperty>
+    public class ApiScopePropertyMapper : AbstractMapper<PropertyContract, ApiScopeProperty>
     {
-        public override ApiScopePropertiesContract ToContract(ApiScopeProperty model)
+        public override PropertyContract ToContract(ApiScopeProperty model)
         {
             this.ThrowIfNull(model);
-            return new ApiScopePropertiesContract
+            return new PropertyContract
             {
                 Key = model.Key,
                 Value = model.Value
             };
         }
 
-        public override ApiScopeProperty ToModel(ApiScopePropertiesContract contract)
+        public override ApiScopeProperty ToModel(PropertyContract contract)
         {
             return UpdateModel(new(), contract);
         }
 
-        public override ApiScopeProperty UpdateModel(ApiScopeProperty model, ApiScopePropertiesContract contract)
+        public override ApiScopeProperty UpdateModel(ApiScopeProperty model, PropertyContract contract)
         {
             this.ThrowIfNull(model, contract);
             model.Key = contract.Key;

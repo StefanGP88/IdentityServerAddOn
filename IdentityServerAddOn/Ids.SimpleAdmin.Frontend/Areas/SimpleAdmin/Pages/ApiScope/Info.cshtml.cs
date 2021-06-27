@@ -9,11 +9,11 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.ApiScope
     {
         public InfoModel(IHandler<ApiScopeContract, int?> handler) : base(handler) { }
 
-        public PartialViewResult OnGetUserclaims(ApiScopeClaimsContract model)
+        public PartialViewResult OnGetUserclaims(ClaimsContract model)
         {
             return OnGetPartial("Userclaims", model);
         }
-        public PartialViewResult OnGetProperties(ApiScopePropertiesContract model)
+        public PartialViewResult OnGetProperties(PropertyContract model)
         {
             return OnGetPartial("Properties", model);
         }

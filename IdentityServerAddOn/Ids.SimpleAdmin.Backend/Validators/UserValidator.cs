@@ -39,7 +39,7 @@ namespace Ids.SimpleAdmin.Backend.Validators
             RuleFor(x => x.AccessFailedCount);
             RuleFor(x => x.UserRoles);
             RuleFor(x => x.SetPassword).Custom(CheckPassword);
-            RuleForEach(x => x.UserClaims).SetValidator(new UserClaimsValidator());
+            RuleForEach(x => x.UserClaims).SetValidator(new ValueClaimValidator());
         }
 
         private void CheckPassword(string password, CustomContext context)
@@ -99,16 +99,6 @@ namespace Ids.SimpleAdmin.Backend.Validators
             
             if(!isStampTheSame && !string.IsNullOrWhiteSpace(user.ConcurrencyStamp))
                 context.AddFailure(_errorDescriber.ConcurrencyFailure().Description);
-        }
-    }
-
-    public class UserClaimsValidator : AbstractValidator<UserClaimsContract>
-    {
-        public UserClaimsValidator()
-        {
-            RuleFor(x => x.UserId).MaximumLength(450);
-            RuleFor(x => x.ClaimType);
-            RuleFor(x => x.ClaimValue);
         }
     }
 }
