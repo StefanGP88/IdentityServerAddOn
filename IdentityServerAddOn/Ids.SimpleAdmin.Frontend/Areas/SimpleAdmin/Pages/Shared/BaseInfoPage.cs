@@ -20,7 +20,6 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared
                 Data = await _handler.Get(id, cancel).ConfigureAwait(false);
             return Page();
         }
-        ResultExecutingContext context;
         public virtual async Task<IActionResult> OnPost(TData dto, CancellationToken cancel = default)
         {
             Data = dto;
