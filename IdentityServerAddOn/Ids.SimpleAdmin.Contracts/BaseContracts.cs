@@ -47,6 +47,6 @@ namespace Ids.SimpleAdmin.Contracts
         public SecretTypeEnum Type { get; set; }//TODO: make sure enum instead of int is not causing trouble in validators
         public DateTime Created { get; set; }
     }
-    public class ClientSecretsContract : SecretsContract { }
+    public class ClientSecretsContract : SecretsContract { } //TODO: take extra look at this
     public class ApiResourceSecretsContract : SecretsContract { }
 }
