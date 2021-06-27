@@ -7,6 +7,6 @@ namespace Ids.SimpleAdmin.Contracts
         public string Name { get; set; }
         public string NormalizedName { get; set; }
         public string ConcurrencyStamp { get; set; }
-        public List<AspNetIdentityClaimsContract> RoleClaims { get; set; }
+        public List<ValueClaimsContract> RoleClaims { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace Ids.SimpleAdmin.Backend.Validators
             
             RuleFor(x => x.Name).MaximumLength(256);
             RuleFor(x=> x.ConcurrencyStamp).Custom(CheckConcurrencyStamp);
-            RuleForEach(x => x.RoleClaims).SetValidator(new AspNetIdentityClaimValidator());
+            RuleForEach(x => x.RoleClaims).SetValidator(new ValueClaimValidator());
         }
         private void CheckConcurrencyStamp(string concurrencyStamp, CustomContext context)
         {
