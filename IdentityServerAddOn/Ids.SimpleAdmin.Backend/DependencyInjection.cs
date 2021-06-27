@@ -34,10 +34,6 @@ namespace Ids.SimpleAdmin.Backend
             services.TryAddTransient<IValidator<ClientCorsOriginsContract>, ClientCorsOriginsValidator>();
             services.TryAddTransient<IValidator<RolesContract>, RolesValidator>();
             services.TryAddTransient<IValidator<UserContract>, UserValidator>();
-<<<<<<< HEAD
-            services.TryAddTransient<IValidator<UserClaimsContract>, UserClaimsValidator>();
-            services.TryAddScoped<ValidationFactory>();
-=======
 
             services.TryAddTransient<IValidator<SecretsContract>, SecretValidator>();
             services.TryAddTransient<IValidator<ClientSecretsContract>, SecretValidator>();
@@ -48,8 +44,7 @@ namespace Ids.SimpleAdmin.Backend
             services.TryAddTransient<IValidator<PropertyContract>, PropertyValidator>();
             services.TryAddTransient<IValidator<ValueClaimsContract>, ValueClaimValidator>();
             services.TryAddTransient<IValidator<ClientClaimsContract>, ValueClaimValidator>();
-            services.TryAddTransient<ValidationFactory>();
->>>>>>> Development
+            services.TryAddScoped<ValidationFactory>();
         }
 
         private static void RegisterHandlers(IServiceCollection services)
