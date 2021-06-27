@@ -51,7 +51,7 @@ namespace Ids.SimpleAdmin.Backend.Validators
             RuleFor(x => x.DeviceCodeLifetime).NotNull();
             RuleFor(x => x.NonEditable).NotNull();
             RuleForEach(x => x.Scopes).SetValidator(new ScopeValidator());
-            RuleForEach(x => x.Secrets).SetValidator(new ClientSecretsValidator());
+            RuleForEach(x => x.Secrets).SetValidator(new SecretValidator());
             RuleForEach(x => x.RedirectUris).SetValidator(new ClientRedirectUrisValidator());
             RuleForEach(x => x.Properties).SetValidator(new PropertyValidator());
             RuleForEach(x => x.PostLogoutRedirectUris).SetValidator(new ClientPostLogoutRedirectUrisValidator());
@@ -59,15 +59,6 @@ namespace Ids.SimpleAdmin.Backend.Validators
             RuleForEach(x => x.GrantTypes).SetValidator(new ClientGrantTypeValidator());
             RuleForEach(x => x.CorsOrigins).SetValidator(new ClientCorsOriginsValidator());
             RuleForEach(x => x.Claims).SetValidator(new ValueClaimValidator());
-        }
-    }
-    public class ClientSecretsValidator : AbstractValidator<ClientSecretsContract>
-    {
-        public ClientSecretsValidator()
-        {
-            RuleFor(x => x.Description).MaximumLength(2000).NotNull();
-            RuleFor(x => x.Value).MaximumLength(4000).NotNull();
-            RuleFor(x => x.Type).NotNull();
         }
     }
     public class ClientRedirectUrisValidator : AbstractValidator<ClientRedirectUriContract>

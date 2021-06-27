@@ -27,7 +27,6 @@ namespace Ids.SimpleAdmin.Backend
             services.TryAddTransient<IValidator<ApiScopeContract>, ApiScopeValidator>();
             services.TryAddTransient<IValidator<IdentityResourceContract>, IdentityResourceValidator>();
             services.TryAddTransient<IValidator<ClientsContract>, ClientValidator>();
-            services.TryAddTransient<IValidator<ClientSecretsContract>, ClientSecretsValidator>();
             services.TryAddTransient<IValidator<ClientRedirectUriContract>, ClientRedirectUrisValidator>();
             services.TryAddTransient<IValidator<ClientPostLogoutRedirectUrisContract>, ClientPostLogoutRedirectUrisValidator>();
             services.TryAddTransient<IValidator<ClientIdPRestrictionsContract>, ClientIdPRestrictionsValidator>();
@@ -35,7 +34,11 @@ namespace Ids.SimpleAdmin.Backend
             services.TryAddTransient<IValidator<ClientCorsOriginsContract>, ClientCorsOriginsValidator>();
             services.TryAddTransient<IValidator<RolesContract>, RolesValidator>();
             services.TryAddTransient<IValidator<UserContract>, UserValidator>();
+
             services.TryAddTransient<IValidator<SecretsContract>, SecretValidator>();
+            services.TryAddTransient<IValidator<ClientSecretsContract>, SecretValidator>();
+            services.TryAddTransient<IValidator<ApiResourceSecretsContract>, SecretValidator>();
+
             services.TryAddTransient<IValidator<ClaimsContract>, ClaimValidator>();
             services.TryAddTransient<IValidator<ScopeContract>, ScopeValidator>();
             services.TryAddTransient<IValidator<PropertyContract>, PropertyValidator>();
