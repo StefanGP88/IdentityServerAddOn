@@ -14,12 +14,12 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 {
     public class RolesHandler : IHandler<RolesContract, string>
     {
-        private readonly IMapper<RoleClaimsContract, IdentityRoleClaim<string>> _claimsMapper;
+        private readonly IMapper<AspNetIdentityClaimsContract, IdentityRoleClaim<string>> _claimsMapper;
         private readonly IMapper<RolesContract, IdentityRole> _rolesMapper;
         private readonly IdentityDbContext _dbContext;
         public RolesHandler(IdentityDbContext identityDbContext,
             IMapper<RolesContract, IdentityRole> rolesMapper,
-            IMapper<RoleClaimsContract, IdentityRoleClaim<string>> claimsMapper)
+            IMapper<AspNetIdentityClaimsContract, IdentityRoleClaim<string>> claimsMapper)
         {
             _dbContext = identityDbContext;
             _rolesMapper = rolesMapper;
@@ -172,7 +172,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
         private static List<IdentityRoleClaim<string>> FindClaimsToRemove(
             List<IdentityRoleClaim<string>> dbList,
-            List<RoleClaimsContract> dtoList)
+            List<AspNetIdentityClaimsContract> dtoList)
         {
             var dtoIds = dtoList?.Select(x => x.Id);
             if (dtoIds is null) return dbList;
@@ -184,7 +184,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
         private static List<IdentityRoleClaim<string>> FindClaimsToUpdate(
             List<IdentityRoleClaim<string>> dbList,
-            List<RoleClaimsContract> dtoList)
+            List<AspNetIdentityClaimsContract> dtoList)
         {
             var dtoIds = dtoList?.Select(x => x.Id);
             if (dtoIds is null) return dbList;
