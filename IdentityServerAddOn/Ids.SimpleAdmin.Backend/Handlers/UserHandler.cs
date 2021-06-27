@@ -14,13 +14,13 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 {
     public class UserHandler : IHandler<UserContract, string>
     {
-        private readonly IMapper<UserClaimsContract, IdentityUserClaim<string>> _claimsMapper;
+        private readonly IMapper<AspNetIdentityClaimsContract, IdentityUserClaim<string>> _claimsMapper;
         private readonly IMapper<UserContract, IdentityUser> _userMapper;
         private readonly IdentityDbContext _identityContext;
 
         public UserHandler(IdentityDbContext identityDbContext,
             IMapper<UserContract, IdentityUser> userMapper,
-            IMapper<UserClaimsContract, IdentityUserClaim<string>> claimsMapper)
+            IMapper<AspNetIdentityClaimsContract, IdentityUserClaim<string>> claimsMapper)
         {
             _identityContext = identityDbContext;
             _userMapper = userMapper;
