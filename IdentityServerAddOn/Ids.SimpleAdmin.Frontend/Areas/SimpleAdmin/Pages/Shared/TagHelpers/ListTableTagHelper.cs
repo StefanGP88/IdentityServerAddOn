@@ -6,34 +6,27 @@ using System.Threading.Tasks;
 
 namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared.TagHelpers
 {
-    public class CollapsableTagHelper : TagHelper
+    public class ListTableTagHelper : TagHelper
     {
-        public string Title { get; set; } = nameof(CollapsableTagHelper);
-
-
         private readonly IViewComponentReader _reader;
         [ViewContext]
         public ViewContext ViewContext { get; set; }
-        public CollapsableTagHelper(IViewComponentReader viewComponentReader)
+        public ListTableTagHelper(IViewComponentReader viewComponentReader)
         {
             _reader = viewComponentReader;
         }
-
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             output.Content.Clear();
             output.TagMode = TagMode.StartTagAndEndTag;
-
-            var component = await _reader.ReadAsString("Content", Title, ViewContext).ConfigureAwait(false);
+            
             var childContent = await output.GetChildContentAsync().ConfigureAwait(false);
             var content = childContent.GetContent();
+            var component = await _reader.ReadAsString("Table", ViewContext).ConfigureAwait(false);
 
-            component = component.Replace("<!--Body-->", content);
-            output.TagName = Title.Replace(" ", "").ToLowerInvariant();
+            component = component.Replace("<!--Content-->", content);
 
             output.Content.SetHtmlContent(component);
-
-
         }
         public override void Init(TagHelperContext context)
         {

@@ -1,0 +1,11 @@
+﻿@{
+    Layout = "_Layout";
+}
+<div class="container">
+    <div class="card">
+        @await Component.InvokeAsync("Header")
+        <div class="card-body">
+            @RenderBody()
+        </div>
+    </div>
+</div>

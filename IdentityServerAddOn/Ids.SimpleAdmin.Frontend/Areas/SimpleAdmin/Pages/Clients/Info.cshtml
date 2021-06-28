@@ -1,7 +1,7 @@
 ﻿@page "{id:int?}"
 @model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Clients.InfoModel
 @{
-    Layout = "_NestedInfoLayout";
+    Layout = "_SimpleAdminLayout";
 
     var scopesDisplay = "Scopes";
     var scopes = scopesDisplay.ToLowerNoSpaces();
@@ -37,7 +37,7 @@
 
 }
 
-@section NavTabs{
+@*@section NavTabs{
     <a class="nav-item nav-link" id="@(scopes)tab" data-toggle="tab" href="#@scopes" role="tab">@scopesDisplay</a>
     <a class="nav-item nav-link" id="@(secrets)tab" data-toggle="tab" href="#@secrets" role="tab">@secretsDisplay</a>
     <a class="nav-item nav-link" id="@(redirectUris)tab" data-toggle="tab" href="#@redirectUris" role="tab">@urisDisplay</a>
@@ -49,7 +49,7 @@
     <a class="nav-item nav-link" id="@(lifetimes)tab" data-toggle="tab" href="#@lifetimes" role="tab">@lifetimesDisplay</a>
 }
 
-@section Basesettings{
+@section Basesettings{*@
 
     <Collapsable title="Base Settings">
 
@@ -218,8 +218,7 @@
     </Collapsable>
 
     <collapsable title="Secrets">
-        <table class="w-100">
-            <tbody class="w-100">
+        <list-table>
                 <tr>
                     <td>
                         &nbsp;
@@ -344,11 +343,10 @@
                     </tr>
 
                 }
-            </tbody>
-        </table>
+        </list-table>
     </collapsable>
 
-}
+@*}
 
 @section ResourceProperties{
     @{
@@ -514,7 +512,7 @@
         </div>
 
     }
-}
+}*@
 
 @*TODO: replace these functions with components?*@
 @functions {

@@ -1,17 +1,12 @@
 ﻿@page
 @model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.IndexModel
 @{
+    Layout = "_SimpleAdminLayout";
 }
-<div class="container">
-    <div class="card">
-        @await Component.InvokeAsync("Header")
-        <div class="card-body">
-            <a asp-area="SimpleAdmin" asp-page="/User/Index" class="btn btn-outline-primary btn-block text-left">Users</a>
-            <a asp-area="SimpleAdmin" asp-page="/Roles/Index" class="btn btn-outline-primary btn-block text-left">Roles</a>
-            <a asp-area="SimpleAdmin" asp-page="/Clients/Index" class="btn btn-outline-primary btn-block text-left">Clients</a>
-            <a asp-area="SimpleAdmin" asp-page="/ApiScope/Index" class="btn btn-outline-primary btn-block text-left">Api scopes</a>
-            <a asp-area="SimpleAdmin" asp-page="/ApiResources/Index" class="btn btn-outline-primary btn-block text-left">Api resources</a>
-            <a asp-area="SimpleAdmin" asp-page="/IdentityResources/Index" class="btn btn-outline-primary btn-block text-left">Identity resources</a>
-        </div>
-    </div>
-</div>
+
+<a asp-area="SimpleAdmin" asp-page="/User/Index" class="btn btn-outline-primary btn-block text-left">Users</a>
+<a asp-area="SimpleAdmin" asp-page="/Roles/Index" class="btn btn-outline-primary btn-block text-left">Roles</a>
+<a asp-area="SimpleAdmin" asp-page="/Clients/Index" class="btn btn-outline-primary btn-block text-left">Clients</a>
+<a asp-area="SimpleAdmin" asp-page="/ApiScope/Index" class="btn btn-outline-primary btn-block text-left">Api scopes</a>
+<a asp-area="SimpleAdmin" asp-page="/ApiResources/Index" class="btn btn-outline-primary btn-block text-left">Api resources</a>
+<a asp-area="SimpleAdmin" asp-page="/IdentityResources/Index" class="btn btn-outline-primary btn-block text-left">Identity resources</a>
