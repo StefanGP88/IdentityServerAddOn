@@ -217,6 +217,20 @@
 
 </Collapsable>
 
+<collapsable title="Scopes">
+    <list-table>
+        <tr>
+            <td>Scope</td>
+            <td>&nbsp;</td>
+        </tr>
+
+        @foreach (var item in Model?.Data?.Scopes)
+        {
+            <partial name="Partials/_Scope" model="@item" />
+        }
+    </list-table>
+</collapsable>
+
 <collapsable title="Secrets">
     <list-table>
         <tr>

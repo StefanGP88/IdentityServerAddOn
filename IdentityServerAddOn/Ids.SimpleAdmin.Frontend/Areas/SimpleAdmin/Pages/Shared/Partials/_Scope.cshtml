@@ -1,0 +1,21 @@
+﻿@model ScopeContract
+@{
+    var idx = Guid.NewGuid();
+  }
+<tr>
+    <td>
+        <input type="hidden" name="dto.Scopes.index" value="@idx" />
+        <input type="hidden" name="dto.Scopes[@idx].Id" value="@Model?.Id" />
+        <input type="text"
+               name="dto.Scopes[@idx].Scope"
+               value="@Model?.Scope"
+               class="form-control"  />
+    </td>
+    <td>
+        <button type="button"
+                class="btn btn-outline-danger btn-block float-right"
+                onclick="SetRemoveModal(this, 'dto.Scopes[@idx].Scope');"
+                data-toggle="modal" data-target="#removeRowModal">
+        </button>
+    </td>
+</tr>
