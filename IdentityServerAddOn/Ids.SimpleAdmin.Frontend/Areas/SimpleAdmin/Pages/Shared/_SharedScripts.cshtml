@@ -1,4 +1,10 @@
 ﻿<script type="text/javascript">
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    });
+</script>
+
+<script type="text/javascript">
     function SetRemoveModal(element, nameofobject) {
         var template = $('#removeModalBody').html();
         var ConfirmRemove = function () {
