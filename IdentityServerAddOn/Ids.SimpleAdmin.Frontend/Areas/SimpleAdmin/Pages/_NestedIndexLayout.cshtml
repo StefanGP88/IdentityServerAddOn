@@ -2,18 +2,17 @@
     Layout = "_Layout";
 }
 
-<partial name="_SharedStyling" />
 <div class="container">
     <div class="card">
         @await Component.InvokeAsync("Header")
         <div class="card-body">
             @RenderSection("TableBody", required: true)
             @*<a asp-area="SimpleAdmin" asp-page="/User/Index" class="btn btn-outline-primary btn-lg btn-block text-left">Users</a>
-            <a asp-area="SimpleAdmin" asp-page="/Roles/Index" class="btn btn-outline-primary btn-lg btn-block text-left">Roles</a>
-            <a asp-area="SimpleAdmin" asp-page="/Clients/Index" class="btn btn-outline-primary btn-lg btn-block text-left">Clients</a>
-            <a asp-area="SimpleAdmin" asp-page="/ApiScope/Index" class="btn btn-outline-primary btn-lg btn-block text-left">Api scopes</a>
-            <a asp-area="SimpleAdmin" asp-page="/ApiResources/Index" class="btn btn-outline-primary btn-lg btn-block text-left">Api resources</a>
-            <a asp-area="SimpleAdmin" asp-page="/IdentityResources/Index" class="btn btn-outline-primary btn-lg btn-block text-left">Identity resources</a>*@
+                <a asp-area="SimpleAdmin" asp-page="/Roles/Index" class="btn btn-outline-primary btn-lg btn-block text-left">Roles</a>
+                <a asp-area="SimpleAdmin" asp-page="/Clients/Index" class="btn btn-outline-primary btn-lg btn-block text-left">Clients</a>
+                <a asp-area="SimpleAdmin" asp-page="/ApiScope/Index" class="btn btn-outline-primary btn-lg btn-block text-left">Api scopes</a>
+                <a asp-area="SimpleAdmin" asp-page="/ApiResources/Index" class="btn btn-outline-primary btn-lg btn-block text-left">Api resources</a>
+                <a asp-area="SimpleAdmin" asp-page="/IdentityResources/Index" class="btn btn-outline-primary btn-lg btn-block text-left">Identity resources</a>*@
         </div>
     </div>
     @*<table class="table table-striped border border-dark">
@@ -45,11 +44,6 @@
     @Html.AntiForgeryToken()
     <input type="hidden" id="deleteId" name="id" />
 </form>
-<template id="deleteModalBody">
-    <div class="alert alert-danger" role="alert">
-        Are you sure you want to delete <span id="deleteNameSpan"></span> ?
-    </div>
-</template>
 <partial name="_Modal" />
 @section Scripts{
     <partial name="_SharedScripts" />
