@@ -1,0 +1,23 @@
+﻿@model ClientRedirectUriContract
+@{
+    var idx = Guid.NewGuid().ToString().ToLowerInvariant();
+    var delete = "redirect-uri-" + idx + "-d";
+}
+<tr class="border-top border-bottom bg-light @delete">
+    <td>
+        <input type="hidden" name="dto.RedirectUris.index" value="@idx" />
+        <input type="hidden" name="dto.RedirectUris[@idx].Id" value="@Model?.Id" />
+        <input type="hidden" name="dto.RedirectUris[@idx].ClientId" value="@Model?.ClientId" />
+        <input type="text"
+               name="dto.RedirectUris[@idx].RedirectUri"
+               value="@Model?.RedirectUri"
+               class="form-control form-control-sm ml-1" />
+    </td>
+    <td>
+        <button type="button"
+                class="btn btn-sm btn-outline-danger float-right m-1"
+                onclick="RemoveClassElement('@delete', 'redirect uri');">
+            Delete
+        </button>
+    </td>
+</tr>
