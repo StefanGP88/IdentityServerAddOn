@@ -1,21 +1,27 @@
 ﻿<script type="text/javascript">
-    var onRemoveConformed;
+    var onRemoveConfirmed;
 
     $(function () {
         $('[data-toggle="popover"]').popover()
     });
 
-    function RemoveClassElement(classname) {
-        onRemoveConformed = () => {
+    function RemoveClassElement(classname, itemType) {
+        onRemoveConfirmed = () => {
             DismisRemove();
             $('.' + classname).remove();            
         };
+        SetRemoveText(itemType);
         $('#modal-remove').modal('show');
     };
 
     function DismisRemove() {
-        onRemoveConformed = () => { };
-        $('#modal-remove').modal('hide')
+        onRemoveConfirmed = () => { };
+        $('#modal-remove').modal('hide');
+        $('#remove-text').html('');
+    }
+
+    function SetRemoveText(itemType) {
+        $('#remove-text').html('Are you sure you want to delete this' + itemType + ' ?');
     }
 </script>
 
