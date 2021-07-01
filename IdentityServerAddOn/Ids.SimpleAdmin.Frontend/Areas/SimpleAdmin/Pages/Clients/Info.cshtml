@@ -89,7 +89,7 @@
     <br />
 </collapsable>
 
-<collapsable title="Redirect Uris">
+<collapsable title="Uris">
     <div class="form-group">
         <label class="col-form-label">Client uri</label>
         <input type="text" class="form-control" id="name" name="dto.ClientUri" value="@Model?.Data?.ClientUri">
@@ -109,12 +109,24 @@
     <br />
     <list-table>
         <tr>
-            <td class="w-100 pl-2">Scope</td>
+            <td class="w-100 pl-2">Redirect uris</td>
             <td class="w-auto">&nbsp;</td>
         </tr>
         @foreach (var item in Model?.Data?.RedirectUris)
         {
             <partial name="Partials/_RedirectUri" model="@item" />
+        }
+    </list-table>
+    <br />
+    <br />
+    <list-table>
+        <tr>
+            <td class="w-100 pl-2">Post logout redirect uri</td>
+            <td class="w-auto">&nbsp;</td>
+        </tr>
+        @foreach (var item in Model?.Data?.PostLogoutRedirectUris)
+        {
+            <partial name="Partials/_PostLogoutRedirectUri" model="@item" />
         }
     </list-table>
     <br />
