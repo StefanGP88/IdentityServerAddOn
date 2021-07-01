@@ -3,7 +3,7 @@
     var idx = Guid.NewGuid().ToString().ToLowerInvariant();
     var delete = "post-logout-redirect-uri-" + idx + "-d";
 }
-<tr>
+<tr class="border-top border-bottom bg-light @delete">
     <td>
         <input type="hidden" name="dto.PostLogoutRedirectUris.index" value="@idx" />
         <input type="hidden" name="dto.PostLogoutRedirectUris[@idx].Id" value="@Model?.Id" />
