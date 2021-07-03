@@ -3,7 +3,7 @@
     var idx = Guid.NewGuid().ToString().ToLowerInvariant();
     var delete = "grant-type-" + idx + "-d";
 }
-<tr>
+<tr class="border-top border-bottom bg-light @delete">
     <td>
         <input type="hidden" name="dto.GrantTypes.index" value="@idx" />
         <input type="hidden" name="dto.GrantTypes[@idx].Id" value="@Model?.Id" />

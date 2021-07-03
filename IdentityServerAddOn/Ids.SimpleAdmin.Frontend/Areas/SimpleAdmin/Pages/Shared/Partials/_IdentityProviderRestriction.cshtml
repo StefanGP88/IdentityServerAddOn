@@ -3,7 +3,7 @@
     var idx = Guid.NewGuid().ToString().ToLowerInvariant();
     var delete = "idpr-" + idx + "-d";
 }
-<tr>
+<tr class="border-top border-bottom bg-light @delete">
     <td>
         <input type="hidden" name="dto.IdPRestrictions.index" value="@idx" />
         <input type="hidden" name="dto.IdPRestrictions[@idx].Id" value="@Model?.Id" />

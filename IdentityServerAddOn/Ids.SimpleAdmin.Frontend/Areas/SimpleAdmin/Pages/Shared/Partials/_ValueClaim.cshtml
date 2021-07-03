@@ -1,0 +1,22 @@
+﻿@model ValueClaimsContract
+@{
+    var idx = Guid.NewGuid().ToString().ToLowerInvariant();
+    var delete = "vclaim-" + idx + "-d";
+}
+<tr class="border-top border-bottom bg-light @delete">
+    <td>
+        <input type="hidden" name="dto.Claims.index" value="@idx" />
+        <input type="hidden" name="dto.Claims[@idx].Id" value="@Model?.Id" />
+        <input type="text"
+               name="dto.Claims[@idx].Type"
+               value="@Model?.Type"
+               class="form-control form-control-sm ml-1" />
+    </td>
+    <td>
+        <input type="text"
+               name="dto.Claims[@idx].Value"
+               value="@Model?.Value"
+               class="form-control form-control-sm m-1" />
+    </td>
+    <delete title="claim" target="@delete"></delete>
+</tr>

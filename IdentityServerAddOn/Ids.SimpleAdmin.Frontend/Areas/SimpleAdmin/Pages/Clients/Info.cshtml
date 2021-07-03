@@ -189,6 +189,22 @@
     <br />
 </collapsable>
 
+
+<collapsable title="Claims">
+    <list-table>
+        <tr>
+            <td class="w-50 pl-2 ">Type</td>
+            <td class="w-50 px-2 ">Value</td>
+            <td class="w-auto">&nbsp;</td>
+        </tr>
+        @foreach (var item in Model?.Data?.Claims)
+        {
+            <partial name="Partials/_ValueClaim" model="@item" />
+        }
+    </list-table>
+    <br />
+</collapsable>
+
 @*}
 
     @section ResourceProperties{
