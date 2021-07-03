@@ -2,12 +2,19 @@
     Layout = "_Layout";
 }
 <div class="container">
-    <div class="card">
-        @await Component.InvokeAsync("Header")
-        <div class="card-body">
-            @RenderBody()
+    <form id="form" method="post" asp-route-pageNumber="@Model.PageNumber" asp-route-pageSize="@Model.PageSize">
+        @Html.AntiForgeryToken()
+        <div class="card">
+            @await Component.InvokeAsync("Header")
+            <div class="card-body">
+                @RenderBody()
+            </div>
         </div>
-    </div>
+        <br />
+        <div class="form-group">
+            <button type="submit" form="form" class="btn btn-outline-success">Save changes</button>
+        </div>
+    </form>
 </div>
 
 <partial name="_Modal" />
