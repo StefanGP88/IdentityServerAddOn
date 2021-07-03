@@ -1,0 +1,17 @@
+﻿@model ClientCorsOriginsContract
+@{
+    var idx = Guid.NewGuid().ToString().ToLowerInvariant();
+    var delete = "cors-" + idx + "-d";
+}
+<tr>
+    <td>
+        <input type="hidden" name="dto.CorsOrigins.index" value="@idx" />
+        <input type="hidden" name="dto.CorsOrigins[@idx].Id" value="@Model?.Id" />
+        <input type="hidden" name="dto.CorsOrigins[@idx].ClientId" value="@Model?.ClientId" />
+        <input type="text"
+               name="dto.CorsOrigins[@idx].Origin"
+               value="@Model?.Origin"
+               class="form-control form-control-sm ml-1" />
+    </td>
+    <delete title="cors origin" target="@delete"></delete>
+</tr>

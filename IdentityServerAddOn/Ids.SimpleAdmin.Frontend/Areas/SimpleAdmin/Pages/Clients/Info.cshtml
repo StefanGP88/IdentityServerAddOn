@@ -175,6 +175,20 @@
     <br />
 </collapsable>
 
+<collapsable title="CORS Origins">
+    <list-table>
+        <tr>
+            <td class="w-100 pl-2">Origin</td>
+            <td class="w-auto">&nbsp;</td>
+        </tr>
+        @foreach (var item in Model?.Data?.CorsOrigins)
+        {
+            <partial name="Partials/_CorsOrigin" model="@item" />
+        }
+    </list-table>
+    <br />
+</collapsable>
+
 @*}
 
     @section ResourceProperties{
