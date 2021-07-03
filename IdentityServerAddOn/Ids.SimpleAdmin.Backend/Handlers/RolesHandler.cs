@@ -70,7 +70,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                     .Where(x => x.RoleId == id)
                     .ToListAsync(cancel)
                     .ConfigureAwait(false);
-                contract.RoleClaims = claimModels?.ConvertAll(_claimsMapper.ToContract);
+                contract.Claims = claimModels?.ConvertAll(_claimsMapper.ToContract);
             }
 
             return contract;
@@ -101,7 +101,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                 Items = roleModel.ConvertAll(x =>
                 {
                     var contract = _rolesMapper.ToContract(x);
-                    contract.RoleClaims = roleClaimsModel
+                    contract.Claims = roleClaimsModel
                         .Where(y => y.RoleId == x.Id)//DODO: why did I include this where ? is it still needed?
                         .Select(_claimsMapper.ToContract)
                         .ToList();
@@ -134,9 +134,9 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
         private async Task AddClaims(RolesContract dto, string roleId, CancellationToken cancel)
         {
-            if (dto.RoleClaims is null) return;
+            if (dto.Claims is null) return;
 
-            var toAddRoleClaims = dto.RoleClaims?
+            var toAddRoleClaims = dto.Claims?
                 .Where(x => x.Id == null)
                 .ToList();
 
@@ -154,16 +154,16 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
         private void RemoveClaims(RolesContract dto, List<IdentityRoleClaim<string>> roleClaims)
         {
-            var toRemoveRoleClaims = FindClaimsToRemove(roleClaims, dto.RoleClaims);
+            var toRemoveRoleClaims = FindClaimsToRemove(roleClaims, dto.Claims);
             _dbContext.RoleClaims.RemoveRange(toRemoveRoleClaims);
         }
 
         private void UpdateClaims(RolesContract dto, List<IdentityRoleClaim<string>> roleClaims)
         {
-            var toUpdateRoleClaims = FindClaimsToUpdate(roleClaims, dto.RoleClaims);
+            var toUpdateRoleClaims = FindClaimsToUpdate(roleClaims, dto.Claims);
             toUpdateRoleClaims = toUpdateRoleClaims.ConvertAll(x =>
             {
-                var contract = dto.RoleClaims?.Find(y => y.Id == x.Id);
+                var contract = dto.Claims?.Find(y => y.Id == x.Id);
                 if (contract is null) return null;
                 return _claimsMapper.ToModel(contract);
             });
