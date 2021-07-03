@@ -13,11 +13,5 @@
                value="@Model?.PostLogoutRedirectUri"
                class="form-control form-control-sm ml-1" />
     </td>
-    <td>
-        <button type="button"
-                class="btn btn-sm btn-outline-danger float-right m-1"
-                onclick="RemoveClassElement('@delete', 'post logout redirect uri');">
-            Delete
-        </button>
-    </td>
+    <delete title="post logout redirect uri" target="@delete"></delete>  
 </tr>
