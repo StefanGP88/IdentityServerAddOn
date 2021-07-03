@@ -38,6 +38,9 @@ namespace Ids.SimpleAdmin.Backend.Validators
             }
 
             var result = new ValidationResult(dictionary);
+
+            //        protected virtual bool PreValidate(ValidationContext<T> context, ValidationResult result); might be usefull for adding stuff to the dictionary it comes from the abstract validator  class from fluent validator
+
             return result;
         }
         public string this[params string[] s]
