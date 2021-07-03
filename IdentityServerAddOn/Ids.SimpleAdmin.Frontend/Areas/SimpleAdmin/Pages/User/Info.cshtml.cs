@@ -28,12 +28,6 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.User
             Roles = await _rolesHandler.GetAll(0, int.MaxValue, cancel).ConfigureAwait(false);
             return await base.OnPost(dto, cancel).ConfigureAwait(false);
         }
-
-
-        public PartialViewResult OnGetUserClaims(ValueClaimsContract model)
-        {
-            return OnGetPartial("UserClaims", model);
-        }
     }
 
     public class BaseUserInfoPage : BaseInfoPage<UserContract, string>

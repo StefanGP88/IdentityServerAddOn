@@ -9,13 +9,5 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.IdentityResources
     {
         public InfoModel(IHandler<IdentityResourceContract, int?> handler) : base(handler) { }
 
-        public PartialViewResult OnGetUserclaims(ClaimsContract model)
-        {
-            return OnGetPartial("Userclaims", model);
-        }
-        public PartialViewResult OnGetProperties(PropertyContract model)
-        {
-            return OnGetPartial("Properties", model);
-        }
     }
 }

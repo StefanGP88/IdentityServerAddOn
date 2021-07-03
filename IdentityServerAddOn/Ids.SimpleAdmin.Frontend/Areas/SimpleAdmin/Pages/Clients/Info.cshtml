@@ -195,7 +195,12 @@
         <tr>
             <td class="w-50 pl-2 ">Type</td>
             <td class="w-50 px-2 ">Value</td>
-            <td class="w-auto">&nbsp;</td>
+            <td class="w-auto">
+                <button type="button"
+                        class="btn btn-sm btn-outline-info float-right m-1">
+                    New
+                </button>
+            </td>
         </tr>
         @foreach (var item in Model?.Data?.Claims)
         {
