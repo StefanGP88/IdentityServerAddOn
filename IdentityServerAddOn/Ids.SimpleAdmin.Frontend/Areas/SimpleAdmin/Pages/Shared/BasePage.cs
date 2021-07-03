@@ -21,7 +21,7 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared
         }
         public virtual PartialViewResult OnGetPartial(string partialName)
         {
-            return Partial("Partials/_" + partialName, null);
+            return Partial(partialName, null);
         }     
     }
 }

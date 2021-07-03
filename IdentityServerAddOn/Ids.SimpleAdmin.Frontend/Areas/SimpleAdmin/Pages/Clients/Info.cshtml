@@ -56,10 +56,10 @@
 </Collapsable>
 
 <collapsable title="Scopes">
-    <list-table>
+    <list-table body-id="scope-list">
         <tr>
             <td class="w-100 pl-2">Scope</td>
-            <td class="w-auto">&nbsp;</td>
+            <new partial-name="Partials/_Scope" append-element="scope-list"></new>
         </tr>
 
         @foreach (var item in Model?.Data?.Scopes)
@@ -71,14 +71,14 @@
 </collapsable>
 
 <collapsable title="Secrets">
-    <list-table>
+    <list-table body-id="secrets-list">
         <tr>
             <td>&nbsp;</td>
             <td>Type</td>
             <td>Value</td>
             <td>Description</td>
             <td>Expiration</td>
-            <td>&nbsp;</td>
+            <new partial-name="Partials/_Secret" append-element="secrets-list"></new>
         </tr>
 
         @foreach (var item in Model?.Data?.Secrets)
@@ -92,25 +92,25 @@
 <collapsable title="Uris">
     <div class="form-group">
         <label class="col-form-label">Client uri</label>
-        <input type="text" class="form-control" id="name" name="dto.ClientUri" value="@Model?.Data?.ClientUri">
+        <input type="text" class="form-control" name="dto.ClientUri" value="@Model?.Data?.ClientUri">
     </div>
     <div class="form-group">
         <label class="col-form-label">Logo uri</label>
-        <input type="text" class="form-control" id="name" name="dto.LogoUri" value="@Model?.Data?.LogoUri">
+        <input type="text" class="form-control" name="dto.LogoUri" value="@Model?.Data?.LogoUri">
     </div>
     <div class="form-group">
         <label class="col-form-label">Front channel logout uri</label>
-        <input type="text" class="form-control" id="name" name="dto.FrontChannelLogoutUri" value="@Model?.Data?.FrontChannelLogoutUri">
+        <input type="text" class="form-control"  name="dto.FrontChannelLogoutUri" value="@Model?.Data?.FrontChannelLogoutUri">
     </div>
     <div class="form-group">
         <label class="col-form-label">Back channel logout uri</label>
-        <input type="text" class="form-control" id="name" name="dto.BackChannelLogoutUri" value="@Model?.Data?.BackChannelLogoutUri">
+        <input type="text" class="form-control" name="dto.BackChannelLogoutUri" value="@Model?.Data?.BackChannelLogoutUri">
     </div>
     <br />
-    <list-table>
+    <list-table body-id="uri-list">
         <tr>
             <td class="w-100 pl-2">Redirect uris</td>
-            <td class="w-auto">&nbsp;</td>
+            <new partial-name="Partials/_RedirectUri" append-element="uri-list"></new>
         </tr>
         @foreach (var item in Model?.Data?.RedirectUris)
         {
@@ -119,10 +119,10 @@
     </list-table>
     <br />
     <br />
-    <list-table>
+    <list-table body-id="post-logout-uri-list">
         <tr>
             <td class="w-100 pl-2">Post logout redirect uri</td>
-            <td class="w-auto">&nbsp;</td>
+            <new partial-name="Partials/_PostLogoutRedirectUri" append-element="post-logout-uri-list"></new>
         </tr>
         @foreach (var item in Model?.Data?.PostLogoutRedirectUris)
         {
@@ -133,11 +133,11 @@
 </collapsable>
 
 <collapsable title="Properties">
-    <list-table>
+    <list-table body-id="property-list">
         <tr>
             <td class="w-50 pl-2 ">Type</td>
             <td class="w-50 px-2 ">Key</td>
-            <td class="w-auto">&nbsp;</td>
+            <new partial-name="Partials/_Property" append-element="property-list"></new>
         </tr>
         @foreach (var item in Model?.Data?.Properties)
         {
@@ -148,10 +148,10 @@
 </collapsable>
 
 <collapsable title="Identity Provider Restrictions">
-    <list-table>
+    <list-table body-id="idpr-list">
         <tr>
             <td class="w-100 pl-2">Provider</td>
-            <td class="w-auto">&nbsp;</td>
+            <new partial-name="Partials/_IdentityProviderRestriction" append-element="idpr-list"></new>
         </tr>
         @foreach (var item in Model?.Data?.IdPRestrictions)
         {
@@ -162,10 +162,10 @@
 </collapsable>
 
 <collapsable title="Grant Types">
-    <list-table>
+    <list-table body-id="grant-list">
         <tr>
             <td class="w-100 pl-2">Grant Type</td>
-            <td class="w-auto">&nbsp;</td>
+            <new partial-name="Partials/_GrantType" append-element="grant-list"></new>
         </tr>
         @foreach (var item in Model?.Data?.GrantTypes)
         {
@@ -176,10 +176,10 @@
 </collapsable>
 
 <collapsable title="CORS Origins">
-    <list-table>
+    <list-table body-id="cors-list">
         <tr>
             <td class="w-100 pl-2">Origin</td>
-            <td class="w-auto">&nbsp;</td>
+            <new partial-name="Partials/_CorsOrigin" append-element="cors-list"></new>
         </tr>
         @foreach (var item in Model?.Data?.CorsOrigins)
         {
@@ -191,16 +191,11 @@
 
 
 <collapsable title="Claims">
-    <list-table>
+    <list-table body-id="claims-list">
         <tr>
             <td class="w-50 pl-2 ">Type</td>
             <td class="w-50 px-2 ">Value</td>
-            <td class="w-auto">
-                <button type="button"
-                        class="btn btn-sm btn-outline-info float-right m-1">
-                    New
-                </button>
-            </td>
+            <new partial-name="Partials/_ValueClaim" append-element="claims-list"></new>
         </tr>
         @foreach (var item in Model?.Data?.Claims)
         {
@@ -208,6 +203,41 @@
         }
     </list-table>
     <br />
+</collapsable>
+<collapsable title="Life Times">
+    <div class="form-group">
+        <label class="col-form-label">User sso lifetime</label>
+        <input type="number" class="form-control" name="dto.UserSsoLifetime" value="@Model?.Data?.UserSsoLifetime">
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Device code lifetime</label>
+        <input type="number" class="form-control" name="dto.DeviceCodeLifetime" value="@Model?.Data?.DeviceCodeLifetime">
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Identity token lifetime</label>
+        <input type="number" class="form-control" name="dto.IdentityTokenLifetime" value="@Model?.Data?.IdentityTokenLifetime">
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Access token lifetime</label>
+        <input type="number" class="form-control" name="dto.AccessTokenLifetime" value="@Model?.Data?.AccessTokenLifetime">
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Authorization code lifetime</label>
+        <input type="number" class="form-control" name="dto.AuthorizationCodeLifeTime" value="@Model?.Data?.AuthorizationCodeLifeTime">
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Consent lifetime</label>
+        <input type="number" class="form-control" name="dto.ConsentLifetime" value="@Model?.Data?.ConsentLifetime">
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Absolute refresh token lifetime</label>
+        <input type="number" class="form-control" name="dto.AbsoluteRefreshTokenLifetime" value="@Model?.Data?.AbsoluteRefreshTokenLifetime">
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Sliding refresh token lifetime</label>
+        <input type="number" class="form-control" name="dto.SlidingRefreshTokenLifetime" value="@Model?.Data?.SlidingRefreshTokenLifetime">
+    </div>
+
 </collapsable>
 
 @*}
@@ -276,7 +306,7 @@
             <div class="tab-pane fade" id="@claims" role="tabpanel">
                 <div class="form-group">
                     <label class="col-form-label">Client claims prefix</label>
-                    <input type="text" class="form-control" id="name" name="dto.ClientClaimsPrefix" value="@Model?.Data?.ClientClaimsPrefix" onkeyup="console.log('looool')">
+                    <input type="text" class="form-control" name="dto.ClientClaimsPrefix" value="@Model?.Data?.ClientClaimsPrefix" onkeyup="console.log('looool')">
                     <partial name="_ValidationNotification" model="@ModelState["dto.ClientClaimsPrefix"]" />
                 </div>
                 <br />

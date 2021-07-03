@@ -4,9 +4,13 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared.Components.Tab
 {
     public class TableViewComponent:ViewComponent
     {
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(string bodyId)
         {
-            return View();
+            return View(new TableData { BodyId = bodyId });
         }
+    }
+    public class TableData
+    {
+        public string BodyId { get; set; }
     }
 }

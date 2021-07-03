@@ -8,7 +8,7 @@
     function RemoveClassElement(classname, itemType) {
         onRemoveConfirmed = () => {
             DismisRemove();
-            $('.' + classname).remove();            
+            $('.' + classname).remove();
         };
         SetRemoveText(itemType);
         $('#modal-remove').modal('show');
@@ -17,11 +17,24 @@
     function DismisRemove() {
         onRemoveConfirmed = () => { };
         $('#modal-remove').modal('hide');
-        $('#remove-text').html('Are you sure you want to delete this item');
+        $('#remove-text').html('Are you sure you want to delete this item ?');
     }
 
     function SetRemoveText(itemType) {
         $('#remove-text').html('Are you sure you want to delete this ' + itemType + ' ?');
+    }
+
+    function GetPartial(partialName, appendElement) {
+        console.log(partialName);
+        console.log(appendElement);
+        var input = {
+            handler: 'Partial',
+            partialName: partialName
+        };
+        $.get('@(_httpContextAccessor.HttpContext.Request.Path)', input, function (data) {
+            console.log(data);
+            $('#' + appendElement).append(data);
+        });
     }
 </script>
 

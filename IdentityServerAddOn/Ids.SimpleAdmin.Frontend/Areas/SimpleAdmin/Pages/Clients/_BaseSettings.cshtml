@@ -15,7 +15,6 @@
 </div>
 <div class="form-group">
     <label class="col-form-label">Protocol type</label>
-    @*<input type="text" class="form-control" id="name" name="dto.ProtocolType" value="@Model?.Data?.ProtocolType">*@
     <select class="form-control" name="dto.ProtocolType">
         @if (IdentityServerConstants.ProtocolTypes.OpenIdConnect == Model?.Data?.ProtocolType)
         {
@@ -49,7 +48,7 @@
 </div>
 <div class="form-group">
     <label class="col-form-label">Pair wise subject salt</label>
-    <input type="text" class="form-control" id="name" name="dto.PairWiseSubjectSalt" value="@Model?.Data?.PairWiseSubjectSalt">
+    <input type="text" class="form-control" name="dto.PairWiseSubjectSalt" value="@Model?.Data?.PairWiseSubjectSalt">
 </div>
 <div class="form-group">
     <label class="col-form-label">Refresh token usage</label>
