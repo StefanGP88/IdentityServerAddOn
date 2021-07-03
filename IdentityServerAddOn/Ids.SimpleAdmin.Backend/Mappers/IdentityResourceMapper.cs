@@ -24,7 +24,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             this.ThrowIfNull(model);
             return new IdentityResourceContract
             {
-                UserClaims = model.UserClaims?.ConvertAll(_claim.ToContract),
+                Claims = model.UserClaims?.ConvertAll(_claim.ToContract),
                 Created = model.Created,
                 Description = model.Description,
                 DisplayName = model.DisplayName,
@@ -60,7 +60,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             model.ShowInDiscoveryDocument = contract.ShowInDiscoveryDocument;
             model.Updated = DateTime.UtcNow;
             model.Properties = _property.UpdateList(model.Properties, contract.Properties);
-            model.UserClaims = _claim.UpdateList(model.UserClaims, contract.UserClaims);
+            model.UserClaims = _claim.UpdateList(model.UserClaims, contract.Claims);
             return model;
         }
     }

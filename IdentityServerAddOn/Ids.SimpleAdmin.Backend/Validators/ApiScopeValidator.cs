@@ -14,7 +14,7 @@ namespace Ids.SimpleAdmin.Backend.Validators
             RuleFor(x => x.Required).NotNull();
             RuleFor(x => x.Emphasize).NotNull();
             RuleFor(x => x.ShowInDiscoveryDocument).NotNull();
-            RuleForEach(x => x.UserClaims).SetValidator(new ClaimValidator());
+            RuleForEach(x => x.Claims).SetValidator(new ClaimValidator());
             RuleForEach(x => x.Properties).SetValidator(new PropertyValidator());
         }
     }

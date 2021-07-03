@@ -11,7 +11,7 @@ namespace Ids.SimpleAdmin.Contracts
         public bool Required { get; set; }
         public bool Emphasize { get; set; }
         public bool ShowInDiscoveryDocument { get; set; }
-        public List<ClaimsContract> UserClaims { get; set; }
+        public List<ClaimsContract> Claims { get; set; }
         public List<PropertyContract> Properties { get; set; }
     }
 

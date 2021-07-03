@@ -1,0 +1,16 @@
+﻿@model ClaimsContract
+@{
+    var idx = Guid.NewGuid().ToString().ToLowerInvariant();
+    var delete = "claim-" + idx + "-d";
+}
+<tr>
+    <td>
+        <input type="hidden" name="dto.Claims.index" value="@idx" />
+        <input type="hidden" name="dto.Claims[@idx].Id" value="@Model?.Id" />
+        <input type="text"
+               name="dto.Claims[@idx].Type"
+               value="@Model?.Type"
+               class="form-control form-control-sm m-1" />
+    </td>
+    <delete title="claim" target="@delete"></delete>
+</tr>

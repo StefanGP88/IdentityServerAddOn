@@ -44,7 +44,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
                 Properties = model.Properties?.ConvertAll(_property.ToContract),
                 Scopes = model.Scopes?.ConvertAll(_scope.ToContract),
                 Secrets = model.Secrets?.ConvertAll(_secret.ToContract),
-                UserClaims = model.UserClaims?.ConvertAll(_claim.ToContract)
+                Claims = model.UserClaims?.ConvertAll(_claim.ToContract)
             };
         }
         public override ApiResource ToModel(ApiResourceContract contract)
@@ -68,7 +68,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             model.Properties = _property.UpdateList(model.Properties, contract.Properties);
             model.Scopes = _scope.UpdateList(model.Scopes, contract.Scopes);
             model.Secrets = _secret.UpdateList(model.Secrets, contract.Secrets);
-            model.UserClaims = _claim.UpdateList(model.UserClaims, contract.UserClaims);
+            model.UserClaims = _claim.UpdateList(model.UserClaims, contract.Claims);
             return model;
         }
     }
