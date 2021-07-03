@@ -155,7 +155,21 @@
         </tr>
         @foreach (var item in Model?.Data?.IdPRestrictions)
         {
-            <partial name="Partials/_IdentityProviderRestrictions" model="@item" />
+            <partial name="Partials/_IdentityProviderRestriction" model="@item" />
+        }
+    </list-table>
+    <br />
+</collapsable>
+
+<collapsable title="Grant Types">
+    <list-table>
+        <tr>
+            <td class="w-100 pl-2">Grant Type</td>
+            <td class="w-auto">&nbsp;</td>
+        </tr>
+        @foreach (var item in Model?.Data?.GrantTypes)
+        {
+            <partial name="Partials/_GrantType" model="@item" />
         }
     </list-table>
     <br />
