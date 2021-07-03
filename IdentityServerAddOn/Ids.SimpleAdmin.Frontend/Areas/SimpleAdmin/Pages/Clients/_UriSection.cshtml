@@ -1,0 +1,43 @@
+﻿@model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Clients.InfoModel
+<collapsable title="Uris">
+    <div class="form-group">
+        <label class="col-form-label">Client uri</label>
+        <input type="text" class="form-control" name="dto.ClientUri" value="@Model?.Data?.ClientUri">
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Logo uri</label>
+        <input type="text" class="form-control" name="dto.LogoUri" value="@Model?.Data?.LogoUri">
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Front channel logout uri</label>
+        <input type="text" class="form-control" name="dto.FrontChannelLogoutUri" value="@Model?.Data?.FrontChannelLogoutUri">
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Back channel logout uri</label>
+        <input type="text" class="form-control" name="dto.BackChannelLogoutUri" value="@Model?.Data?.BackChannelLogoutUri">
+    </div>
+    <br />
+    <list-table body-id="uri-list">
+        <tr>
+            <td class="w-100 pl-2">Redirect uris</td>
+            <new partial-name="Partials/_RedirectUri" append-element="uri-list"></new>
+        </tr>
+        @foreach (var item in Model?.Data?.RedirectUris)
+        {
+            <partial name="Partials/_RedirectUri" model="@item" />
+        }
+    </list-table>
+    <br />
+    <br />
+    <list-table body-id="post-logout-uri-list">
+        <tr>
+            <td class="w-100 pl-2">Post logout redirect uri</td>
+            <new partial-name="Partials/_PostLogoutRedirectUri" append-element="post-logout-uri-list"></new>
+        </tr>
+        @foreach (var item in Model?.Data?.PostLogoutRedirectUris)
+        {
+            <partial name="Partials/_PostLogoutRedirectUri" model="@item" />
+        }
+    </list-table>
+    <br />
+</collapsable>

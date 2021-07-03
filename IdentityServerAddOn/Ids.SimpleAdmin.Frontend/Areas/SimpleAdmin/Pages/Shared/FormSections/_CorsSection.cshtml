@@ -1,0 +1,17 @@
+﻿@model List<ClientCorsOriginsContract>
+<collapsable title="CORS Origins">
+    <list-table body-id="cors-list">
+        <tr>
+            <td class="w-100 pl-2">Origin</td>
+            <new partial-name="Partials/_CorsOrigin" append-element="cors-list"></new>
+        </tr>
+        @if (!Model.IsNull())
+        {
+            foreach (var item in Model)
+            {
+                <partial name="Partials/_CorsOrigin" model="@item" />
+            }
+        }
+    </list-table>
+    <br />
+</collapsable>

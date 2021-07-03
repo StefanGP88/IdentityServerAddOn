@@ -1,0 +1,17 @@
+﻿@model List<ClientGrantTypesContract>
+<collapsable title="Grant Types">
+    <list-table body-id="grant-list">
+        <tr>
+            <td class="w-100 pl-2">Grant Type</td>
+            <new partial-name="Partials/_GrantType" append-element="grant-list"></new>
+        </tr>
+        @if (!Model.IsNull())
+        {
+            foreach (var item in Model)
+            {
+                <partial name="Partials/_GrantType" model="@item" />
+            }
+        }
+    </list-table>
+    <br />
+</collapsable>

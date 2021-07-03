@@ -1,0 +1,20 @@
+﻿@model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Clients.InfoModel
+<collapsable title="Claims">
+    <div class="form-group">
+        <label class="col-form-label">Client claims prefix</label>
+        <input type="text" class="form-control" id="name" name="dto.ClientClaimsPrefix" value="@Model?.Data?.ClientClaimsPrefix">
+    </div>
+    <br />
+    <list-table body-id="claims-list">
+        <tr>
+            <td class="w-50 pl-2 ">Type</td>
+            <td class="w-50 px-2 ">Value</td>
+            <new partial-name="Partials/_ValueClaim" append-element="claims-list"></new>
+        </tr>
+        @foreach (var item in Model?.Data?.Claims)
+        {
+            <partial name="Partials/_ValueClaim" model="@item" />
+        }
+    </list-table>
+    <br />
+</collapsable>

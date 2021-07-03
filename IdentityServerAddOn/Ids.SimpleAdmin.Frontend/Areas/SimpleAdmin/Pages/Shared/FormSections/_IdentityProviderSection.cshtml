@@ -1,0 +1,17 @@
+﻿@model List<ClientIdPRestrictionsContract>
+<collapsable title="Identity Provider Restrictions">
+    <list-table body-id="idpr-list">
+        <tr>
+            <td class="w-100 pl-2">Provider</td>
+            <new partial-name="Partials/_IdentityProviderRestriction" append-element="idpr-list"></new>
+        </tr>
+        @if (!Model.IsNull())
+        {
+            @foreach (var item in Model)
+            {
+                <partial name="Partials/_IdentityProviderRestriction" model="@item" />
+            }
+        }
+    </list-table>
+    <br />
+</collapsable>
