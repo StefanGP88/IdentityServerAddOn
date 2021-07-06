@@ -17,11 +17,11 @@
     function DismisRemove() {
         onRemoveConfirmed = () => { };
         $('#modal-remove').modal('hide');
-        $('#remove-text').html('Are you sure you want to delete this item?');
+        $('#remove-text').html('Are you sure you want to remove this item?');
     }
 
     function SetRemoveText(itemType) {
-        $('#remove-text').html('Are you sure you want to delete this ' + itemType + '?');
+        $('#remove-text').html('Are you sure you want to remove this ' + itemType + '?');
     }
 
     function GetPartial(partialName, appendElement) {
