@@ -7,32 +7,8 @@
         @await Component.InvokeAsync("Header")
         <div class="card-body">
             @RenderSection("TableBody", required: true)
-            @*<a asp-area="SimpleAdmin" asp-page="/User/Index" class="btn btn-outline-primary btn-lg btn-block text-left">Users</a>
-                <a asp-area="SimpleAdmin" asp-page="/Roles/Index" class="btn btn-outline-primary btn-lg btn-block text-left">Roles</a>
-                <a asp-area="SimpleAdmin" asp-page="/Clients/Index" class="btn btn-outline-primary btn-lg btn-block text-left">Clients</a>
-                <a asp-area="SimpleAdmin" asp-page="/ApiScope/Index" class="btn btn-outline-primary btn-lg btn-block text-left">Api scopes</a>
-                <a asp-area="SimpleAdmin" asp-page="/ApiResources/Index" class="btn btn-outline-primary btn-lg btn-block text-left">Api resources</a>
-                <a asp-area="SimpleAdmin" asp-page="/IdentityResources/Index" class="btn btn-outline-primary btn-lg btn-block text-left">Identity resources</a>*@
         </div>
     </div>
-    @*<table class="table table-striped border border-dark">
-            <thead class="thead-dark">
-                @RenderSection("TableHead", required: true)
-            </thead>
-            <tbody>
-                @RenderSection("TableBody", required: true)
-            </tbody>
-            <caption>
-                <div class="row">
-                    <div class="col-6">
-                        <a asp-page="info" class="btn btn-primary"></a>
-                    </div>
-                    <div class="col-6">
-                        @RenderSection("Pagenation", required: true)
-                    </div>
-                </div>
-            </caption>
-        </table>*@
 
     <div class="form-group">
         <a href="/simpleadmin" class="btn btn-outline-warning form-control"></a>

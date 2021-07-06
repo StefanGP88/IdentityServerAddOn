@@ -1,5 +1,6 @@
 ﻿<script type="text/javascript">
     var onRemoveConfirmed;
+    var onDeleteResource;
 
     $(function () {
         $('[data-toggle="popover"]').popover()
@@ -18,11 +19,26 @@
         onRemoveConfirmed = () => { };
         $('#modal-remove').modal('hide');
         $('#remove-text').html('Are you sure you want to remove this item?');
-    }
+    };
+
+    function DeleteResource(identifier, resource) {
+        onDeleteResource = () => {
+            $('#deleteId').val(identifier);
+            $('#DeleteForm').submit();
+        };
+        $('#delete-text').html('Are you sure you want to delete this ' + resource + '?');
+        $('#modal-delete').modal('show');
+    };
+
+    function DismisDeleteResource() {
+        $('#delete-text').html('Are you sure you want to delete this item?');
+        $('#deleteId').val('');
+        $('#modal-delete').modal('hide');
+    };
 
     function SetRemoveText(itemType) {
         $('#remove-text').html('Are you sure you want to remove this ' + itemType + '?');
-    }
+    };
 
     function GetPartial(partialName, appendElement) {
         console.log(partialName);
@@ -35,18 +51,19 @@
             console.log(data);
             $('#' + appendElement).append(data);
         });
-    }
+    };
 
     function GoToOverview() {
         location.href = '@GetBackUrl()';
-    }
+    };
+
     function ShowConfirmBackModel() {
         $('#modal-back').modal('show');
-    }
+    };
+
     function CancelGoToOverview() {
         $('#modal-back').modal('hide');
-    }
-
+    };
 </script>
 
 
