@@ -8,8 +8,8 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared.TagHelpers
 {
     public class NewTagHelper : TagHelper
     {
-        public string PartialName { get; set; } = nameof(DeleteTagHelper);
-        public string AppendElement { get; set; } = nameof(DeleteTagHelper);
+        public string PartialName { get; set; } = nameof(RemoveTagHelper);
+        public string AppendElement { get; set; } = nameof(RemoveTagHelper);
 
         private readonly IViewComponentReader _reader;
         [ViewContext]

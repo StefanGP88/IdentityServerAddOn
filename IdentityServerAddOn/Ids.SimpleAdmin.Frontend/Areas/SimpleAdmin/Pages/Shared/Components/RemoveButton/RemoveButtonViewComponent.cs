@@ -2,7 +2,7 @@
 
 namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared.Components.DeleteButton
 {
-    public class DeleteButtonViewComponent : ViewComponent
+    public class RemoveButtonViewComponent : ViewComponent
     {
         public IViewComponentResult Invoke(string title, string target)
         {

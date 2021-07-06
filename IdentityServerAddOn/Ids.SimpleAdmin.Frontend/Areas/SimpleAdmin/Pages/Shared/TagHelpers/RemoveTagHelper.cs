@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared.TagHelpers
 {
-    public class DeleteTagHelper : TagHelper
+    public class RemoveTagHelper : TagHelper
     {
-        public string Title { get; set; } = nameof(DeleteTagHelper);
-        public string Target { get; set; } = nameof(DeleteTagHelper);
+        public string Title { get; set; } = nameof(RemoveTagHelper);
+        public string Target { get; set; } = nameof(RemoveTagHelper);
 
         private readonly IViewComponentReader _reader;
         [ViewContext]
         public ViewContext ViewContext { get; set; }
-        public DeleteTagHelper(IViewComponentReader viewComponentReader)
+        public RemoveTagHelper(IViewComponentReader viewComponentReader)
         {
             _reader = viewComponentReader;
         }
@@ -24,7 +24,7 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared.TagHelpers
             output.Content.Clear();
             output.TagMode = TagMode.StartTagAndEndTag;
 
-            var component = await _reader.ReadAsString("DeleteButton", new { title = Title, target = Target }, ViewContext).ConfigureAwait(false);
+            var component = await _reader.ReadAsString("RemoveButton", new { title = Title, target = Target }, ViewContext).ConfigureAwait(false);
             output.TagName = "td";
 
             output.Content.SetHtmlContent(component);
