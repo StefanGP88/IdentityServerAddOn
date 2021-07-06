@@ -1,60 +1,31 @@
 ﻿@{
     Layout = "_Layout";
 }
-<partial name="_SharedStyling"/>
 <div class="container">
     <form id="form" method="post" asp-route-pageNumber="@Model.PageNumber" asp-route-pageSize="@Model.PageSize">
         @Html.AntiForgeryToken()
         <input type="hidden" id="resourceId" name="dto.Id" value="@Model?.Data?.Id" />
         <div class="card">
-            @await Component.InvokeAsync("Header").ConfigureAwait(false)
+            @await Component.InvokeAsync("Header")
             <div class="card-body">
-
-                @if (IsSectionDefined("Navtabs"))
-                {
-                    <nav>
-                        <div class="nav nav-pills nav-fill" id="nav-tab" role="tablist">
-                            <a class="nav-item nav-link active" id="basesettingstab" data-toggle="tab" href="#basesettings" role="tab">Base Settings</a>
-                            @RenderSection("Navtabs", required: false)
-                        </div>
-                    </nav>
-                    <br />
-                }
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="basesettings" role="tabpanel">
-                        @RenderSection("Basesettings", required: true)
-                        <div class="form-group">
-                            <button type="submit" form="form" class="btn btn-success form-control"></button>
-                            <partial name="_ValidationNotification" model="@Model.ModelState["dto.ConcurrencyStamp"]" />
-                        </div>
-                        <div class="form-group">
-                            <button type="button" class="btn btn-outline-warning form-control" onclick="SetAbandonModal();"></button>
-                        </div>
-                    </div>
-                    @RenderSection("ResourceProperties", required: false)
-                </div>
-
-
+                @RenderBody()
             </div>
         </div>
-
+        <br />
+        <div class="d-flex flex-wrap justify-content-between">
+            <div class="form-group">
+                <button type="submit" form="form" class="btn btn-outline-success">Save changes</button>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-outline-dark" onclick="ShowConfirmBackModel();">Back to overview</button>
+            </div>
+        </div>
     </form>
 </div>
-<template id="removeModalBody">
-    <div class="alert alert-danger" role="alert">
-        Are you sure you want to Remove <span id="removeRowNameSpan"></span> ?
-    </div>
-</template>
-<template id="abandonModalBody">
-    <div class="alert alert-warning" role="alert">
-        Are you sure you want to leave this page?
-        <br/>
-        All changes will be lost.
-    </div>
-</template>
-<partial name="_Modal"/>
+
+<partial name="_Modal" />
 
 @section Scripts{
-    <partial name="_SharedScripts"/>
+    <partial name="_SharedScripts" />
     @RenderSection("Scripts", required: false)
 }

@@ -1,9 +1,9 @@
 ﻿<div class="modal fade" id="modal-remove" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">    
+        <div class="modal-content">
             <div class="modal-body">
                 <div class="alert alert-danger" role="alert" id="remove-text">
-                    Are you sure you want to delete this item ?
+                    Are you sure you want to delete this item?
                 </div>
                 <div class="row">
                     <div class="col text-right">
@@ -15,3 +15,52 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modal-back" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="alert alert-warning" role="alert" id="back-text">
+                    Are you sure you want to got back to the @GetBackText()?
+                    <br />
+                    <small class="font-italic">this will discard any changes made since last save.</small>
+                </div>
+                <div class="row">
+                    <div class="col text-right">
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="CancelGoToOverview();">Cancel</button>
+                        <button type="button" class="btn btn-success btn-sm" onclick="GoToOverview();">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@functions{
+    string GetBackText()
+    {
+        var area = _httpContextAccessor.HttpContext.Request.RouteValues["area"].ToString();
+        var page = _httpContextAccessor.HttpContext.Request.RouteValues["page"].ToString();
+        return (area, page) switch
+        {
+            //index
+            ("SimpleAdmin", "/Index") =>  "",
+            //area overviews
+            ("SimpleAdmin", "/Clients/Info") => "clients overview" ,
+            ("SimpleAdmin", "/User/Info") => "users overview" ,
+            ("SimpleAdmin", "/Roles/Info") =>  "roles overview" ,
+            ("SimpleAdmin", "/IdentityResources/Info") =>  "identity resources overview" ,
+            ("SimpleAdmin", "/ApiScopes/Info") =>  "api scopes overview" ,
+            ("SimpleAdmin", "/ApiResources/Info") => "api resources overview",
+            //area overviews
+            ("SimpleAdmin", "/Clients/Index") => "Clients overview",
+            ("SimpleAdmin", "/User/Index") => "Users overview",
+            ("SimpleAdmin", "/Roles/Index") => "Roles overview",
+            ("SimpleAdmin", "/IdentityResources/Index") => "Identity resources overview",
+            ("SimpleAdmin", "/ApiScopes/Index") => "Api scopes overview",
+            ("SimpleAdmin", "/ApiResources/Index") => "Api resources overview",
+            //info pages
+            //default
+            _ =>  "" 
+        };
+    }
+}
