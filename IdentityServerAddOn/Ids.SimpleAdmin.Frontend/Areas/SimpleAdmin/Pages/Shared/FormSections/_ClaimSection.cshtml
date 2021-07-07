@@ -1,0 +1,17 @@
+﻿@model List<ClaimsContract>
+<collapsable title="Claims">
+    <list-table body-id="claim-list">
+        <tr>
+            <td class="w-100 pl-2">Type</td>
+            <new partial-name="Partials/_CorsOrigin" append-element="claim-list"></new>
+        </tr>
+        @if (!Model.IsNull())
+        {
+            foreach (var item in Model)
+            {
+                <partial name="Partials/_Claim" model="@item" />
+            }
+        }
+    </list-table>
+    <br />
+</collapsable>

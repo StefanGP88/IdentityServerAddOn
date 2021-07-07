@@ -19,6 +19,6 @@ namespace Ids.SimpleAdmin.Contracts
         public bool LockoutEnabled { get; set; }
         public int AccessFailedCount { get; set; }
         public List<string> UserRoles { get; set; }
-        public List<ValueClaimsContract> UserClaims { get; set; }= new();
+        public List<ValueClaimsContract> Claims { get; set; }= new();
     }
 }

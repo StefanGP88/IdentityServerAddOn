@@ -1,0 +1,17 @@
+﻿@model List<ScopeContract>
+<collapsable title="Scopes">
+    <list-table body-id="scope-list">
+        <tr>
+            <td class="w-100 pl-2">Scope</td>
+            <new partial-name="Partials/_Scope" append-element="scope-list"></new>
+        </tr>
+        @if (!Model.IsNull())
+        {
+            foreach (var item in Model)
+            {
+                <partial name="Partials/_Scope" model="@item" />
+            }
+        }
+    </list-table>
+    <br />
+</collapsable>

@@ -15,7 +15,7 @@ namespace Ids.SimpleAdmin.Contracts
         public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }//TODO: make sure nullable does not mess with validators
         public bool NonEditable { get; set; }
-        public List<ClaimsContract> UserClaims { get; set; }
+        public List<ClaimsContract> Claims { get; set; }
         public List<PropertyContract> Properties { get; set; }
     }
 }

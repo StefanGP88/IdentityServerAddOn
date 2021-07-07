@@ -29,7 +29,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
                 Required = model.Required,
                 ShowInDiscoveryDocument = model.ShowInDiscoveryDocument,
                 Properties = model.Properties?.ConvertAll(_property.ToContract),
-                UserClaims = model.UserClaims?.ConvertAll(_claim.ToContract)
+                Claims = model.UserClaims?.ConvertAll(_claim.ToContract)
             };
         }
 
@@ -49,7 +49,7 @@ namespace Ids.SimpleAdmin.Backend.Mappers
             model.Required = contract.Required;
             model.ShowInDiscoveryDocument = contract.ShowInDiscoveryDocument;
             model.Properties = _property.UpdateList(model.Properties, contract.Properties);
-            model.UserClaims = _claim.UpdateList(model.UserClaims, contract.UserClaims);
+            model.UserClaims = _claim.UpdateList(model.UserClaims, contract.Claims);
             return model;
         }
     }

@@ -1,18 +1,93 @@
-﻿<div class="modal fade" id="modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+﻿<div class="modal fade" id="modal-remove" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalLabel"></h5>
-                <button type="button" class="close" onclick="CancelModal();">
-                    <span>&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="modalBody">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"  id="dismisModal" onclick="CancelModal();"></button>
-                <button type="button" class="btn btn-success" id="dismisModalSuccess"></button>
+            <div class="modal-body">
+                <div class="alert alert-danger" role="alert">
+                    <span id="remove-text">
+                        Are you sure you want to remove this item?
+                    </span>
+                    <br />
+                    <small class="font-italic">You will still need to save changes for this to take effect.</small>
+                </div>
+                <div class="row">
+                    <div class="col text-right">
+                        <button type="button" class="btn btn-secondary btn-sm" id="dismisModal" onclick="DismisRemove();">Cancel</button>
+                        <button type="button" class="btn btn-success btn-sm" id="dismisModalSuccess" onclick="onRemoveConfirmed();">Confirm</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modal-back" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="alert alert-warning" role="alert" id="back-text">
+                    Are you sure you want to got back to the @GetBackText()?
+                    <br />
+                    <small class="font-italic">This will discard any changes made since last save.</small>
+                </div>
+                <div class="row">
+                    <div class="col text-right">
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="CancelGoToOverview();">Cancel</button>
+                        <button type="button" class="btn btn-success btn-sm" onclick="GoToOverview();">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-delete" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="alert alert-danger" role="alert">
+                    <span id="delete-text">
+                        Are you sure you want to delete this item?
+                    </span>
+                    <br />
+                    <small class="font-italic">This is permanent and can not be undone.</small>
+                </div>
+                <div class="row">
+                    <div class="col text-right">
+                        <button type="button" class="btn btn-secondary btn-sm" id="dismisModal" onclick="DismisDeleteResource();">Cancel</button>
+                        <button type="button" class="btn btn-success btn-sm" id="dismisModalSuccess" onclick="onDeleteResource();">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions{
+    string GetBackText()
+    {
+        var area = _httpContextAccessor.HttpContext.Request.RouteValues["area"].ToString();
+        var page = _httpContextAccessor.HttpContext.Request.RouteValues["page"].ToString();
+        return (area, page) switch
+        {
+            //index
+            ("SimpleAdmin", "/Index") =>  "",
+            //area overviews
+            ("SimpleAdmin", "/Clients/Info") => "clients overview" ,
+            ("SimpleAdmin", "/User/Info") => "users overview" ,
+            ("SimpleAdmin", "/Roles/Info") =>  "roles overview" ,
+            ("SimpleAdmin", "/IdentityResources/Info") =>  "identity resources overview" ,
+            ("SimpleAdmin", "/ApiScopes/Info") =>  "api scopes overview" ,
+            ("SimpleAdmin", "/ApiResources/Info") => "api resources overview",
+            //area overviews
+            ("SimpleAdmin", "/Clients/Index") => "Clients overview",
+            ("SimpleAdmin", "/User/Index") => "Users overview",
+            ("SimpleAdmin", "/Roles/Index") => "Roles overview",
+            ("SimpleAdmin", "/IdentityResources/Index") => "Identity resources overview",
+            ("SimpleAdmin", "/ApiScopes/Index") => "Api scopes overview",
+            ("SimpleAdmin", "/ApiResources/Index") => "Api resources overview",
+            //info pages
+            //default
+            _ =>  "" 
+        };
+    }
+}

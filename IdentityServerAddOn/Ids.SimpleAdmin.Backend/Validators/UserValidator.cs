@@ -39,7 +39,7 @@ namespace Ids.SimpleAdmin.Backend.Validators
             RuleFor(x => x.AccessFailedCount);
             RuleFor(x => x.UserRoles);
             RuleFor(x => x.SetPassword).Custom(CheckPassword);
-            RuleForEach(x => x.UserClaims).SetValidator(new ValueClaimValidator());
+            RuleForEach(x => x.Claims).SetValidator(new ValueClaimValidator());
         }
 
         private void CheckPassword(string password, CustomContext context)

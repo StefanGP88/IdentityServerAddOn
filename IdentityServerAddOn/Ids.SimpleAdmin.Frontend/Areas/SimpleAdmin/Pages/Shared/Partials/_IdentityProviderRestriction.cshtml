@@ -1,0 +1,17 @@
+﻿@model ClientIdPRestrictionsContract
+@{
+    var idx = Guid.NewGuid().ToString().ToLowerInvariant();
+    var delete = "idpr-" + idx + "-d";
+}
+<tr class="border-top border-bottom bg-light @delete">
+    <td>
+        <input type="hidden" name="dto.IdPRestrictions.index" value="@idx" />
+        <input type="hidden" name="dto.IdPRestrictions[@idx].Id" value="@Model?.Id" />
+        <input type="hidden" name="dto.IdPRestrictions[@idx].ClientId" value="@Model?.ClientId" />
+        <input type="text"
+               name="dto.IdPRestrictions[@idx].Provider"
+               value="@Model?.Provider"
+               class="form-control form-control-sm m-1" />
+    </td>
+    <remove title="identity provider restriction" target="@delete"></remove>
+</tr>

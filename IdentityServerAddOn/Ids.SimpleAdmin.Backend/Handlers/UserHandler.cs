@@ -54,7 +54,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                         .Where(y => y.UserId == x.Id)
                         .Select(x => x.RoleId)
                         .ToList();
-                    contract.UserClaims = userClaims
+                    contract.Claims = userClaims
                         .Where(y => y.UserId == x.Id)
                         .Select(_claimsMapper.ToContract)
                         .ToList();
@@ -88,7 +88,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
                     .Where(x => x.UserId == model.Id)
                     .ToListAsync(cancel)
                     .ConfigureAwait(false);
-                contract.UserClaims = claimsModels?.ConvertAll(_claimsMapper.ToContract);
+                contract.Claims = claimsModels?.ConvertAll(_claimsMapper.ToContract);
             }
 
             return contract;
@@ -183,7 +183,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
 
             for (int i = 0; i < userClaims.Count; i++)
             {
-                var claim = dto.UserClaims.Find(x => x.Id == userClaims[i].Id);
+                var claim = dto.Claims.Find(x => x.Id == userClaims[i].Id);
                 if (claim is null)
                 {
                     claimsToRemove.Add(userClaims[i]);
@@ -198,7 +198,7 @@ namespace Ids.SimpleAdmin.Backend.Handlers
             _identityContext.UserClaims.RemoveRange(claimsToRemove);
             _identityContext.UserClaims.UpdateRange(claimsToUpdate);
 
-            var claimsToAdd = dto.UserClaims
+            var claimsToAdd = dto.Claims
                 .Where(item => item.Id is null)
                 .Select(item =>
                 {

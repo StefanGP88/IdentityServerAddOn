@@ -1,131 +1,72 @@
 ﻿<script type="text/javascript">
-    function SetRemoveModal(element, nameofobject) {
-        var template = $('#removeModalBody').html();
-        var ConfirmRemove = function () {
-            DisableEditButtons(element, false);
-            $(element).closest('tr').remove();
-            CancelModal();
-        };
-        ShowModal('Remove', template, ConfirmRemove);
-        var removeName = $("[name='" + nameofobject + "']").val();
-        $('#removeRowNameSpan').text(removeName);
-    }
+    var onRemoveConfirmed;
+    var onDeleteResource;
 
-    function SetDeleteModal(identifier, name) {
-        var template = $('#deleteModalBody').html();
-        var ConfirmDelete = function () {
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    });
+
+    function RemoveClassElement(classname, itemType) {
+        onRemoveConfirmed = () => {
+            DismisRemove();
+            $('.' + classname).remove();
+        };
+        SetRemoveText(itemType);
+        $('#modal-remove').modal('show');
+    };
+
+    function DismisRemove() {
+        onRemoveConfirmed = () => { };
+        $('#modal-remove').modal('hide');
+        $('#remove-text').html('Are you sure you want to remove this item?');
+    };
+
+    function DeleteResource(identifier, resource) {
+        onDeleteResource = () => {
+            $('#deleteId').val(identifier);
             $('#DeleteForm').submit();
-            CancelModal();
-            $('#deleteId').val('&nbsp;');
         };
-        ShowModal('Delete', template, ConfirmDelete);
-        $('#deleteId').val(identifier);
-        $('#deleteNameSpan').text(name);
-    }
+        $('#delete-text').html('Are you sure you want to delete this ' + resource + '?');
+        $('#modal-delete').modal('show');
+    };
 
-    function SetAbandonModal() {
-        var template = $('#abandonModalBody').html();
-        var ConfirmAbandon = function () {
-            window.location.href = '@GetBackUrl()';
-        };
-        ShowModal('Abandon', template, ConfirmAbandon);
-    }
-    function SetRowCount(element, count) {
-        $(element).prop('rows', count);
-    }
+    function DismisDeleteResource() {
+        $('#delete-text').html('Are you sure you want to delete this item?');
+        $('#deleteId').val('');
+        $('#modal-delete').modal('hide');
+    };
 
-    function ShowModal(title, body, onConfirm) {
-        SetModal(title, body, onConfirm);
-        $('#modal').modal('show');
-    }
+    function SetRemoveText(itemType) {
+        $('#remove-text').html('Are you sure you want to remove this ' + itemType + '?');
+    };
 
-    function SetModal(title, body, onConfirm) {
-        $('#modalBody').html(body)
-        $('#modalLabel').html(title);
-        $('#dismisModalSuccess').on('click', onConfirm);
-    }
-
-    function CancelModal() {
-        var CancelModal = function () { };
-        SetModal('&nbsp;', '&nbsp;', CancelModal);
-        $('#modal').modal('hide');
-    }
-
-    function ToggleEdit(element, partialName) {
-        if ($(element).hasClass('btn-success')) {
-            replaceRow(element, partialName);
-            DisableEditButtons(element, false);
-        } else if ($(element).hasClass('btn-info')) {
-            $(element).removeClass('btn-info').addClass('btn-success');
-            ToggleReadOnly(element, false);
-            DisableEditButtons(element, true);
-        }
-    }
-
-    function ToggleReadOnly(element, isReadOnly) {
-        var inputs = GetInputs(element);
-        inputs.each(function () {
-            $(this).prop('readonly', isReadOnly);
-            $(this).toggleClass('border-0', isReadOnly);
-            $(this).toggleClass('bg-transparent', isReadOnly);
-        });
-    }
-
-    function GetInputs(element) {
-        var row = $(element).closest('tr');
-        var inputs = row.find('.form-control,.form-check-input,input[type=hidden]');
-        return inputs;
-    }
-
-    function AppendTableRow(element, partialName, tableBodyName) {
-        DisableEditButtons(element, true);
+    function GetPartial(partialName, appendElement) {
+        console.log(partialName);
+        console.log(appendElement);
         var input = {
             handler: 'Partial',
-            partialName: partialName,
-            model: null
+            partialName: partialName
         };
-        var tablebody = $('#' + tableBodyName);
         $.get('@(_httpContextAccessor.HttpContext.Request.Path)', input, function (data) {
-            $(tablebody).append(data);
+            console.log(data);
+            $('#' + appendElement).append(data);
         });
-    }
+    };
 
-    function replaceRow(element, partialName) {
-        var inputs = GetInputs(element);
-        var model = {};
-        inputs.each(function () {
-            var name = $(this).prop('name');
-            var index = name.lastIndexOf('.') + 1;
-            var substring = name.substring(index);
-            model['model.'+substring] = $(this).val();
-        });
-        $.get('@(_httpContextAccessor.HttpContext.Request.Path)?handler=' + partialName, model, function (data) {
-            var btnInfo = $(data).find('.btn-info');
-            if (btnInfo.length > 0) {
-                DisableEditButtons(element, false);
-            } else {
-                DisableEditButtons(element, true);
-            }
-            var inner = $(data).closest('tr').html();
-            $(element).closest('tr').html(inner);
-        });
-    }
+    function GoToOverview() {
+        location.href = '@GetBackUrl()';
+    };
 
-    function DisableEditButtons(element, isDisabled) {
-        var tab = $(element).closest('div');
-        var bttns = $(tab).find('.btn-info,.btn-primary');
-        bttns.each(function () {
-            $(this).prop('disabled', isDisabled);
-        });
-    }
+    function ShowConfirmBackModel() {
+        $('#modal-back').modal('show');
+    };
 
-    $(document).on('focus', '.form-control', function () {
-        var readonly = $(this).prop('readonly');
-        if (readonly) {
-            $(this).blur();
-        }
-    });
+    function CancelGoToOverview() {
+        $('#modal-back').modal('hide');
+    };
 </script>
+
+
 @functions {
     string GetBackUrl()
     {

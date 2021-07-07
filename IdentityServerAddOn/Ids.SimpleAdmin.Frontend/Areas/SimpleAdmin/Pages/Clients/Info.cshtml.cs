@@ -1,48 +1,12 @@
 using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
 using Ids.SimpleAdmin.Contracts;
 using Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Clients
 {
     public class InfoModel : BaseInfoPage<ClientsContract, int?>
     {
         public InfoModel(IHandler<ClientsContract, int?> handler) : base(handler) { }
-        public PartialViewResult OnGetScopes(ScopeContract model)
-        {
-            return OnGetPartial("Scopes", model);
-        }
-        public PartialViewResult OnGetSecrets(ClientSecretsContract model)
-        {
-            return OnGetPartial("Secrets", model);
-        }
-        public PartialViewResult OnGetRedirectUris(ClientRedirectUriContract model)
-        {
-            return OnGetPartial("RedirectUris", model);
-        }
-        public PartialViewResult OnGetProperties(PropertyContract model)
-        {
-            return OnGetPartial("Properties", model);
-        }
-        public PartialViewResult OnGetPostLogoutRedirectUris(ClientPostLogoutRedirectUrisContract model)
-        {
-            return OnGetPartial("PostLogoutRedirectUris", model);
-        }
-        public PartialViewResult OnGetIdPRestrictions(ClientIdPRestrictionsContract model)
-        {
-            return OnGetPartial("IdPRestrictions", model);
-        }
-        public PartialViewResult OnGetGrantTypes(ClientGrantTypesContract model)
-        {
-            return OnGetPartial("GrantTypes", model);
-        }
-        public PartialViewResult OnGetCorsOrigins(ClientCorsOriginsContract model)
-        {
-            return OnGetPartial("CorsOrigins", model);
-        }
-        public PartialViewResult OnGetClaims(ClientClaimsContract model)
-        {
-            return OnGetPartial("Claims", model);
-        }
+  
     }
 }

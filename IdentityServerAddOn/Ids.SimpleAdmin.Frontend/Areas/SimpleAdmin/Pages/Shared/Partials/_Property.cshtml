@@ -1,0 +1,22 @@
+﻿@model PropertyContract
+@{
+    var idx = Guid.NewGuid().ToString().ToLowerInvariant();
+    var delete = "property-" + idx + "-d";
+}
+<tr class="border-top border-bottom bg-light @delete">
+    <td>
+        <input type="hidden" name="dto.Properties.index" value="@idx" />
+        <input type="hidden" name="dto.Properties[@idx].Id" value="@Model?.Id" />
+        <input type="text"
+               name="dto.Properties[@idx].Value"
+               value="@Model?.Value"
+               class="form-control form-control-sm m-1" />
+    </td>
+    <td>
+        <input type="text"
+               name="dto.Properties[@idx].Key"
+               value="@Model?.Key"
+               class="form-control form-control-sm m-1" />
+    </td>
+    <remove title="property" target="@delete"></remove>
+</tr>

@@ -1,0 +1,17 @@
+﻿@model ClientPostLogoutRedirectUrisContract
+@{
+    var idx = Guid.NewGuid().ToString().ToLowerInvariant();
+    var delete = "post-logout-redirect-uri-" + idx + "-d";
+}
+<tr class="border-top border-bottom bg-light @delete">
+    <td>
+        <input type="hidden" name="dto.PostLogoutRedirectUris.index" value="@idx" />
+        <input type="hidden" name="dto.PostLogoutRedirectUris[@idx].Id" value="@Model?.Id" />
+        <input type="hidden" name="dto.PostLogoutRedirectUris[@idx].ClientId" value="@Model?.ClientId" />
+        <input type="text"
+               name="dto.PostLogoutRedirectUris[@idx].PostLogoutRedirectUri"
+               value="@Model?.PostLogoutRedirectUri"
+               class="form-control form-control-sm ml-1" />
+    </td>
+    <remove title="post logout redirect uri" target="@delete"></remove>  
+</tr>

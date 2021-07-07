@@ -1,5 +1,6 @@
 ﻿using FluentValidation.AspNetCore;
 using Ids.SimpleAdmin.Backend;
+using Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared.Components;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +16,7 @@ namespace Ids.SimpleAdmin.Frontend
         {
             builder.Services.AddSimpleAdminBackend();
             builder.Services.AddScoped<PageSizeMiddleware>();
+            builder.Services.AddScoped<IViewComponentReader, ViewComponentReader>();
             builder.Services.AddHttpContextAccessor();
             builder.AddFluentValidation();
             

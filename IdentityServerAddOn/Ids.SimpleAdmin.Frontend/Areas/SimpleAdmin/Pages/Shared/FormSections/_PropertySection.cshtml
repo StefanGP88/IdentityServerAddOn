@@ -1,0 +1,18 @@
+﻿@model List<PropertyContract>
+<collapsable title="Properties">
+    <list-table body-id="property-list">
+        <tr>
+            <td class="w-50 pl-2 ">Type</td>
+            <td class="w-50 px-2 ">Key</td>
+            <new partial-name="Partials/_Property" append-element="property-list"></new>
+        </tr>
+        @if (!Model.IsNull())
+        {
+            @foreach (var item in Model)
+            {
+                <partial name="Partials/_Property" model="@item" />
+            }
+        }
+    </list-table>
+    <br />
+</collapsable>

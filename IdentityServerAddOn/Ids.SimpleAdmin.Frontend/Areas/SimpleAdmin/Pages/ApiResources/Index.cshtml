@@ -4,39 +4,26 @@
     Layout = "_NestedIndexLayout";
 }
 
-@section TableHead {
-    <tr>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col">Display name</th>
-        <th scope="col">Description</th>
-        <th scope="col"></th>
-    </tr>
-}
+<index-header>
+    <div class="col">Name</div>
+    <div class="col">Display name</div>
+    <div class="col">Description</div>
+    <div class="col-2"></div>
+</index-header>
 
-@section TableBody{
-    @foreach (var item in Model.List.Items)
-    {
-        <tr>
-            <td>
-                <a asp-page="Info" asp-route-id="@item.Id" class="btn btn-info btn-block"></a>
-            </td>
-            <td class="align-middle">
-                @item.Name
-            </td>
-            <td class="align-middle">
-                @item.DisplayName
-            </td>
-            <td class="align-middle">
-                @item.Description
-            </td>
-            <td>
-                <button type="button" class="btn btn-outline-danger btn-block float-right"
-                        onclick="SetDeleteModal(@item.Id, '@item.Name')">
-                </button>
-            </td>
-        </tr>
-    }
+@foreach (var item in Model.List.Items)
+{
+    <index-row identitfier="@item.Id" title="api resource">
+        <div class="col">
+            @item.Name
+        </div>
+        <div class="col">
+            @item.DisplayName
+        </div>
+        <div class="col text-truncate">
+            @item.Description
+        </div>
+    </index-row>
 }
 
 @section Pagenation{

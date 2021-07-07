@@ -1,0 +1,8 @@
+﻿@model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared.Components.Header.HeaderData
+<div class="card-header">
+    <h5 class="mb-1">@Model.Title</h5>
+    @if (!string.IsNullOrWhiteSpace(Model.Subtitle))
+    {
+        <p class="card-text"><small class="text-muted">@Model.Subtitle</small></p>
+    }
+</div>

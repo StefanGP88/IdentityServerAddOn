@@ -15,7 +15,7 @@ namespace Ids.SimpleAdmin.Contracts
         public bool Enabled { get; set; }
         public bool NonEditable { get; set; }
         public bool ShowInDiscoveryDocument { get; set; }
-        public List<ClaimsContract> UserClaims { get; set; }
+        public List<ClaimsContract> Claims { get; set; }
         public List<PropertyContract> Properties { get; set; }
         public List<ScopeContract> Scopes { get; set; }
         public List<ApiResourceSecretsContract> Secrets { get; set; }

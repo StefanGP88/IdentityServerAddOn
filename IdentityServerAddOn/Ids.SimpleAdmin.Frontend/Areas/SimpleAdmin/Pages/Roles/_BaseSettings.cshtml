@@ -1,0 +1,16 @@
+﻿@model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Roles.InfoModel
+<Collapsable title="Base Settings">
+    <input type="hidden" name="dto.ConcurrencyStamp" value="@Model?.Data?.ConcurrencyStamp" />
+    <input type="hidden" name="dto.Id" value="@Model?.Data?.Id" />
+    <div class="form-group">
+        <label class="col-form-label">Name</label>
+        <input type="text" class="form-control" name="dto.Name" value="@Model?.Data?.Name">
+    </div>
+    @if (!string.IsNullOrWhiteSpace(Model?.Data?.NormalizedName))
+    {
+        <div class="form-group">
+            <label class="col-form-label">Normalized name</label>
+            <input type="text" class="form-control" name="dto.Name" value="@Model?.Data?.NormalizedName" disabled>
+        </div>
+    }
+</Collapsable>

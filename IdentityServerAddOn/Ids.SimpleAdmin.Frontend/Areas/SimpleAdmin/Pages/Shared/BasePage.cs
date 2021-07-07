@@ -1,4 +1,5 @@
 ﻿using Ids.SimpleAdmin.Backend.Handlers.Interfaces;
+using Ids.SimpleAdmin.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -20,13 +21,7 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared
         }
         public virtual PartialViewResult OnGetPartial(string partialName)
         {
-            partialName = partialName.FirstLetterToUpper();
-            return Partial("TableRowPartials/_" + partialName, null);
-        }
-        public virtual PartialViewResult OnGetPartial<T>(string partialName, T model)
-        {
-            partialName = partialName.FirstLetterToUpper();
-            return Partial("TableRowPartials/_" + partialName, model);
-        }
+            return Partial(partialName, null);
+        }     
     }
 }

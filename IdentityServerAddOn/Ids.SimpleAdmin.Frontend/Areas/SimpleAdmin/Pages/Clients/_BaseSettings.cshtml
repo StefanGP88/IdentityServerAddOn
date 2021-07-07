@@ -1,0 +1,160 @@
+﻿
+@model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Clients.InfoModel
+
+    <Collapsable title="Base Settings">
+        <div class="form-group">
+            <label class="col-form-label">Client id</label>
+            <input type="text" class="form-control" name="dto.ClientId" value="@Model?.Data?.ClientId">
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">Client name</label>
+            <input type="text" class="form-control" name="dto.ClientName" value="@Model?.Data?.ClientName">
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">Description</label>
+            <textarea class="form-control" name="dto.Description">@Model?.Data?.Description</textarea>
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">Protocol type</label>
+            <select class="form-control" name="dto.ProtocolType">
+                @if (IdentityServerConstants.ProtocolTypes.OpenIdConnect == Model?.Data?.ProtocolType)
+                {
+                    <option selected value="@IdentityServerConstants.ProtocolTypes.OpenIdConnect">@IdentityServerConstants.ProtocolTypes.OpenIdConnect</option>
+                }
+                else
+                {
+                    <option value="@IdentityServerConstants.ProtocolTypes.OpenIdConnect">@IdentityServerConstants.ProtocolTypes.OpenIdConnect</option>
+                }
+                @if (IdentityServerConstants.ProtocolTypes.Saml2p == Model?.Data?.ProtocolType)
+                {
+                    <option selected value="@IdentityServerConstants.ProtocolTypes.Saml2p">@IdentityServerConstants.ProtocolTypes.Saml2p</option>
+                }
+                else
+                {
+                    <option value="@IdentityServerConstants.ProtocolTypes.Saml2p">@IdentityServerConstants.ProtocolTypes.Saml2p</option>
+                }
+                @if (IdentityServerConstants.ProtocolTypes.WsFederation == Model?.Data?.ProtocolType)
+                {
+                    <option selected value="@IdentityServerConstants.ProtocolTypes.WsFederation">@IdentityServerConstants.ProtocolTypes.WsFederation</option>
+                }
+                else
+                {
+                    <option value="@IdentityServerConstants.ProtocolTypes.WsFederation">@IdentityServerConstants.ProtocolTypes.WsFederation</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">Allowed identity token signing algorithms</label>
+            <textarea class="form-control" name="dto.AllowedIdentityTokenSigningAlgorithms">@Model?.Data?.AllowedIdentityTokenSigningAlgorithms</textarea>
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">Pair wise subject salt</label>
+            <input type="text" class="form-control" name="dto.PairWiseSubjectSalt" value="@Model?.Data?.PairWiseSubjectSalt">
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">User code type</label>
+            <input type="text" class="form-control" name="dto.UserCodeType" value="@Model?.Data?.UserCodeType">
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">Refresh token usage</label>
+            <select class="form-control" name="dto.RefreshTokenUsage">
+                @foreach (var item in Mappers.ToArray<TokenUsage>())
+                {
+                    if ((int)item == Model?.Data?.RefreshTokenUsage)
+                    {
+                        <option value="@((int)item)" selected>@(item.ToString())</option>
+                    }
+                    else
+                    {
+                        <option value="@((int)item)">@(item.ToString())</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">Refresh token expiration</label>
+            <select class="form-control" name="dto.RefreshTokenExpiration">
+                @foreach (var item in Mappers.ToArray<TokenExpiration>())
+                {
+                    if ((int)item == Model?.Data?.RefreshTokenExpiration)
+                    {
+                        <option value="@((int)item)" selected>@(item.ToString())</option>
+                    }
+                    else
+                    {
+                        <option value="@((int)item)">@(item.ToString())</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="col-form-label">Access token type</label>
+            <select class="form-control" name="dto.AccessTokenType">
+                @foreach (var item in Mappers.ToArray<AccessTokenType>())
+                {
+                    if ((int)item == Model?.Data?.AccessTokenType)
+                    {
+                        <option value="@((int)item)" selected>@(item.ToString())</option>
+                    }
+                    else
+                    {
+                        <option value="@((int)item)">@(item.ToString())</option>
+                    }
+                }
+            </select>
+        </div>
+        <fieldset class="form-group">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="enabled" name="dto.Enabled" value="True" @Model?.Data?.Enabled.IsChecked() />
+                <label class="form-check-label">Is enabled</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="dto.RequireConsent" value="True" @Model?.Data?.RequireConsent.IsChecked() />
+                <label class="form-check-label">Require consent</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="dto.AllowRememberConsent" value="True" @Model?.Data?.AllowRememberConsent.IsChecked() />
+                <label class="form-check-label">Allow remember consent</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="dto.RequirePkce" value="True" @Model?.Data?.RequirePkce.IsChecked() />
+                <label class="form-check-label">Require pkce</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="dto.AllowPlainTextPkce" value="True" @Model?.Data?.AllowPlainTextPkce.IsChecked() />
+                <label class="form-check-label">Allow plain text pkce</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="dto.RequireRequestObject" value="True" @Model?.Data?.RequireRequestObject.IsChecked() />
+                <label class="form-check-label">Require request object</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="dto.AllowAccessTokensViaBrowser" value="True" @Model?.Data?.AllowAccessTokensViaBrowser.IsChecked() />
+                <label class="form-check-label">Allow access tokens via browser</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="dto.FrontChannelSessionRequired" value="True" @Model?.Data?.FrontChannelSessionRequired.IsChecked() />
+                <label class="form-check-label">Is front channel session required</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="dto.BackChannelLogoutSessionRequired" value="True" @Model?.Data?.BackChannelLogoutSessionRequired.IsChecked() />
+                <label class="form-check-label">Is back channel session required</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="dto.AllowOfflineAccess" value="True" @Model?.Data?.AllowOfflineAccess.IsChecked() />
+                <label class="form-check-label">Allow offline access</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="dto.EnabledLocalLogin" value="True" @Model?.Data?.EnabledLocalLogin.IsChecked() />
+                <label class="form-check-label">Enabled local login</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="dto.IncludeJwtId" value="True" @Model?.Data?.IncludeJwtId.IsChecked() />
+                <label class="form-check-label">Include jwt id</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="dto.NonEditable" value="True" @Model?.Data?.NonEditable.IsChecked() />
+                <label class="form-check-label">Is non-editable</label>
+            </div>
+        </fieldset>
+    </Collapsable>
