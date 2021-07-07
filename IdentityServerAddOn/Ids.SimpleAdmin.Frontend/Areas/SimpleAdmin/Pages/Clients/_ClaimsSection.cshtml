@@ -11,9 +11,12 @@
             <td class="w-50 px-2 ">Value</td>
             <new partial-name="Partials/_ValueClaim" append-element="claims-list"></new>
         </tr>
-        @foreach (var item in Model?.Data?.Claims)
+        @if (Model?.Data?.Claims is not null)
         {
+            foreach (var item in Model?.Data?.Claims)
+            {
             <partial name="Partials/_ValueClaim" model="@item" />
+            }
         }
     </list-table>
     <br />

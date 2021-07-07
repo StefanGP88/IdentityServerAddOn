@@ -22,9 +22,12 @@
             <td class="w-100 pl-2">Redirect uris</td>
             <new partial-name="Partials/_RedirectUri" append-element="uri-list"></new>
         </tr>
-        @foreach (var item in Model?.Data?.RedirectUris)
+        @if (Model?.Data?.RedirectUris is not null)
         {
-            <partial name="Partials/_RedirectUri" model="@item" />
+            foreach (var item in Model?.Data?.RedirectUris)
+            {
+                <partial name="Partials/_RedirectUri" model="@item" />
+            }
         }
     </list-table>
     <br />
@@ -34,9 +37,12 @@
             <td class="w-100 pl-2">Post logout redirect uri</td>
             <new partial-name="Partials/_PostLogoutRedirectUri" append-element="post-logout-uri-list"></new>
         </tr>
-        @foreach (var item in Model?.Data?.PostLogoutRedirectUris)
+        @if (Model?.Data?.PostLogoutRedirectUris is not null)
         {
-            <partial name="Partials/_PostLogoutRedirectUri" model="@item" />
+            foreach (var item in Model?.Data?.PostLogoutRedirectUris)
+            {
+                <partial name="Partials/_PostLogoutRedirectUri" model="@item" />
+            }
         }
     </list-table>
     <br />
