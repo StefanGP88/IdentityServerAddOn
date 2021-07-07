@@ -3,7 +3,7 @@
     var idx = Guid.NewGuid().ToString().ToLowerInvariant();
     var delete = "claim-" + idx + "-d";
 }
-<tr>
+<tr class="border-top border-bottom bg-light @delete">
     <td>
         <input type="hidden" name="dto.Claims.index" value="@idx" />
         <input type="hidden" name="dto.Claims[@idx].Id" value="@Model?.Id" />
