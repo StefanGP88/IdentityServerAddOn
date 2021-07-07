@@ -1,0 +1,16 @@
+﻿@model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared.Components.IndexRow.IndexRowData
+<div class="row" style="margin-bottom:8px;">
+    <div class="col">
+        <a asp-page="Info" asp-route-id="@Model.Identifier" class="btn btn-outline-primary btn-block">
+            <div class="row text-left">
+                <!--content-->
+            </div>
+        </a>
+    </div>
+    <div class="col-2">
+        <button type="button" class="btn btn-outline-danger btn-block"
+                onclick="DeleteResource('@Model.Identifier', '@Model.Title')">
+            delete
+        </button>
+    </div>
+</div>

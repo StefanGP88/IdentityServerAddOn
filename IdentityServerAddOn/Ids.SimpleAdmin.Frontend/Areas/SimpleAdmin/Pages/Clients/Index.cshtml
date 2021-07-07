@@ -4,7 +4,7 @@
     Layout = "_NestedIndexLayout";
 }
 
-<div class="row text-left" style="padding: .375rem .75rem;">
+<index-header>
     <div class="col">
         Client Id
     </div>
@@ -15,35 +15,21 @@
         Description
     </div>
     <div class="col-2"></div>
-</div>
-
+</index-header>
 
 @foreach (var item in Model.List.Items)
 {
-
-    <div class="row" style="margin-bottom:8px;">
+    <index-row identitfier="@item.Id" title="client">
         <div class="col">
-            <a asp-page="Info" asp-route-id="@item.Id" class="btn btn-outline-primary btn-block">
-                <div class="row text-left">
-                    <div class="col">
-                        @item.ClientId
-                    </div>
-                    <div class="col">
-                        @item.ClientName
-                    </div>
-                    <div class="col">
-                        @item.Description
-                    </div>
-                </div>
-            </a>
+            @item.ClientId
         </div>
-        <div class="col-2">
-            <button type="button" class="btn btn-outline-danger btn-block"
-                    onclick="DeleteResource(@item.Id, 'client')">
-                delete
-            </button>
+        <div class="col">
+            @item.ClientName
         </div>
-    </div>
+        <div class="col">
+            @item.Description
+        </div>
+    </index-row>
 }
 
 @section Pagenation{
