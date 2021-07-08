@@ -44,7 +44,7 @@ namespace Ids.SimpleAdmin.Backend
             services.TryAddTransient<IValidator<PropertyContract>, PropertyValidator>();
             services.TryAddTransient<IValidator<ValueClaimsContract>, ValueClaimValidator>();
             services.TryAddTransient<IValidator<ClientClaimsContract>, ValueClaimValidator>();
-            services.TryAddScoped<ValidationFactory>();
+            services.TryAddScoped<ValidationCache>();
         }
 
         private static void RegisterHandlers(IServiceCollection services)

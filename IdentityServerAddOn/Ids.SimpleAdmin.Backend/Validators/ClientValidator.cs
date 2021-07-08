@@ -3,9 +3,9 @@ using Ids.SimpleAdmin.Contracts;
 
 namespace Ids.SimpleAdmin.Backend.Validators
 {
-    public class ClientValidator : AbstractValidator<ClientsContract>
+    public class ClientValidator : EasyAdminValidatior<ClientsContract>
     {
-        public ClientValidator()
+        public ClientValidator(ValidationCache cache) : base(cache)
         {
             RuleFor(x => x.Enabled).NotNull();
             RuleFor(x => x.ClientId).NotNull().MaximumLength(200);
@@ -50,49 +50,49 @@ namespace Ids.SimpleAdmin.Backend.Validators
             RuleFor(x => x.UserCodeType).MaximumLength(100);
             RuleFor(x => x.DeviceCodeLifetime).NotNull();
             RuleFor(x => x.NonEditable).NotNull();
-            RuleForEach(x => x.Scopes).SetValidator(new ScopeValidator());
-            RuleForEach(x => x.Secrets).SetValidator(new SecretValidator());
-            RuleForEach(x => x.RedirectUris).SetValidator(new ClientRedirectUrisValidator());
-            RuleForEach(x => x.Properties).SetValidator(new PropertyValidator());
-            RuleForEach(x => x.PostLogoutRedirectUris).SetValidator(new ClientPostLogoutRedirectUrisValidator());
-            RuleForEach(x => x.IdPRestrictions).SetValidator(new ClientIdPRestrictionsValidator());
-            RuleForEach(x => x.GrantTypes).SetValidator(new ClientGrantTypeValidator());
-            RuleForEach(x => x.CorsOrigins).SetValidator(new ClientCorsOriginsValidator());
-            RuleForEach(x => x.Claims).SetValidator(new ValueClaimValidator());
+            RuleForEach(x => x.Scopes).SetValidator(new ScopeValidator(cache));
+            RuleForEach(x => x.Secrets).SetValidator(new SecretValidator(cache));
+            RuleForEach(x => x.RedirectUris).SetValidator(new ClientRedirectUrisValidator(cache));
+            RuleForEach(x => x.Properties).SetValidator(new PropertyValidator(cache));
+            RuleForEach(x => x.PostLogoutRedirectUris).SetValidator(new ClientPostLogoutRedirectUrisValidator(cache));
+            RuleForEach(x => x.IdPRestrictions).SetValidator(new ClientIdPRestrictionsValidator(cache));
+            RuleForEach(x => x.GrantTypes).SetValidator(new ClientGrantTypeValidator(cache));
+            RuleForEach(x => x.CorsOrigins).SetValidator(new ClientCorsOriginsValidator(cache));
+            RuleForEach(x => x.Claims).SetValidator(new ValueClaimValidator(cache));
         }
     }
-    public class ClientRedirectUrisValidator : AbstractValidator<ClientRedirectUriContract>
+    public class ClientRedirectUrisValidator : EasyAdminValidatior<ClientRedirectUriContract>
     {
-        public ClientRedirectUrisValidator()
+        public ClientRedirectUrisValidator(ValidationCache cache) : base(cache)
         {
             RuleFor(x => x.RedirectUri).MaximumLength(2000).NotNull();
         }
     }
 
-    public class ClientPostLogoutRedirectUrisValidator : AbstractValidator<ClientPostLogoutRedirectUrisContract>
+    public class ClientPostLogoutRedirectUrisValidator : EasyAdminValidatior<ClientPostLogoutRedirectUrisContract>
     {
-        public ClientPostLogoutRedirectUrisValidator()
+        public ClientPostLogoutRedirectUrisValidator(ValidationCache cache) : base(cache)
         {
             RuleFor(x => x.PostLogoutRedirectUri).MaximumLength(2000).NotNull();
         }
     }
-    public  class ClientIdPRestrictionsValidator : AbstractValidator<ClientIdPRestrictionsContract>
+    public  class ClientIdPRestrictionsValidator : EasyAdminValidatior<ClientIdPRestrictionsContract>
     {
-        public ClientIdPRestrictionsValidator()
+        public ClientIdPRestrictionsValidator(ValidationCache cache) : base(cache)
         {
             RuleFor(x => x.Provider).MaximumLength(200).NotNull();
         }
     }
-    public class ClientGrantTypeValidator : AbstractValidator<ClientGrantTypesContract>
+    public class ClientGrantTypeValidator : EasyAdminValidatior<ClientGrantTypesContract>
     {
-        public ClientGrantTypeValidator()
+        public ClientGrantTypeValidator(ValidationCache cache) : base(cache)
         {
             RuleFor(x => x.GrantType).MaximumLength(250).NotNull();
         }
     }
-    public class ClientCorsOriginsValidator : AbstractValidator<ClientCorsOriginsContract>
+    public class ClientCorsOriginsValidator : EasyAdminValidatior<ClientCorsOriginsContract>
     {
-        public ClientCorsOriginsValidator()
+        public ClientCorsOriginsValidator(ValidationCache cache) : base(cache)
         {
             RuleFor(x => x.Origin).MaximumLength(150).NotNull();
         }

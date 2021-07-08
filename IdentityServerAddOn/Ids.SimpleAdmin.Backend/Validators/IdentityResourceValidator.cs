@@ -3,9 +3,9 @@ using Ids.SimpleAdmin.Contracts;
 
 namespace Ids.SimpleAdmin.Backend.Validators
 {
-    public class IdentityResourceValidator : AbstractValidator<IdentityResourceContract>
+    public class IdentityResourceValidator : EasyAdminValidatior<IdentityResourceContract>
     {
-        public IdentityResourceValidator()
+        public IdentityResourceValidator(ValidationCache cache) : base(cache)
         {
             RuleFor(x => x.Enabled).NotNull();
             RuleFor(x => x.Name).MaximumLength(200).NotNull();
@@ -15,8 +15,8 @@ namespace Ids.SimpleAdmin.Backend.Validators
             RuleFor(x => x.Emphasize).NotNull();
             RuleFor(x => x.ShowInDiscoveryDocument).NotNull();
             RuleFor(x => x.NonEditable).NotNull();
-            RuleForEach(x => x.Claims).SetValidator(new ClaimValidator());
-            RuleForEach(x => x.Properties).SetValidator(new PropertyValidator());
+            RuleForEach(x => x.Claims).SetValidator(new ClaimValidator(cache));
+            RuleForEach(x => x.Properties).SetValidator(new PropertyValidator(cache));
         }
     }
 }

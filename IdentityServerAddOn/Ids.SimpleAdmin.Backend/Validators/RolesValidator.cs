@@ -7,20 +7,21 @@ using System.Linq;
 
 namespace Ids.SimpleAdmin.Backend.Validators
 {
-    public class RolesValidator : AbstractValidator<RolesContract>
+    public class RolesValidator : EasyAdminValidatior<RolesContract>
     {
         
         private readonly IdentityErrorDescriber _errorDescriber;
         private readonly IdentityDbContext _identityDbContext;
         public RolesValidator(IdentityErrorDescriber errorsDescriber,
-            IdentityDbContext identityDbContext)
+            IdentityDbContext identityDbContext,
+            ValidationCache cache) : base(cache)
         {
             _errorDescriber = errorsDescriber;
             _identityDbContext = identityDbContext;
             
             RuleFor(x => x.Name).MaximumLength(256);
             RuleFor(x=> x.ConcurrencyStamp).Custom(CheckConcurrencyStamp);
-            RuleForEach(x => x.Claims).SetValidator(new ValueClaimValidator());
+            RuleForEach(x => x.Claims).SetValidator(new ValueClaimValidator(cache));
         }
         private void CheckConcurrencyStamp(string concurrencyStamp, CustomContext context)
         {

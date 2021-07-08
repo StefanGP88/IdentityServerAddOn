@@ -11,7 +11,7 @@ using Microsoft.Extensions.Options;
 
 namespace Ids.SimpleAdmin.Backend.Validators
 {
-    public class UserValidator : AbstractValidator<UserContract>
+    public class UserValidator : EasyAdminValidatior<UserContract>
     {
         private readonly IdentityErrorDescriber _errorDescriber;
         private readonly IdentityOptions _options;
@@ -19,7 +19,8 @@ namespace Ids.SimpleAdmin.Backend.Validators
 
         public UserValidator(IdentityErrorDescriber errorsDescriber,
             IOptions<IdentityOptions> options,
-            IdentityDbContext identityDbContext)
+            IdentityDbContext identityDbContext,
+            ValidationCache cache) : base(cache)
         {
             _errorDescriber = errorsDescriber;
             _options = options.Value;
@@ -39,7 +40,7 @@ namespace Ids.SimpleAdmin.Backend.Validators
             RuleFor(x => x.AccessFailedCount);
             RuleFor(x => x.UserRoles);
             RuleFor(x => x.SetPassword).Custom(CheckPassword);
-            RuleForEach(x => x.Claims).SetValidator(new ValueClaimValidator());
+            RuleForEach(x => x.Claims).SetValidator(new ValueClaimValidator(cache));//TODO: get this from DI
         }
 
         private void CheckPassword(string password, CustomContext context)
