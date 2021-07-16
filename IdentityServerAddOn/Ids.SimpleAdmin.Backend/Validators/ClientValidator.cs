@@ -5,7 +5,16 @@ namespace Ids.SimpleAdmin.Backend.Validators
 {
     public class ClientValidator : EasyAdminValidatior<ClientsContract>
     {
-        public ClientValidator(ValidationCache cache) : base(cache)
+        public ClientValidator(ValidationCache cache,
+            IValidator<ScopeContract> scopeValidator,
+            IValidator<SecretsContract> secretValidator,
+            IValidator<ClientIdPRestrictionsContract> idprValidator,
+            IValidator<ClientRedirectUriContract> redirectValidator,
+            IValidator<PropertyContract> propertyValidator,
+            IValidator<ClientPostLogoutRedirectUrisContract> postRedirectValidator,
+            IValidator<ClientGrantTypesContract> grantValidator,
+            IValidator<ClientCorsOriginsContract> corsValidator,
+            IValidator<ClientClaimsContract> cliamValidator) : base(cache)
         {
             RuleFor(x => x.Enabled).NotNull();
             RuleFor(x => x.ClientId).NotNull().MaximumLength(200);
@@ -50,15 +59,15 @@ namespace Ids.SimpleAdmin.Backend.Validators
             RuleFor(x => x.UserCodeType).MaximumLength(100);
             RuleFor(x => x.DeviceCodeLifetime).NotNull();
             RuleFor(x => x.NonEditable).NotNull();
-            RuleForEach(x => x.Scopes).SetValidator(new ScopeValidator(cache));
-            RuleForEach(x => x.Secrets).SetValidator(new SecretValidator(cache));
-            RuleForEach(x => x.RedirectUris).SetValidator(new ClientRedirectUrisValidator(cache));
-            RuleForEach(x => x.Properties).SetValidator(new PropertyValidator(cache));
-            RuleForEach(x => x.PostLogoutRedirectUris).SetValidator(new ClientPostLogoutRedirectUrisValidator(cache));
-            RuleForEach(x => x.IdPRestrictions).SetValidator(new ClientIdPRestrictionsValidator(cache));
-            RuleForEach(x => x.GrantTypes).SetValidator(new ClientGrantTypeValidator(cache));
-            RuleForEach(x => x.CorsOrigins).SetValidator(new ClientCorsOriginsValidator(cache));
-            RuleForEach(x => x.Claims).SetValidator(new ValueClaimValidator(cache));
+            RuleForEach(x => x.Scopes).SetValidator(scopeValidator);
+            RuleForEach(x => x.Secrets).SetValidator(secretValidator);
+            RuleForEach(x => x.RedirectUris).SetValidator(redirectValidator);
+            RuleForEach(x => x.Properties).SetValidator(propertyValidator);
+            RuleForEach(x => x.PostLogoutRedirectUris).SetValidator(postRedirectValidator);
+            RuleForEach(x => x.IdPRestrictions).SetValidator(idprValidator);
+            RuleForEach(x => x.GrantTypes).SetValidator(grantValidator);
+            RuleForEach(x => x.CorsOrigins).SetValidator(corsValidator);
+            RuleForEach(x => x.Claims).SetValidator(cliamValidator);
         }
     }
     public class ClientRedirectUrisValidator : EasyAdminValidatior<ClientRedirectUriContract>
@@ -76,7 +85,7 @@ namespace Ids.SimpleAdmin.Backend.Validators
             RuleFor(x => x.PostLogoutRedirectUri).MaximumLength(2000).NotNull();
         }
     }
-    public  class ClientIdPRestrictionsValidator : EasyAdminValidatior<ClientIdPRestrictionsContract>
+    public class ClientIdPRestrictionsValidator : EasyAdminValidatior<ClientIdPRestrictionsContract>
     {
         public ClientIdPRestrictionsValidator(ValidationCache cache) : base(cache)
         {

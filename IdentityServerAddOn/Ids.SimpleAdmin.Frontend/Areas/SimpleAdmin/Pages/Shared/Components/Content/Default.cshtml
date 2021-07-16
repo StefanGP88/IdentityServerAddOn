@@ -1,13 +1,24 @@
 ﻿@model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared.Components.Content.ContentData
 @{
+    var btnColor = Model.HasError ? "btn-outline-danger" : "btn-outline-primary";
 }
 <div class="row my-2">
     <div class="col">
-        <a class="btn btn-outline-primary btn-block text-left collapsed"
+        <a class="btn @btnColor btn-block text-left collapsed"
            data-toggle="collapse"
            href="#@Model.Title.Replace(' ','-').ToLowerInvariant()"
            role="button">
-            @Model.Title
+            <div class="d-flex flex-row justify-content-between">
+                <div>
+                    @Model.Title
+                </div>
+                <div>
+                    @if (Model.HasError)
+                    {
+                        <span class="badge badge-danger">@Model.ErrorCount</span>
+                    }
+                </div>
+            </div>
         </a>
     </div>
 </div>

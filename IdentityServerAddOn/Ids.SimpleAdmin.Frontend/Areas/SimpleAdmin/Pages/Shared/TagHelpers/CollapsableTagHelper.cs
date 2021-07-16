@@ -1,4 +1,5 @@
-﻿using Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared.Components;
+﻿using Ids.SimpleAdmin.Backend.Validators;
+using Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared.Components;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
@@ -9,6 +10,7 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared.TagHelpers
     public class CollapsableTagHelper : TagHelper
     {
         public string Title { get; set; } = nameof(CollapsableTagHelper);
+        public ErrorSummary ErrorSummary { get; set; } = new();
 
 
         private readonly IViewComponentReader _reader;
@@ -24,7 +26,7 @@ namespace Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Shared.TagHelpers
             output.Content.Clear();
             output.TagMode = TagMode.StartTagAndEndTag;
 
-            var component = await _reader.ReadAsString("Content", Title, ViewContext).ConfigureAwait(false);
+            var component = await _reader.ReadAsString("Content", new { Title, ErrorSummary }, ViewContext).ConfigureAwait(false);
             var childContent = await output.GetChildContentAsync().ConfigureAwait(false);
             var content = childContent.GetContent();
 
