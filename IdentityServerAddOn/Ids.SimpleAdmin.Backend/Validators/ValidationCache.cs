@@ -417,6 +417,21 @@ namespace Ids.SimpleAdmin.Backend.Validators
             _summary["Secret"] = summary;
             return _summary["Secret"];
         }
+        public ErrorSummary SecretSummary(SecretsContract c)
+        {
+            var key = "Secret" + c?.GetHashCode();
+            if (_summary.ContainsKey(key)) return _summary[key];
+            var p = new[]
+            {
+                nameof(c.Description),
+                nameof(c.Expiration),
+                nameof(c.Type),
+                nameof(c.Value)
+            };
+
+            _summary[key] =  CreateSummary(c, p);
+            return _summary[key];
+        }
         public ErrorSummary CreateSummary(object obj, string[] propertyNames)
         {
             return new ErrorSummary
