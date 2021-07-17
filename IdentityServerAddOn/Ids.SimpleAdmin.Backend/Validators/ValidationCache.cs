@@ -1,5 +1,6 @@
 ﻿using FluentValidation.Results;
 using Ids.SimpleAdmin.Contracts;
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -61,6 +62,23 @@ namespace Ids.SimpleAdmin.Backend.Validators
                 .First();
         }
          */
+
+        public IHtmlContent ErrorMessage(object obj, string propertyName, out string errorClass)
+        {
+            errorClass = string.Empty;
+            if (!_cache.ContainsKey(obj)) return new HtmlString(string.Empty);
+
+            var msg = _cache[obj].Errors
+                .Where(x => x.PropertyName == propertyName)
+                .Select(x => x.ErrorMessage)
+                .FirstOrDefault();
+
+            if (!string.IsNullOrWhiteSpace(msg))
+                errorClass = " alert-danger ";
+            return new HtmlString($" <small class=\"font-italic text-danger\">{msg}</small> ");
+
+
+        }
         public bool HasError(object obj, string[] propertyNames)
         {
             if (!_cache.ContainsKey(obj)) return false;
@@ -112,7 +130,7 @@ namespace Ids.SimpleAdmin.Backend.Validators
                 nameof(c.IncludeJwtId),
                 nameof(c.NonEditable)
             };
-            _summary["BaseSettings"] = CreateSummary(c,p);
+            _summary["BaseSettings"] = CreateSummary(c, p);
             return _summary["BaseSettings"];
         }
         public ErrorSummary CreateSummary(object obj, string[] propertyNames)

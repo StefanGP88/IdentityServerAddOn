@@ -5,12 +5,12 @@
 
 <Collapsable title="Base Settings" error-summary="summary">
     <div class="form-group">
-        <label class="col-form-label">Client id</label>
-        <input type="text" class="form-control" name="dto.ClientId" value="@Model?.Data?.ClientId">
+        <label class="col-form-label">Client id</label> @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.ClientId), out var inputColor )
+        <input type="text" class="form-control @inputColor" name="dto.ClientId" value="@Model?.Data?.ClientId">
     </div>
     <div class="form-group">
-        <label class="col-form-label">Client name</label>
-        <input type="text" class="form-control" name="dto.ClientName" value="@Model?.Data?.ClientName">
+        <label class="col-form-label">Client name</label> @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.ClientName), out  inputColor )
+        <input type="text" class="form-control @inputColor" name="dto.ClientName" value="@Model?.Data?.ClientName">
     </div>
     <div class="form-group">
         <label class="col-form-label">Description</label>
