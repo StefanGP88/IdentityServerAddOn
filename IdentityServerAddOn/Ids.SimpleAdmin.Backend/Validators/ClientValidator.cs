@@ -70,40 +70,4 @@ namespace Ids.SimpleAdmin.Backend.Validators
             RuleForEach(x => x.Claims).SetValidator(cliamValidator);
         }
     }
-    public class ClientRedirectUrisValidator : EasyAdminValidatior<ClientRedirectUriContract>
-    {
-        public ClientRedirectUrisValidator(ValidationCache cache) : base(cache)
-        {
-            RuleFor(x => x.RedirectUri).MaximumLength(2000).NotNull();
-        }
-    }
-
-    public class ClientPostLogoutRedirectUrisValidator : EasyAdminValidatior<ClientPostLogoutRedirectUrisContract>
-    {
-        public ClientPostLogoutRedirectUrisValidator(ValidationCache cache) : base(cache)
-        {
-            RuleFor(x => x.PostLogoutRedirectUri).MaximumLength(2000).NotNull();
-        }
-    }
-    public class ClientIdPRestrictionsValidator : EasyAdminValidatior<ClientIdPRestrictionsContract>
-    {
-        public ClientIdPRestrictionsValidator(ValidationCache cache) : base(cache)
-        {
-            RuleFor(x => x.Provider).MaximumLength(200).NotNull();
-        }
-    }
-    public class ClientGrantTypeValidator : EasyAdminValidatior<ClientGrantTypesContract>
-    {
-        public ClientGrantTypeValidator(ValidationCache cache) : base(cache)
-        {
-            RuleFor(x => x.GrantType).MaximumLength(250).NotNull();
-        }
-    }
-    public class ClientCorsOriginsValidator : EasyAdminValidatior<ClientCorsOriginsContract>
-    {
-        public ClientCorsOriginsValidator(ValidationCache cache) : base(cache)
-        {
-            RuleFor(x => x.Origin).MaximumLength(150).NotNull();
-        }
-    }
 }
