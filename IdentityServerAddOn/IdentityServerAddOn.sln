@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ids.SimpleAdmin.Frontend", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ids.SimpleAdmin.Contracts", "Ids.SimpleAdmin.Contracts\Ids.SimpleAdmin.Contracts.csproj", "{2060F5E0-50C9-41B9-B6E8-05700397FC5D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{EC5584FA-C6C8-4ADF-BB5D-FDC1902012A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{ED95A424-BADA-4746-97F7-D9F0CD41D61C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,9 +43,16 @@ Global
 		{2060F5E0-50C9-41B9-B6E8-05700397FC5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2060F5E0-50C9-41B9-B6E8-05700397FC5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2060F5E0-50C9-41B9-B6E8-05700397FC5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED95A424-BADA-4746-97F7-D9F0CD41D61C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED95A424-BADA-4746-97F7-D9F0CD41D61C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED95A424-BADA-4746-97F7-D9F0CD41D61C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED95A424-BADA-4746-97F7-D9F0CD41D61C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ED95A424-BADA-4746-97F7-D9F0CD41D61C} = {EC5584FA-C6C8-4ADF-BB5D-FDC1902012A1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E28FC767-6A6B-4167-A1FF-C128031E5BC3}
