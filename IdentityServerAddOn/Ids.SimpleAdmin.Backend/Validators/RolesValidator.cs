@@ -12,16 +12,19 @@ namespace Ids.SimpleAdmin.Backend.Validators
         
         private readonly IdentityErrorDescriber _errorDescriber;
         private readonly IdentityDbContext _identityDbContext;
+        private readonly IValidator<ValueClaimsContract> _valueClaimsContract;
         public RolesValidator(IdentityErrorDescriber errorsDescriber,
             IdentityDbContext identityDbContext,
-            ValidationCache cache) : base(cache)
+            ValidationCache cache,
+            IValidator<ValueClaimsContract> valueClaimsContract) : base(cache)
         {
             _errorDescriber = errorsDescriber;
             _identityDbContext = identityDbContext;
-            
+            _valueClaimsContract = valueClaimsContract;
+
             RuleFor(x => x.Name).MaximumLength(256);
             RuleFor(x=> x.ConcurrencyStamp).Custom(CheckConcurrencyStamp);
-            RuleForEach(x => x.Claims).SetValidator(new ValueClaimValidator(cache));
+            RuleForEach(x => x.Claims).SetValidator(_valueClaimsContract);
         }
         private void CheckConcurrencyStamp(string concurrencyStamp, CustomContext context)
         {

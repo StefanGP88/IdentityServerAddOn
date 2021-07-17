@@ -1,13 +1,10 @@
 ﻿using FluentValidation;
 using FluentValidation.Validators;
 using Ids.SimpleAdmin.Contracts;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System.Linq;
 
 namespace Ids.SimpleAdmin.Backend.Validators
 {
@@ -16,15 +13,17 @@ namespace Ids.SimpleAdmin.Backend.Validators
         private readonly IdentityErrorDescriber _errorDescriber;
         private readonly IdentityOptions _options;
         private readonly IdentityDbContext _identityDbContext;
-
+        private readonly IValidator<ValueClaimsContract> _valueClaimValidator;
         public UserValidator(IdentityErrorDescriber errorsDescriber,
             IOptions<IdentityOptions> options,
             IdentityDbContext identityDbContext,
+            IValidator<ValueClaimsContract> valueClaimValidator,
             ValidationCache cache) : base(cache)
         {
             _errorDescriber = errorsDescriber;
             _options = options.Value;
             _identityDbContext = identityDbContext;
+            _valueClaimValidator = valueClaimValidator;
 
             RuleFor(x => x.UserName).NotNull().MaximumLength(256).Custom(CheckUser);
             RuleFor(x => x.NormalizedUserName).MaximumLength(256);
@@ -40,7 +39,7 @@ namespace Ids.SimpleAdmin.Backend.Validators
             RuleFor(x => x.AccessFailedCount);
             RuleFor(x => x.UserRoles);
             RuleFor(x => x.SetPassword).Custom(CheckPassword);
-            RuleForEach(x => x.Claims).SetValidator(new ValueClaimValidator(cache));//TODO: get this from DI
+            RuleForEach(x => x.Claims).SetValidator(_valueClaimValidator);
         }
 
         private void CheckPassword(string password, CustomContext context)
