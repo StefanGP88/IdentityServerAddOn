@@ -298,6 +298,25 @@ namespace Ids.SimpleAdmin.Backend.Validators
             _summary["Cors"] = summary;
             return _summary["Cors"];
         }
+        public ErrorSummary GrantSummary(List<ClientGrantTypesContract> c)
+        {
+            if (_summary.ContainsKey("Grant")) return _summary["Grant"];
+
+            var summary = c.Aggregate(new ErrorSummary(), (total, current) =>
+            {
+                var p = new[]
+                {
+                    nameof(current.GrantType)
+                };
+                var currentSummary = CreateSummary(current, p);
+                total += currentSummary;
+
+                return total;
+            });
+
+            _summary["Grant"] = summary;
+            return _summary["Grant"];
+        }
         public ErrorSummary CreateSummary(object obj, string[] propertyNames)
         {
             return new ErrorSummary
