@@ -1,37 +1,45 @@
 ﻿@model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Clients.InfoModel
 
-<collapsable title="Life Times">
+<collapsable title="Life Times" error-summary="_validationCache.LifeTimeSummary(Model?.Data)">
     <div class="form-group">
         <label class="col-form-label">User sso lifetime</label>
-        <input type="number" class="form-control" name="dto.UserSsoLifetime" value="@Model?.Data?.UserSsoLifetime">
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.UserSsoLifetime), out var inputColor)
+        <input type="number" class="form-control @inputColor" name="dto.UserSsoLifetime" value="@Model?.Data?.UserSsoLifetime">
     </div>
     <div class="form-group">
         <label class="col-form-label">Device code lifetime</label>
-        <input type="number" class="form-control" name="dto.DeviceCodeLifetime" value="@Model?.Data?.DeviceCodeLifetime">
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.DeviceCodeLifetime), out inputColor)
+        <input type="number" class="form-control @inputColor" name="dto.DeviceCodeLifetime" value="@Model?.Data?.DeviceCodeLifetime">
     </div>
     <div class="form-group">
         <label class="col-form-label">Identity token lifetime</label>
-        <input type="number" class="form-control" name="dto.IdentityTokenLifetime" value="@Model?.Data?.IdentityTokenLifetime">
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.IdentityTokenLifetime), out inputColor)
+        <input type="number" class="form-control @inputColor" name="dto.IdentityTokenLifetime" value="@Model?.Data?.IdentityTokenLifetime">
     </div>
     <div class="form-group">
         <label class="col-form-label">Access token lifetime</label>
-        <input type="number" class="form-control" name="dto.AccessTokenLifetime" value="@Model?.Data?.AccessTokenLifetime">
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.AccessTokenLifetime), out inputColor)
+        <input type="number" class="form-control @inputColor" name="dto.AccessTokenLifetime" value="@Model?.Data?.AccessTokenLifetime">
     </div>
     <div class="form-group">
         <label class="col-form-label">Authorization code lifetime</label>
-        <input type="number" class="form-control" name="dto.AuthorizationCodeLifeTime" value="@Model?.Data?.AuthorizationCodeLifeTime">
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.AuthorizationCodeLifeTime), out inputColor)
+        <input type="number" class="form-control @inputColor" name="dto.AuthorizationCodeLifeTime" value="@Model?.Data?.AuthorizationCodeLifeTime">
     </div>
     <div class="form-group">
         <label class="col-form-label">Consent lifetime</label>
-        <input type="number" class="form-control" name="dto.ConsentLifetime" value="@Model?.Data?.ConsentLifetime">
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.ConsentLifetime), out inputColor)
+        <input type="number" class="form-control @inputColor" name="dto.ConsentLifetime" value="@Model?.Data?.ConsentLifetime">
     </div>
     <div class="form-group">
         <label class="col-form-label">Absolute refresh token lifetime</label>
-        <input type="number" class="form-control" name="dto.AbsoluteRefreshTokenLifetime" value="@Model?.Data?.AbsoluteRefreshTokenLifetime">
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.AbsoluteRefreshTokenLifetime), out inputColor)
+        <input type="number" class="form-control @inputColor" name="dto.AbsoluteRefreshTokenLifetime" value="@Model?.Data?.AbsoluteRefreshTokenLifetime">
     </div>
     <div class="form-group">
         <label class="col-form-label">Sliding refresh token lifetime</label>
-        <input type="number" class="form-control" name="dto.SlidingRefreshTokenLifetime" value="@Model?.Data?.SlidingRefreshTokenLifetime">
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.SlidingRefreshTokenLifetime), out inputColor)
+        <input type="number" class="form-control @inputColor" name="dto.SlidingRefreshTokenLifetime" value="@Model?.Data?.SlidingRefreshTokenLifetime">
     </div>
 
 </collapsable>

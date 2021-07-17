@@ -96,7 +96,23 @@ namespace Ids.SimpleAdmin.Backend.Validators
             _summary["BaseSettings"] = CreateSummary(c, p);
             return _summary["BaseSettings"];
         }
-
+        public ErrorSummary LifeTimeSummary(ClientsContract c)
+        {
+            if (_summary.ContainsKey("LifeTime")) return _summary["LifeTime"];
+            var p = new[]
+            {
+                nameof(c.UserSsoLifetime),
+                nameof(c.DeviceCodeLifetime),
+                nameof(c.IdentityTokenLifetime),
+                nameof(c.AccessTokenLifetime),
+                nameof(c.AuthorizationCodeLifeTime),
+                nameof(c.ConsentLifetime),
+                nameof(c.AbsoluteRefreshTokenLifetime),
+                nameof(c.SlidingRefreshTokenLifetime)
+            };
+            _summary["LifeTime"] = CreateSummary(c, p);
+            return _summary["LifeTime"];
+        }
         public ErrorSummary ClaimsSummary(ClientsContract c)
         {
             if (_summary.ContainsKey("Claims")) return _summary["Claims"];
