@@ -20,7 +20,6 @@ namespace Ids.SimpleAdmin.Backend.Validators
 
         public void AddResult(object obj, ValidationResult result)
         {
-            System.Console.WriteLine(obj.GetHashCode() + " added");
             _cache[obj] = result;
         }
 
