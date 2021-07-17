@@ -1,9 +1,9 @@
 ﻿@model List<ClaimsContract>
-<collapsable title="Claims">
+<collapsable title="Claims" error-summary="_validationCache.ClaimsSummary(Model)">
     <list-table body-id="claim-list">
         <tr>
             <td class="w-100 pl-2">Type</td>
-            <new partial-name="Partials/_CorsOrigin" append-element="claim-list"></new>
+            <new partial-name="Partials/_Claim" append-element="claim-list"></new>
         </tr>
         @if (!Model.IsNull())
         {
