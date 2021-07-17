@@ -112,6 +112,22 @@ namespace Ids.SimpleAdmin.Backend.Validators
             _summary["BaseSettings"] = CreateSummary(c, p);
             return _summary["BaseSettings"];
         }
+        public ErrorSummary BaseSettingSummary(ApiResourceContract c)
+        {
+            if (_summary.ContainsKey("BaseSettings")) return _summary["BaseSettings"];
+            var p = new[]
+            {
+                nameof(c.Name),
+                nameof(c.DisplayName),
+                nameof(c.Description),
+                nameof(c.AllowedAccessTokenSigningAlgorithms),
+                nameof(c.Enabled),
+                nameof(c.NonEditable),
+                nameof(c.ShowInDiscoveryDocument)
+            };
+            _summary["BaseSettings"] = CreateSummary(c, p);
+            return _summary["BaseSettings"];
+        }
         public ErrorSummary LifeTimeSummary(ClientsContract c)
         {
             if (_summary.ContainsKey("LifeTime")) return _summary["LifeTime"];
