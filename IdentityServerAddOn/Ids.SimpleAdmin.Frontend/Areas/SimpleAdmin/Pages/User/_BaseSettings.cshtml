@@ -1,63 +1,75 @@
 ﻿@model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.User.InfoModel
-    <Collapsable title="Base Settings">
-        <input type="hidden" name="dto.ConcurrencyStamp" value="@Model?.Data?.ConcurrencyStamp" />
-        <input type="hidden" name="dto.Id" value="@Model?.Data?.Id" />
+<Collapsable title="Base Settings" error-summary="_validationCache.BaseSettingSummary(Model?.Data)">
+    <input type="hidden" name="dto.ConcurrencyStamp" value="@Model?.Data?.ConcurrencyStamp" />
+    <input type="hidden" name="dto.Id" value="@Model?.Data?.Id" />
+    <div class="form-group">
+        <label class="col-form-label">Name</label>
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.UserName), out var inputColor)
+        <input type="text" class="form-control @inputColor" name="dto.UserName" value="@Model?.Data?.UserName">
+    </div>
+    @if (!string.IsNullOrWhiteSpace(Model?.Data?.NormalizedUserName))
+    {
         <div class="form-group">
-            <label class="col-form-label">Name</label>
-            <input type="text" class="form-control" name="dto.UserName" value="@Model?.Data?.UserName">
+            <label class="col-form-label">Normalized name</label>
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.NormalizedUserName), out inputColor)
+            <input type="text" class="form-control @inputColor" name="dto.NormalizedUserName" value="@Model?.Data?.NormalizedUserName" disabled>
         </div>
-        @if (!string.IsNullOrWhiteSpace(Model?.Data?.NormalizedUserName))
-        {
-            <div class="form-group">
-                <label class="col-form-label">Normalized name</label>
-                <input type="text" class="form-control" name="dto.NormalizedUserName" value="@Model?.Data?.NormalizedUserName" disabled>
-            </div>
-        }
+    }
+    <div class="form-group">
+        <label class="col-form-label">Email</label>
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.Email), out inputColor)
+        <input type="text" class="form-control @inputColor" name="dto.Email" value="@Model?.Data?.Email">
+    </div>
+    @if (!string.IsNullOrWhiteSpace(Model?.Data?.NormalizedEmail))
+    {
         <div class="form-group">
-            <label class="col-form-label">Email</label>
-            <input type="text" class="form-control" name="dto.Email" value="@Model?.Data?.Email">
+            <label class="col-form-label">Normalized email</label>
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.NormalizedEmail), out inputColor)
+            <input type="text" class="form-control @inputColor" name="dto.NormalizedEmail" value="@Model?.Data?.NormalizedEmail" disabled>
         </div>
-        @if (!string.IsNullOrWhiteSpace(Model?.Data?.NormalizedEmail))
-        {
-            <div class="form-group">
-                <label class="col-form-label">Normalized email</label>
-                <input type="text" class="form-control" name="dto.NormalizedEmail" value="@Model?.Data?.NormalizedEmail" disabled>
-            </div>
-        }
-        <div class="form-group">
-            <label class="col-form-label">Set password</label>
-            <input type="text" class="form-control" name="dto.SetPassword" value="@Model?.Data?.SetPassword">
+    }
+    <div class="form-group">
+        <label class="col-form-label">Set password</label>
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.SetPassword), out inputColor)
+        <input type="text" class="form-control @inputColor" name="dto.SetPassword" value="@Model?.Data?.SetPassword">
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Phone number</label>
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.PhoneNumber), out inputColor)
+        <input type="text" class="form-control @inputColor" name="dto.PhoneNumber" value="@Model?.Data?.PhoneNumber">
+    </div>
+    <fieldset class="form-group">
+        <div class="form-check">
+            @{var errMsg = _validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.EmailConfirmed), out inputColor);}
+            <input type="checkbox" class="form-check-input @inputColor" id="enabled" name="dto.EmailConfirmed" value="True" @Model?.Data?.EmailConfirmed.IsChecked() />
+            <label class="form-check-label">Email confirmed</label> @errMsg
         </div>
-        <div class="form-group">
-            <label class="col-form-label">Phone number</label>
-            <input type="text" class="form-control" name="dto.PhoneNumber" value="@Model?.Data?.PhoneNumber">
+        <div class="form-check">
+            @{errMsg = _validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.PhoneNumberConfirmed), out inputColor);}
+            <input type="checkbox" class="form-check-input @inputColor" id="enabled" name="dto.PhoneNumberConfirmed" value="True" @Model?.Data?.PhoneNumberConfirmed.IsChecked() />
+            <label class="form-check-label">Phone number confirmed</label> @errMsg
         </div>
-        <fieldset class="form-group">
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="enabled" name="dto.EmailConfirmed" value="True" @Model?.Data?.EmailConfirmed.IsChecked() />
-                <label class="form-check-label">Email confirmed</label>
-            </div>
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="enabled" name="dto.PhoneNumberConfirmed" value="True" @Model?.Data?.PhoneNumberConfirmed.IsChecked() />
-                <label class="form-check-label">Phone number confirmed</label>
-            </div>
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="enabled" name="dto.TwoFactorEnabled" value="True" @Model?.Data?.TwoFactorEnabled.IsChecked() />
-                <label class="form-check-label">Two factor enabled</label>
-            </div>
-        </fieldset>
-        <fieldset class="form-group">
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="enabled" name="dto.LockoutEnabled" value="True" @Model?.Data?.LockoutEnabled.IsChecked() />
-                <label class="form-check-label">Lockout enabled</label>
-            </div>
-        </fieldset>
-        <div class="form-group">
-            <label class="col-form-label">Lockout end</label>
-            <input type="datetime-local" class="form-control" name="dto.LockoutEnd" value="@Model?.Data?.LockoutEnd.Value.ToString("s")">
+        <div class="form-check">
+            @{errMsg = _validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.TwoFactorEnabled), out inputColor);}
+            <input type="checkbox" class="form-check-input @inputColor" id="enabled" name="dto.TwoFactorEnabled" value="True" @Model?.Data?.TwoFactorEnabled.IsChecked() />
+            <label class="form-check-label">Two factor enabled</label> @errMsg
         </div>
-        <div class="form-group">
-            <label class="col-form-label">Access failed count</label>
-            <input type="number" class="form-control" name="dto.AccessFailedCount" value="@(Model?.Data?.AccessFailedCount ?? 0)">
+    </fieldset>
+    <fieldset class="form-group">
+        <div class="form-check">
+            @{errMsg = _validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.LockoutEnabled), out inputColor);}
+            <input type="checkbox" class="form-check-input @inputColor" id="enabled" name="dto.LockoutEnabled" value="True" @Model?.Data?.LockoutEnabled.IsChecked() />
+            <label class="form-check-label">Lockout enabled</label> @errMsg
         </div>
-    </Collapsable>
+    </fieldset>
+    <div class="form-group">
+        <label class="col-form-label">Lockout end</label>
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.LockoutEnd), out inputColor)
+        <input type="datetime-local" class="form-control @inputColor" name="dto.LockoutEnd" value="@Model?.Data?.LockoutEnd.Value.ToString("s")">
+    </div>
+    <div class="form-group">
+        <label class="col-form-label">Access failed count</label>
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.AccessFailedCount), out inputColor)
+        <input type="number" class="form-control @inputColor" name="dto.AccessFailedCount" value="@(Model?.Data?.AccessFailedCount ?? 0)">
+    </div>
+</Collapsable>
