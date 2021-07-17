@@ -7,10 +7,11 @@
     <td>
         <input type="hidden" name="dto.Scopes.index" value="@idx" />
         <input type="hidden" name="dto.Scopes[@idx].Id" value="@Model?.Id" />
+        @_validationCache.ErrorMessage(Model, nameof(Model.Scope), out var inputColor)
         <input type="text"
                name="dto.Scopes[@idx].Scope"
                value="@Model?.Scope"
-               class="form-control form-control-sm ml-1" />
+               class="form-control form-control-sm ml-1 @inputColor" />
     </td>
     <remove title="scope" target="@delete"></remove>
 </tr>

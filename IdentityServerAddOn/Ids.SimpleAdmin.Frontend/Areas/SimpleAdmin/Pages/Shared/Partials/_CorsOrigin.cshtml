@@ -8,10 +8,11 @@
         <input type="hidden" name="dto.CorsOrigins.index" value="@idx" />
         <input type="hidden" name="dto.CorsOrigins[@idx].Id" value="@Model?.Id" />
         <input type="hidden" name="dto.CorsOrigins[@idx].ClientId" value="@Model?.ClientId" />
+        @_validationCache.ErrorMessage(Model, nameof(Model.Origin), out var inputColor)
         <input type="text"
                name="dto.CorsOrigins[@idx].Origin"
                value="@Model?.Origin"
-               class="form-control form-control-sm ml-1" />
+               class="form-control form-control-sm ml-1 @inputColor" />
     </td>
     <remove title="cors origin" target="@delete"></remove>
 </tr>

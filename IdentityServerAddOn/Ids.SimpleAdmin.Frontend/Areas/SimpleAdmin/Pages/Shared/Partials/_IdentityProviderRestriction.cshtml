@@ -8,10 +8,11 @@
         <input type="hidden" name="dto.IdPRestrictions.index" value="@idx" />
         <input type="hidden" name="dto.IdPRestrictions[@idx].Id" value="@Model?.Id" />
         <input type="hidden" name="dto.IdPRestrictions[@idx].ClientId" value="@Model?.ClientId" />
+         @_validationCache.ErrorMessage(Model, nameof(Model.Provider), out var inputColor)
         <input type="text"
                name="dto.IdPRestrictions[@idx].Provider"
                value="@Model?.Provider"
-               class="form-control form-control-sm m-1" />
+               class="form-control form-control-sm m-1 @inputColor" />
     </td>
     <remove title="identity provider restriction" target="@delete"></remove>
 </tr>
