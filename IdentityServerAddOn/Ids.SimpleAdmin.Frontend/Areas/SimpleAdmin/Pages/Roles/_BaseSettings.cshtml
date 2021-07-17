@@ -1,16 +1,18 @@
 ﻿@model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Roles.InfoModel
-<Collapsable title="Base Settings">
+<Collapsable title="Base Settings" error-summary="_validationCache.BaseSettingSummary(Model?.Data)">
     <input type="hidden" name="dto.ConcurrencyStamp" value="@Model?.Data?.ConcurrencyStamp" />
     <input type="hidden" name="dto.Id" value="@Model?.Data?.Id" />
     <div class="form-group">
         <label class="col-form-label">Name</label>
-        <input type="text" class="form-control" name="dto.Name" value="@Model?.Data?.Name">
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.Name), out var inputColor)
+        <input type="text" class="form-control @inputColor" name="dto.Name" value="@Model?.Data?.Name">
     </div>
     @if (!string.IsNullOrWhiteSpace(Model?.Data?.NormalizedName))
     {
         <div class="form-group">
             <label class="col-form-label">Normalized name</label>
-            <input type="text" class="form-control" name="dto.Name" value="@Model?.Data?.NormalizedName" disabled>
+            @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.NormalizedName), out inputColor)
+            <input type="text" class="form-control @inputColor" name="dto.Name" value="@Model?.Data?.NormalizedName" disabled>
         </div>
     }
 </Collapsable>
