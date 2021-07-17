@@ -23,79 +23,42 @@ namespace Ids.SimpleAdmin.Backend.Validators
             System.Console.WriteLine(obj.GetHashCode() + " added");
             _cache[obj] = result;
         }
-        /*
-         
-        public bool HasErrors(object obj)
-        {
-            return !_cache[obj].IsValid;
-        }
-
-        public bool HasErrors(List<object> objs)
-        {
-            return objs.Any(x => !_cache[x].IsValid);
-        }
-
-        public int ErrorCount(object obj)
-        {
-            return _cache[obj].Errors.Count;
-        }
-
-        public int ErrorCount(List<object> objs)
-        {
-            return objs.Aggregate(0, (total, current) =>
-            {
-                total += _cache[current].Errors.Count;
-                return total;
-            });
-        }
-
-        public List<string> ErrorsMessages(object obj)
-        {
-            return _cache[obj].Errors.Select(x => x.ErrorMessage).ToList();
-        }
-
-        public string ErrorsMessage(object obj, string propertyName)
-        {
-            return _cache[obj].Errors
-                .Where(x => x.PropertyName == propertyName)
-                .Select(x => x.ErrorMessage)
-                .First();
-        }
-         */
 
         public IHtmlContent ErrorMessage(object obj, string propertyName, out string errorClass)
         {
             errorClass = string.Empty;
-            if (!_cache.ContainsKey(obj)) return new HtmlString(string.Empty);
+            if (obj is null || !_cache.ContainsKey(obj)) return new HtmlString(string.Empty);
 
             var msg = _cache[obj].Errors
-                .Where(x => x.PropertyName == propertyName)
+                .Where(x => x.PropertyName == propertyName || x.FormattedMessagePlaceholderValues["PropertyName"].ToString() == propertyName)
                 .Select(x => x.ErrorMessage)
                 .FirstOrDefault();
 
             if (!string.IsNullOrWhiteSpace(msg))
+            {
                 errorClass = " alert-danger ";
-            return new HtmlString($" <small class=\"font-italic text-danger\">{msg}</small> ");
-
-
+                return new HtmlString($" <small class=\"font-italic text-danger ml-2\">{msg}</small> ");
+            }
+            return new HtmlString(string.Empty);
         }
         public bool HasError(object obj, string[] propertyNames)
         {
-            if (!_cache.ContainsKey(obj)) return false;
+            if (obj is null || !_cache.ContainsKey(obj)) return false;
             foreach (var item in propertyNames)
             {
-                if (_cache[obj].Errors.Where(x => x.PropertyName == item).Any())
+                if (_cache[obj].Errors.Where(x => x.PropertyName == item || x.FormattedMessagePlaceholderValues["PropertyName"].ToString() == item).Any())
                     return true;
             }
             return false;
         }
         public int HasCount(object obj, string[] propertyNames)
         {
-            if (!_cache.ContainsKey(obj)) return 0;
             var count = 0;
+            if (obj is null || !_cache.ContainsKey(obj)) return count;
+
             foreach (var item in propertyNames)
             {
-                if (_cache[obj].Errors.Where(x => x.PropertyName == item).Any())
+                if (_cache[obj].Errors.Where(x => x.PropertyName == item || x.FormattedMessagePlaceholderValues["PropertyName"].ToString() == item).Any())
                     count++;
             }
             return count;
@@ -132,6 +95,35 @@ namespace Ids.SimpleAdmin.Backend.Validators
             };
             _summary["BaseSettings"] = CreateSummary(c, p);
             return _summary["BaseSettings"];
+        }
+
+        public ErrorSummary ClaimsSummary(ClientsContract c)
+        {
+            if (_summary.ContainsKey("Claims")) return _summary["Claims"];
+            var prefix = new[]
+            {
+                nameof(c.ClientClaimsPrefix),
+            };
+            var summary = CreateSummary(c, prefix);
+
+
+            summary = c.Claims.Aggregate(summary, (total, current) =>
+            {
+                var p = new[]
+                {
+                    nameof(current.Type),
+                    nameof(current.Value)
+                };
+                var currentSummary = CreateSummary(current, p);
+                total.ErrorCount += currentSummary.ErrorCount;
+                if (currentSummary.HasError)
+                    total.HasError = currentSummary.HasError;
+
+                return total;
+            });
+
+            _summary["Claims"] = summary;
+            return _summary["Claims"];
         }
         public ErrorSummary CreateSummary(object obj, string[] propertyNames)
         {

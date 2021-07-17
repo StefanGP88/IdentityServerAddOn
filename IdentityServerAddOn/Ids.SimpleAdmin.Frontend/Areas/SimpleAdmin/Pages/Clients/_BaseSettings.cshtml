@@ -15,11 +15,13 @@
         <input type="text" class="form-control @inputColor" name="dto.ClientName" value="@Model?.Data?.ClientName">
     </div>
     <div class="form-group">
-        <label class="col-form-label">Description</label> @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.Description), out inputColor)
+        <label class="col-form-label">Description</label>
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.Description), out inputColor)
         <textarea class="form-control @inputColor" name="dto.Description">@Model?.Data?.Description</textarea>
     </div>
     <div class="form-group">
-        <label class="col-form-label">Protocol type</label> @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.ProtocolType), out inputColor)
+        <label class="col-form-label">Protocol type</label>
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.ProtocolType), out inputColor)
         <select class="form-control @inputColor" name="dto.ProtocolType">
             @if (IdentityServerConstants.ProtocolTypes.OpenIdConnect == Model?.Data?.ProtocolType)
             {
@@ -48,19 +50,23 @@
         </select>
     </div>
     <div class="form-group">
-        <label class="col-form-label">Allowed identity token signing algorithms</label> @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.AllowedIdentityTokenSigningAlgorithms), out inputColor)
+        <label class="col-form-label">Allowed identity token signing algorithms</label>
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.AllowedIdentityTokenSigningAlgorithms), out inputColor)
         <textarea class="form-control @inputColor" name="dto.AllowedIdentityTokenSigningAlgorithms">@Model?.Data?.AllowedIdentityTokenSigningAlgorithms</textarea>
     </div>
     <div class="form-group">
-        <label class="col-form-label">Pair wise subject salt</label> @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.PairWiseSubjectSalt), out inputColor)
+        <label class="col-form-label">Pair wise subject salt</label>
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.PairWiseSubjectSalt), out inputColor)
         <input type="text" class="form-control @inputColor" name="dto.PairWiseSubjectSalt" value="@Model?.Data?.PairWiseSubjectSalt">
     </div>
     <div class="form-group">
-        <label class="col-form-label">User code type</label> @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.UserCodeType), out inputColor)
+        <label class="col-form-label">User code type</label>
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.UserCodeType), out inputColor)
         <input type="text" class="form-control @inputColor" name="dto.UserCodeType" value="@Model?.Data?.UserCodeType">
     </div>
     <div class="form-group">
-        <label class="col-form-label">Refresh token usage</label> @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.RefreshTokenUsage), out inputColor)
+        <label class="col-form-label">Refresh token usage</label>
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.RefreshTokenUsage), out inputColor)
         <select class="form-control @inputColor" name="dto.RefreshTokenUsage">
             @foreach (var item in Mappers.ToArray<TokenUsage>())
             {
@@ -76,7 +82,8 @@
         </select>
     </div>
     <div class="form-group">
-        <label class="col-form-label">Refresh token expiration</label> @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.RefreshTokenExpiration), out inputColor)
+        <label class="col-form-label">Refresh token expiration</label>
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.RefreshTokenExpiration), out inputColor)
         <select class="form-control @inputColor" name="dto.RefreshTokenExpiration">
             @foreach (var item in Mappers.ToArray<TokenExpiration>())
             {
@@ -92,7 +99,8 @@
         </select>
     </div>
     <div class="form-group">
-        <label class="col-form-label">Access token type</label> @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.AccessTokenType), out inputColor)
+        <label class="col-form-label">Access token type</label>
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.AccessTokenType), out inputColor)
         <select class="form-control @inputColor" name="dto.AccessTokenType">
             @foreach (var item in Mappers.ToArray<AccessTokenType>())
             {

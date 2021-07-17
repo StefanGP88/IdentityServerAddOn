@@ -7,16 +7,18 @@
     <td>
         <input type="hidden" name="dto.Claims.index" value="@idx" />
         <input type="hidden" name="dto.Claims[@idx].Id" value="@Model?.Id" />
+        @_validationCache.ErrorMessage(Model, nameof(Model.Type), out var inputColor)
         <input type="text"
                name="dto.Claims[@idx].Type"
                value="@Model?.Type"
-               class="form-control form-control-sm ml-1" />
+               class="form-control form-control-sm ml-1 @inputColor" />
     </td>
     <td>
+        @_validationCache.ErrorMessage(Model, nameof(Model.Value), out inputColor)
         <input type="text"
                name="dto.Claims[@idx].Value"
                value="@Model?.Value"
-               class="form-control form-control-sm m-1" />
+               class="form-control form-control-sm m-1 @inputColor" />
     </td>
     <remove title="claim" target="@delete"></remove>
 </tr>

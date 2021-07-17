@@ -1,8 +1,10 @@
 ﻿@model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Clients.InfoModel
-<collapsable title="Claims">
+
+<collapsable title="Claims" error-summary="_validationCache.ClaimsSummary(Model?.Data)">
     <div class="form-group">
         <label class="col-form-label">Client claims prefix</label>
-        <input type="text" class="form-control" id="name" name="dto.ClientClaimsPrefix" value="@Model?.Data?.ClientClaimsPrefix">
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.ClientClaimsPrefix), out var inputColor)
+        <input type="text" class="form-control @inputColor" id="name" name="dto.ClientClaimsPrefix" value="@Model?.Data?.ClientClaimsPrefix">
     </div>
     <br />
     <list-table body-id="claims-list">
