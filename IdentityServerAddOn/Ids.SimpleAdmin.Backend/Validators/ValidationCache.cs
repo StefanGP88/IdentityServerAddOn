@@ -317,6 +317,26 @@ namespace Ids.SimpleAdmin.Backend.Validators
             _summary["Grant"] = summary;
             return _summary["Grant"];
         }
+
+        public ErrorSummary ProviderSummary(List<ClientIdPRestrictionsContract> c)
+        {
+            if (_summary.ContainsKey("Provider")) return _summary["Provider"];
+
+            var summary = c.Aggregate(new ErrorSummary(), (total, current) =>
+            {
+                var p = new[]
+                {
+                    nameof(current.Provider)
+                };
+                var currentSummary = CreateSummary(current, p);
+                total += currentSummary;
+
+                return total;
+            });
+
+            _summary["Provider"] = summary;
+            return _summary["Provider"];
+        }
         public ErrorSummary CreateSummary(object obj, string[] propertyNames)
         {
             return new ErrorSummary
