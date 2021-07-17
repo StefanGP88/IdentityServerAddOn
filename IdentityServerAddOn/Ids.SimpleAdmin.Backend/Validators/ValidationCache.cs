@@ -279,6 +279,26 @@ namespace Ids.SimpleAdmin.Backend.Validators
             _summary["Claims"] = summary;
             return _summary["Claims"];
         }
+        public ErrorSummary ClaimsSummary(List<ValueClaimsContract> c)
+        {
+            if (_summary.ContainsKey("Claims")) return _summary["Claims"];
+
+            var summary = c.Aggregate(new ErrorSummary(), (total, current) =>
+            {
+                var p = new[]
+                {
+                    nameof(current.Type),
+                    nameof(current.Value)
+                };
+                var currentSummary = CreateSummary(current, p);
+                total += currentSummary;
+
+                return total;
+            });
+
+            _summary["Claims"] = summary;
+            return _summary["Claims"];
+        }
         public ErrorSummary CorsSummary(List<ClientCorsOriginsContract> c)
         {
             if (_summary.ContainsKey("Cors")) return _summary["Cors"];
