@@ -279,6 +279,25 @@ namespace Ids.SimpleAdmin.Backend.Validators
             _summary["Claims"] = summary;
             return _summary["Claims"];
         }
+        public ErrorSummary CorsSummary(List<ClientCorsOriginsContract> c)
+        {
+            if (_summary.ContainsKey("Cors")) return _summary["Cors"];
+
+            var summary = c.Aggregate(new ErrorSummary(), (total, current) =>
+            {
+                var p = new[]
+                {
+                    nameof(current.Origin)
+                };
+                var currentSummary = CreateSummary(current, p);
+                total += currentSummary;
+
+                return total;
+            });
+
+            _summary["Cors"] = summary;
+            return _summary["Cors"];
+        }
         public ErrorSummary CreateSummary(object obj, string[] propertyNames)
         {
             return new ErrorSummary
