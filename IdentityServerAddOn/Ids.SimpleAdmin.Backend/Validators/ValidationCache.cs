@@ -356,6 +356,47 @@ namespace Ids.SimpleAdmin.Backend.Validators
             _summary["Property"] = summary;
             return _summary["Property"];
         }
+        public ErrorSummary ScopeSummary(List<ScopeContract> c)
+        {
+            if (_summary.ContainsKey("Scope")) return _summary["Scope"];
+
+            var summary = c.Aggregate(new ErrorSummary(), (total, current) =>
+            {
+                var p = new[]
+                {
+                    nameof(current.Scope )
+                };
+                var currentSummary = CreateSummary(current, p);
+                total += currentSummary;
+
+                return total;
+            });
+
+            _summary["Scope"] = summary;
+            return _summary["Scope"];
+        }
+        public ErrorSummary SecretSummary(List<SecretsContract> c)
+        {
+            if (_summary.ContainsKey("Secret")) return _summary["Secret"];
+
+            var summary = c.Aggregate(new ErrorSummary(), (total, current) =>
+            {
+                var p = new[]
+                {
+                    nameof(current.Description),
+                    nameof(current.Expiration),
+                    nameof(current.Type),
+                    nameof(current.Value)
+                };
+                var currentSummary = CreateSummary(current, p);
+                total += currentSummary;
+
+                return total;
+            });
+
+            _summary["Secret"] = summary;
+            return _summary["Secret"];
+        }
         public ErrorSummary CreateSummary(object obj, string[] propertyNames)
         {
             return new ErrorSummary
