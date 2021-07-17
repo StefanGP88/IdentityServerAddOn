@@ -317,7 +317,6 @@ namespace Ids.SimpleAdmin.Backend.Validators
             _summary["Grant"] = summary;
             return _summary["Grant"];
         }
-
         public ErrorSummary ProviderSummary(List<ClientIdPRestrictionsContract> c)
         {
             if (_summary.ContainsKey("Provider")) return _summary["Provider"];
@@ -336,6 +335,26 @@ namespace Ids.SimpleAdmin.Backend.Validators
 
             _summary["Provider"] = summary;
             return _summary["Provider"];
+        }
+        public ErrorSummary PropertySummary(List<PropertyContract> c)
+        {
+            if (_summary.ContainsKey("Property")) return _summary["Property"];
+
+            var summary = c.Aggregate(new ErrorSummary(), (total, current) =>
+            {
+                var p = new[]
+                {
+                    nameof(current.Key),
+                    nameof(current.Value)
+                };
+                var currentSummary = CreateSummary(current, p);
+                total += currentSummary;
+
+                return total;
+            });
+
+            _summary["Property"] = summary;
+            return _summary["Property"];
         }
         public ErrorSummary CreateSummary(object obj, string[] propertyNames)
         {
