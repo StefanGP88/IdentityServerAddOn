@@ -8,10 +8,11 @@
         <input type="hidden" name="dto.PostLogoutRedirectUris.index" value="@idx" />
         <input type="hidden" name="dto.PostLogoutRedirectUris[@idx].Id" value="@Model?.Id" />
         <input type="hidden" name="dto.PostLogoutRedirectUris[@idx].ClientId" value="@Model?.ClientId" />
+        @_validationCache.ErrorMessage(Model, nameof(Model.PostLogoutRedirectUri), out var inputColor)
         <input type="text"
                name="dto.PostLogoutRedirectUris[@idx].PostLogoutRedirectUri"
                value="@Model?.PostLogoutRedirectUri"
-               class="form-control form-control-sm ml-1" />
+               class="form-control form-control-sm ml-1 @inputColor" />
     </td>
     <remove title="post logout redirect uri" target="@delete"></remove>  
 </tr>

@@ -113,6 +113,46 @@ namespace Ids.SimpleAdmin.Backend.Validators
             _summary["LifeTime"] = CreateSummary(c, p);
             return _summary["LifeTime"];
         }
+        public ErrorSummary UriSummary(ClientsContract c)
+        {
+            if (_summary.ContainsKey("Uri")) return _summary["Uri"];
+            var p = new[]
+            {
+                nameof(c.ClientUri),
+                nameof(c.LogoUri),
+                nameof(c.FrontChannelLogoutUri),
+                nameof(c.BackChannelLogoutUri)
+            };
+            var summary = CreateSummary(c, p);
+
+            summary = c.RedirectUris.Aggregate(summary, (total, current) =>
+            {
+                var p = new[]
+                {
+                    nameof(current.RedirectUri)
+                };
+                var currentSummary = CreateSummary(current, p);
+                total += currentSummary;
+
+                return total;
+            });
+
+            summary = c.PostLogoutRedirectUris.Aggregate(summary, (total, current) =>
+            {
+                var p = new[]
+                {
+                    nameof(current.PostLogoutRedirectUri)
+                };
+                var currentSummary = CreateSummary(current, p);
+                total += currentSummary;
+
+                return total;
+            });
+
+            _summary["Uri"] = summary;
+
+            return _summary["Uri"];
+        }
         public ErrorSummary ClaimsSummary(ClientsContract c)
         {
             if (_summary.ContainsKey("Claims")) return _summary["Claims"];
@@ -131,9 +171,7 @@ namespace Ids.SimpleAdmin.Backend.Validators
                     nameof(current.Value)
                 };
                 var currentSummary = CreateSummary(current, p);
-                total.ErrorCount += currentSummary.ErrorCount;
-                if (currentSummary.HasError)
-                    total.HasError = currentSummary.HasError;
+                total += currentSummary;
 
                 return total;
             });
@@ -154,5 +192,13 @@ namespace Ids.SimpleAdmin.Backend.Validators
     {
         public int ErrorCount { get; set; }
         public bool HasError { get; set; }
+
+        public static ErrorSummary operator +(ErrorSummary a, ErrorSummary b)
+        {
+            a.ErrorCount += b.ErrorCount;
+            if (b.HasError)
+                a.HasError = b.HasError;
+            return a;
+        }
     }
 }

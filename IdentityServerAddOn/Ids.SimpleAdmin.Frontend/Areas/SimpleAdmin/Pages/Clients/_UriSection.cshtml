@@ -1,20 +1,24 @@
 ﻿@model Ids.SimpleAdmin.Frontend.Areas.SimpleAdmin.Pages.Clients.InfoModel
-<collapsable title="Uris">
+<collapsable title="Uris" error-summary="_validationCache.UriSummary(Model?.Data)">
     <div class="form-group">
         <label class="col-form-label">Client uri</label>
-        <input type="text" class="form-control" name="dto.ClientUri" value="@Model?.Data?.ClientUri">
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.ClientUri), out var inputColor)
+        <input type="text" class="form-control @inputColor" name="dto.ClientUri" value="@Model?.Data?.ClientUri">
     </div>
     <div class="form-group">
         <label class="col-form-label">Logo uri</label>
-        <input type="text" class="form-control" name="dto.LogoUri" value="@Model?.Data?.LogoUri">
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.LogoUri), out inputColor)
+        <input type="text" class="form-control @inputColor" name="dto.LogoUri" value="@Model?.Data?.LogoUri">
     </div>
     <div class="form-group">
         <label class="col-form-label">Front channel logout uri</label>
-        <input type="text" class="form-control" name="dto.FrontChannelLogoutUri" value="@Model?.Data?.FrontChannelLogoutUri">
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.FrontChannelLogoutUri), out inputColor)
+        <input type="text" class="form-control @inputColor" name="dto.FrontChannelLogoutUri" value="@Model?.Data?.FrontChannelLogoutUri">
     </div>
     <div class="form-group">
         <label class="col-form-label">Back channel logout uri</label>
-        <input type="text" class="form-control" name="dto.BackChannelLogoutUri" value="@Model?.Data?.BackChannelLogoutUri">
+        @_validationCache.ErrorMessage(Model?.Data, nameof(Model.Data.BackChannelLogoutUri), out inputColor)
+        <input type="text" class="form-control @inputColor" name="dto.BackChannelLogoutUri" value="@Model?.Data?.BackChannelLogoutUri">
     </div>
     <br />
     <list-table body-id="uri-list">

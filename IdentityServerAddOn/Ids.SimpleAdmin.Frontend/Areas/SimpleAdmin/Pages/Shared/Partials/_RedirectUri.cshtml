@@ -8,10 +8,11 @@
         <input type="hidden" name="dto.RedirectUris.index" value="@idx" />
         <input type="hidden" name="dto.RedirectUris[@idx].Id" value="@Model?.Id" />
         <input type="hidden" name="dto.RedirectUris[@idx].ClientId" value="@Model?.ClientId" />
+        @_validationCache.ErrorMessage(Model, nameof(Model.RedirectUri), out var inputColor)
         <input type="text"
                name="dto.RedirectUris[@idx].RedirectUri"
                value="@Model?.RedirectUri"
-               class="form-control form-control-sm ml-1" />
+               class="form-control form-control-sm ml-1 @inputColor" />
     </td>
     <remove title="redirect uri" target="@delete"></remove>
 </tr>
