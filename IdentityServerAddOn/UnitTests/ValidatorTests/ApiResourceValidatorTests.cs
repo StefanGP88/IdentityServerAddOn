@@ -4,23 +4,36 @@ using Ids.SimpleAdmin.Backend;
 using Ids.SimpleAdmin.Contracts;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using UnitTests.ContractBuilders;
 using Xunit;
 
 namespace UnitTests.ValidatorTests
 {
-    public class ApiResourceValidatorTests
+    public class ApiResourceValidatorTests: TestBase<ApiResourceContract>
     {
-        IServiceCollection Services { get; set; }
-        IServiceProvider Provider { get; set; }
-        ApiResourceContractBuilder ContractBuilder { get; set; }
         public ApiResourceValidatorTests()
         {
-            ContractBuilder = new ApiResourceContractBuilder();
-            Services = new ServiceCollection();
-            Services.AddSimpleAdminBackend();
-            Provider = Services.BuildServiceProvider();
+            var defaultModel = new ApiResourceContract
+            {
+                AllowedAccessTokenSigningAlgorithms = "",
+                Created = DateTime.UtcNow,
+                Description = "Test api resource description",
+                Claims = new List<ClaimsContract>(),
+                DisplayName = "Test api resource",
+                Enabled = true,
+                LastAccessed = DateTime.UtcNow,
+                Name = "Test api resource",
+                NonEditable = true,
+                Properties = new List<PropertyContract>(),
+                ShowInDiscoveryDocument = true,
+                Scopes = new List<ScopeContract>(),
+                Secrets = new List<ApiResourceSecretsContract>(),
+                Updated = DateTime.UtcNow
+            };
+            ContractBuilder = new ContractBuilder<ApiResourceContract>(defaultModel);
         }
+
         [Fact]
         public void Test_Rules_For_Name_Property()
         {
