@@ -2,10 +2,10 @@
 
 namespace Ids.SimpleAdmin.Backend.Validators
 {
-    public class EasyAdminValidatior<T> : AbstractValidator<T>
+    public class SimpleAdminValidatior<T> : AbstractValidator<T>
     {
         private readonly ValidationCache _cache;
-        public EasyAdminValidatior(ValidationCache validationCache)
+        public SimpleAdminValidatior(ValidationCache validationCache)
         {
             _cache = validationCache;
         }

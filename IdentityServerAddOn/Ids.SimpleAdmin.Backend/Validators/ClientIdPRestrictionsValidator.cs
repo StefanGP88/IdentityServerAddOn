@@ -3,7 +3,7 @@ using Ids.SimpleAdmin.Contracts;
 
 namespace Ids.SimpleAdmin.Backend.Validators
 {
-    public class ClientIdPRestrictionsValidator : EasyAdminValidatior<ClientIdPRestrictionsContract>
+    public class ClientIdPRestrictionsValidator : SimpleAdminValidatior<ClientIdPRestrictionsContract>
     {
         public ClientIdPRestrictionsValidator(ValidationCache cache) : base(cache)
         {

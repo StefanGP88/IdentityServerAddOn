@@ -4,7 +4,7 @@ using Ids.SimpleAdmin.Contracts;
 namespace Ids.SimpleAdmin.Backend.Validators
 {
 
-    public class ValueClaimValidator : EasyAdminValidatior<ValueClaimsContract>
+    public class ValueClaimValidator : SimpleAdminValidatior<ValueClaimsContract>
     {
 
         public ValueClaimValidator(ValidationCache cache):base(cache)

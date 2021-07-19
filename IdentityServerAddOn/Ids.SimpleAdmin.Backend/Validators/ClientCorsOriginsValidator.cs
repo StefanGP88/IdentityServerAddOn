@@ -3,11 +3,11 @@ using Ids.SimpleAdmin.Contracts;
 
 namespace Ids.SimpleAdmin.Backend.Validators
 {
-    public class ClientCorsOriginsValidator : EasyAdminValidatior<ClientCorsOriginsContract>
+    public class ClientCorsOriginsValidator : SimpleAdminValidatior<ClientCorsOriginsContract>
     {
         public ClientCorsOriginsValidator(ValidationCache cache) : base(cache)
         {
-            RuleFor(x => x.Origin).MaximumLength(150).NotNull();
+            RuleFor(x => x.Origin).MinimumLength(1).MaximumLength(150).NotNull();
         }
     }
 }

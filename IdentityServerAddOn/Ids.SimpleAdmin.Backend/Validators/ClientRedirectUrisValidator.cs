@@ -3,7 +3,7 @@ using Ids.SimpleAdmin.Contracts;
 
 namespace Ids.SimpleAdmin.Backend.Validators
 {
-    public class ClientRedirectUrisValidator : EasyAdminValidatior<ClientRedirectUriContract>
+    public class ClientRedirectUrisValidator : SimpleAdminValidatior<ClientRedirectUriContract>
     {
         public ClientRedirectUrisValidator(ValidationCache cache) : base(cache)
         {

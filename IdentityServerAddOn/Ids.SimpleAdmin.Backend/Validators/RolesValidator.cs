@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Ids.SimpleAdmin.Backend.Validators
 {
-    public class RolesValidator : EasyAdminValidatior<RolesContract>
+    public class RolesValidator : SimpleAdminValidatior<RolesContract>
     {
         
         private readonly IdentityErrorDescriber _errorDescriber;

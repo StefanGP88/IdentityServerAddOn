@@ -3,7 +3,7 @@ using Ids.SimpleAdmin.Contracts;
 
 namespace Ids.SimpleAdmin.Backend.Validators
 {
-    public class ApiScopeValidator : EasyAdminValidatior<ApiScopeContract>
+    public class ApiScopeValidator : SimpleAdminValidatior<ApiScopeContract>
     {
         public ApiScopeValidator(ValidationCache cache,
             IValidator<ClaimsContract> claimValidator,

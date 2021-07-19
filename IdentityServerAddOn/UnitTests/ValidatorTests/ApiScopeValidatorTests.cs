@@ -27,6 +27,7 @@ namespace UnitTests.ValidatorTests
             };
             ContractBuilder = new ContractBuilder<ApiScopeContract>(defaultModel);
         }
+
         [Fact]
         public void Test_Rules_For_Description_Property()
         {

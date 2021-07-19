@@ -10,11 +10,13 @@ namespace UnitTests.ValidatorTests
         public IServiceCollection Services { get; set; }
         public IServiceProvider Provider { get; set; }
         public ContractBuilder<T> ContractBuilder { get; set; }
+        public Random Random { get; set; }
         public TestBase()
         {
             Services = new ServiceCollection();
             Services.AddSimpleAdminBackend();
             Provider = Services.BuildServiceProvider();
+            Random = new Random();
         }
     }
 }

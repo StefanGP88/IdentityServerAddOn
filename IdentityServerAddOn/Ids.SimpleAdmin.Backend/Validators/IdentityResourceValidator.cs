@@ -3,7 +3,7 @@ using Ids.SimpleAdmin.Contracts;
 
 namespace Ids.SimpleAdmin.Backend.Validators
 {
-    public class IdentityResourceValidator : EasyAdminValidatior<IdentityResourceContract>
+    public class IdentityResourceValidator : SimpleAdminValidatior<IdentityResourceContract>
     {
         public IdentityResourceValidator(IValidator<ClaimsContract> claimValidator,
             IValidator<PropertyContract> propertyValidator,

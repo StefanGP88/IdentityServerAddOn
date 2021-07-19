@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Ids.SimpleAdmin.Backend.Validators
 {
-    public class UserValidator : EasyAdminValidatior<UserContract>
+    public class UserValidator : SimpleAdminValidatior<UserContract>
     {
         private readonly IdentityErrorDescriber _errorDescriber;
         private readonly IdentityOptions _options;
