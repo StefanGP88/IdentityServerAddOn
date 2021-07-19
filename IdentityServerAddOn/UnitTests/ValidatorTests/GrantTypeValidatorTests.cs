@@ -42,7 +42,7 @@ namespace UnitTests.ValidatorTests
             result = validator.TestValidate(contract_short);
             result.ShouldHaveValidationErrorFor(x => x.GrantType);
 
-            var longGrantType = new string('a', 201);
+            var longGrantType = new string('a', 251);
             var contract_long = ContractBuilder.With(x => x.GrantType = longGrantType).Build();
             result = validator.TestValidate(contract_long);
             result.ShouldHaveValidationErrorFor(x => x.GrantType);

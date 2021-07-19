@@ -7,7 +7,7 @@ namespace Ids.SimpleAdmin.Backend.Validators
     {
         public ClientPostLogoutRedirectUrisValidator(ValidationCache cache) : base(cache)
         {
-            RuleFor(x => x.PostLogoutRedirectUri).MaximumLength(2000).NotNull();
+            RuleFor(x => x.PostLogoutRedirectUri).MinimumLength(1).MaximumLength(2000).NotNull();
         }
     }
 }

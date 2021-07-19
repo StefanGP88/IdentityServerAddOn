@@ -7,7 +7,7 @@ namespace Ids.SimpleAdmin.Backend.Validators
     {
         public ClientIdPRestrictionsValidator(ValidationCache cache) : base(cache)
         {
-            RuleFor(x => x.Provider).MaximumLength(200).NotNull();
+            RuleFor(x => x.Provider).MaximumLength(200).MinimumLength(1).NotNull();
         }
     }
 }
