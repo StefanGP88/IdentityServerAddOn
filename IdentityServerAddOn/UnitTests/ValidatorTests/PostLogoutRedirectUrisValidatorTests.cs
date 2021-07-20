@@ -19,11 +19,13 @@ namespace UnitTests.ValidatorTests
         [Fact]
         public void Test_Rules_For_PostLogoutRedirectUri_Property()
         {
+            ForProperty(x => x.PostLogoutRedirectUri);
             var validator = Provider.GetRequiredService<IValidator<ClientPostLogoutRedirectUrisContract>>();
 
             // Assert that there should NOT be a failure for the PostLogoutRedirectUri property.
             var okPostLogoutRedirectUri = new string('a', Random.Next(2, 1999));
             var contract_ok = ContractBuilder.With(x => x.PostLogoutRedirectUri = okPostLogoutRedirectUri).Build();
+
             var result = validator.TestValidate(contract_ok);
             result.ShouldNotHaveValidationErrorFor(x => x.PostLogoutRedirectUri);
 
