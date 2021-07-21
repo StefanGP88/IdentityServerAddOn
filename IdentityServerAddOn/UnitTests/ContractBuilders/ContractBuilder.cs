@@ -18,6 +18,16 @@ namespace UnitTests.ContractBuilders
             action(Current);
             return this;
         }
+        public ContractBuilder<T> SetPropertyValue<T2>(string propertyName, T2 value)
+        {
+
+            var contractProperty = typeof(T).GetProperty(propertyName);
+            if (contractProperty is null) throw new Exception(propertyName + " not found");
+
+            contractProperty.SetValue(Current, value);
+
+            return this;
+        }
 
         public T Build()
         {
