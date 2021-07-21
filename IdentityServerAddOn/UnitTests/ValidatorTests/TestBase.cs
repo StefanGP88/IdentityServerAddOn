@@ -22,10 +22,11 @@ namespace UnitTests.ValidatorTests
             Random = new Random();
         }
 
-        public PropertyTester<T> ForProperty(Expression<Func<T, string>> expr)
+        public TestBase<T> ForProperty(Expression<Func<T, string>> expr)
         {
-            var propertName = ExtractPropertyName(expr);
-            return new PropertyTester<T>(propertName, ContractBuilder, Provider);
+            _propertyName = ExtractPropertyName(expr);
+            return this;
+            //return new PropertyTester<T>(propertName, ContractBuilder, Provider);
         }
         private static string ExtractPropertyName(Expression<Func<T, string>> expr)
         {
@@ -34,9 +35,9 @@ namespace UnitTests.ValidatorTests
             var lastDot = body.LastIndexOf('.');
             return body[(lastDot + 1)..];
         }
-    }
-    public class PropertyTester<T> where T : class
-    {
+        //}
+        //public class PropertyTester<T> where T : class
+        //{
         private bool _testForMinLength;
         private int _minLength;
 
@@ -51,46 +52,50 @@ namespace UnitTests.ValidatorTests
 
         private string _propertyName;
 
-        ContractBuilder<T> _ContractBuilder;
-        IServiceProvider _Provider;
+        //ContractBuilder<T> _ContractBuilder;
+        //IServiceProvider _Provider;
 
-        public PropertyTester(string propertyName,
-            ContractBuilder<T> ContractBuilder,
-            IServiceProvider Provider)
-        {
-            _ContractBuilder = ContractBuilder;
-            _Provider = Provider;
-            if (propertyName is null) throw new ArgumentNullException(nameof(propertyName));
-            _propertyName = propertyName;
-        }
-        public PropertyTester<T> TestMinLength(int minLength)
+        //public PropertyTester(string propertyName,
+        //    ContractBuilder<T> ContractBuilder,
+        //    IServiceProvider Provider)
+        //{
+        //    _ContractBuilder = ContractBuilder;
+        //    _Provider = Provider;
+        //    if (propertyName is null) throw new ArgumentNullException(nameof(propertyName));
+        //    _propertyName = propertyName;
+        //}
+        public TestBase<T> TestMinLength(int minLength)
         {
             _testForMinLength = true;
             _minLength = minLength;
             return this;
         }
-        public PropertyTester<T> TestMaxLength(int maxLength)
+        public TestBase<T> TestMaxLength(int maxLength)
         {
             _testForMaxLength = true;
             _maxLength = maxLength;
             return this;
         }
-        public PropertyTester<T> TestNullNotAllowed()
+        public TestBase<T> TestNullNotAllowed()
         {
             _testNullNotAllowed = true;
+            _testForMinLength = true;
+            if (_minLength == 0) _minLength = 1;
             return this;
         }
-        public PropertyTester<T> TestNullAllowed()
+        public TestBase<T> TestNullAllowed()
         {
             _testNullAllowed = true;
             return this;
         }
-        public PropertyTester<T> TestEmptyStringNotAllowed()
+        public TestBase<T> TestEmptyStringNotAllowed()
         {
             _testEmptyStringNotAllowed = true;
+            _testForMinLength = true;
+            if (_minLength == 0) _minLength = 1;
             return this;
         }
-        public PropertyTester<T> TestEmptyStringAllowed()
+        public TestBase<T> TestEmptyStringAllowed()
         {
             _testEmptyStringAllowed = true;
             return this;
@@ -131,7 +136,7 @@ namespace UnitTests.ValidatorTests
 
             if (_minLength <= 0) return;
             ;
-            var propertyValue_not_ok = new string('a', _minLength);
+            var propertyValue_not_ok = new string('a', _minLength - 1);
             PerformTest(propertyValue_not_ok, "", true);
         }
         private void TestMaximumLength()
@@ -142,7 +147,7 @@ namespace UnitTests.ValidatorTests
 
             if (_maxLength == int.MaxValue) return;
 
-            var propertyValue_not_ok = new string('a', _maxLength);
+            var propertyValue_not_ok = new string('a', _maxLength+1);
             PerformTest(propertyValue_not_ok, "", true);
         }
         private void TestWithinAcceptableLength()
@@ -169,14 +174,14 @@ namespace UnitTests.ValidatorTests
 
         private void PerformTest(string propertyValue, string testName, bool shouldHaveError)
         {
-            var validator = _Provider.GetRequiredService<IValidator<T>>();
-            var model = _ContractBuilder.SetPropertyValue(_propertyName, propertyValue).Build();
+            var validator = Provider.GetRequiredService<IValidator<T>>();
+            var model = ContractBuilder.SetPropertyValue(_propertyName, propertyValue).Build();
             var result = validator.TestValidate(model);
 
             if (shouldHaveError)
-                result.ShouldNotHaveValidationErrorFor(_propertyName);
-            else
                 result.ShouldHaveValidationErrorFor(_propertyName);
+            else
+                result.ShouldNotHaveValidationErrorFor(_propertyName);
         }
     }
 }

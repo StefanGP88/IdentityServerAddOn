@@ -19,13 +19,11 @@ namespace UnitTests.ValidatorTests
         [Fact]
         public void Test_Rules_For_PostLogoutRedirectUri_Property()
         {
-            ForProperty(x => x.PostLogoutRedirectUri);
             var validator = Provider.GetRequiredService<IValidator<ClientPostLogoutRedirectUrisContract>>();
 
             // Assert that there should NOT be a failure for the PostLogoutRedirectUri property.
             var okPostLogoutRedirectUri = new string('a', Random.Next(2, 1999));
             var contract_ok = ContractBuilder.With(x => x.PostLogoutRedirectUri = okPostLogoutRedirectUri).Build();
-
             var result = validator.TestValidate(contract_ok);
             result.ShouldNotHaveValidationErrorFor(x => x.PostLogoutRedirectUri);
 
@@ -51,6 +49,16 @@ namespace UnitTests.ValidatorTests
             var contract_null = ContractBuilder.With(x => x.PostLogoutRedirectUri = null).Build();
             result = validator.TestValidate(contract_null);
             result.ShouldHaveValidationErrorFor(x => x.PostLogoutRedirectUri);
+        }
+        [Fact]
+        public void Proof_of_concept_Fluent_Test_Syntax()
+        {
+            ForProperty(x => x.PostLogoutRedirectUri)
+                .TestMinLength(1)
+                .TestMaxLength(2000)
+                .TestNullNotAllowed()
+                .RunTests();
+
         }
     }
 }
